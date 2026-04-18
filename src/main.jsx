@@ -348,7 +348,6 @@ function App() {
     peer = new Peer(`ROOM-${code}`, {
       debug: 2,
       config: {
-        // تم حذف سطر iceTransportPolicy ليعود الاتصال الذكي للعمل
         iceServers: [
           { urls: 'stun:stun.l.google.com:19302' },
           { urls: 'stun:global.stun.twilio.com:3478' },
@@ -1005,39 +1004,60 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     };
   }, []);
 
-  // 🚀 الاستخراج الذكي المتعدد (Multi-Extractor)
+  // 🌟 🌟 الإضافة الهندسية الذكية (Multi-Extractor) 🌟 🌟
   useEffect(() => {
     const fetchRawStream = async () => {
       setExtractionStatus('extracting');
 
-      // 🛠️ ضع رابط سيرفر Node.js الخاص بك هنا بعد برمجته للأفلام العربية
-      const CUSTOM_NODE_API = 'https://omar-scraper-api.onrender.com';
-
-      // قائمة السيرفرات التي سيحاول الكود استخراج الرابط المباشر منها
-      const extractors = [];
-
-      if (movie.isArabic) {
-        // للفيلم العربي: جرب سيرفرك أولاً (مستقبلاً)
-        extractors.push(`${CUSTOM_NODE_API}/watch/${movie.id}`);
-      } else {
-        // للأجنبي: APIs عالمية سريعة جداً
-        extractors.push(`https://vidlink.pro/api/movie/${movie.id}`);
-        extractors.push(`https://vidsrc.pro/api/movie/${movie.id}`);
-        // كخيار أخير سيرفرك
-        extractors.push(`${CUSTOM_NODE_API}/watch/${movie.id}`);
+      let imdbId = null;
+      // 1. جلب الـ IMDB ID (نحتاجه إذا أردت استخدام سيرفر أكوام الخاص بك مستقبلاً)
+      try {
+        const idRes = await fetch(`https://api.themoviedb.org/3/movie/${movie.id}/external_ids`, fetchOptions);
+        if (idRes.ok) {
+          const idData = await idRes.json();
+          imdbId = idData.imdb_id;
+        }
+      } catch (err) {
+        console.warn("Failed to fetch IMDB ID");
       }
 
+      const extractors = [];
+      // 🛠️ هذا هو الرابط الذي ستغيره عندما تنتهي من رفع سيرفر أكوام على Render
+      const OMAR_AKWAM_API = 'https://omar-akwam.onrender.com';
+
+      if (movie.isArabic) {
+        if (imdbId) {
+          // الخطة أ للفيلم العربي: استخدام سيرفر أكوام الخاص بك (المبني على Stremio-akwam)
+          extractors.push(`${OMAR_AKWAM_API}/stream/movie/${imdbId}.json`);
+        }
+      } else {
+        // الخطة أ للفيلم الأجنبي: أفضل واجهات الاستخراج النظيفة عالمياً
+        extractors.push(`https://vidlink.pro/api/movie/${movie.id}`);
+        extractors.push(`https://vidsrc.pro/api/movie/${movie.id}`);
+      }
+
+      // 2. محرك البحث (يختبر السيرفرات واحداً تلو الآخر)
       for (const url of extractors) {
         try {
           const res = await fetch(url);
-          if (!res.ok) continue; // فشل؟ انتقل للي بعده فوراً
+          if (!res.ok) continue; // فشل هذا السيرفر؟ أكمل للتالي
           
           const data = await res.json();
           
-          // تأكد إنه رجع رابط m3u8 صالح
-          if (data && data.stream_url) {
-            
-            // تنظيف قائمة الترجمات لترك العربية والانجليزية فقط
+          // أ) معالجة ردود الـ Stremio Protocols (كسيرفر أكوام الذي سترفعه)
+          if (data && data.streams && data.streams.length > 0) {
+            const bestStream = data.streams[0];
+            if (bestStream && bestStream.url) {
+              setStreamData({
+                stream_url: bestStream.url,
+                subtitles: [] // الروابط العربية غالباً مدمجة
+              });
+              setExtractionStatus('success');
+              return; // وجدنا الرابط! نوقف البحث
+            }
+          }
+          // ب) معالجة ردود الـ APIs النظيفة (Vidlink/Vidsrc)
+          else if (data && data.stream_url) {
             const cleanSubtitles = data.subtitles?.filter(sub => 
               sub.lang?.includes('ar') || sub.language?.toLowerCase().includes('arabic') ||
               sub.lang?.includes('en') || sub.language?.toLowerCase().includes('english')
@@ -1047,18 +1067,17 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
               stream_url: data.stream_url,
               subtitles: cleanSubtitles
             });
-            
             setExtractionStatus('success');
-            return; // أوقف البحث، لقد وجدنا الرابط!
+            return; // وجدنا الرابط! نوقف البحث
           }
         } catch (err) {
           console.warn(`Extractor ${url} failed, trying next...`);
         }
       }
 
-      // إذا فشلت كل الروابط النظيفة (وهذا نادر)، انتقل للـ Iframes كخيار احتياطي
+      // 3. إذا فشلت كل السيرفرات النظيفة (أو إذا كان الفيلم عربي ولم تجهز سيرفرك بعد)
       console.log("All raw extractors failed. Falling back to iframes.");
-      setExtractionStatus('failed');
+      setExtractionStatus('failed'); // هذا سيفعل نظام الـ Iframes القديم تلقائياً
     };
 
     fetchRawStream();
@@ -1253,7 +1272,6 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
               className="w-full h-full border-0" 
               allowFullScreen 
               allow="autoplay; encrypted-media"
-              // تم مسح الساندبوكس حتى لا يرفض السيرفر التشغيل
               style={{ pointerEvents: clickCount >= 2 ? 'auto' : 'none', zIndex: 10, position: 'relative' }}
             ></iframe>
           </div>
