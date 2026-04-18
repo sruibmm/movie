@@ -346,6 +346,7 @@ function App() {
   };
 
   // 📡 Initialize PeerJS
+// 📡 Initialize PeerJS
   useEffect(() => {
     if (!role || mode === 'single') return;
 
@@ -356,17 +357,21 @@ function App() {
       debug: 2,
       config: {
         iceServers: [
-          // 1. أقوى سيرفرات STUN المجانية
+          // 1. سيرفرات STUN لاكتشاف المسار المباشر (P2P)
           { urls: 'stun:stun.l.google.com:19302' },
           { urls: 'stun:global.stun.twilio.com:3478' },
           { urls: 'stun:stun.cloudflare.com:3478' },
           
-          // 2. سيرفر TURN (المنقذ للاتصالات الدولية)
-          // ملاحظة: الـ TURN المجاني بيتغير باستمرار، رح أشرحلك تحت كيف تجيب واحد مجاني ودائم الك
+          // 2. مصفوفة TURN الشاملة (الحل الجذري للاتصالات الدولية وجدران الحماية)
           {
-            urls: "turn:relay.metered.ca:80",
-            username: "1a2cda866198f330ea4ae58e", // رح تحط اليوزر هون
-            credential: "zBb/R4CkvUq12bge" // والباسوورد هون
+            urls: [
+              "turn:global.relay.metered.ca:80",
+              "turn:global.relay.metered.ca:80?transport=tcp",
+              "turn:global.relay.metered.ca:443", // تجاوز جدران الحماية العادية
+              "turns:global.relay.metered.ca:443?transport=tcp" // تجاوز الحظر العميق (DPI)
+            ],
+            username: "1a2cda866198f330ea4ae58e",
+            credential: "zBb/R4CkvUq12bge"
           }
         ]
       }
