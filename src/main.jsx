@@ -356,19 +356,20 @@ function App() {
     peer = new Peer(`ROOM-${code}`, {
       debug: 2,
       config: {
+        iceTransportPolicy: 'relay', // 👈 ضفنا هذا السطر عشان نمنع الاتصال الداخلي
         iceServers: [
-          // 1. سيرفرات STUN لاكتشاف المسار المباشر (P2P)
+          // STUN
           { urls: 'stun:stun.l.google.com:19302' },
           { urls: 'stun:global.stun.twilio.com:3478' },
           { urls: 'stun:stun.cloudflare.com:3478' },
           
-          // 2. مصفوفة TURN الشاملة (الحل الجذري للاتصالات الدولية وجدران الحماية)
+          // TURN
           {
             urls: [
               "turn:global.relay.metered.ca:80",
               "turn:global.relay.metered.ca:80?transport=tcp",
-              "turn:global.relay.metered.ca:443", // تجاوز جدران الحماية العادية
-              "turns:global.relay.metered.ca:443?transport=tcp" // تجاوز الحظر العميق (DPI)
+              "turn:global.relay.metered.ca:443",
+              "turns:global.relay.metered.ca:443?transport=tcp"
             ],
             username: "1a2cda866198f330ea4ae58e",
             credential: "zBb/R4CkvUq12bge"
