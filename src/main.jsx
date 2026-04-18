@@ -18,7 +18,7 @@ const COUPLES_PASSWORD = '24869';
 let peer = null;
 let conn = null;
 
-// 🚫 ADVANCED AD BLOCKER - Comprehensive lists
+// 🚫 NUCLEAR AD BLOCKER - Advanced invisible ad detection
 const AD_KEYWORDS = [
   'ad', 'ads', 'advert', 'pop', 'popup', 'popunder', 'click', 'track',
   'analytics', 'counter', 'stat', 'metric', 'beacon', 'pixel', 'tag',
@@ -28,7 +28,10 @@ const AD_KEYWORDS = [
   'adtrack', 'advertising', 'adsystem', 'adroll', 'retarget', 'conversion',
   'taboola', 'outbrain', 'zemanta', 'revcontent', 'contentrecommend',
   'scorecardresearch', 'quantserve', 'comscore', 'nielsen', 'atdmt',
-  'casalemedia', 'rubiconproject', 'openx', 'criteo', 'moat', 'doubleverify'
+  'casalemedia', 'rubiconproject', 'openx', 'criteo', 'moat', 'doubleverify',
+  'invitemedia', 'mediamath', 'appnexus', 'admeld', 'yieldmanager',
+  'rightmedia', 'bluekai', 'exelator', 'lotame', 'demdex', 'everesttech',
+  'omtrdc', '2o7', '122.2o7', 'statcounter', 'histats', 'awstats'
 ];
 
 const AD_SELECTORS = [
@@ -39,7 +42,8 @@ const AD_SELECTORS = [
   'div[style*="position: fixed"]', 'div[style*="z-index: 9"]',
   'div[style*="z-index: 99"]', 'div[style*="z-index: 999"]',
   'a[href*="ad"]', 'a[href*="click"]', 'a[href*="redirect"]',
-  '[class*="sponsor"]', '[id*="sponsor"]', '[class*="promo"]', '[id*="promo"]'
+  '[class*="sponsor"]', '[id*="sponsor"]', '[class*="promo"]', '[id*="promo"]',
+  '[class*="banner"]', '[id*="banner"]', '[class*="widget"]', '[id*="widget"]'
 ];
 
 // 🎲 Generate 6-digit room code
@@ -369,7 +373,7 @@ function App() {
         <p className="text-gray-400">Watch together with your special someone</p>
         <div className="flex flex-col sm:flex-row gap-6 mt-8">
           <button onClick={() => setRole('admin')} className="bg-gradient-to-r from-blue-600 to-cyan-600 px-10 py-5 rounded-2xl font-black text-xl text-white hover:scale-105 transition-all shadow-xl">
-            👨‍💻 Create Room
+            👨‍ Create Room
           </button>
           <button onClick={() => setRole('guest')} className="bg-gradient-to-r from-pink-600 to-purple-600 px-10 py-5 rounded-2xl font-black text-xl text-white hover:scale-105 transition-all shadow-xl">
             👸 Join Room
@@ -627,7 +631,7 @@ function MovieDetail({ movie, onBack, onStartParty }) {
   );
 }
 
-// 👑 Player Component - ADVANCED AD BLOCKER (NO SANDBOX)
+// 👑 Player Component - NUCLEAR AD BLOCKER (INVISIBLE ADS PROTECTION)
 function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onServerChange, onBack }) {
   const videoRef = useRef(null);
   const iframeRef = useRef(null);
@@ -640,8 +644,9 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   const [showServerList, setShowServerList] = useState(false);
   const [clickCount, setClickCount] = useState(0);
   const [lastClickTime, setLastClickTime] = useState(0);
+  const [isAdDetected, setIsAdDetected] = useState(false);
   
-  const habibtiEmojis = ['💕', '🥰', '💖', '🍿', '🌹', '', '⭐', ''];
+  const habibtiEmojis = ['💕', '', '💖', '🍿', '🌹', '🦋', '⭐', '💍'];
   
   const fallbackNodes = [
     { name: "VidLink VIP", url: `https://vidlink.pro/movie/${movie.id}?primaryColor=a855f7&autoplay=false` },
@@ -680,83 +685,126 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     };
   }, []);
 
-  // 🚫 ADVANCED AD BLOCKER - Multi-layer protection
+  // 🚫 NUCLEAR AD BLOCKER - 7-Layer Protection System
   useEffect(() => {
-    // Layer 1: Remove ad elements by selectors
+    // Layer 1: CSS Injection - Block ads at style level
+    const injectAntiAdStyles = () => {
+      const style = document.createElement('style');
+      style.id = 'nuclear-ad-blocker';
+      style.textContent = `
+        /* Block all potential ad containers */
+        iframe[src*="ad"], iframe[src*="pop"], iframe[src*="click"],
+        iframe[src*="redirect"], iframe[src*="track"], iframe[src*="analytics"] {
+          display: none !important;
+          visibility: hidden !important;
+          pointer-events: none !important;
+          opacity: 0 !important;
+          width: 0 !important;
+          height: 0 !important;
+        }
+        
+        /* Block invisible overlay divs */
+        div[style*="position: fixed"][style*="z-index: 9"],
+        div[style*="position: fixed"][style*="z-index: 99"],
+        div[style*="position: fixed"][style*="z-index: 999"],
+        div[style*="position: absolute"][style*="z-index: 9"],
+        div[style*="position: absolute"][style*="z-index: 99"],
+        div[style*="position: absolute"][style*="z-index: 999"] {
+          display: none !important;
+        }
+        
+        /* Block common ad classes */
+        .ad, .ads, .advert, .advertisement, .banner, .popup, .popunder,
+        .overlay, .modal, .lightbox, .interstitial, .takeover, .sponsor,
+        .promo, .widget, .recommendation, .native-ad, .content-ad {
+          display: none !important;
+        }
+        
+        /* Block transparent clickjacking layers */
+        div[style*="opacity: 0"], div[style*="opacity:0"],
+        div[style*="background: transparent"], div[style*="background:transparent"],
+        a[style*="opacity: 0"], a[style*="opacity:0"] {
+          pointer-events: none !important;
+        }
+        
+        /* Block new window triggers */
+        [target="_blank"][rel*="noopener"], [target="_blank"][rel*="noreferrer"] {
+          target: "_self" !important;
+        }
+      `;
+      if (!document.getElementById('nuclear-ad-blocker')) {
+        document.head.appendChild(style);
+      }
+    };
+
+    // Layer 2: DOM Observer - Remove ads as they appear
     const removeAdElements = () => {
       AD_SELECTORS.forEach(selector => {
         try {
           const elements = document.querySelectorAll(selector);
           elements.forEach(el => {
-            // Don't remove our own elements
             if (!el.closest('#root') && !el.closest('[data-cinema-player="true"]')) {
               el.remove();
             }
           });
-        } catch (e) {
-          // Ignore invalid selectors
+        } catch (e) { /* Ignore invalid selectors */ }
+      });
+
+      // Remove invisible overlays (clickjacking protection)
+      const allElements = document.querySelectorAll('*');
+      allElements.forEach(el => {
+        const style = window.getComputedStyle(el);
+        if (
+          style.opacity === '0' && 
+          style.pointerEvents !== 'none' &&
+          !el.closest('#root') &&
+          !el.closest('[data-cinema-player="true"]') &&
+          el.tagName !== 'SCRIPT' &&
+          el.tagName !== 'LINK'
+        ) {
+          el.style.pointerEvents = 'none';
+          el.style.display = 'none';
         }
       });
     };
 
-    // Layer 2: Hide elements with ad-related styles
-    const hideAdStyles = () => {
-      const style = document.createElement('style');
-      style.id = 'ad-blocker-styles';
-      style.textContent = `
-        iframe[src*="ad"], iframe[src*="pop"], iframe[src*="click"] {
-          display: none !important;
-          visibility: hidden !important;
-          pointer-events: none !important;
-        }
-        div[class*="ad"], div[id*="ad"], div[class*="pop"], div[id*="pop"] {
-          display: none !important;
-        }
-        [style*="position: fixed"][style*="z-index: 9"] {
-          display: none !important;
-        }
-        .overlay, .modal, .popup, .advertisement {
-          display: none !important;
-        }
-      `;
-      if (!document.getElementById('ad-blocker-styles')) {
-        document.head.appendChild(style);
-      }
-    };
-
-    // Layer 3: MutationObserver for dynamic ads
+    // Layer 3: MutationObserver with debounce
+    let mutationTimeout;
     const observer = new MutationObserver((mutations) => {
-      let shouldClean = false;
-      mutations.forEach(mutation => {
-        if (mutation.addedNodes.length > 0) {
-          shouldClean = true;
-        }
-      });
-      if (shouldClean) {
-        setTimeout(removeAdElements, 50);
-      }
+      clearTimeout(mutationTimeout);
+      mutationTimeout = setTimeout(() => {
+        removeAdElements();
+        setIsAdDetected(false);
+      }, 100);
     });
 
-    // Layer 4: Block network requests to ad domains
+    // Layer 4: Intercept window.open (popup blocker)
+    const originalWindowOpen = window.open;
+    window.open = function(url, target, features) {
+      console.log('🚫 NUCLEAR: Blocked popup:', url);
+      setIsAdDetected(true);
+      return null;
+    };
+
+    // Layer 5: Intercept fetch requests
     const originalFetch = window.fetch;
-    const originalXHR = window.XMLHttpRequest;
-    
     window.fetch = async function(...args) {
-      const url = args[0];
-      if (typeof url === 'string' && AD_KEYWORDS.some(keyword => url.toLowerCase().includes(keyword))) {
-        console.log('🚫 Blocked fetch:', url);
+      const url = typeof args[0] === 'string' ? args[0] : args[0].url;
+      if (url && AD_KEYWORDS.some(keyword => url.toLowerCase().includes(keyword))) {
+        console.log('🚫 NUCLEAR: Blocked fetch:', url);
         return new Response(null, { status: 200 });
       }
       return originalFetch.apply(this, args);
     };
 
+    // Layer 6: Intercept XMLHttpRequest
+    const originalXHR = window.XMLHttpRequest;
     window.XMLHttpRequest = function() {
       const xhr = new originalXHR();
       const originalOpen = xhr.open;
       xhr.open = function(method, url, ...rest) {
-        if (AD_KEYWORDS.some(keyword => url.toLowerCase().includes(keyword))) {
-          console.log('🚫 Blocked XHR:', url);
-          // Create a mock response
+        if (url && AD_KEYWORDS.some(keyword => url.toLowerCase().includes(keyword))) {
+          console.log('🚫 NUCLEAR: Blocked XHR:', url);
           Object.defineProperty(this, 'status', { value: 200 });
           Object.defineProperty(this, 'responseText', { value: '' });
           return;
@@ -766,77 +814,87 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
       return xhr;
     };
 
-    // Run cleanup
-    removeAdElements();
-    hideAdStyles();
-    
-    // Observe DOM
-    observer.observe(document.body, { 
-      childList: true, 
-      subtree: true,
-      attributes: false 
-    });
-
-    // Periodic cleanup
-    const interval = setInterval(removeAdElements, 2000);
-
-    return () => {
-      observer.disconnect();
-      clearInterval(interval);
-      window.fetch = originalFetch;
-      window.XMLHttpRequest = originalXHR;
-      const style = document.getElementById('ad-blocker-styles');
-      if (style) style.remove();
-    };
-  }, []);
-
-  // 🚫 Click protection - prevent rapid clicks (ad trigger)
-  useEffect(() => {
+    // Layer 7: Click rate limiting + invisible element detection
     const handleClick = (e) => {
       const now = Date.now();
       const timeDiff = now - lastClickTime;
       
-      // Reset click count if more than 2 seconds passed
-      if (timeDiff > 2000) {
-        setClickCount(1);
-      } else {
+      // Check if clicking on invisible element
+      const target = e.target;
+      const style = window.getComputedStyle(target);
+      
+      if (style.opacity === '0' || style.visibility === 'hidden') {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('🚫 NUCLEAR: Blocked invisible element click');
+        setIsAdDetected(true);
+        return false;
+      }
+      
+      // Rate limiting
+      if (timeDiff < 2000) {
         setClickCount(prev => {
           const newCount = prev + 1;
-          // If too many rapid clicks, block it
           if (newCount > 5) {
             e.preventDefault();
             e.stopPropagation();
+            console.log('🚫 NUCLEAR: Blocked rapid clicks');
             return 0;
           }
           return newCount;
         });
+      } else {
+        setClickCount(1);
       }
       
       setLastClickTime(now);
     };
 
-    document.addEventListener('click', handleClick, true);
-    return () => document.removeEventListener('click', handleClick, true);
-  }, [lastClickTime]);
-
-  // 🚫 Prevent window.open and popups
-  useEffect(() => {
-    const originalWindowOpen = window.open;
-    window.open = function(url, ...args) {
-      console.log('🚫 Blocked popup:', url);
-      return null;
-    };
-
+    // Layer 8: Prevent navigation hijacking
     const handleBeforeUnload = (e) => {
       e.preventDefault();
       e.returnValue = '';
     };
 
+    const originalAddEventListener = EventTarget.prototype.addEventListener;
+    EventTarget.prototype.addEventListener = function(type, listener, options) {
+      if (type === 'click' || type === 'mousedown') {
+        const wrappedListener = function(e) {
+          if (this.style && this.style.opacity === '0') {
+            e.preventDefault();
+            e.stopPropagation();
+            return;
+          }
+          return listener.call(this, e);
+        };
+        return originalAddEventListener.call(this, type, wrappedListener, options);
+      }
+      return originalAddEventListener.call(this, type, listener, options);
+    };
+
+    // Initialize all layers
+    injectAntiAdStyles();
+    removeAdElements();
+    observer.observe(document.body, { childList: true, subtree: true, attributes: true });
+    document.addEventListener('click', handleClick, true);
+    document.addEventListener('mousedown', handleClick, true);
     window.addEventListener('beforeunload', handleBeforeUnload);
 
+    // Periodic cleanup
+    const interval = setInterval(removeAdElements, 1000);
+
     return () => {
+      clearTimeout(mutationTimeout);
+      observer.disconnect();
+      clearInterval(interval);
+      window.fetch = originalFetch;
+      window.XMLHttpRequest = originalXHR;
       window.open = originalWindowOpen;
       window.removeEventListener('beforeunload', handleBeforeUnload);
+      document.removeEventListener('click', handleClick, true);
+      document.removeEventListener('mousedown', handleClick, true);
+      const style = document.getElementById('nuclear-ad-blocker');
+      if (style) style.remove();
     };
   }, []);
 
@@ -927,6 +985,13 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
       {floatingEmojis.map(e => (
         <FloatingEmoji key={e.id} emojiChar={e.char} onComplete={() => setFloatingEmojis(p => p.filter(x => x.id !== e.id))} />
       ))}
+
+      {/* Ad Detection Warning */}
+      {isAdDetected && (
+        <div className="fixed top-4 right-4 z-[9999] bg-red-600 text-white px-4 py-2 rounded-xl text-sm font-bold animate-pulse">
+          🚫 Ad Blocked!
+        </div>
+      )}
 
       {/* Top Controls */}
       <div className={`absolute top-0 left-0 right-0 z-[200] p-4 bg-gradient-to-b from-black/90 to-transparent transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
