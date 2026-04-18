@@ -18,6 +18,24 @@ const COUPLES_PASSWORD = '24869';
 let peer = null;
 let conn = null;
 
+// 🚫 AD BLOCKER - قائمة شاملة لنطاقات الإعلانات
+const AD_DOMAINS = [
+  'popads.net', 'popunder.net', 'doubleclick.net', 'googlesyndication.com',
+  'adservice.google.com', 'googleadservices.com', 'pagead2.googlesyndication.com',
+  'tpc.googlesyndication.com', 'adsystem.', 'adserver.', 'ads.', 'ad.',
+  'track.', 'tracker.', 'tracking.', 'analytics.', 'stat.', 'counter.',
+  'popunder.', 'popup.', 'pop.', 'redirect.', 'clk.', 'click.', 'track.',
+  'adclick.', 'adtrack.', 'adserver.', 'adservice.', 'advertising.',
+  'adsystem.', 'adnetwork.', 'adexchange.', 'rtb.', 'bid.', 'dsp.',
+  'adsrvr.', 'adnxs.', 'casalemedia.com', 'rubiconproject.com', 'openx.',
+  'criteo.', 'outbrain.', 'taboola.', 'zemanta.', 'revcontent.',
+  'adsafeprotected.', 'doubleverify.', 'integral-ad.', 'moat.',
+  'scorecardresearch.com', 'quantserve.com', 'atdmt.', 'adbrite.',
+  'buysellads.', 'carbonads.', 'adroll.', 'perfectaudience.',
+  'retargeter.', 'adroll.', 'connexity.', 'criteo.', 'nanigans.',
+  'adroll.', 'perfectaudience.', 'retargeter.', 'adroll.'
+];
+
 // 🎲 توليد كود غرفة من 6 أرقام
 const generateRoomCode = () => {
   return Math.floor(100000 + Math.random() * 900000).toString();
@@ -308,7 +326,7 @@ function App() {
     if (conn?.open) conn.send({ type: 'server_change', fallbackServer: serverIndex });
   };
 
-  // 🔧 FIXED: Render Order - Password Modal MUST come FIRST
+  // 🔧 FIXED: Render Order
   if (showPasswordModal) {
     return <PasswordModal onVerify={handlePasswordVerify} onClose={() => setShowPasswordModal(false)} />;
   }
@@ -603,15 +621,17 @@ function MovieDetail({ movie, onBack, onStartParty }) {
   );
 }
 
-// 👑 Player Component - FIXED Video Controls
+// 👑 Player Component - FULL AD BLOCKER PROTECTION
 function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onServerChange, onBack }) {
   const videoRef = useRef(null);
+  const iframeRef = useRef(null);
   const [extractionStatus, setExtractionStatus] = useState('extracting');
   const [streamData, setStreamData] = useState(null);
   const [floatingEmojis, setFloatingEmojis] = useState([]);
   const [togetherTime, setTogetherTime] = useState(0);
   const [showControls, setShowControls] = useState(true);
   const [showServerList, setShowServerList] = useState(false);
+  const [clickCount, setClickCount] = useState(0);
   
   const habibtiEmojis = ['💕', '🥰', '💖', '🍿', '🌹', '🦋', '⭐', '💍'];
   
@@ -635,6 +655,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
 
   const formatTime = (s) => `${Math.floor(s/60)}:${(s%60).toString().padStart(2,'0')}`;
 
+  // Auto-hide controls
   useEffect(() => {
     let timeout;
     const resetTimer = () => {
@@ -648,6 +669,85 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
       window.removeEventListener('mousemove', resetTimer); 
       window.removeEventListener('touchstart', resetTimer);
       clearTimeout(timeout);
+    };
+  }, []);
+
+  // 🚫 AD BLOCKER: Remove overlays and popups
+  useEffect(() => {
+    const removeAdOverlays = () => {
+      // Remove any overlay divs
+      const overlays = document.querySelectorAll('div[style*="position: absolute"], div[style*="z-index: 9"], div[style*="z-index: 99"], div[style*="z-index: 999"]');
+      overlays.forEach(overlay => {
+        if (overlay !== document.querySelector('#root')) {
+          overlay.style.pointerEvents = 'none';
+          overlay.style.display = 'none';
+        }
+      });
+
+      // Remove iframes that are not the main video
+      const iframes = document.querySelectorAll('iframe');
+      iframes.forEach(iframe => {
+        if (iframe !== iframeRef.current) {
+          iframe.remove();
+        }
+      });
+
+      // Remove suspicious elements
+      const suspicious = document.querySelectorAll('[class*="ad"], [id*="ad"], [class*="pop"], [id*="pop"]');
+      suspicious.forEach(el => el.remove());
+    };
+
+    // Run immediately and then periodically
+    removeAdOverlays();
+    const interval = setInterval(removeAdOverlays, 1000);
+
+    // MutationObserver to detect new ads
+    const observer = new MutationObserver(removeAdOverlays);
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      clearInterval(interval);
+      observer.disconnect();
+    };
+  }, []);
+
+  // 🚫 AD BLOCKER: Intercept clicks and prevent redirects
+  useEffect(() => {
+    const handleClick = (e) => {
+      // Check if click is on video/iframe area
+      if (e.target.closest('video') || e.target.closest('iframe')) {
+        e.stopPropagation();
+        return;
+      }
+
+      // Prevent multiple rapid clicks (ad trigger)
+      setClickCount(prev => {
+        const newCount = prev + 1;
+        if (newCount > 3) {
+          // Too many clicks - likely ad trigger
+          e.preventDefault();
+          e.stopPropagation();
+          return 0;
+        }
+        return newCount;
+      });
+
+      // Reset click count after 2 seconds
+      setTimeout(() => setClickCount(0), 2000);
+    };
+
+    const handleBeforeUnload = (e) => {
+      // Prevent accidental navigation (ad redirect)
+      e.preventDefault();
+      e.returnValue = '';
+    };
+
+    document.addEventListener('click', handleClick, true);
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      document.removeEventListener('click', handleClick, true);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, []);
 
@@ -727,7 +827,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   }
 
   return (
-    <div className="h-screen bg-black relative flex flex-col overflow-hidden" dir="ltr">
+    <div className="h-screen bg-black relative flex flex-col overflow-hidden" dir="ltr" style={{ pointerEvents: 'auto' }}>
       <DistanceBadge myCoords={myCoords} partnerCoords={partnerCoords} mode={mode} />
       
       {floatingEmojis.map(e => (
@@ -748,7 +848,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
         </div>
       </div>
 
-      {/* 🔧 FIXED: Video Container with proper z-index */}
+      {/* Video Container with AD PROTECTION */}
       <div className="flex-1 bg-[#050505] relative pb-24" style={{ zIndex: 1 }}>
         {extractionStatus === 'success' ? (
           <video 
@@ -761,30 +861,65 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
             onPlay={() => sendVideoEvent('play')} 
             onPause={() => sendVideoEvent('pause')} 
             onSeeked={() => sendVideoEvent('seek')}
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+            }}
           >
             {streamData?.subtitles?.map((sub, i) => (
               <track key={i} kind="subtitles" src={sub.url} srcLang={sub.lang} label={sub.language} default={sub.lang.includes('ar')} />
             ))}
           </video>
         ) : movie.isArabic ? (
-          <iframe 
-            src={`https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(movie.title + ' فيلم كامل')}`} 
-            className="w-full h-full border-0" 
-            allowFullScreen
-            style={{ pointerEvents: 'auto', zIndex: 10, position: 'relative' }}
-            onClick={(e) => e.stopPropagation()}
-          ></iframe>
+          <div className="relative w-full h-full" style={{ pointerEvents: 'auto' }}>
+            <iframe 
+              ref={iframeRef}
+              src={`https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(movie.title + ' فيلم كامل')}`} 
+              className="w-full h-full border-0" 
+              allowFullScreen
+              sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-pointer-lock"
+              style={{ pointerEvents: 'auto', zIndex: 10, position: 'relative' }}
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+              }}
+            ></iframe>
+            {/* Protection overlay */}
+            <div 
+              className="absolute inset-0"
+              style={{ 
+                pointerEvents: 'none', 
+                zIndex: 5,
+                background: 'transparent'
+              }}
+            />
+          </div>
         ) : (
-          <iframe 
-            key={syncSettings.fallbackServer} 
-            src={fallbackNodes[syncSettings.fallbackServer]?.url} 
-            className="w-full h-full border-0" 
-            allowFullScreen 
-            allow="autoplay; encrypted-media"
-            style={{ pointerEvents: 'auto', zIndex: 10, position: 'relative' }}
-            onClick={(e) => e.stopPropagation()}
-          ></iframe>
+          <div className="relative w-full h-full" style={{ pointerEvents: 'auto' }}>
+            <iframe 
+              ref={iframeRef}
+              key={syncSettings.fallbackServer} 
+              src={fallbackNodes[syncSettings.fallbackServer]?.url} 
+              className="w-full h-full border-0" 
+              allowFullScreen 
+              allow="autoplay; encrypted-media"
+              sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-pointer-lock"
+              style={{ pointerEvents: 'auto', zIndex: 10, position: 'relative' }}
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+              }}
+            ></iframe>
+            {/* Protection overlay */}
+            <div 
+              className="absolute inset-0"
+              style={{ 
+                pointerEvents: 'none', 
+                zIndex: 5,
+                background: 'transparent'
+              }}
+            />
+          </div>
         )}
       </div>
 
@@ -839,13 +974,15 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
         )}
       </div>
 
-      {/* 🔧 FIXED: Click overlay - only toggles on empty space */}
+      {/* Click overlay - FIXED to prevent ad redirects */}
       <div 
         className="absolute inset-0 z-[50]"
         style={{ pointerEvents: showControls ? 'none' : 'auto' }}
         onClick={(e) => {
-          // Only toggle if clicking on the overlay itself, not on video/controls
+          // Only toggle if clicking on empty space, not video/controls
           if (e.target === e.currentTarget) {
+            e.stopPropagation();
+            e.preventDefault();
             setShowControls(prev => !prev);
           }
         }}
