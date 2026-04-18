@@ -18,32 +18,11 @@ const COUPLES_PASSWORD = '24869';
 let peer = null;
 let conn = null;
 
-// 🚫 NUCLEAR AD BLOCKER - Advanced invisible ad detection
+// 🚫 AD Keywords for iOS
 const AD_KEYWORDS = [
   'ad', 'ads', 'advert', 'pop', 'popup', 'popunder', 'click', 'track',
-  'analytics', 'counter', 'stat', 'metric', 'beacon', 'pixel', 'tag',
-  'doubleclick', 'googlesyndication', 'googleads', 'adservice', 'adserver',
-  'adnetwork', 'adexchange', 'rtb', 'bid', 'dsp', 'ssp', 'adtech',
-  'popads', 'popunder', 'redirect', 'clk', 'clicktracker', 'adclick',
-  'adtrack', 'advertising', 'adsystem', 'adroll', 'retarget', 'conversion',
-  'taboola', 'outbrain', 'zemanta', 'revcontent', 'contentrecommend',
-  'scorecardresearch', 'quantserve', 'comscore', 'nielsen', 'atdmt',
-  'casalemedia', 'rubiconproject', 'openx', 'criteo', 'moat', 'doubleverify',
-  'invitemedia', 'mediamath', 'appnexus', 'admeld', 'yieldmanager',
-  'rightmedia', 'bluekai', 'exelator', 'lotame', 'demdex', 'everesttech',
-  'omtrdc', '2o7', '122.2o7', 'statcounter', 'histats', 'awstats'
-];
-
-const AD_SELECTORS = [
-  '[class*="ad"]', '[id*="ad"]', '[class*="advert"]', '[id*="advert"]',
-  '[class*="pop"]', '[id*="pop"]', '[class*="popup"]', '[id*="popup"]',
-  '[class*="overlay"]', '[id*="overlay"]', '[class*="modal"]', '[id*="modal"]',
-  'iframe[src*="ad"]', 'iframe[src*="pop"]', 'iframe[src*="click"]',
-  'div[style*="position: fixed"]', 'div[style*="z-index: 9"]',
-  'div[style*="z-index: 99"]', 'div[style*="z-index: 999"]',
-  'a[href*="ad"]', 'a[href*="click"]', 'a[href*="redirect"]',
-  '[class*="sponsor"]', '[id*="sponsor"]', '[class*="promo"]', '[id*="promo"]',
-  '[class*="banner"]', '[id*="banner"]', '[class*="widget"]', '[id*="widget"]'
+  'analytics', 'doubleclick', 'googlesyndication', 'redirect', 'clk',
+  'taboola', 'outbrain', 'zemanta', 'revcontent', 'scorecardresearch'
 ];
 
 // 🎲 Generate 6-digit room code
@@ -59,6 +38,50 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
   const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
             Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
   return (R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))).toFixed(1);
+};
+
+// 💾 History Management (localStorage)
+const saveToHistory = (movie, progress, settings) => {
+  try {
+    const history = JSON.parse(localStorage.getItem('cinema_history') || '[]');
+    const existingIndex = history.findIndex(h => h.movieId === movie.id);
+    const historyItem = {
+      movieId: movie.id,
+      title: movie.title,
+      poster: movie.poster_path,
+      progress: progress,
+      settings: settings,
+      lastWatched: Date.now(),
+      isArabic: movie.isArabic
+    };
+    
+    if (existingIndex >= 0) {
+      history[existingIndex] = historyItem;
+    } else {
+      history.unshift(historyItem);
+    }
+    
+    localStorage.setItem('cinema_history', JSON.stringify(history.slice(0, 50)));
+  } catch (e) {
+    console.error('History save error:', e);
+  }
+};
+
+const getFromHistory = (movieId) => {
+  try {
+    const history = JSON.parse(localStorage.getItem('cinema_history') || '[]');
+    return history.find(h => h.movieId === movieId);
+  } catch (e) {
+    return null;
+  }
+};
+
+const getHistory = () => {
+  try {
+    return JSON.parse(localStorage.getItem('cinema_history') || '[]');
+  } catch (e) {
+    return [];
+  }
 };
 
 // ☁️ Floating Emoji
@@ -105,8 +128,81 @@ function DistanceBadge({ myCoords, partnerCoords, mode }) {
   );
 }
 
+// 📜 History Panel Component
+function HistoryPanel({ onSelectMovie, onClose }) {
+  const history = getHistory();
+
+  if (history.length === 0) {
+    return (
+      <div className="fixed inset-0 bg-black/90 backdrop-blur-sm z-[1000] flex items-center justify-center p-6">
+        <div className="bg-gradient-to-br from-zinc-900 to-black border border-purple-500/30 rounded-3xl p-8 max-w-2xl w-full max-h-[80vh] overflow-y-auto">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-black text-white">📜 Watch History</h2>
+            <button onClick={onClose} className="text-gray-400 hover:text-white text-2xl">×</button>
+          </div>
+          <div className="text-center text-gray-400 py-12">
+            <div className="text-6xl mb-4">📭</div>
+            <p className="text-lg">No watch history yet</p>
+            <p className="text-sm mt-2">Start watching to build your history!</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="fixed inset-0 bg-black/90 backdrop-blur-sm z-[1000] flex items-center justify-center p-6">
+      <div className="bg-gradient-to-br from-zinc-900 to-black border border-purple-500/30 rounded-3xl p-8 max-w-4xl w-full max-h-[80vh] overflow-y-auto">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-black text-white">📜 Watch History</h2>
+          <button onClick={onClose} className="text-gray-400 hover:text-white text-2xl">×</button>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          {history.map((item, index) => (
+            <div 
+              key={index}
+              onClick={() => {
+                onSelectMovie(item);
+                onClose();
+              }}
+              className="group cursor-pointer bg-zinc-800/50 rounded-2xl overflow-hidden border border-white/5 hover:border-purple-500/50 transition-all"
+            >
+              <div className="relative aspect-[2/3]">
+                <img 
+                  src={`https://image.tmdb.org/t/p/w500${item.poster}`} 
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform"
+                  alt={item.title}
+                />
+                {item.progress > 0 && (
+                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-700">
+                    <div 
+                      className="h-full bg-gradient-to-r from-purple-500 to-pink-500"
+                      style={{ width: `${Math.min(item.progress, 100)}%` }}
+                    />
+                  </div>
+                )}
+                <div className="absolute top-2 right-2 bg-black/80 px-2 py-1 rounded-lg text-[10px] text-white">
+                  {item.progress > 0 ? `${Math.round(item.progress)}%` : 'New'}
+                </div>
+              </div>
+              <div className="p-3">
+                <h3 className="text-xs font-bold text-white truncate">{item.title}</h3>
+                <p className="text-[10px] text-gray-400 mt-1">
+                  {new Date(item.lastWatched).toLocaleDateString()}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // 🎬 Mode Selection Screen
-function ModeSelection({ onSelectMode }) {
+function ModeSelection({ onSelectMode, onShowHistory }) {
+  const history = getHistory();
+
   return (
     <div className="h-screen w-full bg-gradient-to-br from-[#0a0a0a] via-[#050505] to-[#0a0a0a] flex flex-col items-center justify-center gap-8 p-6">
       <div className="text-center space-y-4">
@@ -135,6 +231,15 @@ function ModeSelection({ onSelectMode }) {
           <div className="text-sm text-pink-200 font-normal">Watch together, share the moment</div>
         </button>
       </div>
+
+      {history.length > 0 && (
+        <button 
+          onClick={onShowHistory}
+          className="mt-4 bg-gradient-to-r from-purple-600/20 to-pink-600/20 border border-purple-500/30 px-8 py-4 rounded-2xl font-bold text-white hover:from-purple-600/30 hover:to-pink-600/30 transition-all"
+        >
+          📜 Continue Watching ({history.length})
+        </button>
+      )}
     </div>
   );
 }
@@ -199,6 +304,7 @@ function PasswordModal({ onVerify, onClose }) {
 function App() {
   const [mode, setMode] = useState(null);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
   const [role, setRole] = useState(null);
   const [movies, setMovies] = useState([]);
   const [activeMovie, setActiveMovie] = useState(null);
@@ -213,7 +319,12 @@ function App() {
   const [roomReady, setRoomReady] = useState(false);
   const [partnerCoords, setPartnerCoords] = useState(null);
   const [myCoords, setMyCoords] = useState(null);
-  const [syncSettings, setSyncSettings] = useState({ fallbackServer: 0, subtitles: null });
+  const [syncSettings, setSyncSettings] = useState({ 
+    fallbackServer: 0, 
+    subtitles: null,
+    sandbox: false,
+    progress: 0
+  });
 
   const habibtiNames = ['Renad ✨', 'Habibti 🥰', 'Ranood 🌹', 'Reno 💕', 'My Everything 💖'];
 
@@ -265,7 +376,12 @@ function App() {
     conn.on('open', () => {
       setConnectionStatus('connected');
       if (role === 'admin') {
-        conn.send({ type: 'room_state', roomReady, movie: roomMovie, settings: syncSettings });
+        conn.send({ 
+          type: 'room_state', 
+          roomReady, 
+          movie: roomMovie, 
+          settings: syncSettings 
+        });
       }
       if (myCoords) conn.send({ type: 'location_update', coords: myCoords });
     });
@@ -287,16 +403,35 @@ function App() {
         if (data.movie) setRoomMovie(data.movie);
         if (data.settings) setSyncSettings(data.settings);
         break;
-      case 'room_ready': setRoomReady(data.ready); break;
+      case 'room_ready': 
+        setRoomReady(data.ready); 
+        break;
       case 'start_party':
         setRoomMovie(data.movie);
         if (data.settings) setSyncSettings(data.settings);
         break;
-      case 'end_party': setRoomMovie(null); setActiveMovie(null); break;
-      case 'server_change': setSyncSettings(prev => ({ ...prev, fallbackServer: data.fallbackServer })); break;
-      case 'video_sync': window.dispatchEvent(new CustomEvent('peer-video-sync', { detail: data })); break;
-      case 'emoji': window.dispatchEvent(new CustomEvent('peer-emoji', { detail: data })); break;
-      case 'location_update': setPartnerCoords(data.coords); break;
+      case 'end_party': 
+        setRoomMovie(null); 
+        setActiveMovie(null); 
+        break;
+      case 'server_change': 
+        setSyncSettings(prev => ({ ...prev, fallbackServer: data.fallbackServer })); 
+        break;
+      case 'sandbox_toggle':
+        setSyncSettings(prev => ({ ...prev, sandbox: data.sandbox }));
+        break;
+      case 'progress_update':
+        setSyncSettings(prev => ({ ...prev, progress: data.progress }));
+        break;
+      case 'video_sync': 
+        window.dispatchEvent(new CustomEvent('peer-video-sync', { detail: data })); 
+        break;
+      case 'emoji': 
+        window.dispatchEvent(new CustomEvent('peer-emoji', { detail: data })); 
+        break;
+      case 'location_update': 
+        setPartnerCoords(data.coords); 
+        break;
     }
   };
 
@@ -331,9 +466,23 @@ function App() {
     if (conn?.open) conn.send({ type: 'room_ready', ready: newStatus });
   };
 
+  const toggleSandbox = () => {
+    const newSandbox = !syncSettings.sandbox;
+    setSyncSettings(prev => ({ ...prev, sandbox: newSandbox }));
+    if (conn?.open) conn.send({ type: 'sandbox_toggle', sandbox: newSandbox });
+  };
+
   const syncServerChange = (serverIndex) => {
     setSyncSettings(prev => ({ ...prev, fallbackServer: serverIndex }));
     if (conn?.open) conn.send({ type: 'server_change', fallbackServer: serverIndex });
+  };
+
+  const updateProgress = (progress) => {
+    setSyncSettings(prev => ({ ...prev, progress }));
+    if (conn?.open) conn.send({ type: 'progress_update', progress });
+    if (roomMovie) {
+      saveToHistory(roomMovie, progress, syncSettings);
+    }
   };
 
   // 🔧 FIXED: Render Order
@@ -341,8 +490,30 @@ function App() {
     return <PasswordModal onVerify={handlePasswordVerify} onClose={() => setShowPasswordModal(false)} />;
   }
 
+  if (showHistory) {
+    return (
+      <HistoryPanel 
+        onSelectMovie={(item) => {
+          setRoomMovie({
+            id: item.movieId,
+            title: item.title,
+            poster_path: item.poster,
+            isArabic: item.isArabic
+          });
+          setSyncSettings(prev => ({
+            ...prev,
+            fallbackServer: item.settings?.fallbackServer || 0,
+            sandbox: item.settings?.sandbox || false,
+            progress: item.progress || 0
+          }));
+        }}
+        onClose={() => setShowHistory(false)}
+      />
+    );
+  }
+
   if (mode === null) {
-    return <ModeSelection onSelectMode={handleModeSelect} />;
+    return <ModeSelection onSelectMode={handleModeSelect} onShowHistory={() => setShowHistory(true)} />;
   }
 
   if (mode === 'single' && !role) {
@@ -396,8 +567,11 @@ function App() {
         partnerCoords={partnerCoords}
         syncSettings={syncSettings}
         onServerChange={syncServerChange}
+        onSandboxToggle={toggleSandbox}
+        onProgressUpdate={updateProgress}
         onBack={() => {
           if (role === 'admin' && conn) conn.send({ type: 'end_party' });
+          if (roomMovie) saveToHistory(roomMovie, syncSettings.progress, syncSettings);
           setRoomMovie(null);
           setActiveMovie(null);
         }} 
@@ -443,7 +617,7 @@ function App() {
           <div className="mt-8 text-center">
             <div className="w-16 h-16 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
             <p className="text-yellow-400 font-bold">Waiting for Omar... ⏳</p>
-            <p className="text-gray-500 text-sm mt-2">He will prepare the room for you</p>
+            <p className="text-gray-500 text-sm mt-2">He must mark the room as ready</p>
           </div>
         )}
         
@@ -462,7 +636,11 @@ function App() {
     return <MovieDetail movie={activeMovie} onBack={() => setActiveMovie(null)} onStartParty={(movieFull) => {
       setRoomMovie(movieFull);
       if (conn?.open) {
-        conn.send({ type: 'start_party', movie: movieFull, settings: syncSettings });
+        conn.send({ 
+          type: 'start_party', 
+          movie: movieFull, 
+          settings: syncSettings 
+        });
       } else {
         alert("Wait for Renad to connect first!");
       }
@@ -592,6 +770,8 @@ function App() {
 
 function MovieDetail({ movie, onBack, onStartParty }) {
   const [details, setDetails] = useState(null);
+  const historyItem = getFromHistory(movie.id);
+  
   useEffect(() => {
     fetch(`https://api.themoviedb.org/3/movie/${movie.id}?language=en-US`, fetchOptions)
       .then(res => res.json()).then(data => setDetails(data));
@@ -616,10 +796,26 @@ function MovieDetail({ movie, onBack, onStartParty }) {
             <span className="bg-yellow-500/10 text-yellow-400 px-3 py-1 rounded-lg">⭐ {movie.vote_average?.toFixed(1)}</span>
             {details && <span className="bg-pink-500/10 text-pink-400 px-3 py-1 rounded-lg">⏱️ {details.runtime} min</span>}
           </div>
+          
+          {historyItem && historyItem.progress > 0 && (
+            <div className="bg-purple-500/10 border border-purple-500/30 rounded-xl p-4">
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-sm font-bold text-purple-400">📍 Continue Watching</span>
+                <span className="text-xs text-purple-300">{Math.round(historyItem.progress)}% complete</span>
+              </div>
+              <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
+                <div 
+                  className="h-full bg-gradient-to-r from-purple-500 to-pink-500"
+                  style={{ width: `${Math.min(historyItem.progress, 100)}%` }}
+                />
+              </div>
+            </div>
+          )}
+          
           <p className="text-gray-300 text-base md:text-lg leading-relaxed">{movie.overview || "No synopsis available."}</p>
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
             <button onClick={() => onStartParty({ ...movie, isArabic: details?.original_language === 'ar' })} className="bg-gradient-to-r from-purple-600 to-pink-600 px-8 py-4 rounded-2xl font-black text-white hover:scale-105 transition-all shadow-xl">
-              🍿 Start Watching
+              {historyItem?.progress > 0 ? '▶️ Resume' : '🍿 Start Watching'}
             </button>
             <button onClick={onBack} className="bg-white/5 border border-white/10 px-8 py-4 rounded-2xl font-black text-white hover:bg-white/10 transition-all">
               ← Back
@@ -631,8 +827,8 @@ function MovieDetail({ movie, onBack, onStartParty }) {
   );
 }
 
-// 👑 Player Component - NUCLEAR AD BLOCKER (INVISIBLE ADS PROTECTION)
-function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onServerChange, onBack }) {
+// 👑 Player Component - iOS OPTIMIZED AD BLOCKER
+function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onServerChange, onSandboxToggle, onProgressUpdate, onBack }) {
   const videoRef = useRef(null);
   const iframeRef = useRef(null);
   const containerRef = useRef(null);
@@ -642,9 +838,8 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   const [togetherTime, setTogetherTime] = useState(0);
   const [showControls, setShowControls] = useState(true);
   const [showServerList, setShowServerList] = useState(false);
-  const [clickCount, setClickCount] = useState(0);
-  const [lastClickTime, setLastClickTime] = useState(0);
   const [isAdDetected, setIsAdDetected] = useState(false);
+  const [videoProgress, setVideoProgress] = useState(syncSettings.progress || 0);
   
   const habibtiEmojis = ['💕', '', '💖', '🍿', '🌹', '🦋', '⭐', '💍'];
   
@@ -666,9 +861,21 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     return () => clearInterval(timer);
   }, []);
 
+  // Update progress periodically
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (videoRef.current && videoRef.current.duration) {
+        const progress = (videoRef.current.currentTime / videoRef.current.duration) * 100;
+        setVideoProgress(progress);
+        onProgressUpdate(progress);
+      }
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
   const formatTime = (s) => `${Math.floor(s/60)}:${(s%60).toString().padStart(2,'0')}`;
 
-  // Auto-hide controls
+  // Auto-hide controls (iOS optimized)
   useEffect(() => {
     let timeout;
     const resetTimer = () => {
@@ -676,224 +883,102 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
       clearTimeout(timeout);
       timeout = setTimeout(() => setShowControls(false), 4000);
     };
-    window.addEventListener('mousemove', resetTimer);
-    window.addEventListener('touchstart', resetTimer);
+    
+    // iOS touch events
+    window.addEventListener('mousemove', resetTimer, { passive: true });
+    window.addEventListener('touchstart', resetTimer, { passive: true });
+    window.addEventListener('click', resetTimer, { passive: true });
+    
     return () => { 
       window.removeEventListener('mousemove', resetTimer); 
       window.removeEventListener('touchstart', resetTimer);
+      window.removeEventListener('click', resetTimer);
       clearTimeout(timeout);
     };
   }, []);
 
-  // 🚫 NUCLEAR AD BLOCKER - 7-Layer Protection System
+  // 🚫 iOS OPTIMIZED AD BLOCKER
   useEffect(() => {
-    // Layer 1: CSS Injection - Block ads at style level
+    // Layer 1: CSS Injection (iOS compatible)
     const injectAntiAdStyles = () => {
       const style = document.createElement('style');
-      style.id = 'nuclear-ad-blocker';
+      style.id = 'ios-ad-blocker';
       style.textContent = `
-        /* Block all potential ad containers */
         iframe[src*="ad"], iframe[src*="pop"], iframe[src*="click"],
-        iframe[src*="redirect"], iframe[src*="track"], iframe[src*="analytics"] {
+        iframe[src*="redirect"], iframe[src*="track"] {
           display: none !important;
           visibility: hidden !important;
           pointer-events: none !important;
-          opacity: 0 !important;
-          width: 0 !important;
-          height: 0 !important;
         }
         
-        /* Block invisible overlay divs */
         div[style*="position: fixed"][style*="z-index: 9"],
         div[style*="position: fixed"][style*="z-index: 99"],
-        div[style*="position: fixed"][style*="z-index: 999"],
-        div[style*="position: absolute"][style*="z-index: 9"],
-        div[style*="position: absolute"][style*="z-index: 99"],
-        div[style*="position: absolute"][style*="z-index: 999"] {
+        div[style*="position: fixed"][style*="z-index: 999"] {
           display: none !important;
         }
         
-        /* Block common ad classes */
-        .ad, .ads, .advert, .advertisement, .banner, .popup, .popunder,
-        .overlay, .modal, .lightbox, .interstitial, .takeover, .sponsor,
-        .promo, .widget, .recommendation, .native-ad, .content-ad {
+        .ad, .ads, .advert, .popup, .popunder, .overlay, .modal {
           display: none !important;
         }
         
-        /* Block transparent clickjacking layers */
-        div[style*="opacity: 0"], div[style*="opacity:0"],
-        div[style*="background: transparent"], div[style*="background:transparent"],
-        a[style*="opacity: 0"], a[style*="opacity:0"] {
+        /* iOS specific: Block touch hijacking */
+        [onclick*="window.open"], [onclick*="location.href"] {
           pointer-events: none !important;
         }
-        
-        /* Block new window triggers */
-        [target="_blank"][rel*="noopener"], [target="_blank"][rel*="noreferrer"] {
-          target: "_self" !important;
-        }
       `;
-      if (!document.getElementById('nuclear-ad-blocker')) {
+      if (!document.getElementById('ios-ad-blocker')) {
         document.head.appendChild(style);
       }
     };
 
-    // Layer 2: DOM Observer - Remove ads as they appear
-    const removeAdElements = () => {
-      AD_SELECTORS.forEach(selector => {
-        try {
-          const elements = document.querySelectorAll(selector);
-          elements.forEach(el => {
-            if (!el.closest('#root') && !el.closest('[data-cinema-player="true"]')) {
-              el.remove();
-            }
-          });
-        } catch (e) { /* Ignore invalid selectors */ }
-      });
-
-      // Remove invisible overlays (clickjacking protection)
-      const allElements = document.querySelectorAll('*');
-      allElements.forEach(el => {
-        const style = window.getComputedStyle(el);
-        if (
-          style.opacity === '0' && 
-          style.pointerEvents !== 'none' &&
-          !el.closest('#root') &&
-          !el.closest('[data-cinema-player="true"]') &&
-          el.tagName !== 'SCRIPT' &&
-          el.tagName !== 'LINK'
-        ) {
-          el.style.pointerEvents = 'none';
-          el.style.display = 'none';
-        }
-      });
-    };
-
-    // Layer 3: MutationObserver with debounce
-    let mutationTimeout;
-    const observer = new MutationObserver((mutations) => {
-      clearTimeout(mutationTimeout);
-      mutationTimeout = setTimeout(() => {
-        removeAdElements();
-        setIsAdDetected(false);
-      }, 100);
-    });
-
-    // Layer 4: Intercept window.open (popup blocker)
-    const originalWindowOpen = window.open;
-    window.open = function(url, target, features) {
-      console.log('🚫 NUCLEAR: Blocked popup:', url);
-      setIsAdDetected(true);
-      return null;
-    };
-
-    // Layer 5: Intercept fetch requests
-    const originalFetch = window.fetch;
-    window.fetch = async function(...args) {
-      const url = typeof args[0] === 'string' ? args[0] : args[0].url;
-      if (url && AD_KEYWORDS.some(keyword => url.toLowerCase().includes(keyword))) {
-        console.log('🚫 NUCLEAR: Blocked fetch:', url);
-        return new Response(null, { status: 200 });
-      }
-      return originalFetch.apply(this, args);
-    };
-
-    // Layer 6: Intercept XMLHttpRequest
-    const originalXHR = window.XMLHttpRequest;
-    window.XMLHttpRequest = function() {
-      const xhr = new originalXHR();
-      const originalOpen = xhr.open;
-      xhr.open = function(method, url, ...rest) {
-        if (url && AD_KEYWORDS.some(keyword => url.toLowerCase().includes(keyword))) {
-          console.log('🚫 NUCLEAR: Blocked XHR:', url);
-          Object.defineProperty(this, 'status', { value: 200 });
-          Object.defineProperty(this, 'responseText', { value: '' });
-          return;
-        }
-        return originalOpen.call(this, method, url, ...rest);
-      };
-      return xhr;
-    };
-
-    // Layer 7: Click rate limiting + invisible element detection
-    const handleClick = (e) => {
-      const now = Date.now();
-      const timeDiff = now - lastClickTime;
-      
-      // Check if clicking on invisible element
+    // Layer 2: Touch Event Interceptor (iOS critical)
+    const handleTouch = (e) => {
       const target = e.target;
       const style = window.getComputedStyle(target);
       
+      // Block invisible elements
       if (style.opacity === '0' || style.visibility === 'hidden') {
         e.preventDefault();
         e.stopPropagation();
-        console.log('🚫 NUCLEAR: Blocked invisible element click');
         setIsAdDetected(true);
         return false;
       }
       
-      // Rate limiting
-      if (timeDiff < 2000) {
-        setClickCount(prev => {
-          const newCount = prev + 1;
-          if (newCount > 5) {
-            e.preventDefault();
-            e.stopPropagation();
-            console.log('🚫 NUCLEAR: Blocked rapid clicks');
-            return 0;
-          }
-          return newCount;
-        });
-      } else {
-        setClickCount(1);
+      // Block iframes except our video
+      if (target.tagName === 'IFRAME' && target !== iframeRef.current) {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsAdDetected(true);
+        return false;
       }
-      
-      setLastClickTime(now);
     };
 
-    // Layer 8: Prevent navigation hijacking
+    // Layer 3: Prevent navigation
     const handleBeforeUnload = (e) => {
       e.preventDefault();
       e.returnValue = '';
     };
 
-    const originalAddEventListener = EventTarget.prototype.addEventListener;
-    EventTarget.prototype.addEventListener = function(type, listener, options) {
-      if (type === 'click' || type === 'mousedown') {
-        const wrappedListener = function(e) {
-          if (this.style && this.style.opacity === '0') {
-            e.preventDefault();
-            e.stopPropagation();
-            return;
-          }
-          return listener.call(this, e);
-        };
-        return originalAddEventListener.call(this, type, wrappedListener, options);
-      }
-      return originalAddEventListener.call(this, type, listener, options);
+    // Layer 4: Block window.open
+    const originalWindowOpen = window.open;
+    window.open = function(url, target, features) {
+      console.log('🚫 iOS: Blocked popup:', url);
+      setIsAdDetected(true);
+      return null;
     };
 
-    // Initialize all layers
+    // Initialize
     injectAntiAdStyles();
-    removeAdElements();
-    observer.observe(document.body, { childList: true, subtree: true, attributes: true });
-    document.addEventListener('click', handleClick, true);
-    document.addEventListener('mousedown', handleClick, true);
+    document.addEventListener('touchstart', handleTouch, { passive: false, capture: true });
+    document.addEventListener('click', handleTouch, { capture: true });
     window.addEventListener('beforeunload', handleBeforeUnload);
 
-    // Periodic cleanup
-    const interval = setInterval(removeAdElements, 1000);
-
     return () => {
-      clearTimeout(mutationTimeout);
-      observer.disconnect();
-      clearInterval(interval);
-      window.fetch = originalFetch;
-      window.XMLHttpRequest = originalXHR;
       window.open = originalWindowOpen;
       window.removeEventListener('beforeunload', handleBeforeUnload);
-      document.removeEventListener('click', handleClick, true);
-      document.removeEventListener('mousedown', handleClick, true);
-      const style = document.getElementById('nuclear-ad-blocker');
+      document.removeEventListener('touchstart', handleTouch, true);
+      document.removeEventListener('click', handleTouch, true);
+      const style = document.getElementById('ios-ad-blocker');
       if (style) style.remove();
     };
   }, []);
@@ -995,7 +1080,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
 
       {/* Top Controls */}
       <div className={`absolute top-0 left-0 right-0 z-[200] p-4 bg-gradient-to-b from-black/90 to-transparent transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center flex-wrap gap-2">
           <button onClick={(e) => { e.stopPropagation(); onBack(); }} className="bg-red-600/20 text-red-400 px-6 py-3 rounded-xl font-bold hover:bg-red-600/40 transition-all backdrop-blur-md border border-red-600/30">
             ← Exit
           </button>
@@ -1004,6 +1089,20 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
             <span className="text-white text-sm font-bold hidden sm:inline">{movie.title}</span>
             {mode === 'couples' && <span className="text-pink-400 text-xs">💑</span>}
           </div>
+          
+          {/* 🎮 Sandbox Toggle (Admin Only) */}
+          {role === 'admin' && (
+            <button 
+              onClick={(e) => { e.stopPropagation(); onSandboxToggle(); }}
+              className={`px-4 py-2 rounded-xl font-bold text-xs transition-all ${
+                syncSettings.sandbox 
+                  ? 'bg-green-600 text-white' 
+                  : 'bg-gray-600 text-gray-300'
+              }`}
+            >
+              🛡️ Sandbox: {syncSettings.sandbox ? 'ON' : 'OFF'}
+            </button>
+          )}
         </div>
       </div>
 
@@ -1020,6 +1119,13 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
             onPlay={() => sendVideoEvent('play')} 
             onPause={() => sendVideoEvent('pause')} 
             onSeeked={() => sendVideoEvent('seek')}
+            onTimeUpdate={() => {
+              if (videoRef.current && videoRef.current.duration) {
+                const progress = (videoRef.current.currentTime / videoRef.current.duration) * 100;
+                setVideoProgress(progress);
+                onProgressUpdate(progress);
+              }
+            }}
             onClick={(e) => {
               e.stopPropagation();
               e.preventDefault();
@@ -1036,6 +1142,9 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
               src={`https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(movie.title + ' فيلم كامل')}`} 
               className="w-full h-full border-0" 
               allowFullScreen
+              {...(syncSettings.sandbox && {
+                sandbox: "allow-same-origin allow-scripts allow-popups allow-forms allow-pointer-lock"
+              })}
               style={{ pointerEvents: 'auto', zIndex: 10, position: 'relative' }}
               onClick={(e) => {
                 e.stopPropagation();
@@ -1052,12 +1161,25 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
               className="w-full h-full border-0" 
               allowFullScreen 
               allow="autoplay; encrypted-media"
+              {...(syncSettings.sandbox && {
+                sandbox: "allow-same-origin allow-scripts allow-popups allow-forms allow-pointer-lock"
+              })}
               style={{ pointerEvents: 'auto', zIndex: 10, position: 'relative' }}
               onClick={(e) => {
                 e.stopPropagation();
                 e.preventDefault();
               }}
             ></iframe>
+          </div>
+        )}
+        
+        {/* Progress Bar Overlay */}
+        {videoProgress > 0 && (
+          <div className="absolute bottom-20 left-4 right-4 h-1 bg-gray-700 rounded-full overflow-hidden z-[100]">
+            <div 
+              className="h-full bg-gradient-to-r from-purple-500 to-pink-500 transition-all"
+              style={{ width: `${Math.min(videoProgress, 100)}%` }}
+            />
           </div>
         )}
       </div>
