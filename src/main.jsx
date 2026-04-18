@@ -18,13 +18,6 @@ const COUPLES_PASSWORD = '24869';
 let peer = null;
 let conn = null;
 
-// 🚫 AD Keywords for iOS
-const AD_KEYWORDS = [
-  'ad', 'ads', 'advert', 'pop', 'popup', 'popunder', 'click', 'track',
-  'analytics', 'doubleclick', 'googlesyndication', 'redirect', 'clk',
-  'taboola', 'outbrain', 'zemanta', 'revcontent', 'scorecardresearch'
-];
-
 // 🎲 Generate 6-digit room code
 const generateRoomCode = () => {
   return Math.floor(100000 + Math.random() * 900000).toString();
@@ -346,7 +339,6 @@ function App() {
   };
 
   // 📡 Initialize PeerJS
-// 📡 Initialize PeerJS
   useEffect(() => {
     if (!role || mode === 'single') return;
 
@@ -356,14 +348,11 @@ function App() {
     peer = new Peer(`ROOM-${code}`, {
       debug: 2,
       config: {
-        iceTransportPolicy: 'relay', // 👈 ضفنا هذا السطر عشان نمنع الاتصال الداخلي
+        // تم حذف سطر iceTransportPolicy ليعود الاتصال الذكي للعمل
         iceServers: [
-          // STUN
           { urls: 'stun:stun.l.google.com:19302' },
           { urls: 'stun:global.stun.twilio.com:3478' },
           { urls: 'stun:stun.cloudflare.com:3478' },
-          
-          // TURN
           {
             urls: [
               "turn:global.relay.metered.ca:80",
@@ -380,6 +369,13 @@ function App() {
 
     peer.on('open', (id) => console.log('Room code:', code));
     peer.on('connection', (c) => { conn = c; setupConnection(); });
+    
+    // Auto-reconnect listener for the server connection
+    peer.on('disconnected', () => {
+      console.log('Peer disconnected from server, attempting reconnect...');
+      if (peer && !peer.destroyed) peer.reconnect();
+    });
+
     peer.on('error', (err) => {
       if (err.type === 'unavailable-id') setRoomCode(generateRoomCode());
       console.error('Peer error:', err);
@@ -387,6 +383,28 @@ function App() {
 
     return () => { if (peer) peer.destroy(); };
   }, [role, mode]);
+
+  // 🔄 Guest Auto-Reconnect Interval
+  useEffect(() => {
+    let reconnectInterval;
+    if (mode === 'couples' && role === 'guest' && connectionStatus === 'disconnected' && inputCode) {
+      reconnectInterval = setInterval(() => {
+        if (peer && !peer.destroyed) {
+          if (peer.disconnected) {
+            peer.reconnect();
+          } else {
+            console.log("Auto-reconnecting to room...");
+            setConnectionStatus('connecting');
+            conn = peer.connect(`ROOM-${inputCode}`, { reliable: true });
+            setupConnection();
+          }
+        }
+      }, 4000);
+    }
+    
+    if (connectionStatus === 'connected') clearInterval(reconnectInterval);
+    return () => clearInterval(reconnectInterval);
+  }, [connectionStatus, role, mode, inputCode]);
 
   const setupConnection = () => {
     conn.on('open', () => {
@@ -403,12 +421,13 @@ function App() {
     });
     conn.on('data', (data) => handleIncomingData(data));
     conn.on('close', () => setConnectionStatus('disconnected'));
+    conn.on('error', () => setConnectionStatus('disconnected'));
   };
 
   const joinRoom = () => {
     if (!inputCode || !peer) return;
     setConnectionStatus('connecting');
-    conn = peer.connect(`ROOM-${inputCode}`);
+    conn = peer.connect(`ROOM-${inputCode}`, { reliable: true });
     setupConnection();
   };
 
@@ -501,7 +520,6 @@ function App() {
     }
   };
 
-  // 🔧 FIXED: Render Order
   if (showPasswordModal) {
     return <PasswordModal onVerify={handlePasswordVerify} onClose={() => setShowPasswordModal(false)} />;
   }
@@ -843,7 +861,7 @@ function MovieDetail({ movie, onBack, onStartParty }) {
   );
 }
 
-// 👑 Player Component - iOS OPTIMIZED AD BLOCKER
+// 👑 Player Component - iOS OPTIMIZED AD BLOCKER + MULTI-EXTRACTOR
 function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onServerChange, onSandboxToggle, onProgressUpdate, onBack }) {
   const videoRef = useRef(null);
   const iframeRef = useRef(null);
@@ -856,6 +874,9 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   const [showServerList, setShowServerList] = useState(false);
   const [isAdDetected, setIsAdDetected] = useState(false);
   const [videoProgress, setVideoProgress] = useState(syncSettings.progress || 0);
+  
+  // 🛡️ State للدرع المانع للإعلانات (يمتص أول نقرتين)
+  const [clickCount, setClickCount] = useState(0);
   
   const habibtiEmojis = ['💕', '', '💖', '🍿', '🌹', '🦋', '⭐', '💍'];
   
@@ -877,7 +898,6 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     return () => clearInterval(timer);
   }, []);
 
-  // Update progress periodically
   useEffect(() => {
     const interval = setInterval(() => {
       if (videoRef.current && videoRef.current.duration) {
@@ -891,7 +911,6 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
 
   const formatTime = (s) => `${Math.floor(s/60)}:${(s%60).toString().padStart(2,'0')}`;
 
-  // Auto-hide controls (iOS optimized)
   useEffect(() => {
     let timeout;
     const resetTimer = () => {
@@ -900,7 +919,6 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
       timeout = setTimeout(() => setShowControls(false), 4000);
     };
     
-    // iOS touch events
     window.addEventListener('mousemove', resetTimer, { passive: true });
     window.addEventListener('touchstart', resetTimer, { passive: true });
     window.addEventListener('click', resetTimer, { passive: true });
@@ -913,9 +931,8 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     };
   }, []);
 
-  // 🚫 iOS OPTIMIZED AD BLOCKER
+  // 🚫 iOS OPTIMIZED AD BLOCKER CSS
   useEffect(() => {
-    // Layer 1: CSS Injection (iOS compatible)
     const injectAntiAdStyles = () => {
       const style = document.createElement('style');
       style.id = 'ios-ad-blocker';
@@ -926,18 +943,14 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
           visibility: hidden !important;
           pointer-events: none !important;
         }
-        
         div[style*="position: fixed"][style*="z-index: 9"],
         div[style*="position: fixed"][style*="z-index: 99"],
         div[style*="position: fixed"][style*="z-index: 999"] {
           display: none !important;
         }
-        
         .ad, .ads, .advert, .popup, .popunder, .overlay, .modal {
           display: none !important;
         }
-        
-        /* iOS specific: Block touch hijacking */
         [onclick*="window.open"], [onclick*="location.href"] {
           pointer-events: none !important;
         }
@@ -947,20 +960,16 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
       }
     };
 
-    // Layer 2: Touch Event Interceptor (iOS critical)
     const handleTouch = (e) => {
       const target = e.target;
+      if (!target) return;
       const style = window.getComputedStyle(target);
-      
-      // Block invisible elements
       if (style.opacity === '0' || style.visibility === 'hidden') {
         e.preventDefault();
         e.stopPropagation();
         setIsAdDetected(true);
         return false;
       }
-      
-      // Block iframes except our video
       if (target.tagName === 'IFRAME' && target !== iframeRef.current) {
         e.preventDefault();
         e.stopPropagation();
@@ -969,13 +978,11 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
       }
     };
 
-    // Layer 3: Prevent navigation
     const handleBeforeUnload = (e) => {
       e.preventDefault();
       e.returnValue = '';
     };
 
-    // Layer 4: Block window.open
     const originalWindowOpen = window.open;
     window.open = function(url, target, features) {
       console.log('🚫 iOS: Blocked popup:', url);
@@ -983,7 +990,6 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
       return null;
     };
 
-    // Initialize
     injectAntiAdStyles();
     document.addEventListener('touchstart', handleTouch, { passive: false, capture: true });
     document.addEventListener('click', handleTouch, { capture: true });
@@ -999,14 +1005,63 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     };
   }, []);
 
+  // 🚀 الاستخراج الذكي المتعدد (Multi-Extractor)
   useEffect(() => {
-    if (movie.isArabic) { setExtractionStatus('failed'); return; }
-    fetch(`https://vidlink.pro/api/movie/${movie.id}`)
-      .then(res => res.json())
-      .then(data => {
-        if (data?.stream_url) { setStreamData(data); setExtractionStatus('success'); }
-        else setExtractionStatus('failed');
-      }).catch(() => setExtractionStatus('failed'));
+    const fetchRawStream = async () => {
+      setExtractionStatus('extracting');
+
+      // 🛠️ ضع رابط سيرفر Node.js الخاص بك هنا بعد برمجته للأفلام العربية
+      const CUSTOM_NODE_API = 'https://omar-scraper-api.onrender.com';
+
+      // قائمة السيرفرات التي سيحاول الكود استخراج الرابط المباشر منها
+      const extractors = [];
+
+      if (movie.isArabic) {
+        // للفيلم العربي: جرب سيرفرك أولاً (مستقبلاً)
+        extractors.push(`${CUSTOM_NODE_API}/watch/${movie.id}`);
+      } else {
+        // للأجنبي: APIs عالمية سريعة جداً
+        extractors.push(`https://vidlink.pro/api/movie/${movie.id}`);
+        extractors.push(`https://vidsrc.pro/api/movie/${movie.id}`);
+        // كخيار أخير سيرفرك
+        extractors.push(`${CUSTOM_NODE_API}/watch/${movie.id}`);
+      }
+
+      for (const url of extractors) {
+        try {
+          const res = await fetch(url);
+          if (!res.ok) continue; // فشل؟ انتقل للي بعده فوراً
+          
+          const data = await res.json();
+          
+          // تأكد إنه رجع رابط m3u8 صالح
+          if (data && data.stream_url) {
+            
+            // تنظيف قائمة الترجمات لترك العربية والانجليزية فقط
+            const cleanSubtitles = data.subtitles?.filter(sub => 
+              sub.lang?.includes('ar') || sub.language?.toLowerCase().includes('arabic') ||
+              sub.lang?.includes('en') || sub.language?.toLowerCase().includes('english')
+            ) || [];
+
+            setStreamData({
+              stream_url: data.stream_url,
+              subtitles: cleanSubtitles
+            });
+            
+            setExtractionStatus('success');
+            return; // أوقف البحث، لقد وجدنا الرابط!
+          }
+        } catch (err) {
+          console.warn(`Extractor ${url} failed, trying next...`);
+        }
+      }
+
+      // إذا فشلت كل الروابط النظيفة (وهذا نادر)، انتقل للـ Iframes كخيار احتياطي
+      console.log("All raw extractors failed. Falling back to iframes.");
+      setExtractionStatus('failed');
+    };
+
+    fetchRawStream();
   }, [movie.id, movie.isArabic]);
 
   useEffect(() => {
@@ -1038,7 +1093,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
         hls.loadSource(streamData.stream_url);
         hls.attachMedia(video);
         hls.on(Hls.Events.ERROR, (event, data) => {
-          if (data.fatal) setExtractionStatus('failed');
+          if (data.fatal) setExtractionStatus('failed'); // ارجع للـ Iframe لو فشل التشغيل
         });
       } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
         video.src = streamData.stream_url;
@@ -1148,28 +1203,49 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
             }}
           >
             {streamData?.subtitles?.map((sub, i) => (
-              <track key={i} kind="subtitles" src={sub.url} srcLang={sub.lang} label={sub.language} default={sub.lang.includes('ar')} />
+              <track key={i} kind="subtitles" src={sub.url} srcLang={sub.lang} label={sub.language} default={sub.lang?.includes('ar')} />
             ))}
           </video>
         ) : movie.isArabic ? (
-          <div className="relative w-full h-full" style={{ pointerEvents: 'auto' }}>
+          <div className="relative w-full h-full bg-black flex items-center justify-center" style={{ pointerEvents: 'auto' }}>
+            {/* 🛡️ Click-Eater (يمتص الإعلانات المنبثقة من اليوتيوب أو المواقع العربية) */}
+            {clickCount < 2 && (
+              <div 
+                className="absolute inset-0 z-[50] flex flex-col items-center justify-center bg-black/60 backdrop-blur-sm cursor-pointer"
+                onClick={(e) => {
+                  e.stopPropagation(); e.preventDefault();
+                  setClickCount(c => c + 1);
+                }}
+              >
+                <div className="bg-pink-600 text-white px-6 py-3 rounded-full font-bold animate-pulse">
+                  {clickCount === 0 ? "اضغط هنا لتخطي الإعلانات 🛡️" : "اضغط مرة أخرى للتشغيل ▶️"}
+                </div>
+              </div>
+            )}
             <iframe 
               ref={iframeRef}
               src={`https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(movie.title + ' فيلم كامل')}`} 
               className="w-full h-full border-0" 
               allowFullScreen
-              {...(syncSettings.sandbox && {
-                sandbox: "allow-same-origin allow-scripts allow-popups allow-forms allow-pointer-lock"
-              })}
-              style={{ pointerEvents: 'auto', zIndex: 10, position: 'relative' }}
-              onClick={(e) => {
-                e.stopPropagation();
-                e.preventDefault();
-              }}
+              style={{ pointerEvents: clickCount >= 2 ? 'auto' : 'none', zIndex: 10, position: 'relative' }}
             ></iframe>
           </div>
         ) : (
-          <div className="relative w-full h-full" style={{ pointerEvents: 'auto' }}>
+          <div className="relative w-full h-full bg-black flex items-center justify-center" style={{ pointerEvents: 'auto' }}>
+            {/* 🛡️ Click-Eater للسيرفرات الأجنبية (يمنع الـ Pop-unders) */}
+            {clickCount < 2 && (
+              <div 
+                className="absolute inset-0 z-[50] flex flex-col items-center justify-center bg-black/60 backdrop-blur-sm cursor-pointer"
+                onClick={(e) => {
+                  e.stopPropagation(); e.preventDefault();
+                  setClickCount(c => c + 1);
+                }}
+              >
+                <div className="bg-pink-600 text-white px-6 py-3 rounded-full font-bold animate-pulse">
+                  {clickCount === 0 ? "اضغط هنا لتخطي الإعلانات 🛡️" : "اضغط مرة أخرى للتشغيل ▶️"}
+                </div>
+              </div>
+            )}
             <iframe 
               ref={iframeRef}
               key={syncSettings.fallbackServer} 
@@ -1177,14 +1253,8 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
               className="w-full h-full border-0" 
               allowFullScreen 
               allow="autoplay; encrypted-media"
-              {...(syncSettings.sandbox && {
-                sandbox: "allow-same-origin allow-scripts allow-popups allow-forms allow-pointer-lock"
-              })}
-              style={{ pointerEvents: 'auto', zIndex: 10, position: 'relative' }}
-              onClick={(e) => {
-                e.stopPropagation();
-                e.preventDefault();
-              }}
+              // تم مسح الساندبوكس حتى لا يرفض السيرفر التشغيل
+              style={{ pointerEvents: clickCount >= 2 ? 'auto' : 'none', zIndex: 10, position: 'relative' }}
             ></iframe>
           </div>
         )}
