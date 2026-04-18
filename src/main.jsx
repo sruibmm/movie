@@ -169,7 +169,7 @@ function PasswordModal({ onVerify, onClose }) {
 }
 
 function App() {
-  const [mode, setMode] = useState(null); // null | 'single' | 'couples'
+  const [mode, setMode] = useState(null);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [role, setRole] = useState(null);
   const [movies, setMovies] = useState([]);
@@ -308,25 +308,15 @@ function App() {
     if (conn?.open) conn.send({ type: 'server_change', fallbackServer: serverIndex });
   };
 
-  // Mode Selection Screen
-  if (mode === null) {
-    return <ModeSelection onSelectMode={handleModeSelect} />;
-  }
-
-  // Password Modal
-  // ... (كل الكود السابق كما هو حتى نهاية المتغيرات)
-
-  // 🔧 FIXED: Password Modal FIRST, before mode check
+  // 🔧 FIXED: Render Order - Password Modal MUST come FIRST
   if (showPasswordModal) {
     return <PasswordModal onVerify={handlePasswordVerify} onClose={() => setShowPasswordModal(false)} />;
   }
 
-  // Mode Selection Screen
   if (mode === null) {
     return <ModeSelection onSelectMode={handleModeSelect} />;
   }
 
-  // Single Mode - Direct start
   if (mode === 'single' && !role) {
     return (
       <div className="h-screen w-full bg-[#050505] flex flex-col items-center justify-center gap-8 p-6">
@@ -345,7 +335,6 @@ function App() {
     );
   }
 
-  // Couples Mode - Role Selection
   if (mode === 'couples' && !role) {
     return (
       <div className="h-screen w-full bg-[#050505] flex flex-col items-center justify-center gap-8 p-6">
@@ -356,7 +345,7 @@ function App() {
         <p className="text-gray-400">Watch together with your special someone</p>
         <div className="flex flex-col sm:flex-row gap-6 mt-8">
           <button onClick={() => setRole('admin')} className="bg-gradient-to-r from-blue-600 to-cyan-600 px-10 py-5 rounded-2xl font-black text-xl text-white hover:scale-105 transition-all shadow-xl">
-            👨💻 Create Room
+            👨‍💻 Create Room
           </button>
           <button onClick={() => setRole('guest')} className="bg-gradient-to-r from-pink-600 to-purple-600 px-10 py-5 rounded-2xl font-black text-xl text-white hover:scale-105 transition-all shadow-xl">
             👸 Join Room
@@ -369,7 +358,6 @@ function App() {
     );
   }
 
-  // Movie Player Room
   if (roomMovie) {
     return (
       <Player 
@@ -389,7 +377,6 @@ function App() {
     );
   }
 
-  // Guest Connection Screen
   if (mode === 'couples' && role === 'guest') {
     return (
       <div className="h-screen w-full bg-[#050505] flex flex-col items-center justify-center p-6 text-center">
@@ -443,7 +430,6 @@ function App() {
     );
   }
 
-  // Admin Dashboard (Couples Mode) - Movie Detail
   if (mode === 'couples' && role === 'admin' && activeMovie) {
     return <MovieDetail movie={activeMovie} onBack={() => setActiveMovie(null)} onStartParty={(movieFull) => {
       setRoomMovie(movieFull);
@@ -455,7 +441,6 @@ function App() {
     }} />;
   }
 
-  // Admin Dashboard - Main (Couples Mode)
   if (mode === 'couples' && role === 'admin') {
     return (
       <div className="min-h-screen bg-[#050505] text-white p-4 md:p-8 font-sans selection:bg-purple-500" dir="ltr">
@@ -534,12 +519,10 @@ function App() {
     );
   }
 
-  // Single Mode - Movie Detail
   if (mode === 'single' && activeMovie) {
     return <MovieDetail movie={activeMovie} onBack={() => setActiveMovie(null)} onStartParty={(movieFull) => setRoomMovie(movieFull)} />;
   }
 
-  // Single Mode - Movie List
   if (mode === 'single' && role === 'admin') {
     return (
       <div className="min-h-screen bg-[#050505] text-white p-4 md:p-8 font-sans selection:bg-purple-500" dir="ltr">
@@ -578,6 +561,7 @@ function App() {
 
   return null;
 }
+
 function MovieDetail({ movie, onBack, onStartParty }) {
   const [details, setDetails] = useState(null);
   useEffect(() => {
@@ -619,7 +603,7 @@ function MovieDetail({ movie, onBack, onStartParty }) {
   );
 }
 
-// 👑 Player Component - FIXED Layout
+// 👑 Player Component - FIXED Video Controls
 function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onServerChange, onBack }) {
   const videoRef = useRef(null);
   const [extractionStatus, setExtractionStatus] = useState('extracting');
@@ -629,7 +613,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   const [showControls, setShowControls] = useState(true);
   const [showServerList, setShowServerList] = useState(false);
   
-  const habibtiEmojis = ['💕', '🥰', '', '🍿', '🌹', '🦋', '⭐', '💍'];
+  const habibtiEmojis = ['💕', '🥰', '💖', '🍿', '🌹', '🦋', '⭐', '💍'];
   
   const fallbackNodes = [
     { name: "VidLink VIP", url: `https://vidlink.pro/movie/${movie.id}?primaryColor=a855f7&autoplay=false` },
@@ -651,19 +635,18 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
 
   const formatTime = (s) => `${Math.floor(s/60)}:${(s%60).toString().padStart(2,'0')}`;
 
-  // Auto-hide controls
   useEffect(() => {
     let timeout;
     const resetTimer = () => {
       setShowControls(true);
       clearTimeout(timeout);
-      timeout = setTimeout(() => setShowControls(false), 3000);
+      timeout = setTimeout(() => setShowControls(false), 4000);
     };
     window.addEventListener('mousemove', resetTimer);
-    window.addEventListener('click', resetTimer);
+    window.addEventListener('touchstart', resetTimer);
     return () => { 
       window.removeEventListener('mousemove', resetTimer); 
-      window.removeEventListener('click', resetTimer);
+      window.removeEventListener('touchstart', resetTimer);
       clearTimeout(timeout);
     };
   }, []);
@@ -751,10 +734,10 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
         <FloatingEmoji key={e.id} emojiChar={e.char} onComplete={() => setFloatingEmojis(p => p.filter(x => x.id !== e.id))} />
       ))}
 
-      {/* 🔧 FIXED: Top Controls - Moved server list to bottom right */}
+      {/* Top Controls */}
       <div className={`absolute top-0 left-0 right-0 z-[200] p-4 bg-gradient-to-b from-black/90 to-transparent transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
         <div className="flex justify-between items-center">
-          <button onClick={onBack} className="bg-red-600/20 text-red-400 px-6 py-3 rounded-xl font-bold hover:bg-red-600/40 transition-all backdrop-blur-md border border-red-600/30">
+          <button onClick={(e) => { e.stopPropagation(); onBack(); }} className="bg-red-600/20 text-red-400 px-6 py-3 rounded-xl font-bold hover:bg-red-600/40 transition-all backdrop-blur-md border border-red-600/30">
             ← Exit
           </button>
           <div className="flex items-center gap-3 bg-black/60 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10">
@@ -765,17 +748,33 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
         </div>
       </div>
 
-      {/* 🔧 FIXED: Video Container with padding for CC dropdown */}
-      <div className="flex-1 bg-[#050505] relative pb-20"> {/* pb-20 adds space for bottom controls */}
+      {/* 🔧 FIXED: Video Container with proper z-index */}
+      <div className="flex-1 bg-[#050505] relative pb-24" style={{ zIndex: 1 }}>
         {extractionStatus === 'success' ? (
-          <video ref={videoRef} controls autoPlay crossOrigin="anonymous" className="w-full h-full object-contain"
-            onPlay={() => sendVideoEvent('play')} onPause={() => sendVideoEvent('pause')} onSeeked={() => sendVideoEvent('seek')}>
+          <video 
+            ref={videoRef} 
+            controls 
+            autoPlay 
+            crossOrigin="anonymous" 
+            className="w-full h-full object-contain"
+            style={{ pointerEvents: 'auto', zIndex: 10, position: 'relative' }}
+            onPlay={() => sendVideoEvent('play')} 
+            onPause={() => sendVideoEvent('pause')} 
+            onSeeked={() => sendVideoEvent('seek')}
+            onClick={(e) => e.stopPropagation()}
+          >
             {streamData?.subtitles?.map((sub, i) => (
               <track key={i} kind="subtitles" src={sub.url} srcLang={sub.lang} label={sub.language} default={sub.lang.includes('ar')} />
             ))}
           </video>
         ) : movie.isArabic ? (
-          <iframe src={`https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(movie.title + ' فيلم كامل')}`} className="w-full h-full border-0" allowFullScreen></iframe>
+          <iframe 
+            src={`https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(movie.title + ' فيلم كامل')}`} 
+            className="w-full h-full border-0" 
+            allowFullScreen
+            style={{ pointerEvents: 'auto', zIndex: 10, position: 'relative' }}
+            onClick={(e) => e.stopPropagation()}
+          ></iframe>
         ) : (
           <iframe 
             key={syncSettings.fallbackServer} 
@@ -783,18 +782,20 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
             className="w-full h-full border-0" 
             allowFullScreen 
             allow="autoplay; encrypted-media"
+            style={{ pointerEvents: 'auto', zIndex: 10, position: 'relative' }}
+            onClick={(e) => e.stopPropagation()}
           ></iframe>
         )}
       </div>
 
-      {/* 🔧 FIXED: Bottom Controls - Server list moved here, away from CC dropdown */}
-      <div className={`absolute bottom-0 left-0 right-0 z-[250] bg-gradient-to-t from-black/95 via-black/80 to-transparent p-4 transition-all duration-300 ${showControls ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-full'}`}>
+      {/* Bottom Controls */}
+      <div className={`absolute bottom-0 left-0 right-0 z-[250] bg-gradient-to-t from-black/95 via-black/80 to-transparent p-4 transition-all duration-300 ${showControls ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-full pointer-events-none'}`}>
         
-        {/* Server Selection - Bottom position, won't cover CC dropdown */}
+        {/* Server Selection */}
         {extractionStatus === 'failed' && !movie.isArabic && role === 'admin' && (
-          <div className="mb-4">
+          <div className="mb-4" onClick={(e) => e.stopPropagation()}>
             <button 
-              onClick={() => setShowServerList(!showServerList)}
+              onClick={(e) => { e.stopPropagation(); setShowServerList(!showServerList); }}
               className="bg-white/10 hover:bg-white/20 backdrop-blur-md px-4 py-2 rounded-lg text-sm font-bold text-white mb-2 transition-all border border-white/20"
             >
               📺 {showServerList ? 'Hide Servers' : `Change Server (${fallbackNodes[syncSettings.fallbackServer]?.name})`}
@@ -805,7 +806,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
                 {fallbackNodes.map((s, i) => (
                   <button 
                     key={i} 
-                    onClick={() => handleServerChange(i)}
+                    onClick={(e) => { e.stopPropagation(); handleServerChange(i); }}
                     className={`flex-shrink-0 px-4 py-2 rounded-lg text-xs font-bold transition-all ${
                       syncSettings.fallbackServer === i 
                         ? 'bg-pink-600 text-white shadow-lg' 
@@ -820,14 +821,14 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
           </div>
         )}
 
-        {/* Emoji Panel - Only in couples mode */}
+        {/* Emoji Panel */}
         {mode === 'couples' && (
-          <div className="flex justify-center">
+          <div className="flex justify-center" onClick={(e) => e.stopPropagation()}>
             <div className="bg-black/80 backdrop-blur-xl border border-pink-500/20 p-3 rounded-full flex gap-2 shadow-2xl">
               {habibtiEmojis.map(emoji => (
                 <button 
                   key={emoji} 
-                  onClick={() => sendEmoji(emoji)} 
+                  onClick={(e) => { e.stopPropagation(); sendEmoji(emoji); }} 
                   className="text-3xl hover:scale-125 active:scale-95 transition-transform p-1 hover:bg-pink-500/10 rounded-full"
                 >
                   {emoji}
@@ -838,8 +839,17 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
         )}
       </div>
 
-      {/* Click overlay to toggle controls */}
-      <div className="absolute inset-0 z-[100]" onClick={() => setShowControls(prev => !prev)} />
+      {/* 🔧 FIXED: Click overlay - only toggles on empty space */}
+      <div 
+        className="absolute inset-0 z-[50]"
+        style={{ pointerEvents: showControls ? 'none' : 'auto' }}
+        onClick={(e) => {
+          // Only toggle if clicking on the overlay itself, not on video/controls
+          if (e.target === e.currentTarget) {
+            setShowControls(prev => !prev);
+          }
+        }}
+      />
     </div>
   );
 }
