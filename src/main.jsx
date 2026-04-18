@@ -365,8 +365,8 @@ function App() {
           // ملاحظة: الـ TURN المجاني بيتغير باستمرار، رح أشرحلك تحت كيف تجيب واحد مجاني ودائم الك
           {
             urls: "turn:relay.metered.ca:80",
-            username: "YOUR_FREE_USERNAME", // رح تحط اليوزر هون
-            credential: "YOUR_FREE_PASSWORD" // والباسوورد هون
+            username: "1a2cda866198f330ea4ae58e", // رح تحط اليوزر هون
+            credential: "zBb/R4CkvUq12bge" // والباسوورد هون
           }
         ]
       }
