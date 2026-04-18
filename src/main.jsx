@@ -314,8 +314,16 @@ function App() {
   }
 
   // Password Modal
+  // ... (كل الكود السابق كما هو حتى نهاية المتغيرات)
+
+  // 🔧 FIXED: Password Modal FIRST, before mode check
   if (showPasswordModal) {
     return <PasswordModal onVerify={handlePasswordVerify} onClose={() => setShowPasswordModal(false)} />;
+  }
+
+  // Mode Selection Screen
+  if (mode === null) {
+    return <ModeSelection onSelectMode={handleModeSelect} />;
   }
 
   // Single Mode - Direct start
@@ -348,7 +356,7 @@ function App() {
         <p className="text-gray-400">Watch together with your special someone</p>
         <div className="flex flex-col sm:flex-row gap-6 mt-8">
           <button onClick={() => setRole('admin')} className="bg-gradient-to-r from-blue-600 to-cyan-600 px-10 py-5 rounded-2xl font-black text-xl text-white hover:scale-105 transition-all shadow-xl">
-            👨‍💻 Create Room
+            👨💻 Create Room
           </button>
           <button onClick={() => setRole('guest')} className="bg-gradient-to-r from-pink-600 to-purple-600 px-10 py-5 rounded-2xl font-black text-xl text-white hover:scale-105 transition-all shadow-xl">
             👸 Join Room
@@ -570,7 +578,6 @@ function App() {
 
   return null;
 }
-
 function MovieDetail({ movie, onBack, onStartParty }) {
   const [details, setDetails] = useState(null);
   useEffect(() => {
