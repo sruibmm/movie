@@ -18,25 +18,31 @@ const COUPLES_PASSWORD = '24869';
 let peer = null;
 let conn = null;
 
-// 🚫 AD BLOCKER - قائمة شاملة لنطاقات الإعلانات
-const AD_DOMAINS = [
-  'popads.net', 'popunder.net', 'doubleclick.net', 'googlesyndication.com',
-  'adservice.google.com', 'googleadservices.com', 'pagead2.googlesyndication.com',
-  'tpc.googlesyndication.com', 'adsystem.', 'adserver.', 'ads.', 'ad.',
-  'track.', 'tracker.', 'tracking.', 'analytics.', 'stat.', 'counter.',
-  'popunder.', 'popup.', 'pop.', 'redirect.', 'clk.', 'click.', 'track.',
-  'adclick.', 'adtrack.', 'adserver.', 'adservice.', 'advertising.',
-  'adsystem.', 'adnetwork.', 'adexchange.', 'rtb.', 'bid.', 'dsp.',
-  'adsrvr.', 'adnxs.', 'casalemedia.com', 'rubiconproject.com', 'openx.',
-  'criteo.', 'outbrain.', 'taboola.', 'zemanta.', 'revcontent.',
-  'adsafeprotected.', 'doubleverify.', 'integral-ad.', 'moat.',
-  'scorecardresearch.com', 'quantserve.com', 'atdmt.', 'adbrite.',
-  'buysellads.', 'carbonads.', 'adroll.', 'perfectaudience.',
-  'retargeter.', 'adroll.', 'connexity.', 'criteo.', 'nanigans.',
-  'adroll.', 'perfectaudience.', 'retargeter.', 'adroll.'
+// 🚫 ADVANCED AD BLOCKER - Comprehensive lists
+const AD_KEYWORDS = [
+  'ad', 'ads', 'advert', 'pop', 'popup', 'popunder', 'click', 'track',
+  'analytics', 'counter', 'stat', 'metric', 'beacon', 'pixel', 'tag',
+  'doubleclick', 'googlesyndication', 'googleads', 'adservice', 'adserver',
+  'adnetwork', 'adexchange', 'rtb', 'bid', 'dsp', 'ssp', 'adtech',
+  'popads', 'popunder', 'redirect', 'clk', 'clicktracker', 'adclick',
+  'adtrack', 'advertising', 'adsystem', 'adroll', 'retarget', 'conversion',
+  'taboola', 'outbrain', 'zemanta', 'revcontent', 'contentrecommend',
+  'scorecardresearch', 'quantserve', 'comscore', 'nielsen', 'atdmt',
+  'casalemedia', 'rubiconproject', 'openx', 'criteo', 'moat', 'doubleverify'
 ];
 
-// 🎲 توليد كود غرفة من 6 أرقام
+const AD_SELECTORS = [
+  '[class*="ad"]', '[id*="ad"]', '[class*="advert"]', '[id*="advert"]',
+  '[class*="pop"]', '[id*="pop"]', '[class*="popup"]', '[id*="popup"]',
+  '[class*="overlay"]', '[id*="overlay"]', '[class*="modal"]', '[id*="modal"]',
+  'iframe[src*="ad"]', 'iframe[src*="pop"]', 'iframe[src*="click"]',
+  'div[style*="position: fixed"]', 'div[style*="z-index: 9"]',
+  'div[style*="z-index: 99"]', 'div[style*="z-index: 999"]',
+  'a[href*="ad"]', 'a[href*="click"]', 'a[href*="redirect"]',
+  '[class*="sponsor"]', '[id*="sponsor"]', '[class*="promo"]', '[id*="promo"]'
+];
+
+// 🎲 Generate 6-digit room code
 const generateRoomCode = () => {
   return Math.floor(100000 + Math.random() * 900000).toString();
 };
@@ -621,10 +627,11 @@ function MovieDetail({ movie, onBack, onStartParty }) {
   );
 }
 
-// 👑 Player Component - FULL AD BLOCKER PROTECTION
+// 👑 Player Component - ADVANCED AD BLOCKER (NO SANDBOX)
 function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onServerChange, onBack }) {
   const videoRef = useRef(null);
   const iframeRef = useRef(null);
+  const containerRef = useRef(null);
   const [extractionStatus, setExtractionStatus] = useState('extracting');
   const [streamData, setStreamData] = useState(null);
   const [floatingEmojis, setFloatingEmojis] = useState([]);
@@ -632,8 +639,9 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   const [showControls, setShowControls] = useState(true);
   const [showServerList, setShowServerList] = useState(false);
   const [clickCount, setClickCount] = useState(0);
+  const [lastClickTime, setLastClickTime] = useState(0);
   
-  const habibtiEmojis = ['💕', '🥰', '💖', '🍿', '🌹', '🦋', '⭐', '💍'];
+  const habibtiEmojis = ['💕', '🥰', '💖', '🍿', '🌹', '', '⭐', ''];
   
   const fallbackNodes = [
     { name: "VidLink VIP", url: `https://vidlink.pro/movie/${movie.id}?primaryColor=a855f7&autoplay=false` },
@@ -672,81 +680,162 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     };
   }, []);
 
-  // 🚫 AD BLOCKER: Remove overlays and popups
+  // 🚫 ADVANCED AD BLOCKER - Multi-layer protection
   useEffect(() => {
-    const removeAdOverlays = () => {
-      // Remove any overlay divs
-      const overlays = document.querySelectorAll('div[style*="position: absolute"], div[style*="z-index: 9"], div[style*="z-index: 99"], div[style*="z-index: 999"]');
-      overlays.forEach(overlay => {
-        if (overlay !== document.querySelector('#root')) {
-          overlay.style.pointerEvents = 'none';
-          overlay.style.display = 'none';
+    // Layer 1: Remove ad elements by selectors
+    const removeAdElements = () => {
+      AD_SELECTORS.forEach(selector => {
+        try {
+          const elements = document.querySelectorAll(selector);
+          elements.forEach(el => {
+            // Don't remove our own elements
+            if (!el.closest('#root') && !el.closest('[data-cinema-player="true"]')) {
+              el.remove();
+            }
+          });
+        } catch (e) {
+          // Ignore invalid selectors
         }
       });
-
-      // Remove iframes that are not the main video
-      const iframes = document.querySelectorAll('iframe');
-      iframes.forEach(iframe => {
-        if (iframe !== iframeRef.current) {
-          iframe.remove();
-        }
-      });
-
-      // Remove suspicious elements
-      const suspicious = document.querySelectorAll('[class*="ad"], [id*="ad"], [class*="pop"], [id*="pop"]');
-      suspicious.forEach(el => el.remove());
     };
 
-    // Run immediately and then periodically
-    removeAdOverlays();
-    const interval = setInterval(removeAdOverlays, 1000);
+    // Layer 2: Hide elements with ad-related styles
+    const hideAdStyles = () => {
+      const style = document.createElement('style');
+      style.id = 'ad-blocker-styles';
+      style.textContent = `
+        iframe[src*="ad"], iframe[src*="pop"], iframe[src*="click"] {
+          display: none !important;
+          visibility: hidden !important;
+          pointer-events: none !important;
+        }
+        div[class*="ad"], div[id*="ad"], div[class*="pop"], div[id*="pop"] {
+          display: none !important;
+        }
+        [style*="position: fixed"][style*="z-index: 9"] {
+          display: none !important;
+        }
+        .overlay, .modal, .popup, .advertisement {
+          display: none !important;
+        }
+      `;
+      if (!document.getElementById('ad-blocker-styles')) {
+        document.head.appendChild(style);
+      }
+    };
 
-    // MutationObserver to detect new ads
-    const observer = new MutationObserver(removeAdOverlays);
-    observer.observe(document.body, { childList: true, subtree: true });
+    // Layer 3: MutationObserver for dynamic ads
+    const observer = new MutationObserver((mutations) => {
+      let shouldClean = false;
+      mutations.forEach(mutation => {
+        if (mutation.addedNodes.length > 0) {
+          shouldClean = true;
+        }
+      });
+      if (shouldClean) {
+        setTimeout(removeAdElements, 50);
+      }
+    });
+
+    // Layer 4: Block network requests to ad domains
+    const originalFetch = window.fetch;
+    const originalXHR = window.XMLHttpRequest;
+    
+    window.fetch = async function(...args) {
+      const url = args[0];
+      if (typeof url === 'string' && AD_KEYWORDS.some(keyword => url.toLowerCase().includes(keyword))) {
+        console.log('🚫 Blocked fetch:', url);
+        return new Response(null, { status: 200 });
+      }
+      return originalFetch.apply(this, args);
+    };
+
+    window.XMLHttpRequest = function() {
+      const xhr = new originalXHR();
+      const originalOpen = xhr.open;
+      xhr.open = function(method, url, ...rest) {
+        if (AD_KEYWORDS.some(keyword => url.toLowerCase().includes(keyword))) {
+          console.log('🚫 Blocked XHR:', url);
+          // Create a mock response
+          Object.defineProperty(this, 'status', { value: 200 });
+          Object.defineProperty(this, 'responseText', { value: '' });
+          return;
+        }
+        return originalOpen.call(this, method, url, ...rest);
+      };
+      return xhr;
+    };
+
+    // Run cleanup
+    removeAdElements();
+    hideAdStyles();
+    
+    // Observe DOM
+    observer.observe(document.body, { 
+      childList: true, 
+      subtree: true,
+      attributes: false 
+    });
+
+    // Periodic cleanup
+    const interval = setInterval(removeAdElements, 2000);
 
     return () => {
-      clearInterval(interval);
       observer.disconnect();
+      clearInterval(interval);
+      window.fetch = originalFetch;
+      window.XMLHttpRequest = originalXHR;
+      const style = document.getElementById('ad-blocker-styles');
+      if (style) style.remove();
     };
   }, []);
 
-  // 🚫 AD BLOCKER: Intercept clicks and prevent redirects
+  // 🚫 Click protection - prevent rapid clicks (ad trigger)
   useEffect(() => {
     const handleClick = (e) => {
-      // Check if click is on video/iframe area
-      if (e.target.closest('video') || e.target.closest('iframe')) {
-        e.stopPropagation();
-        return;
+      const now = Date.now();
+      const timeDiff = now - lastClickTime;
+      
+      // Reset click count if more than 2 seconds passed
+      if (timeDiff > 2000) {
+        setClickCount(1);
+      } else {
+        setClickCount(prev => {
+          const newCount = prev + 1;
+          // If too many rapid clicks, block it
+          if (newCount > 5) {
+            e.preventDefault();
+            e.stopPropagation();
+            return 0;
+          }
+          return newCount;
+        });
       }
+      
+      setLastClickTime(now);
+    };
 
-      // Prevent multiple rapid clicks (ad trigger)
-      setClickCount(prev => {
-        const newCount = prev + 1;
-        if (newCount > 3) {
-          // Too many clicks - likely ad trigger
-          e.preventDefault();
-          e.stopPropagation();
-          return 0;
-        }
-        return newCount;
-      });
+    document.addEventListener('click', handleClick, true);
+    return () => document.removeEventListener('click', handleClick, true);
+  }, [lastClickTime]);
 
-      // Reset click count after 2 seconds
-      setTimeout(() => setClickCount(0), 2000);
+  // 🚫 Prevent window.open and popups
+  useEffect(() => {
+    const originalWindowOpen = window.open;
+    window.open = function(url, ...args) {
+      console.log('🚫 Blocked popup:', url);
+      return null;
     };
 
     const handleBeforeUnload = (e) => {
-      // Prevent accidental navigation (ad redirect)
       e.preventDefault();
       e.returnValue = '';
     };
 
-    document.addEventListener('click', handleClick, true);
     window.addEventListener('beforeunload', handleBeforeUnload);
 
     return () => {
-      document.removeEventListener('click', handleClick, true);
+      window.open = originalWindowOpen;
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, []);
@@ -827,7 +916,12 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   }
 
   return (
-    <div className="h-screen bg-black relative flex flex-col overflow-hidden" dir="ltr" style={{ pointerEvents: 'auto' }}>
+    <div 
+      ref={containerRef}
+      className="h-screen bg-black relative flex flex-col overflow-hidden" 
+      dir="ltr" 
+      data-cinema-player="true"
+    >
       <DistanceBadge myCoords={myCoords} partnerCoords={partnerCoords} mode={mode} />
       
       {floatingEmojis.map(e => (
@@ -848,7 +942,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
         </div>
       </div>
 
-      {/* Video Container with AD PROTECTION */}
+      {/* Video Container */}
       <div className="flex-1 bg-[#050505] relative pb-24" style={{ zIndex: 1 }}>
         {extractionStatus === 'success' ? (
           <video 
@@ -877,22 +971,12 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
               src={`https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(movie.title + ' فيلم كامل')}`} 
               className="w-full h-full border-0" 
               allowFullScreen
-              sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-pointer-lock"
               style={{ pointerEvents: 'auto', zIndex: 10, position: 'relative' }}
               onClick={(e) => {
                 e.stopPropagation();
                 e.preventDefault();
               }}
             ></iframe>
-            {/* Protection overlay */}
-            <div 
-              className="absolute inset-0"
-              style={{ 
-                pointerEvents: 'none', 
-                zIndex: 5,
-                background: 'transparent'
-              }}
-            />
           </div>
         ) : (
           <div className="relative w-full h-full" style={{ pointerEvents: 'auto' }}>
@@ -903,22 +987,12 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
               className="w-full h-full border-0" 
               allowFullScreen 
               allow="autoplay; encrypted-media"
-              sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-pointer-lock"
               style={{ pointerEvents: 'auto', zIndex: 10, position: 'relative' }}
               onClick={(e) => {
                 e.stopPropagation();
                 e.preventDefault();
               }}
             ></iframe>
-            {/* Protection overlay */}
-            <div 
-              className="absolute inset-0"
-              style={{ 
-                pointerEvents: 'none', 
-                zIndex: 5,
-                background: 'transparent'
-              }}
-            />
           </div>
         )}
       </div>
@@ -974,12 +1048,11 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
         )}
       </div>
 
-      {/* Click overlay - FIXED to prevent ad redirects */}
+      {/* Click overlay */}
       <div 
         className="absolute inset-0 z-[50]"
         style={{ pointerEvents: showControls ? 'none' : 'auto' }}
         onClick={(e) => {
-          // Only toggle if clicking on empty space, not video/controls
           if (e.target === e.currentTarget) {
             e.stopPropagation();
             e.preventDefault();
