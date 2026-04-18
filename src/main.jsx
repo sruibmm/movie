@@ -356,8 +356,18 @@ function App() {
       debug: 2,
       config: {
         iceServers: [
+          // 1. أقوى سيرفرات STUN المجانية
           { urls: 'stun:stun.l.google.com:19302' },
-          { urls: 'stun:stun1.l.google.com:19302' }
+          { urls: 'stun:global.stun.twilio.com:3478' },
+          { urls: 'stun:stun.cloudflare.com:3478' },
+          
+          // 2. سيرفر TURN (المنقذ للاتصالات الدولية)
+          // ملاحظة: الـ TURN المجاني بيتغير باستمرار، رح أشرحلك تحت كيف تجيب واحد مجاني ودائم الك
+          {
+            urls: "turn:relay.metered.ca:80",
+            username: "YOUR_FREE_USERNAME", // رح تحط اليوزر هون
+            credential: "YOUR_FREE_PASSWORD" // والباسوورد هون
+          }
         ]
       }
     });
