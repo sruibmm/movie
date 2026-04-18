@@ -18,7 +18,7 @@ const COUPLES_PASSWORD = '24869';
 let peer = null;
 let conn = null;
 
-// 🚫 AD Keywords
+// 🚫 AD Keywords for iOS
 const AD_KEYWORDS = [
   'ad', 'ads', 'advert', 'pop', 'popup', 'popunder', 'click', 'track',
   'analytics', 'doubleclick', 'googlesyndication', 'redirect', 'clk',
@@ -40,7 +40,7 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
   return (R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))).toFixed(1);
 };
 
-// 💾 History Management
+// 💾 History Management (localStorage)
 const saveToHistory = (movie, progress, settings) => {
   try {
     const history = JSON.parse(localStorage.getItem('cinema_history') || '[]');
@@ -69,7 +69,8 @@ const saveToHistory = (movie, progress, settings) => {
 
 const getFromHistory = (movieId) => {
   try {
-    return JSON.parse(localStorage.getItem('cinema_history') || '[]').find(h => h.movieId === movieId);
+    const history = JSON.parse(localStorage.getItem('cinema_history') || '[]');
+    return history.find(h => h.movieId === movieId);
   } catch (e) {
     return null;
   }
@@ -127,7 +128,7 @@ function DistanceBadge({ myCoords, partnerCoords, mode }) {
   );
 }
 
-// 📜 History Panel
+// 📜 History Panel Component
 function HistoryPanel({ onSelectMovie, onClose }) {
   const history = getHistory();
 
@@ -142,6 +143,7 @@ function HistoryPanel({ onSelectMovie, onClose }) {
           <div className="text-center text-gray-400 py-12">
             <div className="text-6xl mb-4">📭</div>
             <p className="text-lg">No watch history yet</p>
+            <p className="text-sm mt-2">Start watching to build your history!</p>
           </div>
         </div>
       </div>
@@ -159,14 +161,24 @@ function HistoryPanel({ onSelectMovie, onClose }) {
           {history.map((item, index) => (
             <div 
               key={index}
-              onClick={() => { onSelectMovie(item); onClose(); }}
+              onClick={() => {
+                onSelectMovie(item);
+                onClose();
+              }}
               className="group cursor-pointer bg-zinc-800/50 rounded-2xl overflow-hidden border border-white/5 hover:border-purple-500/50 transition-all"
             >
               <div className="relative aspect-[2/3]">
-                <img src={`https://image.tmdb.org/t/p/w500${item.poster}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform" alt={item.title} />
+                <img 
+                  src={`https://image.tmdb.org/t/p/w500${item.poster}`} 
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform"
+                  alt={item.title}
+                />
                 {item.progress > 0 && (
                   <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-700">
-                    <div className="h-full bg-gradient-to-r from-purple-500 to-pink-500" style={{ width: `${Math.min(item.progress, 100)}%` }} />
+                    <div 
+                      className="h-full bg-gradient-to-r from-purple-500 to-pink-500"
+                      style={{ width: `${Math.min(item.progress, 100)}%` }}
+                    />
                   </div>
                 )}
                 <div className="absolute top-2 right-2 bg-black/80 px-2 py-1 rounded-lg text-[10px] text-white">
@@ -175,7 +187,9 @@ function HistoryPanel({ onSelectMovie, onClose }) {
               </div>
               <div className="p-3">
                 <h3 className="text-xs font-bold text-white truncate">{item.title}</h3>
-                <p className="text-[10px] text-gray-400 mt-1">{new Date(item.lastWatched).toLocaleDateString()}</p>
+                <p className="text-[10px] text-gray-400 mt-1">
+                  {new Date(item.lastWatched).toLocaleDateString()}
+                </p>
               </div>
             </div>
           ))}
@@ -185,7 +199,7 @@ function HistoryPanel({ onSelectMovie, onClose }) {
   );
 }
 
-// 🎬 Mode Selection
+// 🎬 Mode Selection Screen
 function ModeSelection({ onSelectMode, onShowHistory }) {
   const history = getHistory();
 
@@ -199,13 +213,19 @@ function ModeSelection({ onSelectMode, onShowHistory }) {
       </div>
       
       <div className="flex flex-col sm:flex-row gap-6 mt-8">
-        <button onClick={() => onSelectMode('single')} className="group relative bg-gradient-to-br from-gray-700 to-gray-900 p-8 rounded-3xl font-black text-white hover:scale-105 transition-all duration-300 shadow-2xl min-w-[280px] border border-white/10">
+        <button 
+          onClick={() => onSelectMode('single')} 
+          className="group relative bg-gradient-to-br from-gray-700 to-gray-900 p-8 rounded-3xl font-black text-white hover:scale-105 transition-all duration-300 shadow-2xl min-w-[280px] border border-white/10"
+        >
           <div className="text-6xl mb-4">👤</div>
           <div className="text-2xl mb-2">Solo Mode</div>
           <div className="text-sm text-gray-400 font-normal">Watch alone, your personal cinema</div>
         </button>
         
-        <button onClick={() => onSelectMode('couples')} className="group relative bg-gradient-to-br from-pink-600 to-purple-700 p-8 rounded-3xl font-black text-white hover:scale-105 transition-all duration-300 shadow-2xl min-w-[280px] border border-pink-400/30">
+        <button 
+          onClick={() => onSelectMode('couples')} 
+          className="group relative bg-gradient-to-br from-pink-600 to-purple-700 p-8 rounded-3xl font-black text-white hover:scale-105 transition-all duration-300 shadow-2xl min-w-[280px] border border-pink-400/30"
+        >
           <div className="text-6xl mb-4">💑</div>
           <div className="text-2xl mb-2">Couples Mode</div>
           <div className="text-sm text-pink-200 font-normal">Watch together, share the moment</div>
@@ -213,7 +233,10 @@ function ModeSelection({ onSelectMode, onShowHistory }) {
       </div>
 
       {history.length > 0 && (
-        <button onClick={onShowHistory} className="mt-4 bg-gradient-to-r from-purple-600/20 to-pink-600/20 border border-purple-500/30 px-8 py-4 rounded-2xl font-bold text-white hover:from-purple-600/30 hover:to-pink-600/30 transition-all">
+        <button 
+          onClick={onShowHistory}
+          className="mt-4 bg-gradient-to-r from-purple-600/20 to-pink-600/20 border border-purple-500/30 px-8 py-4 rounded-2xl font-bold text-white hover:from-purple-600/30 hover:to-pink-600/30 transition-all"
+        >
           📜 Continue Watching ({history.length})
         </button>
       )}
@@ -246,11 +269,31 @@ function PasswordModal({ onVerify, onClose }) {
         </div>
         
         <form onSubmit={handleSubmit} className="space-y-4">
-          <input type="password" value={password} onChange={(e) => { setPassword(e.target.value); setError(''); }} placeholder="Enter password..." className="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-3 text-white text-center text-xl tracking-[0.3em] focus:border-pink-500 outline-none transition-colors" autoFocus />
+          <input 
+            type="password"
+            value={password}
+            onChange={(e) => { setPassword(e.target.value); setError(''); }}
+            placeholder="Enter password..."
+            className="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-3 text-white text-center text-xl tracking-[0.3em] focus:border-pink-500 outline-none transition-colors"
+            autoFocus
+          />
+          
           {error && <p className="text-red-400 text-sm text-center">{error}</p>}
+          
           <div className="flex gap-3">
-            <button type="button" onClick={onClose} className="flex-1 bg-white/5 hover:bg-white/10 text-white py-3 rounded-xl font-bold transition-colors">Cancel</button>
-            <button type="submit" className="flex-1 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white py-3 rounded-xl font-bold transition-all">Enter</button>
+            <button 
+              type="button"
+              onClick={onClose}
+              className="flex-1 bg-white/5 hover:bg-white/10 text-white py-3 rounded-xl font-bold transition-colors"
+            >
+              Cancel
+            </button>
+            <button 
+              type="submit"
+              className="flex-1 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white py-3 rounded-xl font-bold transition-all"
+            >
+              Enter
+            </button>
           </div>
         </form>
       </div>
@@ -274,7 +317,6 @@ function App() {
   const [inputCode, setInputCode] = useState('');
   const [connectionStatus, setConnectionStatus] = useState('disconnected');
   const [roomReady, setRoomReady] = useState(false);
-  const [adminFullyReady, setAdminFullyReady] = useState(false); // NEW: Admin completed all setup
   const [partnerCoords, setPartnerCoords] = useState(null);
   const [myCoords, setMyCoords] = useState(null);
   const [syncSettings, setSyncSettings] = useState({ 
@@ -334,7 +376,12 @@ function App() {
     conn.on('open', () => {
       setConnectionStatus('connected');
       if (role === 'admin') {
-        conn.send({ type: 'room_state', roomReady, adminFullyReady, movie: roomMovie, settings: syncSettings });
+        conn.send({ 
+          type: 'room_state', 
+          roomReady, 
+          movie: roomMovie, 
+          settings: syncSettings 
+        });
       }
       if (myCoords) conn.send({ type: 'location_update', coords: myCoords });
     });
@@ -353,23 +400,38 @@ function App() {
     switch (data.type) {
       case 'room_state':
         setRoomReady(data.roomReady);
-        setAdminFullyReady(data.adminFullyReady);
         if (data.movie) setRoomMovie(data.movie);
         if (data.settings) setSyncSettings(data.settings);
         break;
-      case 'room_ready': setRoomReady(data.ready); break;
-      case 'admin_fully_ready': setAdminFullyReady(data.ready); break;
+      case 'room_ready': 
+        setRoomReady(data.ready); 
+        break;
       case 'start_party':
         setRoomMovie(data.movie);
         if (data.settings) setSyncSettings(data.settings);
         break;
-      case 'end_party': setRoomMovie(null); setActiveMovie(null); break;
-      case 'server_change': setSyncSettings(prev => ({ ...prev, fallbackServer: data.fallbackServer })); break;
-      case 'sandbox_toggle': setSyncSettings(prev => ({ ...prev, sandbox: data.sandbox })); break;
-      case 'progress_update': setSyncSettings(prev => ({ ...prev, progress: data.progress })); break;
-      case 'video_sync': window.dispatchEvent(new CustomEvent('peer-video-sync', { detail: data })); break;
-      case 'emoji': window.dispatchEvent(new CustomEvent('peer-emoji', { detail: data })); break;
-      case 'location_update': setPartnerCoords(data.coords); break;
+      case 'end_party': 
+        setRoomMovie(null); 
+        setActiveMovie(null); 
+        break;
+      case 'server_change': 
+        setSyncSettings(prev => ({ ...prev, fallbackServer: data.fallbackServer })); 
+        break;
+      case 'sandbox_toggle':
+        setSyncSettings(prev => ({ ...prev, sandbox: data.sandbox }));
+        break;
+      case 'progress_update':
+        setSyncSettings(prev => ({ ...prev, progress: data.progress }));
+        break;
+      case 'video_sync': 
+        window.dispatchEvent(new CustomEvent('peer-video-sync', { detail: data })); 
+        break;
+      case 'emoji': 
+        window.dispatchEvent(new CustomEvent('peer-emoji', { detail: data })); 
+        break;
+      case 'location_update': 
+        setPartnerCoords(data.coords); 
+        break;
     }
   };
 
@@ -404,12 +466,6 @@ function App() {
     if (conn?.open) conn.send({ type: 'room_ready', ready: newStatus });
   };
 
-  const toggleAdminFullyReady = () => {
-    const newStatus = !adminFullyReady;
-    setAdminFullyReady(newStatus);
-    if (conn?.open) conn.send({ type: 'admin_fully_ready', ready: newStatus });
-  };
-
   const toggleSandbox = () => {
     const newSandbox = !syncSettings.sandbox;
     setSyncSettings(prev => ({ ...prev, sandbox: newSandbox }));
@@ -424,34 +480,56 @@ function App() {
   const updateProgress = (progress) => {
     setSyncSettings(prev => ({ ...prev, progress }));
     if (conn?.open) conn.send({ type: 'progress_update', progress });
-    if (roomMovie) saveToHistory(roomMovie, progress, syncSettings);
+    if (roomMovie) {
+      saveToHistory(roomMovie, progress, syncSettings);
+    }
   };
 
-  // 🔧 Render Order
-  if (showPasswordModal) return <PasswordModal onVerify={handlePasswordVerify} onClose={() => setShowPasswordModal(false)} />;
+  // 🔧 FIXED: Render Order
+  if (showPasswordModal) {
+    return <PasswordModal onVerify={handlePasswordVerify} onClose={() => setShowPasswordModal(false)} />;
+  }
 
   if (showHistory) {
     return (
       <HistoryPanel 
         onSelectMovie={(item) => {
-          setRoomMovie({ id: item.movieId, title: item.title, poster_path: item.poster, isArabic: item.isArabic });
-          setSyncSettings(prev => ({ ...prev, fallbackServer: item.settings?.fallbackServer || 0, sandbox: item.settings?.sandbox || false, progress: item.progress || 0 }));
+          setRoomMovie({
+            id: item.movieId,
+            title: item.title,
+            poster_path: item.poster,
+            isArabic: item.isArabic
+          });
+          setSyncSettings(prev => ({
+            ...prev,
+            fallbackServer: item.settings?.fallbackServer || 0,
+            sandbox: item.settings?.sandbox || false,
+            progress: item.progress || 0
+          }));
         }}
         onClose={() => setShowHistory(false)}
       />
     );
   }
 
-  if (mode === null) return <ModeSelection onSelectMode={handleModeSelect} onShowHistory={() => setShowHistory(true)} />;
+  if (mode === null) {
+    return <ModeSelection onSelectMode={handleModeSelect} onShowHistory={() => setShowHistory(true)} />;
+  }
 
   if (mode === 'single' && !role) {
     return (
       <div className="h-screen w-full bg-[#050505] flex flex-col items-center justify-center gap-8 p-6">
         <div className="text-6xl mb-4">🎬</div>
-        <h1 className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 italic text-center">Solo Mode</h1>
+        <h1 className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 italic text-center">
+          Solo Mode
+        </h1>
         <p className="text-gray-400">Your personal cinema experience</p>
-        <button onClick={() => setRole('admin')} className="bg-gradient-to-r from-blue-600 to-cyan-600 px-12 py-5 rounded-2xl font-black text-xl text-white hover:scale-105 transition-all shadow-xl mt-4">🍿 Start Watching</button>
-        <button onClick={() => setMode(null)} className="text-gray-500 hover:text-white transition-colors mt-4">← Back</button>
+        <button onClick={() => setRole('admin')} className="bg-gradient-to-r from-blue-600 to-cyan-600 px-12 py-5 rounded-2xl font-black text-xl text-white hover:scale-105 transition-all shadow-xl mt-4">
+          🍿 Start Watching
+        </button>
+        <button onClick={() => setMode(null)} className="text-gray-500 hover:text-white transition-colors mt-4">
+          ← Back to Mode Selection
+        </button>
       </div>
     );
   }
@@ -460,13 +538,21 @@ function App() {
     return (
       <div className="h-screen w-full bg-[#050505] flex flex-col items-center justify-center gap-8 p-6">
         <div className="text-6xl mb-4">💑</div>
-        <h1 className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 italic text-center">Couples Mode</h1>
+        <h1 className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 italic text-center">
+          Couples Mode
+        </h1>
         <p className="text-gray-400">Watch together with your special someone</p>
         <div className="flex flex-col sm:flex-row gap-6 mt-8">
-          <button onClick={() => setRole('admin')} className="bg-gradient-to-r from-blue-600 to-cyan-600 px-10 py-5 rounded-2xl font-black text-xl text-white hover:scale-105 transition-all shadow-xl">👨‍ Create Room</button>
-          <button onClick={() => setRole('guest')} className="bg-gradient-to-r from-pink-600 to-purple-600 px-10 py-5 rounded-2xl font-black text-xl text-white hover:scale-105 transition-all shadow-xl">👸 Join Room</button>
+          <button onClick={() => setRole('admin')} className="bg-gradient-to-r from-blue-600 to-cyan-600 px-10 py-5 rounded-2xl font-black text-xl text-white hover:scale-105 transition-all shadow-xl">
+            👨‍ Create Room
+          </button>
+          <button onClick={() => setRole('guest')} className="bg-gradient-to-r from-pink-600 to-purple-600 px-10 py-5 rounded-2xl font-black text-xl text-white hover:scale-105 transition-all shadow-xl">
+            👸 Join Room
+          </button>
         </div>
-        <button onClick={() => setMode(null)} className="text-gray-500 hover:text-white transition-colors mt-4">← Back</button>
+        <button onClick={() => setMode(null)} className="text-gray-500 hover:text-white transition-colors mt-4">
+          ← Back to Mode Selection
+        </button>
       </div>
     );
   }
@@ -480,17 +566,14 @@ function App() {
         myCoords={myCoords}
         partnerCoords={partnerCoords}
         syncSettings={syncSettings}
-        adminFullyReady={adminFullyReady}
         onServerChange={syncServerChange}
         onSandboxToggle={toggleSandbox}
-        onAdminFullyReady={toggleAdminFullyReady}
         onProgressUpdate={updateProgress}
         onBack={() => {
           if (role === 'admin' && conn) conn.send({ type: 'end_party' });
           if (roomMovie) saveToHistory(roomMovie, syncSettings.progress, syncSettings);
           setRoomMovie(null);
           setActiveMovie(null);
-          setAdminFullyReady(false);
         }} 
       />
     );
@@ -499,18 +582,36 @@ function App() {
   if (mode === 'couples' && role === 'guest') {
     return (
       <div className="h-screen w-full bg-[#050505] flex flex-col items-center justify-center p-6 text-center">
-        <div className="w-24 h-24 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center text-5xl mb-8 animate-bounce shadow-[0_0_50px_rgba(236,72,153,0.4)]">🍿</div>
+        <div className="w-24 h-24 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center text-5xl mb-8 animate-bounce shadow-[0_0_50px_rgba(236,72,153,0.4)]">
+          🍿
+        </div>
         <h2 className="text-4xl font-black text-white mb-2">Welcome, <span className="text-pink-400">{welcomeName}</span></h2>
         
         {connectionStatus === 'disconnected' && (
           <div className="mt-8 bg-zinc-900 p-8 rounded-3xl border border-white/10 max-w-sm w-full shadow-2xl">
             <p className="text-gray-400 mb-4 text-sm">Enter Omar's 6-Digit Room Code:</p>
-            <input type="text" inputMode="numeric" pattern="[0-9]*" maxLength={6} value={inputCode} onChange={(e) => setInputCode(e.target.value.replace(/\D/g, '').slice(0, 6))} placeholder="000000" className="w-full bg-black border border-white/20 rounded-xl px-4 py-4 text-white text-center text-3xl font-mono tracking-[0.5em] mb-4 focus:border-pink-500 outline-none" />
-            <button onClick={joinRoom} className="w-full bg-gradient-to-r from-pink-600 to-purple-600 py-4 rounded-xl font-bold text-white hover:from-pink-500 hover:to-purple-500 transition-all shadow-lg">Join Room 📡</button>
+            <input 
+              type="text" 
+              inputMode="numeric" 
+              pattern="[0-9]*"
+              maxLength={6}
+              value={inputCode}
+              onChange={(e) => setInputCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+              placeholder="000000" 
+              className="w-full bg-black border border-white/20 rounded-xl px-4 py-4 text-white text-center text-3xl font-mono tracking-[0.5em] mb-4 focus:border-pink-500 outline-none"
+            />
+            <button onClick={joinRoom} className="w-full bg-gradient-to-r from-pink-600 to-purple-600 py-4 rounded-xl font-bold text-white hover:from-pink-500 hover:to-purple-500 transition-all shadow-lg">
+              Join Room 📡
+            </button>
           </div>
         )}
         
-        {connectionStatus === 'connecting' && <div className="mt-8 text-center"><div className="w-16 h-16 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div><p className="text-yellow-400 font-bold animate-pulse">Connecting...</p></div>}
+        {connectionStatus === 'connecting' && (
+          <div className="mt-8 text-center">
+            <div className="w-16 h-16 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-yellow-400 font-bold animate-pulse">Connecting...</p>
+          </div>
+        )}
         
         {connectionStatus === 'connected' && !roomReady && (
           <div className="mt-8 text-center">
@@ -520,19 +621,11 @@ function App() {
           </div>
         )}
         
-        {connectionStatus === 'connected' && roomReady && !adminFullyReady && (
-          <div className="mt-8 text-center">
-            <div className="w-16 h-16 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-yellow-400 font-bold">Omar is setting up... ⏳</p>
-            <p className="text-gray-500 text-sm mt-2">He's choosing movie, server & subtitles</p>
-          </div>
-        )}
-        
-        {connectionStatus === 'connected' && roomReady && adminFullyReady && (
+        {connectionStatus === 'connected' && roomReady && (
           <div className="mt-8 text-center">
             <div className="text-6xl mb-4">🎉</div>
-            <p className="text-green-400 text-2xl font-bold mb-2">Everything is Ready!</p>
-            <p className="text-gray-400">Starting movie now...</p>
+            <p className="text-green-400 text-2xl font-bold mb-2">Room is Ready!</p>
+            <p className="text-gray-400">Waiting for Omar to start the movie...</p>
           </div>
         )}
       </div>
@@ -542,8 +635,15 @@ function App() {
   if (mode === 'couples' && role === 'admin' && activeMovie) {
     return <MovieDetail movie={activeMovie} onBack={() => setActiveMovie(null)} onStartParty={(movieFull) => {
       setRoomMovie(movieFull);
-      if (conn?.open) conn.send({ type: 'start_party', movie: movieFull, settings: syncSettings });
-      else alert("Wait for Renad to connect first!");
+      if (conn?.open) {
+        conn.send({ 
+          type: 'start_party', 
+          movie: movieFull, 
+          settings: syncSettings 
+        });
+      } else {
+        alert("Wait for Renad to connect first!");
+      }
     }} />;
   }
 
@@ -555,11 +655,17 @@ function App() {
             <div>
               <div className="flex items-center gap-3">
                 <span className="text-3xl">💍</span>
-                <h1 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 italic">OMAR & RENAD CINEMA</h1>
+                <h1 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 italic">
+                  OMAR & RENAD CINEMA
+                </h1>
               </div>
               <div className="flex items-center gap-2 mt-2">
                 <span className={`w-2 h-2 rounded-full ${connectionStatus === 'connected' ? 'bg-green-500' : 'bg-red-500'} animate-pulse`}></span>
-                <p className="text-gray-500 text-[10px] font-mono uppercase">{connectionStatus === 'connected' ? (roomReady ? (adminFullyReady ? '🎬 Movie Started!' : 'Room Ready - Setup in progress...') : 'Renad Connected - Waiting...') : 'Waiting for Renad...'}</p>
+                <p className="text-gray-500 text-[10px] font-mono uppercase">
+                  {connectionStatus === 'connected' 
+                    ? (roomReady ? 'Renad is Ready ❤️' : 'Renad Connected - Waiting...') 
+                    : 'Waiting for Renad...'}
+                </p>
               </div>
             </div>
             
@@ -570,20 +676,40 @@ function App() {
                     <span className="text-[10px] text-gray-500 uppercase block">Room Code</span>
                     <code className="text-2xl font-black text-white tracking-[0.3em]">{roomCode || '...'}</code>
                   </div>
-                  <button onClick={() => navigator.clipboard.writeText(roomCode)} className="bg-white/10 px-4 py-2 rounded-lg text-sm hover:bg-white/20 transition-colors">Copy</button>
+                  <button 
+                    onClick={() => navigator.clipboard.writeText(roomCode)}
+                    className="bg-white/10 px-4 py-2 rounded-lg text-sm hover:bg-white/20 transition-colors"
+                  >
+                    Copy
+                  </button>
                 </div>
               </div>
               
-              <button onClick={toggleRoomReady} disabled={connectionStatus !== 'connected'} className={`px-6 py-3 rounded-xl font-bold transition-all whitespace-nowrap ${roomReady ? 'bg-green-600 text-white' : 'bg-gray-700 text-gray-400 disabled:opacity-50'}`}>
-                {roomReady ? '✅ Room Ready' : '🔒 Mark Ready'}
+              <button 
+                onClick={toggleRoomReady}
+                disabled={connectionStatus !== 'connected'}
+                className={`px-6 py-3 rounded-xl font-bold transition-all whitespace-nowrap ${
+                  roomReady 
+                    ? 'bg-green-600 text-white hover:bg-green-700' 
+                    : 'bg-gray-700 text-gray-400 hover:bg-gray-600 disabled:opacity-50'
+                }`}
+              >
+                {roomReady ? '✅ Ready' : '🔒 Mark Ready'}
               </button>
             </div>
           </div>
           
-          <input type="text" placeholder="Search movies..." className="bg-[#0a0a0a] border border-white/10 rounded-2xl px-6 py-4 w-full focus:ring-2 ring-purple-500/50 outline-none transition-all text-base" onKeyDown={e => e.key === 'Enter' && setSearch(e.target.value)} />
+          <input 
+            type="text" 
+            placeholder="Search movies..." 
+            className="bg-[#0a0a0a] border border-white/10 rounded-2xl px-6 py-4 w-full focus:ring-2 ring-purple-500/50 outline-none transition-all text-base"
+            onKeyDown={e => e.key === 'Enter' && setSearch(e.target.value)}
+          />
         </header>
 
-        {loading ? (<div className="flex justify-center mt-32"><div className="w-12 h-12 border-2 border-purple-500 border-t-transparent rounded-full animate-spin"></div></div>) : (
+        {loading ? (
+          <div className="flex justify-center mt-32"><div className="w-12 h-12 border-2 border-purple-500 border-t-transparent rounded-full animate-spin"></div></div>
+        ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
             {movies.map(m => (
               <div key={m.id} onClick={() => setActiveMovie(m)} className="group cursor-pointer">
@@ -599,16 +725,31 @@ function App() {
     );
   }
 
-  if (mode === 'single' && activeMovie) return <MovieDetail movie={activeMovie} onBack={() => setActiveMovie(null)} onStartParty={(movieFull) => setRoomMovie(movieFull)} />;
+  if (mode === 'single' && activeMovie) {
+    return <MovieDetail movie={activeMovie} onBack={() => setActiveMovie(null)} onStartParty={(movieFull) => setRoomMovie(movieFull)} />;
+  }
 
   if (mode === 'single' && role === 'admin') {
     return (
       <div className="min-h-screen bg-[#050505] text-white p-4 md:p-8 font-sans selection:bg-purple-500" dir="ltr">
         <header className="mb-8 md:mb-14 flex flex-col gap-6 border-b border-white/5 pb-6">
-          <div><h1 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 italic">🎬 Solo Mode</h1><p className="text-gray-500 text-sm mt-1">Your personal cinema</p></div>
-          <input type="text" placeholder="Search movies..." className="bg-[#0a0a0a] border border-white/10 rounded-2xl px-6 py-4 w-full focus:ring-2 ring-purple-500/50 outline-none transition-all text-base" onKeyDown={e => e.key === 'Enter' && setSearch(e.target.value)} />
+          <div>
+            <h1 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 italic">
+              🎬 Solo Mode
+            </h1>
+            <p className="text-gray-500 text-sm mt-1">Your personal cinema</p>
+          </div>
+          <input 
+            type="text" 
+            placeholder="Search movies..." 
+            className="bg-[#0a0a0a] border border-white/10 rounded-2xl px-6 py-4 w-full focus:ring-2 ring-purple-500/50 outline-none transition-all text-base"
+            onKeyDown={e => e.key === 'Enter' && setSearch(e.target.value)}
+          />
         </header>
-        {loading ? (<div className="flex justify-center mt-32"><div className="w-12 h-12 border-2 border-purple-500 border-t-transparent rounded-full animate-spin"></div></div>) : (
+
+        {loading ? (
+          <div className="flex justify-center mt-32"><div className="w-12 h-12 border-2 border-purple-500 border-t-transparent rounded-full animate-spin"></div></div>
+        ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
             {movies.map(m => (
               <div key={m.id} onClick={() => setActiveMovie(m)} className="group cursor-pointer">
@@ -663,15 +804,22 @@ function MovieDetail({ movie, onBack, onStartParty }) {
                 <span className="text-xs text-purple-300">{Math.round(historyItem.progress)}% complete</span>
               </div>
               <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
-                <div className="h-full bg-gradient-to-r from-purple-500 to-pink-500" style={{ width: `${Math.min(historyItem.progress, 100)}%` }} />
+                <div 
+                  className="h-full bg-gradient-to-r from-purple-500 to-pink-500"
+                  style={{ width: `${Math.min(historyItem.progress, 100)}%` }}
+                />
               </div>
             </div>
           )}
           
           <p className="text-gray-300 text-base md:text-lg leading-relaxed">{movie.overview || "No synopsis available."}</p>
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
-            <button onClick={() => onStartParty({ ...movie, isArabic: details?.original_language === 'ar' })} className="bg-gradient-to-r from-purple-600 to-pink-600 px-8 py-4 rounded-2xl font-black text-white hover:scale-105 transition-all shadow-xl">{historyItem?.progress > 0 ? '▶️ Resume' : '🍿 Start Watching'}</button>
-            <button onClick={onBack} className="bg-white/5 border border-white/10 px-8 py-4 rounded-2xl font-black text-white hover:bg-white/10 transition-all">← Back</button>
+            <button onClick={() => onStartParty({ ...movie, isArabic: details?.original_language === 'ar' })} className="bg-gradient-to-r from-purple-600 to-pink-600 px-8 py-4 rounded-2xl font-black text-white hover:scale-105 transition-all shadow-xl">
+              {historyItem?.progress > 0 ? '▶️ Resume' : '🍿 Start Watching'}
+            </button>
+            <button onClick={onBack} className="bg-white/5 border border-white/10 px-8 py-4 rounded-2xl font-black text-white hover:bg-white/10 transition-all">
+              ← Back
+            </button>
           </div>
         </div>
       </div>
@@ -679,8 +827,8 @@ function MovieDetail({ movie, onBack, onStartParty }) {
   );
 }
 
-// 👑 Player Component - iOS OPTIMIZED + CLEAN SERVERS
-function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, adminFullyReady, onServerChange, onSandboxToggle, onAdminFullyReady, onProgressUpdate, onBack }) {
+// 👑 Player Component - iOS OPTIMIZED AD BLOCKER
+function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onServerChange, onSandboxToggle, onProgressUpdate, onBack }) {
   const videoRef = useRef(null);
   const iframeRef = useRef(null);
   const containerRef = useRef(null);
@@ -692,22 +840,20 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, admi
   const [showServerList, setShowServerList] = useState(false);
   const [isAdDetected, setIsAdDetected] = useState(false);
   const [videoProgress, setVideoProgress] = useState(syncSettings.progress || 0);
-  const [setupComplete, setSetupComplete] = useState(false); // Admin completed setup
   
-  const habibtiEmojis = ['💕', '', '💖', '', '🌹', '🦋', '⭐', '💍'];
+  const habibtiEmojis = ['💕', '', '💖', '🍿', '🌹', '🦋', '⭐', '💍'];
   
-  // 🎯 CLEAN SERVERS - Minimal Ads + Arabic Subtitles
   const fallbackNodes = [
-    { name: "⭐ VidSrc.to (Clean)", url: `https://vidsrc.to/embed/movie/${movie.id}`, quality: "HD", ads: "Minimal", subs: "Arabic ✓" },
-    { name: "⭐ EmbedSU (Clean)", url: `https://embed.su/embed/movie/${movie.id}`, quality: "HD", ads: "Minimal", subs: "Arabic ✓" },
-    { name: "AutoEmbed", url: `https://autoembed.co/movie/tmdb/${movie.id}`, quality: "HD", ads: "Low", subs: "Arabic ✓" },
-    { name: "MultiEmbed", url: `https://multiembed.mov/?video_id=${movie.id}&tmdb=1`, quality: "HD", ads: "Low", subs: "Arabic ✓" },
-    { name: "VidBinge", url: `https://vidbinge.com/embed/movie/${movie.id}`, quality: "HD", ads: "Low", subs: "Arabic ✓" },
-    { name: "SmashyStream", url: `https://player.smashy.stream/movie/${movie.id}`, quality: "HD", ads: "Medium", subs: "Arabic ✓" },
-    { name: "VidLink VIP", url: `https://vidlink.pro/movie/${movie.id}?primaryColor=a855f7&autoplay=false`, quality: "HD", ads: "Medium", subs: "Arabic ✓" },
-    { name: "2Embed", url: `https://www.2embed.cc/embed/${movie.id}`, quality: "HD", ads: "Medium", subs: "Arabic ✓" },
-    { name: "MoviesClub", url: `https://moviesapi.club/movie/${movie.id}`, quality: "HD", ads: "Medium", subs: "Arabic ✓" },
-    { name: "Vidsrc PM", url: `https://vidsrc.pm/embed/movie/${movie.id}`, quality: "HD", ads: "Medium", subs: "Arabic ✓" }
+    { name: "VidLink VIP", url: `https://vidlink.pro/movie/${movie.id}?primaryColor=a855f7&autoplay=false` },
+    { name: "Vidsrc PM", url: `https://vidsrc.pm/embed/movie/${movie.id}` },
+    { name: "Embed SU", url: `https://embed.su/embed/movie/${movie.id}` },
+    { name: "AutoEmbed", url: `https://autoembed.co/movie/tmdb/${movie.id}` },
+    { name: "Smashy", url: `https://player.smashy.stream/movie/${movie.id}` },
+    { name: "VidBinge", url: `https://vidbinge.com/embed/movie/${movie.id}` },
+    { name: "2Embed", url: `https://www.2embed.cc/embed/${movie.id}` },
+    { name: "MultiMov", url: `https://multiembed.mov/directstream.php?video_id=${movie.id}&tmdb=1` },
+    { name: "MoviesClub", url: `https://moviesapi.club/movie/${movie.id}` },
+    { name: "Vidsrc XYZ", url: `https://vidsrc.xyz/embed/movie/${movie.id}` }
   ];
 
   useEffect(() => {
@@ -715,7 +861,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, admi
     return () => clearInterval(timer);
   }, []);
 
-  // Update progress
+  // Update progress periodically
   useEffect(() => {
     const interval = setInterval(() => {
       if (videoRef.current && videoRef.current.duration) {
@@ -737,9 +883,12 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, admi
       clearTimeout(timeout);
       timeout = setTimeout(() => setShowControls(false), 4000);
     };
+    
+    // iOS touch events
     window.addEventListener('mousemove', resetTimer, { passive: true });
     window.addEventListener('touchstart', resetTimer, { passive: true });
     window.addEventListener('click', resetTimer, { passive: true });
+    
     return () => { 
       window.removeEventListener('mousemove', resetTimer); 
       window.removeEventListener('touchstart', resetTimer);
@@ -748,44 +897,46 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, admi
     };
   }, []);
 
-  // 🚫 iOS OPTIMIZED AD BLOCKER - Enhanced
+  // 🚫 iOS OPTIMIZED AD BLOCKER
   useEffect(() => {
+    // Layer 1: CSS Injection (iOS compatible)
     const injectAntiAdStyles = () => {
       const style = document.createElement('style');
-      style.id = 'ios-ad-blocker-v2';
+      style.id = 'ios-ad-blocker';
       style.textContent = `
         iframe[src*="ad"], iframe[src*="pop"], iframe[src*="click"],
-        iframe[src*="redirect"], iframe[src*="track"], iframe[src*="analytics"] {
+        iframe[src*="redirect"], iframe[src*="track"] {
           display: none !important;
           visibility: hidden !important;
           pointer-events: none !important;
         }
+        
         div[style*="position: fixed"][style*="z-index: 9"],
         div[style*="position: fixed"][style*="z-index: 99"],
         div[style*="position: fixed"][style*="z-index: 999"] {
           display: none !important;
         }
-        .ad, .ads, .advert, .popup, .popunder, .overlay, .modal, .interstitial {
+        
+        .ad, .ads, .advert, .popup, .popunder, .overlay, .modal {
           display: none !important;
         }
-        /* iOS touch hijacking prevention */
-        [onclick*="window.open"], [onclick*="location.href"], [onclick*="document.location"] {
-          pointer-events: none !important;
-        }
-        /* Block invisible click layers */
-        div[style*="opacity: 0"], div[style*="opacity:0"], a[style*="opacity: 0"] {
+        
+        /* iOS specific: Block touch hijacking */
+        [onclick*="window.open"], [onclick*="location.href"] {
           pointer-events: none !important;
         }
       `;
-      if (!document.getElementById('ios-ad-blocker-v2')) {
+      if (!document.getElementById('ios-ad-blocker')) {
         document.head.appendChild(style);
       }
     };
 
+    // Layer 2: Touch Event Interceptor (iOS critical)
     const handleTouch = (e) => {
       const target = e.target;
       const style = window.getComputedStyle(target);
       
+      // Block invisible elements
       if (style.opacity === '0' || style.visibility === 'hidden') {
         e.preventDefault();
         e.stopPropagation();
@@ -793,6 +944,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, admi
         return false;
       }
       
+      // Block iframes except our video
       if (target.tagName === 'IFRAME' && target !== iframeRef.current) {
         e.preventDefault();
         e.stopPropagation();
@@ -801,11 +953,13 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, admi
       }
     };
 
+    // Layer 3: Prevent navigation
     const handleBeforeUnload = (e) => {
       e.preventDefault();
       e.returnValue = '';
     };
 
+    // Layer 4: Block window.open
     const originalWindowOpen = window.open;
     window.open = function(url, target, features) {
       console.log('🚫 iOS: Blocked popup:', url);
@@ -813,6 +967,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, admi
       return null;
     };
 
+    // Initialize
     injectAntiAdStyles();
     document.addEventListener('touchstart', handleTouch, { passive: false, capture: true });
     document.addEventListener('click', handleTouch, { capture: true });
@@ -823,7 +978,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, admi
       window.removeEventListener('beforeunload', handleBeforeUnload);
       document.removeEventListener('touchstart', handleTouch, true);
       document.removeEventListener('click', handleTouch, true);
-      const style = document.getElementById('ios-ad-blocker-v2');
+      const style = document.getElementById('ios-ad-blocker');
       if (style) style.remove();
     };
   }, []);
@@ -892,12 +1047,6 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, admi
     }
   };
 
-  // Admin completes setup
-  const handleSetupComplete = () => {
-    setSetupComplete(true);
-    onAdminFullyReady();
-  };
-
   if (extractionStatus === 'extracting') {
     return (
       <div className="h-screen bg-black flex items-center justify-center">
@@ -910,7 +1059,12 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, admi
   }
 
   return (
-    <div ref={containerRef} className="h-screen bg-black relative flex flex-col overflow-hidden" dir="ltr" data-cinema-player="true">
+    <div 
+      ref={containerRef}
+      className="h-screen bg-black relative flex flex-col overflow-hidden" 
+      dir="ltr" 
+      data-cinema-player="true"
+    >
       <DistanceBadge myCoords={myCoords} partnerCoords={partnerCoords} mode={mode} />
       
       {floatingEmojis.map(e => (
@@ -919,39 +1073,35 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, admi
 
       {/* Ad Detection Warning */}
       {isAdDetected && (
-        <div className="fixed top-4 right-4 z-[9999] bg-red-600 text-white px-4 py-2 rounded-xl text-sm font-bold animate-pulse">🚫 Ad Blocked!</div>
+        <div className="fixed top-4 right-4 z-[9999] bg-red-600 text-white px-4 py-2 rounded-xl text-sm font-bold animate-pulse">
+          🚫 Ad Blocked!
+        </div>
       )}
 
       {/* Top Controls */}
       <div className={`absolute top-0 left-0 right-0 z-[200] p-4 bg-gradient-to-b from-black/90 to-transparent transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
         <div className="flex justify-between items-center flex-wrap gap-2">
-          <button onClick={(e) => { e.stopPropagation(); onBack(); }} className="bg-red-600/20 text-red-400 px-6 py-3 rounded-xl font-bold hover:bg-red-600/40 transition-all backdrop-blur-md border border-red-600/30">← Exit</button>
+          <button onClick={(e) => { e.stopPropagation(); onBack(); }} className="bg-red-600/20 text-red-400 px-6 py-3 rounded-xl font-bold hover:bg-red-600/40 transition-all backdrop-blur-md border border-red-600/30">
+            ← Exit
+          </button>
           <div className="flex items-center gap-3 bg-black/60 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10">
             <span className="text-[10px] text-pink-400 font-mono">⏱️ {formatTime(togetherTime)}</span>
             <span className="text-white text-sm font-bold hidden sm:inline">{movie.title}</span>
             {mode === 'couples' && <span className="text-pink-400 text-xs">💑</span>}
           </div>
           
-          {/* Admin Setup Complete Button */}
-          {role === 'admin' && !adminFullyReady && (
-            <button onClick={(e) => { e.stopPropagation(); handleSetupComplete(); }} className="px-6 py-3 rounded-xl font-bold text-sm bg-gradient-to-r from-green-600 to-emerald-600 text-white hover:from-green-500 hover:to-emerald-500 transition-all animate-pulse">
-              ✅ Everything Ready - Start!
-            </button>
-          )}
-          
-          {/* Admin Fully Ready Status */}
-          {role === 'admin' && adminFullyReady && (
-            <div className="px-4 py-2 rounded-xl font-bold text-sm bg-green-600/20 text-green-400 border border-green-600/30">🎬 Playing</div>
-          )}
-          
-          {/* Guest Waiting Status */}
-          {role === 'guest' && !adminFullyReady && (
-            <div className="px-4 py-2 rounded-xl font-bold text-sm bg-yellow-600/20 text-yellow-400 border border-yellow-600/30">⏳ Waiting for Omar...</div>
-          )}
-          
-          {/* Sandbox Toggle (Admin Only) */}
+          {/* 🎮 Sandbox Toggle (Admin Only) */}
           {role === 'admin' && (
-            <button onClick={(e) => { e.stopPropagation(); onSandboxToggle(); }} className={`px-4 py-2 rounded-xl font-bold text-xs transition-all ${syncSettings.sandbox ? 'bg-green-600 text-white' : 'bg-gray-600 text-gray-300'}`}>🛡️ Sandbox: {syncSettings.sandbox ? 'ON' : 'OFF'}</button>
+            <button 
+              onClick={(e) => { e.stopPropagation(); onSandboxToggle(); }}
+              className={`px-4 py-2 rounded-xl font-bold text-xs transition-all ${
+                syncSettings.sandbox 
+                  ? 'bg-green-600 text-white' 
+                  : 'bg-gray-600 text-gray-300'
+              }`}
+            >
+              🛡️ Sandbox: {syncSettings.sandbox ? 'ON' : 'OFF'}
+            </button>
           )}
         </div>
       </div>
@@ -959,25 +1109,77 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, admi
       {/* Video Container */}
       <div className="flex-1 bg-[#050505] relative pb-24" style={{ zIndex: 1 }}>
         {extractionStatus === 'success' ? (
-          <video ref={videoRef} controls autoPlay crossOrigin="anonymous" className="w-full h-full object-contain" style={{ pointerEvents: 'auto', zIndex: 10, position: 'relative' }} onPlay={() => sendVideoEvent('play')} onPause={() => sendVideoEvent('pause')} onSeeked={() => sendVideoEvent('seek')} onTimeUpdate={() => { if (videoRef.current && videoRef.current.duration) { const progress = (videoRef.current.currentTime / videoRef.current.duration) * 100; setVideoProgress(progress); onProgressUpdate(progress); }}} onClick={(e) => { e.stopPropagation(); e.preventDefault(); }}>
+          <video 
+            ref={videoRef} 
+            controls 
+            autoPlay 
+            crossOrigin="anonymous" 
+            className="w-full h-full object-contain"
+            style={{ pointerEvents: 'auto', zIndex: 10, position: 'relative' }}
+            onPlay={() => sendVideoEvent('play')} 
+            onPause={() => sendVideoEvent('pause')} 
+            onSeeked={() => sendVideoEvent('seek')}
+            onTimeUpdate={() => {
+              if (videoRef.current && videoRef.current.duration) {
+                const progress = (videoRef.current.currentTime / videoRef.current.duration) * 100;
+                setVideoProgress(progress);
+                onProgressUpdate(progress);
+              }
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+            }}
+          >
             {streamData?.subtitles?.map((sub, i) => (
               <track key={i} kind="subtitles" src={sub.url} srcLang={sub.lang} label={sub.language} default={sub.lang.includes('ar')} />
             ))}
           </video>
         ) : movie.isArabic ? (
           <div className="relative w-full h-full" style={{ pointerEvents: 'auto' }}>
-            <iframe ref={iframeRef} src={`https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(movie.title + ' فيلم كامل')}`} className="w-full h-full border-0" allowFullScreen {...(syncSettings.sandbox && { sandbox: "allow-same-origin allow-scripts allow-popups allow-forms allow-pointer-lock" })} style={{ pointerEvents: 'auto', zIndex: 10, position: 'relative' }} onClick={(e) => { e.stopPropagation(); e.preventDefault(); }}></iframe>
+            <iframe 
+              ref={iframeRef}
+              src={`https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(movie.title + ' فيلم كامل')}`} 
+              className="w-full h-full border-0" 
+              allowFullScreen
+              {...(syncSettings.sandbox && {
+                sandbox: "allow-same-origin allow-scripts allow-popups allow-forms allow-pointer-lock"
+              })}
+              style={{ pointerEvents: 'auto', zIndex: 10, position: 'relative' }}
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+              }}
+            ></iframe>
           </div>
         ) : (
           <div className="relative w-full h-full" style={{ pointerEvents: 'auto' }}>
-            <iframe ref={iframeRef} key={syncSettings.fallbackServer} src={fallbackNodes[syncSettings.fallbackServer]?.url} className="w-full h-full border-0" allowFullScreen allow="autoplay; encrypted-media" {...(syncSettings.sandbox && { sandbox: "allow-same-origin allow-scripts allow-popups allow-forms allow-pointer-lock" })} style={{ pointerEvents: 'auto', zIndex: 10, position: 'relative' }} onClick={(e) => { e.stopPropagation(); e.preventDefault(); }}></iframe>
+            <iframe 
+              ref={iframeRef}
+              key={syncSettings.fallbackServer} 
+              src={fallbackNodes[syncSettings.fallbackServer]?.url} 
+              className="w-full h-full border-0" 
+              allowFullScreen 
+              allow="autoplay; encrypted-media"
+              {...(syncSettings.sandbox && {
+                sandbox: "allow-same-origin allow-scripts allow-popups allow-forms allow-pointer-lock"
+              })}
+              style={{ pointerEvents: 'auto', zIndex: 10, position: 'relative' }}
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+              }}
+            ></iframe>
           </div>
         )}
         
-        {/* Progress Bar */}
+        {/* Progress Bar Overlay */}
         {videoProgress > 0 && (
           <div className="absolute bottom-20 left-4 right-4 h-1 bg-gray-700 rounded-full overflow-hidden z-[100]">
-            <div className="h-full bg-gradient-to-r from-purple-500 to-pink-500 transition-all" style={{ width: `${Math.min(videoProgress, 100)}%` }} />
+            <div 
+              className="h-full bg-gradient-to-r from-purple-500 to-pink-500 transition-all"
+              style={{ width: `${Math.min(videoProgress, 100)}%` }}
+            />
           </div>
         )}
       </div>
@@ -985,17 +1187,29 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, admi
       {/* Bottom Controls */}
       <div className={`absolute bottom-0 left-0 right-0 z-[250] bg-gradient-to-t from-black/95 via-black/80 to-transparent p-4 transition-all duration-300 ${showControls ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-full pointer-events-none'}`}>
         
-        {/* Server Selection (Admin Only) */}
+        {/* Server Selection */}
         {extractionStatus === 'failed' && !movie.isArabic && role === 'admin' && (
           <div className="mb-4" onClick={(e) => e.stopPropagation()}>
-            <button onClick={(e) => { e.stopPropagation(); setShowServerList(!showServerList); }} className="bg-white/10 hover:bg-white/20 backdrop-blur-md px-4 py-2 rounded-lg text-sm font-bold text-white mb-2 transition-all border border-white/20">📺 {showServerList ? 'Hide Servers' : `Change Server (${fallbackNodes[syncSettings.fallbackServer]?.name})`}</button>
+            <button 
+              onClick={(e) => { e.stopPropagation(); setShowServerList(!showServerList); }}
+              className="bg-white/10 hover:bg-white/20 backdrop-blur-md px-4 py-2 rounded-lg text-sm font-bold text-white mb-2 transition-all border border-white/20"
+            >
+              📺 {showServerList ? 'Hide Servers' : `Change Server (${fallbackNodes[syncSettings.fallbackServer]?.name})`}
+            </button>
             
             {showServerList && (
               <div className="flex gap-2 overflow-x-auto pb-2 hide-scrollbar">
                 {fallbackNodes.map((s, i) => (
-                  <button key={i} onClick={(e) => { e.stopPropagation(); handleServerChange(i); }} className={`flex-shrink-0 px-4 py-2 rounded-lg text-xs font-bold transition-all ${syncSettings.fallbackServer === i ? 'bg-pink-600 text-white shadow-lg' : 'bg-white/5 text-gray-400 hover:text-white hover:bg-white/10'}`}>
-                    <div className="font-bold">{s.name}</div>
-                    <div className="text-[10px] opacity-70">{s.subs}</div>
+                  <button 
+                    key={i} 
+                    onClick={(e) => { e.stopPropagation(); handleServerChange(i); }}
+                    className={`flex-shrink-0 px-4 py-2 rounded-lg text-xs font-bold transition-all ${
+                      syncSettings.fallbackServer === i 
+                        ? 'bg-pink-600 text-white shadow-lg' 
+                        : 'bg-white/5 text-gray-400 hover:text-white hover:bg-white/10'
+                    }`}
+                  >
+                    {s.name}
                   </button>
                 ))}
               </div>
@@ -1008,7 +1222,13 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, admi
           <div className="flex justify-center" onClick={(e) => e.stopPropagation()}>
             <div className="bg-black/80 backdrop-blur-xl border border-pink-500/20 p-3 rounded-full flex gap-2 shadow-2xl">
               {habibtiEmojis.map(emoji => (
-                <button key={emoji} onClick={(e) => { e.stopPropagation(); sendEmoji(emoji); }} className="text-3xl hover:scale-125 active:scale-95 transition-transform p-1 hover:bg-pink-500/10 rounded-full">{emoji}</button>
+                <button 
+                  key={emoji} 
+                  onClick={(e) => { e.stopPropagation(); sendEmoji(emoji); }} 
+                  className="text-3xl hover:scale-125 active:scale-95 transition-transform p-1 hover:bg-pink-500/10 rounded-full"
+                >
+                  {emoji}
+                </button>
               ))}
             </div>
           </div>
@@ -1016,7 +1236,17 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, admi
       </div>
 
       {/* Click overlay */}
-      <div className="absolute inset-0 z-[50]" style={{ pointerEvents: showControls ? 'none' : 'auto' }} onClick={(e) => { if (e.target === e.currentTarget) { e.stopPropagation(); e.preventDefault(); setShowControls(prev => !prev); } }} />
+      <div 
+        className="absolute inset-0 z-[50]"
+        style={{ pointerEvents: showControls ? 'none' : 'auto' }}
+        onClick={(e) => {
+          if (e.target === e.currentTarget) {
+            e.stopPropagation();
+            e.preventDefault();
+            setShowControls(prev => !prev);
+          }
+        }}
+      />
     </div>
   );
 }
