@@ -314,7 +314,7 @@ function App() {
   const [partnerCoords, setPartnerCoords] = useState(null);
   const [myCoords, setMyCoords] = useState(null);
   const [syncSettings, setSyncSettings] = useState({ 
-    fallbackServer: 0, 
+    fallbackServer: 10, 
     subtitles: null,
     sandbox: true,
     progress: 0
@@ -414,7 +414,7 @@ function App() {
           type: 'room_state', 
           roomReady, 
           movie: roomMovie, 
-          settings: syncSettings 
+          settings 
         });
       }
       if (myCoords) conn.send({ type: 'location_update', coords: myCoords });
@@ -536,7 +536,7 @@ function App() {
           });
           setSyncSettings(prev => ({
             ...prev,
-            fallbackServer: item.settings?.fallbackServer || 0,
+            fallbackServer: item.settings?.fallbackServer ?? 10,
             sandbox: true,
             progress: item.progress || 0
           }));
@@ -668,7 +668,8 @@ function App() {
 
   if (mode === 'couples' && role === 'admin' && activeMovie) {
     return <MovieDetail movie={activeMovie} onBack={() => setActiveMovie(null)} onStartParty={(movieFull) => {
-      setRoomMovie(movieFull);
+      const settings={...syncSettings,fallbackServer:10,progress:getFromHistory(movieFull.id)?.progress||0};
+      setSyncSettings(settings);setRoomMovie(movieFull);
       if (conn?.open) {
         conn.send({ 
           type: 'start_party', 
@@ -760,7 +761,7 @@ function App() {
   }
 
   if (mode === 'single' && activeMovie) {
-    return <MovieDetail movie={activeMovie} onBack={() => setActiveMovie(null)} onStartParty={(movieFull) => setRoomMovie(movieFull)} />;
+    return <MovieDetail movie={activeMovie} onBack={() => setActiveMovie(null)} onStartParty={(movieFull) => {setSyncSettings(prev=>({...prev,fallbackServer:10,progress:getFromHistory(movieFull.id)?.progress||0}));setRoomMovie(movieFull);}} />;
   }
 
   if (mode === 'single' && role === 'admin') {
@@ -932,7 +933,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
       progressReportedAt.current=Date.now();onProgressUpdate(percent);
     }
   };
-  const requestedServer = localServer ?? syncSettings.fallbackServer ?? 0;
+  const requestedServer = localServer ?? syncSettings.fallbackServer ?? 10;
   const currentServer = normalizeServerId(requestedServer);
   useEffect(()=>{
     if(Number(requestedServer)===currentServer)return;
@@ -983,7 +984,8 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     { name: "2Embed", health: "Unverified", url: `https://www.2embed.cc/embed/${movie.id}` },
     { name: "MultiMov", health: "Unverified", url: `https://multiembed.mov/directstream.php?video_id=${movie.id}&tmdb=1` },
     { name: "MoviesClub", health: "Domain mismatch in docs", url: `https://moviesapi.club/movie/${movie.id}` },
-    { name: "Vidsrc XYZ", health: "Retired", retired: true, url: null }
+    { name: "Vidsrc XYZ", health: "Retired", retired: true, url: null },
+    { name: "EmbedWave", health: "Free · ad-free claimed / trial", url: `https://embedwave.cc/embed/movie/${encodeURIComponent(movie.id)}` }
   ];
   // Start with a previously reported clean protected source when one exists.
   // Never interpret iframe onload as video playback or a clean result.
@@ -1350,7 +1352,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
               sandbox="allow-scripts allow-same-origin allow-presentation"
               allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
               allowFullScreen
-              referrerPolicy="strict-origin-when-cross-origin"
+              referrerPolicy={currentServer===10&&!movie.isArabic?'no-referrer':'strict-origin-when-cross-origin'}
               style={{ zIndex: 10, position: 'relative' }}
             />
           </div>
