@@ -1,0 +1,17 @@
+import React,{useEffect,useState} from 'react';
+import {OPEN_FILMS,seedMovie} from './openCinema.js';
+export default function OpenLibrary({onSelect}){
+ const [q,setQ]=useState(''),[search,setSearch]=useState(''),[page,setPage]=useState(1),[items,setItems]=useState(OPEN_FILMS.map(seedMovie)),[total,setTotal]=useState(null),[more,setMore]=useState(false),[status,setStatus]=useState('loading');
+ useEffect(()=>{let live=true;const controller=new AbortController();setStatus('loading');
+ fetch('/api/open-cinema?'+new URLSearchParams({q:search,page:String(page)}),{signal:controller.signal}).then(r=>{if(!r.ok)throw Error();return r.json();}).then(d=>{if(!live)return;setItems(d.items||[]);setTotal(d.total);setMore(d.hasMore);setStatus(d.archiveAvailable?'ready':'offline');}).catch(()=>{if(live){setItems(page===1?OPEN_FILMS.filter(f=>!search||f.title.toLowerCase().includes(search.toLowerCase())).map(seedMovie):[]);setMore(false);setStatus('offline');}});
+ return()=>{live=false;controller.abort();};},[search,page]);
+ return <section className="mb-8 rounded-3xl border border-purple-500/25 bg-gradient-to-br from-purple-950/40 to-zinc-950 p-4 md:p-6">
+ <div className="flex flex-wrap items-center gap-2 justify-between"><div><p className="text-[10px] tracking-widest text-purple-300 uppercase font-bold">Priority sources</p><h2 className="text-2xl font-black mt-1">Open Cinema · بدون إعلانات المشغّل</h2><p className="text-xs text-gray-400 mt-2">Internet Archive + Blender + independent creators. Openly licensed titles; no external player ads. Archive files checked on play.</p></div><span className="text-xs text-purple-200 bg-purple-500/15 px-3 py-1 rounded-full">{total===null?'Open collection':total.toLocaleString()+' archive candidates'}</span></div>
+ <form onSubmit={e=>{e.preventDefault();setPage(1);setSearch(q.trim());}} className="flex gap-2 mt-4"><input value={q} onChange={e=>setQ(e.target.value)} placeholder="Search open movies..." className="min-w-0 flex-1 bg-black/50 border border-white/10 rounded-xl px-3 py-2 text-white text-sm"/><button className="bg-purple-700 rounded-xl px-4 py-2 font-bold text-sm">Search</button></form>
+ {status==='loading'&&<p className="text-xs text-gray-400 mt-2">Checking archive catalogue…</p>}
+ {status==='offline'&&<p className="text-xs text-amber-200 mt-2">Archive catalogue temporarily unavailable. Showing curated open films.</p>}
+ <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-3 mt-4">{items.map(m=><button key={m.id} onClick={()=>onSelect(m)} className="text-left group min-w-0"><div className="aspect-[2/3] rounded-xl overflow-hidden bg-zinc-900 border border-white/10 relative"><img loading="lazy" src={m.posterUrl} alt={m.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform" onError={e=>{e.currentTarget.style.display='none';}}/><span className="absolute top-2 left-2 text-[10px] bg-black/80 rounded px-2 py-1">OPEN</span></div><p className="text-xs font-bold truncate mt-2">{m.title}</p><p className="text-[10px] text-gray-400">{m.release_date?.slice(0,4)}</p></button>)}</div>
+ {status==='ready'&&!items.length&&<p className="text-sm text-gray-400 py-4">No matching open titles.</p>}
+ <div className="flex justify-between mt-4 gap-2">{page>1&&<button onClick={()=>setPage(p=>p-1)} className="bg-white/10 rounded-lg px-3 py-2 text-xs">Previous</button>}{more&&<button onClick={()=>setPage(p=>p+1)} className="ml-auto bg-purple-700 rounded-lg px-3 py-2 text-xs">More films →</button>}</div>
+ </section>;
+}
