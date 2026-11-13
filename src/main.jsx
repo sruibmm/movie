@@ -904,6 +904,22 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   const [ownedError, setOwnedError] = useState('');
   const [ownedSource, setOwnedSource] = useState(null);
   const [nativeError, setNativeError] = useState('');
+  const [directOnly, setDirectOnly] = useState(false);
+  const [playState, setPlayState] = useState('Preparing');
+  const [mediaInfo, setMediaInfo] = useState({time:0,duration:0});
+  const [quality, setQuality] = useState(-1);
+  const [levels, setLevels] = useState([]);
+  const hlsRef = useRef(null);
+  const remoteAction = useRef(0);
+  const progressReportedAt = useRef(0);
+  const publishProgress = (time,duration,force=false)=>{
+    if(!Number.isFinite(time)||!Number.isFinite(duration)||duration<=0||time<0)return;
+    const percent=Math.max(0,Math.min(100,time/duration*100));
+    setMediaInfo({time,duration});setVideoProgress(percent);
+    if(force||Date.now()-progressReportedAt.current>4000){
+      progressReportedAt.current=Date.now();onProgressUpdate(percent);
+    }
+  };
   const currentServer = localServer ?? syncSettings.fallbackServer ?? 0;
   const nativeSource = ownedSource || (extractionStatus === 'success' ? streamData : null);
   const isNative = Boolean(nativeSource);
@@ -916,6 +932,23 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   };
   useEffect(() => { setCompatibility(false); setShowPlaybackHelp(false); }, [movie.id, currentServer]);
   const [videoProgress, setVideoProgress] = useState(syncSettings.progress || 0);
+  // VidLink's documented playback events, not iframe onload, establish playback progress.
+  useEffect(()=>{
+    if(isNative||movie.isArabic||currentServer!==0||directOnly||exhausted)return;
+    const handle=(e)=>{
+      if(e.origin!=='https://vidlink.pro'||e.source!==iframeRef.current?.contentWindow)return;
+      const d=e.data?.type==='PLAYER_EVENT'?e.data.data:null;
+      if(!d||String(d.mtmdbId)!==String(movie.id)||d.mediaType!=='movie')return;
+      if(!['play','pause','seeked','ended','timeupdate'].includes(d.event))return;
+      publishProgress(d.currentTime,d.duration,d.event==='ended'||d.event==='pause');
+      if(d.event==='play')setPlayState('Playing');
+      if(d.event==='pause')setPlayState('Paused');
+      if(d.event==='ended')setPlayState('Finished');
+      if(d.event==='timeupdate')setPlayState('Playing');
+    };
+    window.addEventListener('message',handle);return()=>window.removeEventListener('message',handle);
+  },[movie.id,movie.isArabic,currentServer,isNative,directOnly,exhausted,frameRevision]);
+  useEffect(()=>{setPlayState('Preparing');setMediaInfo({time:0,duration:0});},[movie.id,currentServer,frameRevision,isNative]);
   
   // 🛡️ State للدرع المانع للإعلانات (يمتص أول نقرتين)
   
@@ -1005,16 +1038,26 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
 
   // Embedded third-party documents are isolated by the browser sandbox below.
   // This does not remove advertising rendered inside a cross-origin frame.
-  // 🌟 🌟 الإضافة الهندسية الذكية (Multi-Extractor) 🌟 🌟
+  // Bound existing requests; never let a slow provider freeze the player.
   useEffect(() => {
+    let cancelled=false;
+    const controller=new AbortController();
+    const timedFetch=async(url,options={},ms=6500)=>{
+      const local=new AbortController();
+      const stop=()=>local.abort();
+      controller.signal.addEventListener('abort',stop,{once:true});
+      const timer=setTimeout(stop,ms);
+      try {return await fetch(url,{...options,signal:local.signal});}
+      finally{clearTimeout(timer);controller.signal.removeEventListener('abort',stop);}
+    };
     const fetchRawStream = async () => {
       setExtractionStatus('extracting');
 
       let imdbId = null;
       // 1. جلب الـ IMDB ID (نحتاجه إذا أردت استخدام سيرفر أكوام الخاص بك مستقبلاً)
       try {
-        const idRes = await fetch(`https://api.themoviedb.org/3/movie/${movie.id}/external_ids`, fetchOptions);
-        if (idRes.ok) {
+        const idRes = movie.isArabic ? await timedFetch(`https://api.themoviedb.org/3/movie/${movie.id}/external_ids`, fetchOptions) : null;
+        if (idRes?.ok) {
           const idData = await idRes.json();
           imdbId = idData.imdb_id;
         }
@@ -1040,10 +1083,12 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
       // 2. محرك البحث (يختبر السيرفرات واحداً تلو الآخر)
       for (const url of extractors) {
         try {
-          const res = await fetch(url);
+          if(cancelled)return;
+          const res = await timedFetch(url);
           if (!res.ok) continue; // فشل هذا السيرفر؟ أكمل للتالي
           
           const data = await res.json();
+          if(cancelled)return;
           
           // أ) معالجة ردود الـ Stremio Protocols (كسيرفر أكوام الذي سترفعه)
           if (data && data.streams && data.streams.length > 0) {
@@ -1078,10 +1123,11 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
 
       // 3. إذا فشلت كل السيرفرات النظيفة (أو إذا كان الفيلم عربي ولم تجهز سيرفرك بعد)
       console.log("All raw extractors failed. Falling back to iframes.");
-      setExtractionStatus('failed'); // هذا سيفعل نظام الـ Iframes القديم تلقائياً
+      if(!cancelled)setExtractionStatus('failed');
     };
 
     fetchRawStream();
+    return()=>{cancelled=true;controller.abort();};
   }, [movie.id, movie.isArabic]);
 
   useEffect(() => {
@@ -1090,9 +1136,11 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
       const d = e.detail;
       if (d.type === 'emoji') setFloatingEmojis(prev => [...prev, { id: Date.now()+Math.random(), char: d.emoji }]);
       if (videoRef.current && d.type === 'video_sync' && d.sender !== role) {
-        if (d.action === 'play') videoRef.current.play();
+        if(!['play','pause','seek'].includes(d.action))return;
+        remoteAction.current=Date.now()+1000;
+        if (d.action === 'play') videoRef.current.play().catch(()=>{});
         if (d.action === 'pause') videoRef.current.pause();
-        if (d.action === 'seek' && Math.abs(videoRef.current.currentTime - d.time) > 2) {
+        if (d.action === 'seek' && Number.isFinite(d.time) && d.time>=0 && Math.abs(videoRef.current.currentTime - d.time) > 2) {
           videoRef.current.currentTime = d.time;
         }
       }
@@ -1108,7 +1156,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   useEffect(() => {
     const video=videoRef.current;
     if(!nativeSource || !video) return;
-    setNativeError('');
+    setNativeError('');setQuality(-1);setLevels([]);setPlayState('Preparing');
     const url=nativeSource.stream_url;
     let hls;
     const fail=()=> {
@@ -1120,10 +1168,12 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     if(isMp4 || video.canPlayType('application/vnd.apple.mpegurl')) video.src=url;
     else if(Hls.isSupported()) {
       hls=new Hls({maxBufferLength:30,maxMaxBufferLength:60,enableWorker:true});
+      hlsRef.current=hls;
+      hls.on(Hls.Events.MANIFEST_PARSED,()=>setLevels(hls.levels.map((l,i)=>({id:i,height:l.height||0,bitrate:l.bitrate||0}))));
       hls.loadSource(url);hls.attachMedia(video);
       hls.on(Hls.Events.ERROR,(_event,data)=>{if(data.fatal)fail();});
     } else fail();
-    return()=>{video.removeEventListener('error',fail);hls?.destroy();video.pause();video.removeAttribute('src');video.load();};
+    return()=>{video.removeEventListener('error',fail);hls?.destroy();hlsRef.current=null;video.pause();video.removeAttribute('src');video.load();};
   }, [nativeSource,ownedSource]);
 
   const enableCompatibility=()=>{
@@ -1153,7 +1203,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   };
 
   const sendVideoEvent = (action) => {
-    if (!videoRef.current || mode === 'single' || !conn?.open) return;
+    if (!videoRef.current || mode === 'single' || !conn?.open || Date.now()<remoteAction.current) return;
     conn.send({ type: 'video_sync', action, time: videoRef.current.currentTime, sender: role });
   };
 
@@ -1193,13 +1243,18 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
       ))}
 
       {/* Persistent player controls: outside the cross-origin frame */}
-      <header className="relative shrink-0 z-[200] bg-zinc-950 border-b border-white/10 px-3 py-3 text-white">
+      <header className="relative shrink-0 z-[200] bg-gradient-to-r from-zinc-950 via-purple-950/60 to-zinc-950 border-b border-purple-400/20 px-3 py-3 text-white">
         <div className="flex items-center justify-between gap-2">
           <button onClick={onBack} className="bg-white/10 rounded-lg px-3 py-2 text-sm">← Exit</button>
           <div className="flex-1 min-w-0 text-center"><p className="truncate font-bold text-sm">{movie.title}</p><p className="text-[10px] text-gray-400">{isNative?'Direct player':frameProtected?'Protected embed':'Compatibility • ads possible'}</p></div>
           <button onClick={()=>setShowPlaybackHelp(v=>!v)} className="bg-purple-600 px-3 py-2 rounded-lg text-xs font-bold" aria-expanded={showPlaybackHelp}>⚙ Playback</button>
         </div>
-        {!isNative && <div className="flex gap-2 mt-2 items-center">
+        <div className="flex items-center justify-between gap-2 mt-3">
+          <div className="flex items-center gap-2 min-w-0"><span className="w-2 h-2 rounded-full bg-purple-400"/><span className="text-xs text-gray-300 truncate">{playState}{mediaInfo.duration>0?' · '+formatTime(Math.floor(mediaInfo.time))+' / '+formatTime(Math.floor(mediaInfo.duration)):''}</span></div>
+          <button onClick={()=>setDirectOnly(v=>!v)} aria-pressed={directOnly} className={`rounded-full px-3 py-1.5 text-xs font-bold border ${directOnly?'bg-purple-600 border-purple-400':'bg-white/5 border-white/15'}`}>{directOnly?'Direct only: ON':'Direct only: OFF'}</button>
+        </div>
+        {isNative&&levels.length>1&&<div className="flex items-center gap-2 mt-2"><label className="text-xs text-gray-300" htmlFor="cinema-quality">Quality</label><select id="cinema-quality" value={quality} onChange={e=>{const v=Number(e.target.value);setQuality(v);if(hlsRef.current)hlsRef.current.currentLevel=v;}} className="bg-zinc-800 text-white rounded-lg px-2 py-1 text-xs"><option value={-1}>Auto</option>{levels.map(l=><option key={l.id} value={l.id}>{l.height?l.height+'p':Math.round(l.bitrate/1000)+' kbps'}</option>)}</select></div>}
+        {!isNative && !directOnly && <div className="flex gap-2 mt-2 items-center overflow-x-auto pb-1">
           <button onClick={()=>reportPlaybackIssue('ad')} className="text-xs bg-pink-700 px-3 py-2 rounded-lg font-bold">Ad? Switch</button>
           <button onClick={()=>reportPlaybackIssue('blocked')} className="text-xs bg-white/10 px-3 py-2 rounded-lg">Not playing?</button>
           {!movie.isArabic && <button onClick={()=>{setShowServerList(v=>!v);setShowPlaybackHelp(false);}} className="text-xs bg-white/10 px-3 py-2 rounded-lg">Server: {fallbackNodes[currentServer]?.name||'Choose'}</button>}
@@ -1211,7 +1266,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
           {fallbackNodes.map((node,i)=><button key={i} onClick={()=>handleServerChange(i)} className={`shrink-0 text-xs px-3 py-2 rounded-lg ${i===currentServer?'bg-pink-600':'bg-white/10'}`}>{node.name}{adMemory[i]?.status==='clean'?' ✓':adMemory[i]?.status==='ad'?' · ad':adMemory[i]?.status==='blocked'?' · blocked':''}</button>)}
         </div>}
         {showPlaybackHelp && <div className="mt-3 p-3 rounded-xl border border-white/10 bg-zinc-900 space-y-3">
-          <p className="text-sm font-bold">Playback recovery</p>
+          <p className="text-sm font-bold">Cinema playback settings</p><p className="text-xs text-purple-200">Direct only never loads external player pages. It cannot guarantee that the video itself has no ads.</p>
           <p className="text-xs text-gray-300">Ad? Switch and Not playing? skip sources you report as ad-bearing or blocked. Clean reports are saved on this device for this title. Compatibility is unprotected and may show ads or redirects.</p>
           <div className="flex flex-wrap gap-2">
             <button onClick={restoreProtection} className="text-xs bg-green-700 px-3 py-2 rounded-lg">Protected mode</button>
@@ -1240,25 +1295,31 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
             crossOrigin="anonymous" 
             className="w-full h-full object-contain"
             style={{ pointerEvents: 'auto', zIndex: 10, position: 'relative' }}
-            onPlay={() => sendVideoEvent('play')} 
-            onPause={() => sendVideoEvent('pause')} 
+            onPlay={() => {setPlayState('Playing');sendVideoEvent('play');}} 
+            onPause={() => {setPlayState('Paused');sendVideoEvent('pause');}}
+            onWaiting={()=>setPlayState('Buffering')}
+            onPlaying={()=>setPlayState('Playing')}
+            onEnded={()=>{setPlayState('Finished');publishProgress(videoRef.current?.duration,videoRef.current?.duration,true);}}
+            onLoadedMetadata={()=>{const v=videoRef.current;if(v&&Number.isFinite(v.duration)&&v.duration>0){const p=Number(syncSettings.progress||0);if(p>0&&p<95&&v.currentTime<1)v.currentTime=v.duration*p/100;publishProgress(v.currentTime,v.duration);}}} 
             onSeeked={() => sendVideoEvent('seek')}
             onTimeUpdate={() => {
-              if (videoRef.current && videoRef.current.duration) {
-                const progress = (videoRef.current.currentTime / videoRef.current.duration) * 100;
-                setVideoProgress(progress);
-                onProgressUpdate(progress);
-              }
+              if (videoRef.current) publishProgress(videoRef.current.currentTime,videoRef.current.duration);
             }}
             onClick={(e) => {
               e.stopPropagation();
-              e.preventDefault();
             }}
           >
             {nativeSource?.subtitles?.map((sub, i) => (
               <track key={i} kind="subtitles" src={sub.url} srcLang={sub.lang} label={sub.language} default={sub.lang?.includes('ar')} />
             ))}
           </video>
+        ) : directOnly ? (
+          <div className="h-full flex flex-col items-center justify-center text-center p-6 text-white gap-4 bg-gradient-to-b from-zinc-900 to-black">
+            <div className="text-4xl">🍿</div><p className="font-bold text-xl">No direct video available</p>
+            <p className="text-sm text-gray-400 max-w-sm">Your library is unchanged. This title currently needs an external player, which may display ads. Direct-only mode will not load it.</p>
+            <button onClick={()=>setDirectOnly(false)} className="bg-purple-700 rounded-full px-5 py-3 font-bold text-sm">Continue with existing sources</button>
+            <button onClick={onBack} className="text-gray-300 text-sm underline">Back to library</button>
+          </div>
         ) : exhausted ? (
           <div className="h-full flex flex-col items-center justify-center text-center p-6 text-white gap-3">
             <p className="font-bold">Protected sources exhausted</p>
