@@ -307,6 +307,13 @@ function App() {
   const [roomMovie, setRoomMovie] = useState(null);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
+  const [arabicLibrary,setArabicLibrary]=useState(false);
+  const [catalogPage,setCatalogPage]=useState(1);
+  const [catalogPages,setCatalogPages]=useState(1);
+  const [catalogError,setCatalogError]=useState('');
+  const [searchDraft,setSearchDraft]=useState('');
+  const switchLibrary=(arabic)=>{setArabicLibrary(arabic);setSearch('');setSearchDraft('');setCatalogPage(1);};
+  const submitSearch=(e)=>{e.preventDefault();setCatalogPage(1);setSearch(searchDraft.trim());};
   const [welcomeName, setWelcomeName] = useState('Renad');
   
   const [roomCode, setRoomCode] = useState('');
@@ -482,20 +489,27 @@ function App() {
   }, [mode, connectionStatus]);
 
   useEffect(() => {
-    if (role !== 'admin') return;
-    const url = search 
-      ? `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(search)}&language=en-US`
-      : `https://api.themoviedb.org/3/discover/movie?language=en-US&sort_by=popularity.desc&vote_count.gte=100&page=1`;
-
-    setLoading(true);
-    fetch(url, fetchOptions)
-      .then(res => res.json())
-      .then(data => {
-        setMovies(data.results?.filter(m => m.poster_path && m.backdrop_path) || []);
-        setLoading(false);
+    if(role!=='admin')return;
+    const controller=new AbortController();
+    const lang=arabicLibrary?'ar-SA':'en-US';
+    const params=new URLSearchParams({language:lang,page:String(catalogPage),include_adult:'false'});
+    if(search)params.set('query',search);
+    else{
+      params.set('sort_by','popularity.desc');
+      if(arabicLibrary)params.set('with_original_language','ar');
+      else params.set('vote_count.gte','100');
+    }
+    const url='https://api.themoviedb.org/3/'+(search?'search/movie':'discover/movie')+'?'+params;
+    setLoading(true);setCatalogError('');
+    fetch(url,{...fetchOptions,signal:controller.signal})
+      .then(res=>{if(!res.ok)throw Error('Catalog unavailable');return res.json();})
+      .then(data=>{if(controller.signal.aborted)return;
+        setMovies((data.results||[]).filter(m=>m.poster_path&&(!arabicLibrary||m.original_language==='ar')));
+        setCatalogPages(Math.max(1,Math.min(500,Number(data.total_pages)||1)));setLoading(false);
       })
-      .catch(err => { console.error('Fetch error:', err); setLoading(false); });
-  }, [search, role]);
+      .catch(err=>{if(!controller.signal.aborted){setCatalogError('Could not load movies. Please retry.');setMovies([]);setLoading(false);}});
+    return()=>controller.abort();
+  },[search,role,arabicLibrary,catalogPage]);
 
   const toggleRoomReady = () => {
     const newStatus = !roomReady;
@@ -597,6 +611,7 @@ function App() {
   if (roomMovie) {
     return (
       <Player 
+        key={roomMovie.id}
         movie={roomMovie} 
         role={role}
         mode={mode}
@@ -737,14 +752,19 @@ function App() {
             </div>
           </div>
           
-          <input 
-            type="text" 
-            placeholder="Search movies..." 
-            className="bg-[#0a0a0a] border border-white/10 rounded-2xl px-6 py-4 w-full focus:ring-2 ring-purple-500/50 outline-none transition-all text-base"
-            onKeyDown={e => e.key === 'Enter' && setSearch(e.target.value)}
-          />
+          <div className="flex flex-wrap gap-2">
+            <button onClick={()=>switchLibrary(false)} aria-pressed={!arabicLibrary} className={`px-4 py-2 rounded-full text-sm font-bold ${!arabicLibrary?'bg-purple-600':'bg-white/5 text-gray-300'}`}>World Cinema</button>
+            <button onClick={()=>switchLibrary(true)} aria-pressed={arabicLibrary} className={`px-4 py-2 rounded-full text-sm font-bold ${arabicLibrary?'bg-purple-600':'bg-white/5 text-gray-300'}`}>السينما العربية</button>
+          </div>
+          <form onSubmit={submitSearch} className="flex gap-2">
+            <input value={searchDraft} onChange={e=>setSearchDraft(e.target.value)} dir={arabicLibrary?'rtl':'auto'} type="search" placeholder={arabicLibrary?'ابحث عن فيلم عربي...':'Search movies...'} className="min-w-0 flex-1 bg-[#0a0a0a] border border-white/10 rounded-2xl px-4 py-3 focus:ring-2 ring-purple-500/50 outline-none text-base"/>
+            <button className="rounded-2xl bg-purple-600 px-4 text-sm font-bold">{arabicLibrary?'بحث':'Search'}</button>
+          </form>
         </header>
 
+        {catalogError&&<p className="text-red-300 mb-4 text-sm">{catalogError}</p>}
+        {!loading&&!movies.length&&!catalogError&&<p className="text-gray-400 mb-4">{arabicLibrary?'لا توجد نتائج في هذه الصفحة. جرّب اسم الفيلم أو الصفحة التالية.':'No matching movies.'}</p>}
+        <div className="flex items-center justify-between mb-4 text-sm text-gray-400"><span>{arabicLibrary?'أفلام عربية':'Movies'} · {catalogPage}/{catalogPages}</span><div className="flex gap-2"><button disabled={catalogPage<=1||loading} onClick={()=>setCatalogPage(p=>p-1)} className="bg-white/5 rounded-lg px-3 py-2 disabled:opacity-30">‹</button><button disabled={catalogPage>=catalogPages||loading} onClick={()=>setCatalogPage(p=>p+1)} className="bg-white/5 rounded-lg px-3 py-2 disabled:opacity-30">›</button></div></div>
         {loading ? (
           <div className="flex justify-center mt-32"><div className="w-12 h-12 border-2 border-purple-500 border-t-transparent rounded-full animate-spin"></div></div>
         ) : (
@@ -777,14 +797,19 @@ function App() {
             </h1>
             <p className="text-gray-500 text-sm mt-1">Your personal cinema</p>
           </div>
-          <input 
-            type="text" 
-            placeholder="Search movies..." 
-            className="bg-[#0a0a0a] border border-white/10 rounded-2xl px-6 py-4 w-full focus:ring-2 ring-purple-500/50 outline-none transition-all text-base"
-            onKeyDown={e => e.key === 'Enter' && setSearch(e.target.value)}
-          />
+          <div className="flex flex-wrap gap-2">
+            <button onClick={()=>switchLibrary(false)} aria-pressed={!arabicLibrary} className={`px-4 py-2 rounded-full text-sm font-bold ${!arabicLibrary?'bg-purple-600':'bg-white/5 text-gray-300'}`}>World Cinema</button>
+            <button onClick={()=>switchLibrary(true)} aria-pressed={arabicLibrary} className={`px-4 py-2 rounded-full text-sm font-bold ${arabicLibrary?'bg-purple-600':'bg-white/5 text-gray-300'}`}>السينما العربية</button>
+          </div>
+          <form onSubmit={submitSearch} className="flex gap-2">
+            <input value={searchDraft} onChange={e=>setSearchDraft(e.target.value)} dir={arabicLibrary?'rtl':'auto'} type="search" placeholder={arabicLibrary?'ابحث عن فيلم عربي...':'Search movies...'} className="min-w-0 flex-1 bg-[#0a0a0a] border border-white/10 rounded-2xl px-4 py-3 focus:ring-2 ring-purple-500/50 outline-none text-base"/>
+            <button className="rounded-2xl bg-purple-600 px-4 text-sm font-bold">{arabicLibrary?'بحث':'Search'}</button>
+          </form>
         </header>
 
+        {catalogError&&<p className="text-red-300 mb-4 text-sm">{catalogError}</p>}
+        {!loading&&!movies.length&&!catalogError&&<p className="text-gray-400 mb-4">{arabicLibrary?'لا توجد نتائج في هذه الصفحة. جرّب اسم الفيلم أو الصفحة التالية.':'No matching movies.'}</p>}
+        <div className="flex items-center justify-between mb-4 text-sm text-gray-400"><span>{arabicLibrary?'أفلام عربية':'Movies'} · {catalogPage}/{catalogPages}</span><div className="flex gap-2"><button disabled={catalogPage<=1||loading} onClick={()=>setCatalogPage(p=>p-1)} className="bg-white/5 rounded-lg px-3 py-2 disabled:opacity-30">‹</button><button disabled={catalogPage>=catalogPages||loading} onClick={()=>setCatalogPage(p=>p+1)} className="bg-white/5 rounded-lg px-3 py-2 disabled:opacity-30">›</button></div></div>
         {loading ? (
           <div className="flex justify-center mt-32"><div className="w-12 h-12 border-2 border-purple-500 border-t-transparent rounded-full animate-spin"></div></div>
         ) : (
@@ -958,7 +983,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   const [videoProgress, setVideoProgress] = useState(syncSettings.progress || 0);
   // VidLink's documented playback events, not iframe onload, establish playback progress.
   useEffect(()=>{
-    if(isNative||movie.isArabic||currentServer!==0||directOnly||exhausted)return;
+    if(isNative||currentServer!==0||directOnly||exhausted)return;
     const handle=(e)=>{
       if(e.origin!=='https://vidlink.pro'||e.source!==iframeRef.current?.contentWindow)return;
       const d=e.data?.type==='PLAYER_EVENT'?e.data.data:null;
@@ -994,7 +1019,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   // Start with a previously reported clean protected source when one exists.
   // Never interpret iframe onload as video playback or a clean result.
   useEffect(()=>{
-    if(extractionStatus!=='failed'||movie.isArabic||preferredInitialized.current) return;
+    if(extractionStatus!=='failed'||preferredInitialized.current) return;
     preferredInitialized.current=true;
     const known=readAdMemory(movie.id);
     const preferred=pickProtectedSource(known,fallbackNodes.length);
@@ -1010,7 +1035,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   const reportPlaybackIssue = (status) => {
     const next=rememberSource(status);
     setShowPlaybackHelp(false);
-    const preferred=movie.isArabic?null:pickProtectedSource(next,fallbackNodes.length,currentServer);
+    const preferred=pickProtectedSource(next,fallbackNodes.length,currentServer);
     if(preferred===null) {
       setExhausted(true);
       setAdNotice('No other protected source remains. The external player is stopped.');
@@ -1076,6 +1101,8 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     };
     const fetchRawStream = async () => {
       setExtractionStatus('extracting');
+      // Arabic movies use the same TMDB-ID based EmbedWave route as world cinema.
+      if(movie.isArabic||movie.original_language==='ar'){setStreamData(null);setExtractionStatus('failed');return;}
 
       let imdbId = null;
       // 1. جلب الـ IMDB ID (نحتاجه إذا أردت استخدام سيرفر أكوام الخاص بك مستقبلاً)
@@ -1278,7 +1305,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
           <button onClick={onBack} aria-label="Back to library" className="w-10 h-10 shrink-0 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-2xl">‹</button>
           <div className="flex-1 min-w-0">
             <p className="truncate font-semibold text-sm md:text-base leading-tight">{movie.title}</p>
-            <p className="text-[10px] text-gray-400 mt-0.5 truncate">{isNative?'Direct player':movie.isArabic?'Arabic source · Protected':currentServer===10?'Cinesrc · Protected':(fallbackNodes[currentServer]?.name||'Player')+' · Protected'}</p>
+            <p className="text-[10px] text-gray-400 mt-0.5 truncate">{isNative?'Direct player':currentServer===10?'Cinesrc · Protected':(fallbackNodes[currentServer]?.name||'Player')+' · Protected'}</p>
           </div>
           <button onClick={()=>{setShowPlaybackHelp(v=>!v);setShowServerList(false);}} aria-label="Playback options" aria-expanded={showPlaybackHelp} className="w-10 h-10 shrink-0 rounded-full bg-white/5 hover:bg-white/10 text-xl flex items-center justify-center">⋯</button>
         </div>
@@ -1293,16 +1320,16 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
             <button onClick={()=>setShowPlaybackHelp(false)} aria-label="Close settings" className="w-9 h-9 rounded-full bg-white/10 text-xl">×</button>
           </div>
           <div className="rounded-2xl bg-white/5 p-4 space-y-3">
-            <div className="flex justify-between items-center gap-3"><span className="text-sm text-gray-300">Source</span><span className="text-sm font-semibold text-purple-300">{isNative?'Direct player':movie.isArabic?'Arabic source':fallbackNodes[currentServer]?.name||'Player'}</span></div>
-            {!isNative&&currentServer===10&&!movie.isArabic&&<p className="text-xs text-gray-400">Cinesrc is the default. Audio and Arabic subtitles are controlled by the embedded player.</p>}
+            <div className="flex justify-between items-center gap-3"><span className="text-sm text-gray-300">Source</span><span className="text-sm font-semibold text-purple-300">{isNative?'Direct player':fallbackNodes[currentServer]?.name||'Player'}</span></div>
+            {!isNative&&currentServer===10&&<p className="text-xs text-gray-400">Cinesrc is the default. Audio and Arabic subtitles are controlled by the embedded player.</p>}
             <div className="flex justify-between items-center gap-3"><span className="text-sm text-gray-300">Navigation protection</span><span className="text-xs text-green-300">Always on</span></div>
             {isNative&&<p className="text-xs text-gray-400">{playState}{mediaInfo.duration>0?' · '+formatTime(Math.floor(mediaInfo.time))+' / '+formatTime(Math.floor(mediaInfo.duration)):''}<br/>Audio: {languageStatus.audio} · CC: {languageStatus.subs}</p>}
             {isNative&&levels.length>1&&<div className="flex justify-between items-center"><label htmlFor="cinema-quality" className="text-sm text-gray-300">Quality</label><select id="cinema-quality" value={quality} onChange={e=>{const v=Number(e.target.value);setQuality(v);if(hlsRef.current)hlsRef.current.currentLevel=v;}} className="bg-zinc-800 rounded-lg px-2 py-2 text-xs"><option value={-1}>Auto</option>{levels.map(l=><option key={l.id} value={l.id}>{l.height?l.height+'p':Math.round(l.bitrate/1000)+' kbps'}</option>)}</select></div>}
             <button onClick={()=>setDirectOnly(v=>!v)} aria-pressed={directOnly} className="w-full flex items-center justify-between gap-3 text-sm text-left"><span>Direct-only mode</span><span className={`rounded-full w-10 h-6 p-1 transition-colors ${directOnly?'bg-purple-600':'bg-zinc-600'}`}><span className={`block w-4 h-4 rounded-full bg-white transition-transform ${directOnly?'translate-x-4':''}`}/></span></button>
           </div>
           {!isNative&&!directOnly&&<div className="mt-4 space-y-2">
-            {!movie.isArabic&&<button onClick={()=>setShowServerList(v=>!v)} aria-expanded={showServerList} className="w-full flex items-center justify-between rounded-xl bg-white/5 px-4 py-3 text-sm"><span>Change server</span><span className="text-gray-400">{showServerList?'⌃':'›'}</span></button>}
-            {showServerList&&!movie.isArabic&&<div className="grid grid-cols-2 gap-2">{ACTIVE_SERVER_IDS.map(i=>{const node=fallbackNodes[i];return <button key={i} onClick={()=>{handleServerChange(i);setShowPlaybackHelp(false);}} className={`text-left rounded-xl px-3 py-3 ${i===currentServer?'bg-purple-600':'bg-white/5'}`}><span className="block text-xs font-semibold">{node.name}</span><span className="block text-[10px] opacity-75 mt-1">{adMemory[i]?.status==='ad'?'Ad reported':adMemory[i]?.status==='blocked'?'Blocked':adMemory[i]?.status==='clean'?'Reported clean':node.health}</span></button>;})}</div>}
+            {<button onClick={()=>setShowServerList(v=>!v)} aria-expanded={showServerList} className="w-full flex items-center justify-between rounded-xl bg-white/5 px-4 py-3 text-sm"><span>Change server</span><span className="text-gray-400">{showServerList?'⌃':'›'}</span></button>}
+            {showServerList&&<div className="grid grid-cols-2 gap-2">{ACTIVE_SERVER_IDS.map(i=>{const node=fallbackNodes[i];return <button key={i} onClick={()=>{handleServerChange(i);setShowPlaybackHelp(false);}} className={`text-left rounded-xl px-3 py-3 ${i===currentServer?'bg-purple-600':'bg-white/5'}`}><span className="block text-xs font-semibold">{node.name}</span><span className="block text-[10px] opacity-75 mt-1">{adMemory[i]?.status==='ad'?'Ad reported':adMemory[i]?.status==='blocked'?'Blocked':adMemory[i]?.status==='clean'?'Reported clean':node.health}</span></button>;})}</div>}
             <div className="grid grid-cols-2 gap-2">
               <button onClick={()=>{setExhausted(false);setFrameRevision(v=>v+1);setShowPlaybackHelp(false);}} className="rounded-xl bg-white/5 p-3 text-sm">↻ Reload</button>
               <button onClick={()=>{reportPlaybackIssue('blocked');setShowPlaybackHelp(false);}} className="rounded-xl bg-white/5 p-3 text-sm">Not playing?</button>
@@ -1372,12 +1399,12 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
               ref={iframeRef}
               key={`${movie.id}-${currentServer}-${frameRevision}`}
               title="Movie playback"
-              src={movie.isArabic ? `https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(movie.title + ' فيلم كامل')}` : fallbackNodes[currentServer]?.url}
+              src={fallbackNodes[currentServer]?.url}
               className="w-full h-full border-0"
               sandbox="allow-scripts allow-same-origin allow-presentation"
               allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
               allowFullScreen
-              referrerPolicy={currentServer===10&&!movie.isArabic?'no-referrer':'strict-origin-when-cross-origin'}
+              referrerPolicy={currentServer===10?'no-referrer':'strict-origin-when-cross-origin'}
               style={{ zIndex: 10, position: 'relative' }}
             />
           </div>
