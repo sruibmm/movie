@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
 import ReactDOM from 'react-dom/client'
 import Hls from 'hls.js'
+import SmartPeople,{CinemaCard,CinemaHero} from './SmartPeople.jsx'
+import './noir.css'
 import ArabicClassics from './ArabicClassics.jsx'
 import ArabicDiscovery,{OfficialAvailability} from './ArabicDiscovery.jsx'
 import {embedwaveUrl} from './arabicDiscovery.js'
@@ -206,12 +208,12 @@ function ModeSelection({ onSelectMode, onShowHistory }) {
   const history = getHistory();
 
   return (
-    <div className="h-screen w-full bg-gradient-to-br from-[#0a0a0a] via-[#050505] to-[#0a0a0a] flex flex-col items-center justify-center gap-8 p-6">
+    <div className="noir-entry w-full flex flex-col items-center justify-center gap-8 p-6">
       <div className="text-center space-y-4">
         <h1 className="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-purple-400 italic tracking-tight">
-          Welcome to Cinema
+          Omar & Renad Cinema
         </h1>
-        <p className="text-gray-400 text-lg">Choose your viewing experience</p>
+        <p className="text-gray-400 text-lg">Your private screening room</p>
       </div>
       
       <div className="flex flex-col sm:flex-row gap-6 mt-8">
@@ -716,7 +718,7 @@ function App() {
 
   if (mode === 'couples' && role === 'admin') {
     return (
-      <div className="min-h-screen bg-[#050505] text-white p-4 md:p-8 font-sans selection:bg-purple-500" dir="ltr">
+      <div className="noir-shell" dir="ltr">
         <header className="mb-8 md:mb-14 flex flex-col gap-6 border-b border-white/5 pb-6">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
@@ -771,27 +773,23 @@ function App() {
             <button onClick={()=>switchLibrary(true)} aria-pressed={arabicLibrary} className={`px-4 py-2 rounded-full text-sm font-bold ${arabicLibrary?'bg-purple-600':'bg-white/5 text-gray-300'}`}>السينما العربية</button>
           </div>
           <form onSubmit={submitSearch} className="flex gap-2">
-            <input value={searchDraft} onChange={e=>setSearchDraft(e.target.value)} dir={arabicLibrary?'rtl':'auto'} type="search" placeholder={arabicLibrary?'ابحث عن فيلم عربي...':'Search movies...'} className="min-w-0 flex-1 bg-[#0a0a0a] border border-white/10 rounded-2xl px-4 py-3 focus:ring-2 ring-purple-500/50 outline-none text-base"/>
+            <input value={searchDraft} onChange={e=>setSearchDraft(e.target.value)} dir={arabicLibrary?'rtl':'auto'} type="search" placeholder={arabicLibrary?'فيلم، مسلسل أو اسم ممثل...':'Search movies, actors, series…'} className="min-w-0 flex-1 bg-[#0a0a0a] border border-white/10 rounded-2xl px-4 py-3 focus:ring-2 ring-purple-500/50 outline-none text-base"/>
             <button className="rounded-2xl bg-purple-600 px-4 text-sm font-bold">{arabicLibrary?'بحث':'Search'}</button>
           </form>
         </header>
 
+        {!search&&!loading&&<CinemaHero movie={movies.find(m=>m.backdrop_path)||movies[0]} arabic={arabicLibrary} onClick={()=>setActiveMovie(movies.find(m=>m.backdrop_path)||movies[0])}/>}
+        {search&&<SmartPeople query={search} options={fetchOptions} onMovie={setActiveMovie} onEpisode={startArabicEpisode} initialArabic={arabicLibrary}/>}
         {arabicLibrary&&<ArabicClassics query={search} mode={mode}/>}
+        <div className="noir-section-heading"><div><span className="noir-kicker">{search?'SEARCH RESULTS':'THE COLLECTION'}</span><h2>{search?(arabicLibrary?'نتائج الأفلام':'Film results'):(arabicLibrary?'السينما العربية':'Explore cinema')}</h2></div></div>
         {catalogError&&<p className="text-red-300 mb-4 text-sm">{catalogError}</p>}
         {!loading&&!movies.length&&!catalogError&&<p className="text-gray-400 mb-4">{arabicLibrary?'لا توجد نتائج في هذه الصفحة. جرّب اسم الفيلم أو الصفحة التالية.':'No matching movies.'}</p>}
-        <div className="flex items-center justify-between mb-4 text-sm text-gray-400"><span>{arabicLibrary?'أفلام عربية':'Movies'} · {catalogPage}/{catalogPages}</span><div className="flex gap-2"><button disabled={catalogPage<=1||loading} onClick={()=>setCatalogPage(p=>p-1)} className="bg-white/5 rounded-lg px-3 py-2 disabled:opacity-30">‹</button><button disabled={catalogPage>=catalogPages||loading} onClick={()=>setCatalogPage(p=>p+1)} className="bg-white/5 rounded-lg px-3 py-2 disabled:opacity-30">›</button></div></div>
+        <div className="noir-catalog-nav"><span>{arabicLibrary?'أفلام عربية':'Movies'} · {catalogPage}/{catalogPages}</span><div className="flex gap-2"><button disabled={catalogPage<=1||loading} onClick={()=>setCatalogPage(p=>p-1)} className="bg-white/5 rounded-lg px-3 py-2 disabled:opacity-30">‹</button><button disabled={catalogPage>=catalogPages||loading} onClick={()=>setCatalogPage(p=>p+1)} className="bg-white/5 rounded-lg px-3 py-2 disabled:opacity-30">›</button></div></div>
         {loading ? (
           <div className="flex justify-center mt-32"><div className="w-12 h-12 border-2 border-purple-500 border-t-transparent rounded-full animate-spin"></div></div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
-            {movies.map(m => (
-              <div key={m.id} onClick={() => setActiveMovie(m)} className="group cursor-pointer">
-                <div className="relative aspect-[2/3] rounded-2xl overflow-hidden border border-white/5 group-hover:border-purple-500/50 transition-all bg-zinc-900 shadow-lg">
-                  <img src={`https://image.tmdb.org/t/p/w500${m.poster_path}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt={m.title} />
-                </div>
-                <h3 className="mt-3 text-xs font-bold text-gray-300 text-center truncate group-hover:text-pink-400 transition-colors">{m.title}</h3>
-              </div>
-            ))}
+          <div className="noir-grid">
+            {movies.map(m=><CinemaCard key={m.id} movie={m} onClick={()=>setActiveMovie(m)}/>)}
           </div>
         )}
         {arabicLibrary&&<ArabicDiscovery query={search} existing={movies} options={fetchOptions} onMovie={setActiveMovie} onEpisode={startArabicEpisode}/>}
@@ -805,7 +803,7 @@ function App() {
 
   if (mode === 'single' && role === 'admin') {
     return (
-      <div className="min-h-screen bg-[#050505] text-white p-4 md:p-8 font-sans selection:bg-purple-500" dir="ltr">
+      <div className="noir-shell" dir="ltr">
         <header className="mb-8 md:mb-14 flex flex-col gap-6 border-b border-white/5 pb-6">
           <div>
             <h1 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 italic">
@@ -818,27 +816,23 @@ function App() {
             <button onClick={()=>switchLibrary(true)} aria-pressed={arabicLibrary} className={`px-4 py-2 rounded-full text-sm font-bold ${arabicLibrary?'bg-purple-600':'bg-white/5 text-gray-300'}`}>السينما العربية</button>
           </div>
           <form onSubmit={submitSearch} className="flex gap-2">
-            <input value={searchDraft} onChange={e=>setSearchDraft(e.target.value)} dir={arabicLibrary?'rtl':'auto'} type="search" placeholder={arabicLibrary?'ابحث عن فيلم عربي...':'Search movies...'} className="min-w-0 flex-1 bg-[#0a0a0a] border border-white/10 rounded-2xl px-4 py-3 focus:ring-2 ring-purple-500/50 outline-none text-base"/>
+            <input value={searchDraft} onChange={e=>setSearchDraft(e.target.value)} dir={arabicLibrary?'rtl':'auto'} type="search" placeholder={arabicLibrary?'فيلم، مسلسل أو اسم ممثل...':'Search movies, actors, series…'} className="min-w-0 flex-1 bg-[#0a0a0a] border border-white/10 rounded-2xl px-4 py-3 focus:ring-2 ring-purple-500/50 outline-none text-base"/>
             <button className="rounded-2xl bg-purple-600 px-4 text-sm font-bold">{arabicLibrary?'بحث':'Search'}</button>
           </form>
         </header>
 
+        {!search&&!loading&&<CinemaHero movie={movies.find(m=>m.backdrop_path)||movies[0]} arabic={arabicLibrary} onClick={()=>setActiveMovie(movies.find(m=>m.backdrop_path)||movies[0])}/>}
+        {search&&<SmartPeople query={search} options={fetchOptions} onMovie={setActiveMovie} onEpisode={startArabicEpisode} initialArabic={arabicLibrary}/>}
         {arabicLibrary&&<ArabicClassics query={search} mode={mode}/>}
+        <div className="noir-section-heading"><div><span className="noir-kicker">{search?'SEARCH RESULTS':'THE COLLECTION'}</span><h2>{search?(arabicLibrary?'نتائج الأفلام':'Film results'):(arabicLibrary?'السينما العربية':'Explore cinema')}</h2></div></div>
         {catalogError&&<p className="text-red-300 mb-4 text-sm">{catalogError}</p>}
         {!loading&&!movies.length&&!catalogError&&<p className="text-gray-400 mb-4">{arabicLibrary?'لا توجد نتائج في هذه الصفحة. جرّب اسم الفيلم أو الصفحة التالية.':'No matching movies.'}</p>}
-        <div className="flex items-center justify-between mb-4 text-sm text-gray-400"><span>{arabicLibrary?'أفلام عربية':'Movies'} · {catalogPage}/{catalogPages}</span><div className="flex gap-2"><button disabled={catalogPage<=1||loading} onClick={()=>setCatalogPage(p=>p-1)} className="bg-white/5 rounded-lg px-3 py-2 disabled:opacity-30">‹</button><button disabled={catalogPage>=catalogPages||loading} onClick={()=>setCatalogPage(p=>p+1)} className="bg-white/5 rounded-lg px-3 py-2 disabled:opacity-30">›</button></div></div>
+        <div className="noir-catalog-nav"><span>{arabicLibrary?'أفلام عربية':'Movies'} · {catalogPage}/{catalogPages}</span><div className="flex gap-2"><button disabled={catalogPage<=1||loading} onClick={()=>setCatalogPage(p=>p-1)} className="bg-white/5 rounded-lg px-3 py-2 disabled:opacity-30">‹</button><button disabled={catalogPage>=catalogPages||loading} onClick={()=>setCatalogPage(p=>p+1)} className="bg-white/5 rounded-lg px-3 py-2 disabled:opacity-30">›</button></div></div>
         {loading ? (
           <div className="flex justify-center mt-32"><div className="w-12 h-12 border-2 border-purple-500 border-t-transparent rounded-full animate-spin"></div></div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
-            {movies.map(m => (
-              <div key={m.id} onClick={() => setActiveMovie(m)} className="group cursor-pointer">
-                <div className="relative aspect-[2/3] rounded-2xl overflow-hidden border border-white/5 group-hover:border-purple-500/50 transition-all bg-zinc-900 shadow-lg">
-                  <img src={`https://image.tmdb.org/t/p/w500${m.poster_path}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt={m.title} />
-                </div>
-                <h3 className="mt-3 text-xs font-bold text-gray-300 text-center truncate group-hover:text-pink-400 transition-colors">{m.title}</h3>
-              </div>
-            ))}
+          <div className="noir-grid">
+            {movies.map(m=><CinemaCard key={m.id} movie={m} onClick={()=>setActiveMovie(m)}/>)}
           </div>
         )}
         {arabicLibrary&&<ArabicDiscovery query={search} existing={movies} options={fetchOptions} onMovie={setActiveMovie} onEpisode={startArabicEpisode}/>}
@@ -854,12 +848,12 @@ function MovieDetail({ movie, onBack, onStartParty }) {
   const historyItem = getFromHistory(movie.id);
   
   useEffect(() => {
-    fetch(`https://api.themoviedb.org/3/movie/${movie.id}?language=en-US`, fetchOptions)
+    fetch(`https://api.themoviedb.org/3/movie/${movie.id}?language=${movie.original_language==='ar'?'ar-SA':'en-US'}`, fetchOptions)
       .then(res => res.json()).then(data => setDetails(data));
   }, [movie.id]);
 
   return (
-    <div className="min-h-screen w-full bg-black relative flex items-center justify-center p-4 md:p-6 text-left overflow-hidden" dir="ltr">
+    <div className="noir-detail min-h-screen w-full bg-black relative flex items-center justify-center p-4 md:p-6 text-left overflow-hidden" dir="ltr">
       <div className="absolute inset-0 z-0">
         <img src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`} className="w-full h-full object-cover opacity-30 blur-2xl" />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-[#050505]/90 to-transparent"></div>
@@ -896,7 +890,7 @@ function MovieDetail({ movie, onBack, onStartParty }) {
           <p className="text-gray-300 text-base md:text-lg leading-relaxed">{movie.overview || "No synopsis available."}</p>
           {(movie.original_language==='ar'||details?.original_language==='ar')&&<OfficialAvailability movie={movie} options={fetchOptions}/>}
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
-            <button onClick={() => onStartParty({ ...movie, runtime:details?.runtime||movie.runtime,original_title:details?.original_title||movie.original_title, original_language: details?.original_language || movie.original_language, isArabic: (details?.original_language || movie.original_language) === 'ar' })} className="bg-gradient-to-r from-purple-600 to-pink-600 px-8 py-4 rounded-2xl font-black text-white hover:scale-105 transition-all shadow-xl">
+            <button onClick={() => onStartParty({ ...movie, runtime:details?.runtime||movie.runtime,original_title:details?.original_title||movie.original_title, original_language: details?.original_language || movie.original_language, isArabic: (details?.original_language || movie.original_language) === 'ar' })} className="noir-watch bg-gradient-to-r from-purple-600 to-pink-600 px-8 py-4 rounded-2xl font-black text-white hover:scale-105 transition-all shadow-xl">
               {historyItem?.progress > 0 ? '▶️ Resume' : '🍿 Start Watching'}
             </button>
             <button onClick={onBack} className="bg-white/5 border border-white/10 px-8 py-4 rounded-2xl font-black text-white hover:bg-white/10 transition-all">
