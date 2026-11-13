@@ -12,13 +12,15 @@ export default async function handler(req,res){
  res.setHeader('Cache-Control','public, max-age=60, s-maxage=3600');
  try{
   const q=title+(type==='tv'?' الحلقة '+episode:' كامل');
-  const searches=await Promise.allSettled(PUBLISHERS.map(p=>yt('search',{part:'snippet',type:'video',q,channelId:p.id,maxResults:15,videoEmbeddable:'true',videoDuration:type==='tv'?'any':'long',regionCode:'KW',relevanceLanguage:'ar'},key)));
+  const resolved=await Promise.allSettled(PUBLISHERS.map(async p=>p.id?p:{...p,id:(await yt('channels',{part:'id',forHandle:p.handle},key)).items?.[0]?.id}));
+  const publishers=resolved.filter(x=>x.status==='fulfilled'&&x.value.id).map(x=>x.value);
+  const searches=await Promise.allSettled(publishers.map(p=>yt('search',{part:'snippet',type:'video',q,channelId:p.id,maxResults:8,videoEmbeddable:'true',videoDuration:type==='tv'?'any':'long',regionCode:'KW',relevanceLanguage:'ar'},key)));
   const ok=searches.filter(x=>x.status==='fulfilled');
   if(!ok.length)return res.status(502).json({configured:true,items:[],error:'Publisher search temporarily unavailable'});
   const ids=[...new Set(ok.flatMap(x=>(x.value.items||[]).map(v=>v.id?.videoId)).filter(x=>/^[-_A-Za-z0-9]{11}$/.test(x||'')))];
   if(!ids.length)return res.json({configured:true,items:[],partial:ok.length!==PUBLISHERS.length});
   const videos=await yt('videos',{part:'snippet,contentDetails,status',id:ids.slice(0,50).join(',')},key);
-  const items=(videos.items||[]).map(v=>matchPublisherVideo(v,query)).filter(Boolean).sort((a,b)=>Math.abs(a.duration-query.runtime*60)-Math.abs(b.duration-query.runtime*60)).slice(0,8);
+  const items=(videos.items||[]).map(v=>matchPublisherVideo(v,query,publishers)).filter(Boolean).sort((a,b)=>Math.abs(a.duration-query.runtime*60)-Math.abs(b.duration-query.runtime*60)).slice(0,8);
   return res.json({configured:true,items,partial:ok.length!==PUBLISHERS.length});
  }catch{return res.status(502).json({configured:true,items:[],error:'Publisher lookup temporarily unavailable'});}
 }
