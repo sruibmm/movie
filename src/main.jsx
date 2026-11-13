@@ -861,6 +861,27 @@ function MovieDetail({ movie, onBack, onStartParty }) {
 }
 
 // 👑 Player Component - iOS OPTIMIZED AD BLOCKER + MULTI-EXTRACTOR
+// Per-title, per-device observations. A user report is evidence, not an ad-free guarantee.
+const AD_MEMORY_KEY = 'cinema_ad_observations_v1';
+function readAdMemory(movieId) {
+  try { return JSON.parse(localStorage.getItem(AD_MEMORY_KEY)||'{}')[String(movieId)] || {}; }
+  catch { return {}; }
+}
+function writeAdMemory(movieId, observations) {
+  try {
+    const all=JSON.parse(localStorage.getItem(AD_MEMORY_KEY)||'{}');
+    delete all[String(movieId)];
+    all[String(movieId)]=observations;
+    const keys=Object.keys(all);
+    for(const key of keys.slice(0,Math.max(0,keys.length-200))) delete all[key];
+    localStorage.setItem(AD_MEMORY_KEY,JSON.stringify(all));
+  } catch {}
+}
+function pickProtectedSource(observations, count, current=-1) {
+  const eligible=Array.from({length:count},(_,i)=>i).filter(i=>i!==current && !['ad','blocked'].includes(observations[i]?.status));
+  return eligible.sort((a,b)=>(observations[b]?.status==='clean'?1:0)-(observations[a]?.status==='clean'?1:0))[0] ?? null;
+}
+
 function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onServerChange, onSandboxToggle, onProgressUpdate, onBack }) {
   const videoRef = useRef(null);
   const iframeRef = useRef(null);
@@ -875,6 +896,10 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   const [frameRevision, setFrameRevision] = useState(0);
   const [showPlaybackHelp, setShowPlaybackHelp] = useState(false);
   const [localServer, setLocalServer] = useState(null);
+  const [adMemory, setAdMemory] = useState(()=>readAdMemory(movie.id));
+  const [adNotice, setAdNotice] = useState('');
+  const [exhausted, setExhausted] = useState(false);
+  const preferredInitialized = useRef(false);
   const [ownedUrl, setOwnedUrl] = useState('');
   const [ownedError, setOwnedError] = useState('');
   const [ownedSource, setOwnedSource] = useState(null);
@@ -883,6 +908,12 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   const nativeSource = ownedSource || (extractionStatus === 'success' ? streamData : null);
   const isNative = Boolean(nativeSource);
   const frameProtected = !compatibility;
+  const rememberSource = (status) => {
+    const next={...adMemory,[currentServer]:{status,at:Date.now()}};
+    setAdMemory(next);
+    writeAdMemory(movie.id,next);
+    return next;
+  };
   useEffect(() => { setCompatibility(false); setShowPlaybackHelp(false); }, [movie.id, currentServer]);
   const [videoProgress, setVideoProgress] = useState(syncSettings.progress || 0);
   
@@ -902,6 +933,37 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     { name: "MoviesClub", url: `https://moviesapi.club/movie/${movie.id}` },
     { name: "Vidsrc XYZ", url: `https://vidsrc.xyz/embed/movie/${movie.id}` }
   ];
+  // Start with a previously reported clean protected source when one exists.
+  // Never interpret iframe onload as video playback or a clean result.
+  useEffect(()=>{
+    if(extractionStatus!=='failed'||movie.isArabic||preferredInitialized.current) return;
+    preferredInitialized.current=true;
+    const known=readAdMemory(movie.id);
+    const preferred=pickProtectedSource(known,fallbackNodes.length);
+    const currentStatus=known[currentServer]?.status;
+    if(preferred!==null && (known[preferred]?.status==='clean'||['ad','blocked'].includes(currentStatus))) {
+      if(role==='admin') onServerChange(preferred);
+      else setLocalServer(preferred);
+    } else if(preferred===null) {
+      setExhausted(true);
+      setAdNotice('No other protected source remains for this title.');
+    }
+  },[extractionStatus,movie.id,movie.isArabic]);
+  const reportPlaybackIssue = (status) => {
+    const next=rememberSource(status);
+    setCompatibility(false);
+    setShowPlaybackHelp(false);
+    const preferred=movie.isArabic?null:pickProtectedSource(next,fallbackNodes.length,currentServer);
+    if(preferred===null) {
+      setExhausted(true);
+      setAdNotice('No other protected source remains. The external player is stopped.');
+      return;
+    }
+    setExhausted(false);
+    setAdNotice(status==='ad'?'Ad reported. Trying another protected source.':'Protection rejected. Trying another protected source.');
+    handleServerChange(preferred);
+  };
+
 
   useEffect(() => {
     const timer = setInterval(() => setTogetherTime(p => p + 1), 1000);
@@ -1065,11 +1127,13 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   }, [nativeSource,ownedSource]);
 
   const enableCompatibility=()=>{
+    setExhausted(false);
     setCompatibility(true);
     setShowPlaybackHelp(false);
     setFrameRevision(v=>v+1);
   };
   const restoreProtection=()=>{
+    setExhausted(false);
     setCompatibility(false);
     setFrameRevision(v=>v+1);
     setShowPlaybackHelp(false);
@@ -1095,6 +1159,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
 
   const handleServerChange = (index) => {
     setCompatibility(false);
+    setExhausted(false);
     setOwnedSource(null);
     if (role === 'admin') { setLocalServer(null); onServerChange(index); }
     else setLocalServer(index);
@@ -1135,16 +1200,19 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
           <button onClick={()=>setShowPlaybackHelp(v=>!v)} className="bg-purple-600 px-3 py-2 rounded-lg text-xs font-bold" aria-expanded={showPlaybackHelp}>⚙ Playback</button>
         </div>
         {!isNative && <div className="flex gap-2 mt-2 items-center">
-          <button onClick={()=>{setShowPlaybackHelp(true);setShowServerList(false);}} className="text-xs bg-white/10 px-3 py-2 rounded-lg">Not playing?</button>
+          <button onClick={()=>reportPlaybackIssue('ad')} className="text-xs bg-pink-700 px-3 py-2 rounded-lg font-bold">Ad? Switch</button>
+          <button onClick={()=>reportPlaybackIssue('blocked')} className="text-xs bg-white/10 px-3 py-2 rounded-lg">Not playing?</button>
           {!movie.isArabic && <button onClick={()=>{setShowServerList(v=>!v);setShowPlaybackHelp(false);}} className="text-xs bg-white/10 px-3 py-2 rounded-lg">Server: {fallbackNodes[currentServer]?.name||'Choose'}</button>}
-          <button onClick={()=>setFrameRevision(v=>v+1)} className="text-xs bg-white/10 px-3 py-2 rounded-lg">↻ Reload</button>
+          <button onClick={()=>{setExhausted(false);setFrameRevision(v=>v+1);}} className="text-xs bg-white/10 px-3 py-2 rounded-lg">↻ Reload</button>
+          {frameProtected&&!exhausted&&<button onClick={()=>{rememberSource('clean');setAdNotice('Clean source remembered for this title on this device.');}} className="text-xs bg-green-900 px-3 py-2 rounded-lg">No ads ✓</button>}
         </div>}
+        {adNotice&&<p role="status" className="text-xs text-pink-200 mt-2">{adNotice}</p>}
         {showServerList && !movie.isArabic && <div className="flex gap-2 overflow-x-auto mt-3 pb-1">
-          {fallbackNodes.map((node,i)=><button key={i} onClick={()=>handleServerChange(i)} className={`shrink-0 text-xs px-3 py-2 rounded-lg ${i===currentServer?'bg-pink-600':'bg-white/10'}`}>{node.name}</button>)}
+          {fallbackNodes.map((node,i)=><button key={i} onClick={()=>handleServerChange(i)} className={`shrink-0 text-xs px-3 py-2 rounded-lg ${i===currentServer?'bg-pink-600':'bg-white/10'}`}>{node.name}{adMemory[i]?.status==='clean'?' ✓':adMemory[i]?.status==='ad'?' · ad':adMemory[i]?.status==='blocked'?' · blocked':''}</button>)}
         </div>}
         {showPlaybackHelp && <div className="mt-3 p-3 rounded-xl border border-white/10 bg-zinc-900 space-y-3">
           <p className="text-sm font-bold">Playback recovery</p>
-          <p className="text-xs text-gray-300">If the provider shows “Please Disable Sandbox”, it does not support protected playback. Try another source first. Compatibility is unprotected and may show ads or redirects.</p>
+          <p className="text-xs text-gray-300">Ad? Switch and Not playing? skip sources you report as ad-bearing or blocked. Clean reports are saved on this device for this title. Compatibility is unprotected and may show ads or redirects.</p>
           <div className="flex flex-wrap gap-2">
             <button onClick={restoreProtection} className="text-xs bg-green-700 px-3 py-2 rounded-lg">Protected mode</button>
             {!isNative && !movie.isArabic && <button onClick={()=>handleServerChange((currentServer+1)%fallbackNodes.length)} className="text-xs bg-purple-700 px-3 py-2 rounded-lg">Try next server</button>}
@@ -1191,6 +1259,13 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
               <track key={i} kind="subtitles" src={sub.url} srcLang={sub.lang} label={sub.language} default={sub.lang?.includes('ar')} />
             ))}
           </video>
+        ) : exhausted ? (
+          <div className="h-full flex flex-col items-center justify-center text-center p-6 text-white gap-3">
+            <p className="font-bold">Protected sources exhausted</p>
+            <p className="text-sm text-gray-400">We stopped the external player instead of silently disabling protection. You can retry or explicitly choose compatibility.</p>
+            <button onClick={()=>{setAdMemory({});writeAdMemory(movie.id,{});restoreProtection();}} className="bg-purple-700 rounded-xl px-4 py-2 text-sm">Retry protected sources</button>
+            <button onClick={()=>setShowPlaybackHelp(true)} className="underline text-sm text-gray-300">Playback options</button>
+          </div>
         ) : (
           <div className="relative w-full h-full bg-black flex items-center justify-center">
             <iframe
