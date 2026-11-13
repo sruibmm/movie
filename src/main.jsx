@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
 import ReactDOM from 'react-dom/client'
 import Hls from 'hls.js'
+import GhosteryLab from './GhosteryLab.jsx'
+import { shieldFetch } from './ghosteryShield.js'
 import Peer from 'peerjs'
 
 // 🔑 TMDB API Key
@@ -485,7 +487,7 @@ function App() {
       : `https://api.themoviedb.org/3/discover/movie?language=en-US&sort_by=popularity.desc&vote_count.gte=100&page=1`;
 
     setLoading(true);
-    fetch(url, fetchOptions)
+    shieldFetch(url, fetchOptions)
       .then(res => res.json())
       .then(data => {
         setMovies(data.results?.filter(m => m.poster_path && m.backdrop_path) || []);
@@ -806,7 +808,7 @@ function MovieDetail({ movie, onBack, onStartParty }) {
   const historyItem = getFromHistory(movie.id);
   
   useEffect(() => {
-    fetch(`https://api.themoviedb.org/3/movie/${movie.id}?language=en-US`, fetchOptions)
+    shieldFetch(`https://api.themoviedb.org/3/movie/${movie.id}?language=en-US`, fetchOptions)
       .then(res => res.json()).then(data => setDetails(data));
   }, [movie.id]);
 
@@ -1012,7 +1014,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
       let imdbId = null;
       // 1. جلب الـ IMDB ID (نحتاجه إذا أردت استخدام سيرفر أكوام الخاص بك مستقبلاً)
       try {
-        const idRes = await fetch(`https://api.themoviedb.org/3/movie/${movie.id}/external_ids`, fetchOptions);
+        const idRes = await shieldFetch(`https://api.themoviedb.org/3/movie/${movie.id}/external_ids`, fetchOptions);
         if (idRes.ok) {
           const idData = await idRes.json();
           imdbId = idData.imdb_id;
@@ -1039,7 +1041,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
       // 2. محرك البحث (يختبر السيرفرات واحداً تلو الآخر)
       for (const url of extractors) {
         try {
-          const res = await fetch(url);
+          const res = await shieldFetch(url);
           if (!res.ok) continue; // فشل هذا السيرفر؟ أكمل للتالي
           
           const data = await res.json();
@@ -1355,4 +1357,4 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   );
 }
 
-ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+ReactDOM.createRoot(document.getElementById('root')).render(<><App /><GhosteryLab /></>);
