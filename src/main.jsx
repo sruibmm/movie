@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
 import ReactDOM from 'react-dom/client'
 import Hls from 'hls.js'
+import OpenLibrary from './OpenLibrary.jsx'
+import {OPEN_FILMS,matchSeed,seedSource,yearOf} from './openCinema.js'
 import Peer from 'peerjs'
 import { ACTIVE_SERVER_IDS, normalizeServerId, nextServerId, pickProtectedSource } from './sourceMaintenance.js'
 
@@ -43,6 +45,11 @@ const saveToHistory = (movie, progress, settings) => {
       movieId: movie.id,
       title: movie.title,
       poster: movie.poster_path,
+      posterUrl: movie.posterUrl,
+      openCatalog: movie.openCatalog,
+      archiveId: movie.archiveId,
+      openKey: movie.openKey,
+      release_date: movie.release_date,
       progress: progress,
       settings: settings,
       lastWatched: Date.now(),
@@ -163,7 +170,7 @@ function HistoryPanel({ onSelectMovie, onClose }) {
             >
               <div className="relative aspect-[2/3]">
                 <img 
-                  src={`https://image.tmdb.org/t/p/w500${item.poster}`} 
+                  src={item.posterUrl || `https://image.tmdb.org/t/p/w500${item.poster}`} 
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform"
                   alt={item.title}
                 />
@@ -520,6 +527,13 @@ function App() {
     }
   };
 
+  const startOpenFilm=(movie)=>{
+    const settings={...syncSettings,fallbackServer:0,progress:getFromHistory(movie.id)?.progress||0};
+    if(mode==='couples'&&!conn?.open){alert('Connect Renad first, then start the open film.');return;}
+    setSyncSettings(settings);setRoomMovie(movie);
+    if(mode==='couples'&&conn?.open)conn.send({type:'start_party',movie,settings});
+  };
+
   if (showPasswordModal) {
     return <PasswordModal onVerify={handlePasswordVerify} onClose={() => setShowPasswordModal(false)} />;
   }
@@ -532,6 +546,11 @@ function App() {
             id: item.movieId,
             title: item.title,
             poster_path: item.poster,
+            posterUrl: item.posterUrl,
+            openCatalog: item.openCatalog,
+            archiveId: item.archiveId,
+            openKey: item.openKey,
+            release_date: item.release_date,
             isArabic: item.isArabic
           });
           setSyncSettings(prev => ({
@@ -741,6 +760,8 @@ function App() {
           />
         </header>
 
+        <OpenLibrary onSelect={startOpenFilm}/>
+        <h2 className="text-lg font-bold mb-4 text-gray-200">Main movie library</h2>
         {loading ? (
           <div className="flex justify-center mt-32"><div className="w-12 h-12 border-2 border-purple-500 border-t-transparent rounded-full animate-spin"></div></div>
         ) : (
@@ -781,6 +802,8 @@ function App() {
           />
         </header>
 
+        <OpenLibrary onSelect={startOpenFilm}/>
+        <h2 className="text-lg font-bold mb-4 text-gray-200">Main movie library</h2>
         {loading ? (
           <div className="flex justify-center mt-32"><div className="w-12 h-12 border-2 border-purple-500 border-t-transparent rounded-full animate-spin"></div></div>
         ) : (
@@ -902,7 +925,11 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   const [ownedError, setOwnedError] = useState('');
   const [ownedSource, setOwnedSource] = useState(null);
   const [nativeError, setNativeError] = useState('');
-  const [directOnly, setDirectOnly] = useState(false);
+  const [directOnly, setDirectOnly] = useState(Boolean(movie.openCatalog));
+  const [localCaption,setLocalCaption]=useState(null);
+  const [captionError,setCaptionError]=useState('');
+  useEffect(()=>()=>{if(localCaption)URL.revokeObjectURL(localCaption);},[localCaption]);
+  const addLocalCaption=async(file)=>{if(!file)return;try{if(file.size>2*1024*1024)throw Error('Subtitle file too large');let t=(await file.text()).replace(/^\uFEFF/,'');if(!/^WEBVTT(?:\s|$)/.test(t))t='WEBVTT\n\n'+t.replace(/(\d{2}:\d{2}:\d{2}),(\d{3})/g,'$1.$2');setLocalCaption(URL.createObjectURL(new Blob([t],{type:'text/vtt'})));setCaptionError('');}catch{setCaptionError('Choose a valid SRT or VTT file.');}};
   const [playState, setPlayState] = useState('Preparing');
   const [mediaInfo, setMediaInfo] = useState({time:0,duration:0});
   const [quality, setQuality] = useState(-1);
@@ -1056,7 +1083,24 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     };
     const fetchRawStream = async () => {
       setExtractionStatus('extracting');
-
+      setStreamData(null);
+      // First priority: known creator releases, then rights-labelled Archive metadata.
+      const seed=OPEN_FILMS.find(f=>f.key===movie.openKey)||matchSeed(movie.title,yearOf(movie.release_date));
+      if(seed){if(!cancelled){setStreamData(seedSource(seed));setExtractionStatus('success');}return;}
+      try{
+        const year=yearOf(movie.release_date);
+        if(movie.archiveId||(movie.title&&year)){
+          const params=new URLSearchParams({action:'resolve',q:movie.title||'',year,runtime:String(movie.runtime||'')});
+          if(movie.archiveId)params.set('id',movie.archiveId);
+          const response=await timedFetch('/api/open-cinema?'+params,{},9500);
+          if(response.ok){const result=await response.json();
+            if(cancelled)return;
+            if(result.source?.open&&result.source.stream_url){setStreamData(result.source);setExtractionStatus('success');return;}
+          }
+        }
+      }catch{}
+      if(cancelled)return;
+      if(movie.openCatalog){setExtractionStatus('failed');return;}
       let imdbId = null;
       // 1. جلب الـ IMDB ID (نحتاجه إذا أردت استخدام سيرفر أكوام الخاص بك مستقبلاً)
       try {
@@ -1132,7 +1176,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
 
     fetchRawStream();
     return()=>{cancelled=true;controller.abort();};
-  }, [movie.id, movie.isArabic]);
+  }, [movie.id, movie.isArabic, movie.archiveId, movie.openKey, movie.release_date]);
 
   useEffect(() => {
     if (mode === 'single') return;
@@ -1164,7 +1208,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     const url=nativeSource.stream_url;
     let hls;
     const fail=()=> {
-      if(ownedSource) setNativeError('This video could not be loaded. Check its URL, permissions and CORS.');
+      if(ownedSource || movie.openCatalog || nativeSource.open) setNativeError('This direct file could not be loaded. The open source is currently unavailable or incompatible.');
       else setExtractionStatus('failed');
     };
     video.addEventListener('error',fail);
@@ -1251,13 +1295,14 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
       <header className="relative shrink-0 z-[200] bg-gradient-to-r from-zinc-950 via-purple-950/60 to-zinc-950 border-b border-purple-400/20 px-3 py-3 text-white">
         <div className="flex items-center justify-between gap-2">
           <button onClick={onBack} className="bg-white/10 rounded-lg px-3 py-2 text-sm">← Exit</button>
-          <div className="flex-1 min-w-0 text-center"><p className="truncate font-bold text-sm">{movie.title}</p><p className="text-[10px] text-gray-400">{isNative?'Direct player':frameProtected?'Protected embed':'Compatibility • ads possible'}</p></div>
+          <div className="flex-1 min-w-0 text-center"><p className="truncate font-bold text-sm">{movie.title}</p><p className="text-[10px] text-gray-400">{nativeSource?.open?'Open source · '+nativeSource.sourceName:isNative?'Direct player':frameProtected?'Protected embed':'Compatibility • ads possible'}</p></div>
           <button onClick={()=>setShowPlaybackHelp(v=>!v)} className="bg-purple-600 px-3 py-2 rounded-lg text-xs font-bold" aria-expanded={showPlaybackHelp}>⚙ Playback</button>
         </div>
         <div className="flex items-center justify-between gap-2 mt-3">
           <div className="flex items-center gap-2 min-w-0"><span className="w-2 h-2 rounded-full bg-purple-400"/><span className="text-xs text-gray-300 truncate">{playState}{mediaInfo.duration>0?' · '+formatTime(Math.floor(mediaInfo.time))+' / '+formatTime(Math.floor(mediaInfo.duration)):''}</span></div>
-          <button onClick={()=>setDirectOnly(v=>!v)} aria-pressed={directOnly} className={`rounded-full px-3 py-1.5 text-xs font-bold border ${directOnly?'bg-purple-600 border-purple-400':'bg-white/5 border-white/15'}`}>{directOnly?'Direct only: ON':'Direct only: OFF'}</button>
+          {!movie.openCatalog&&<button onClick={()=>setDirectOnly(v=>!v)} aria-pressed={directOnly} className={`rounded-full px-3 py-1.5 text-xs font-bold border ${directOnly?'bg-purple-600 border-purple-400':'bg-white/5 border-white/15'}`}>{directOnly?'Direct only: ON':'Direct only: OFF'}</button>}
         </div>
+        {nativeSource?.open&&<div className="flex flex-wrap gap-2 mt-2 items-center text-[10px] text-purple-200"><a href={nativeSource.sourcePage} target="_blank" rel="noreferrer">Source · {nativeSource.credit}</a><a href={nativeSource.license} target="_blank" rel="noreferrer" className="underline">License</a><label className="ml-auto cursor-pointer bg-white/10 rounded px-2 py-1">CC + Arabic SRT/VTT<input type="file" accept=".srt,.vtt" className="hidden" onChange={e=>addLocalCaption(e.target.files?.[0])}/></label>{captionError&&<span>{captionError}</span>}</div>}
         {isNative&&levels.length>1&&<div className="flex items-center gap-2 mt-2"><label className="text-xs text-gray-300" htmlFor="cinema-quality">Quality</label><select id="cinema-quality" value={quality} onChange={e=>{const v=Number(e.target.value);setQuality(v);if(hlsRef.current)hlsRef.current.currentLevel=v;}} className="bg-zinc-800 text-white rounded-lg px-2 py-1 text-xs"><option value={-1}>Auto</option>{levels.map(l=><option key={l.id} value={l.id}>{l.height?l.height+'p':Math.round(l.bitrate/1000)+' kbps'}</option>)}</select></div>}
         {!isNative && !directOnly && <div className="flex gap-2 mt-2 items-center overflow-x-auto pb-1">
           <button onClick={()=>reportPlaybackIssue('ad')} className="text-xs bg-pink-700 px-3 py-2 rounded-lg font-bold">Ad? Switch</button>
@@ -1276,8 +1321,8 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
           <p className="text-xs text-gray-300">Ad? Switch and Not playing? skip sources you report as ad-bearing or blocked. Clean reports are saved on this device for this title. Compatibility is unprotected and may show ads or redirects.</p>
           <div className="flex flex-wrap gap-2">
             <button onClick={restoreProtection} className="text-xs bg-green-700 px-3 py-2 rounded-lg">Protected mode</button>
-            {!isNative && !movie.isArabic && <button onClick={()=>handleServerChange(nextServerId(currentServer))} className="text-xs bg-purple-700 px-3 py-2 rounded-lg">Try next server</button>}
-            {!isNative && <button onClick={enableCompatibility} className="text-xs bg-amber-900 px-3 py-2 rounded-lg">Use compatibility (ads possible)</button>}
+            {!isNative && !movie.isArabic && !movie.openCatalog && <button onClick={()=>handleServerChange(nextServerId(currentServer))} className="text-xs bg-purple-700 px-3 py-2 rounded-lg">Try next server</button>}
+            {!isNative && !movie.openCatalog && <button onClick={enableCompatibility} className="text-xs bg-amber-900 px-3 py-2 rounded-lg">Use compatibility (ads possible)</button>}
             {ownedSource && <button onClick={()=>{setOwnedSource(null);setNativeError('');}} className="text-xs bg-white/10 px-3 py-2 rounded-lg">Return to original source</button>}
           </div>
           <details className="text-xs text-gray-300">
@@ -1298,7 +1343,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
             controls 
             autoPlay
             playsInline
-            crossOrigin="anonymous" 
+            crossOrigin={nativeSource?.open?undefined:"anonymous"} 
             className="w-full h-full object-contain"
             style={{ pointerEvents: 'auto', zIndex: 10, position: 'relative' }}
             onPlay={() => {setPlayState('Playing');sendVideoEvent('play');}} 
@@ -1315,6 +1360,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
               e.stopPropagation();
             }}
           >
+            {localCaption&&<track key={localCaption} kind="subtitles" src={localCaption} srcLang="ar" label="Arabic" default/>}
             {nativeSource?.subtitles?.map((sub, i) => (
               <track key={i} kind="subtitles" src={sub.url} srcLang={sub.lang} label={sub.language} default={sub.lang?.includes('ar')} />
             ))}
@@ -1322,8 +1368,8 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
         ) : directOnly ? (
           <div className="h-full flex flex-col items-center justify-center text-center p-6 text-white gap-4 bg-gradient-to-b from-zinc-900 to-black">
             <div className="text-4xl">🍿</div><p className="font-bold text-xl">No direct video available</p>
-            <p className="text-sm text-gray-400 max-w-sm">Your library is unchanged. This title currently needs an external player, which may display ads. Direct-only mode will not load it.</p>
-            <button onClick={()=>setDirectOnly(false)} className="bg-purple-700 rounded-full px-5 py-3 font-bold text-sm">Continue with existing sources</button>
+            <p className="text-sm text-gray-400 max-w-sm">{movie.openCatalog?'The archive has no verified compatible MP4 for this item at the moment. Choose another open title.':'Your library is unchanged. This title currently needs an external player, which may display ads. Direct-only mode will not load it.'}</p>
+            {!movie.openCatalog&&<button onClick={()=>setDirectOnly(false)} className="bg-purple-700 rounded-full px-5 py-3 font-bold text-sm">Continue with existing sources</button>}
             <button onClick={onBack} className="text-gray-300 text-sm underline">Back to library</button>
           </div>
         ) : exhausted ? (
