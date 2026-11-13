@@ -315,7 +315,7 @@ function App() {
   const [syncSettings, setSyncSettings] = useState({ 
     fallbackServer: 0, 
     subtitles: null,
-    sandbox: false,
+    sandbox: true,
     progress: 0
   });
 
@@ -536,7 +536,7 @@ function App() {
           setSyncSettings(prev => ({
             ...prev,
             fallbackServer: item.settings?.fallbackServer || 0,
-            sandbox: item.settings?.sandbox || false,
+            sandbox: true,
             progress: item.progress || 0
           }));
         }}
@@ -871,11 +871,9 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   const [togetherTime, setTogetherTime] = useState(0);
   const [showControls, setShowControls] = useState(true);
   const [showServerList, setShowServerList] = useState(false);
-  const [isAdDetected, setIsAdDetected] = useState(false);
   const [videoProgress, setVideoProgress] = useState(syncSettings.progress || 0);
   
   // 🛡️ State للدرع المانع للإعلانات (يمتص أول نقرتين)
-  const [clickCount, setClickCount] = useState(0);
   
   const habibtiEmojis = ['💕', '', '💖', '🍿', '🌹', '🦋', '⭐', '💍'];
   
@@ -930,80 +928,8 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     };
   }, []);
 
-  // 🚫 iOS OPTIMIZED AD BLOCKER CSS
-  useEffect(() => {
-    const injectAntiAdStyles = () => {
-      const style = document.createElement('style');
-      style.id = 'ios-ad-blocker';
-      style.textContent = `
-        iframe[src*="ad"], iframe[src*="pop"], iframe[src*="click"],
-        iframe[src*="redirect"], iframe[src*="track"] {
-          display: none !important;
-          visibility: hidden !important;
-          pointer-events: none !important;
-        }
-        div[style*="position: fixed"][style*="z-index: 9"],
-        div[style*="position: fixed"][style*="z-index: 99"],
-        div[style*="position: fixed"][style*="z-index: 999"] {
-          display: none !important;
-        }
-        .ad, .ads, .advert, .popup, .popunder, .overlay, .modal {
-          display: none !important;
-        }
-        [onclick*="window.open"], [onclick*="location.href"] {
-          pointer-events: none !important;
-        }
-      `;
-      if (!document.getElementById('ios-ad-blocker')) {
-        document.head.appendChild(style);
-      }
-    };
-
-    const handleTouch = (e) => {
-      const target = e.target;
-      if (!target) return;
-      const style = window.getComputedStyle(target);
-      if (style.opacity === '0' || style.visibility === 'hidden') {
-        e.preventDefault();
-        e.stopPropagation();
-        setIsAdDetected(true);
-        return false;
-      }
-      if (target.tagName === 'IFRAME' && target !== iframeRef.current) {
-        e.preventDefault();
-        e.stopPropagation();
-        setIsAdDetected(true);
-        return false;
-      }
-    };
-
-    const handleBeforeUnload = (e) => {
-      e.preventDefault();
-      e.returnValue = '';
-    };
-
-    const originalWindowOpen = window.open;
-    window.open = function(url, target, features) {
-      console.log('🚫 iOS: Blocked popup:', url);
-      setIsAdDetected(true);
-      return null;
-    };
-
-    injectAntiAdStyles();
-    document.addEventListener('touchstart', handleTouch, { passive: false, capture: true });
-    document.addEventListener('click', handleTouch, { capture: true });
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
-    return () => {
-      window.open = originalWindowOpen;
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-      document.removeEventListener('touchstart', handleTouch, true);
-      document.removeEventListener('click', handleTouch, true);
-      const style = document.getElementById('ios-ad-blocker');
-      if (style) style.remove();
-    };
-  }, []);
-
+  // Embedded third-party documents are isolated by the browser sandbox below.
+  // This does not remove advertising rendered inside a cross-origin frame.
   // 🌟 🌟 الإضافة الهندسية الذكية (Multi-Extractor) 🌟 🌟
   useEffect(() => {
     const fetchRawStream = async () => {
@@ -1107,15 +1033,17 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   useEffect(() => {
     if (extractionStatus === 'success' && streamData && videoRef.current) {
       const video = videoRef.current;
-      if (Hls.isSupported()) {
+      if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        video.src = streamData.stream_url;
+        return () => { video.removeAttribute('src'); video.load(); };
+      } else if (Hls.isSupported()) {
         const hls = new Hls({ maxMaxBufferLength: 600, enableWorker: true });
         hls.loadSource(streamData.stream_url);
         hls.attachMedia(video);
         hls.on(Hls.Events.ERROR, (event, data) => {
-          if (data.fatal) setExtractionStatus('failed'); // ارجع للـ Iframe لو فشل التشغيل
+          if (data.fatal) setExtractionStatus('failed');
         });
-      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-        video.src = streamData.stream_url;
+        return () => hls.destroy();
       }
     }
   }, [extractionStatus, streamData]);
@@ -1161,13 +1089,6 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
         <FloatingEmoji key={e.id} emojiChar={e.char} onComplete={() => setFloatingEmojis(p => p.filter(x => x.id !== e.id))} />
       ))}
 
-      {/* Ad Detection Warning */}
-      {isAdDetected && (
-        <div className="fixed top-4 right-4 z-[9999] bg-red-600 text-white px-4 py-2 rounded-xl text-sm font-bold animate-pulse">
-          🚫 Ad Blocked!
-        </div>
-      )}
-
       {/* Top Controls */}
       <div className={`absolute top-0 left-0 right-0 z-[200] p-4 bg-gradient-to-b from-black/90 to-transparent transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
         <div className="flex justify-between items-center flex-wrap gap-2">
@@ -1180,19 +1101,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
             {mode === 'couples' && <span className="text-pink-400 text-xs">💑</span>}
           </div>
           
-          {/* 🎮 Sandbox Toggle (Admin Only) */}
-          {role === 'admin' && (
-            <button 
-              onClick={(e) => { e.stopPropagation(); onSandboxToggle(); }}
-              className={`px-4 py-2 rounded-xl font-bold text-xs transition-all ${
-                syncSettings.sandbox 
-                  ? 'bg-green-600 text-white' 
-                  : 'bg-gray-600 text-gray-300'
-              }`}
-            >
-              🛡️ Sandbox: {syncSettings.sandbox ? 'ON' : 'OFF'}
-            </button>
-          )}
+          <span className="bg-green-900/40 text-green-300 border border-green-600/30 px-3 py-2 rounded-xl text-xs font-bold" title="Browser sandbox blocks popups and top-level redirects, but cannot remove ads inside an external video.">🛡️ Pop-up protection</span>
         </div>
       </div>
 
@@ -1202,7 +1111,8 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
           <video 
             ref={videoRef} 
             controls 
-            autoPlay 
+            autoPlay
+            playsInline
             crossOrigin="anonymous" 
             className="w-full h-full object-contain"
             style={{ pointerEvents: 'auto', zIndex: 10, position: 'relative' }}
@@ -1225,58 +1135,23 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
               <track key={i} kind="subtitles" src={sub.url} srcLang={sub.lang} label={sub.language} default={sub.lang?.includes('ar')} />
             ))}
           </video>
-        ) : movie.isArabic ? (
-          <div className="relative w-full h-full bg-black flex items-center justify-center" style={{ pointerEvents: 'auto' }}>
-            {/* 🛡️ Click-Eater (يمتص الإعلانات المنبثقة من اليوتيوب أو المواقع العربية) */}
-            {clickCount < 2 && (
-              <div 
-                className="absolute inset-0 z-[50] flex flex-col items-center justify-center bg-black/60 backdrop-blur-sm cursor-pointer"
-                onClick={(e) => {
-                  e.stopPropagation(); e.preventDefault();
-                  setClickCount(c => c + 1);
-                }}
-              >
-                <div className="bg-pink-600 text-white px-6 py-3 rounded-full font-bold animate-pulse">
-                  {clickCount === 0 ? "اضغط هنا لتخطي الإعلانات 🛡️" : "اضغط مرة أخرى للتشغيل ▶️"}
-                </div>
-              </div>
-            )}
-            <iframe 
-              ref={iframeRef}
-              src={`https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(movie.title + ' فيلم كامل')}`} 
-              className="w-full h-full border-0" 
-              allowFullScreen
-              style={{ pointerEvents: clickCount >= 2 ? 'auto' : 'none', zIndex: 10, position: 'relative' }}
-            ></iframe>
-          </div>
         ) : (
-          <div className="relative w-full h-full bg-black flex items-center justify-center" style={{ pointerEvents: 'auto' }}>
-            {/* 🛡️ Click-Eater للسيرفرات الأجنبية (يمنع الـ Pop-unders) */}
-            {clickCount < 2 && (
-              <div 
-                className="absolute inset-0 z-[50] flex flex-col items-center justify-center bg-black/60 backdrop-blur-sm cursor-pointer"
-                onClick={(e) => {
-                  e.stopPropagation(); e.preventDefault();
-                  setClickCount(c => c + 1);
-                }}
-              >
-                <div className="bg-pink-600 text-white px-6 py-3 rounded-full font-bold animate-pulse">
-                  {clickCount === 0 ? "اضغط هنا لتخطي الإعلانات 🛡️" : "اضغط مرة أخرى للتشغيل ▶️"}
-                </div>
-              </div>
-            )}
-            <iframe 
+          <div className="relative w-full h-full bg-black flex items-center justify-center">
+            <iframe
               ref={iframeRef}
-              key={syncSettings.fallbackServer} 
-              src={fallbackNodes[syncSettings.fallbackServer]?.url} 
-              className="w-full h-full border-0" 
-              allowFullScreen 
-              allow="autoplay; encrypted-media"
-              style={{ pointerEvents: clickCount >= 2 ? 'auto' : 'none', zIndex: 10, position: 'relative' }}
-            ></iframe>
+              key={movie.isArabic ? movie.id : syncSettings.fallbackServer}
+              title="Movie playback"
+              src={movie.isArabic ? `https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(movie.title + ' فيلم كامل')}` : fallbackNodes[syncSettings.fallbackServer]?.url}
+              className="w-full h-full border-0"
+              sandbox="allow-scripts allow-same-origin allow-presentation"
+              allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+              allowFullScreen
+              referrerPolicy="strict-origin-when-cross-origin"
+              style={{ zIndex: 10, position: 'relative' }}
+            />
           </div>
         )}
-        
+
         {/* Progress Bar Overlay */}
         {videoProgress > 0 && (
           <div className="absolute bottom-20 left-4 right-4 h-1 bg-gray-700 rounded-full overflow-hidden z-[100]">
@@ -1339,18 +1214,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
         )}
       </div>
 
-      {/* Click overlay */}
-      <div 
-        className="absolute inset-0 z-[50]"
-        style={{ pointerEvents: showControls ? 'none' : 'auto' }}
-        onClick={(e) => {
-          if (e.target === e.currentTarget) {
-            e.stopPropagation();
-            e.preventDefault();
-            setShowControls(prev => !prev);
-          }
-        }}
-      />
+
     </div>
   );
 }
