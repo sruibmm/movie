@@ -896,6 +896,21 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   const [localServer, setLocalServer] = useState(null);
   const [adMemory, setAdMemory] = useState(()=>readAdMemory(movie.id));
   const [adNotice, setAdNotice] = useState('');
+  const [blockedAdCount,setBlockedAdCount]=useState(0);
+  useEffect(()=>{
+    const onViolation=(event)=>{
+      if(event.effectiveDirective!=='frame-src')return;
+      try{
+        const hostname=new URL(event.blockedURI).hostname.toLowerCase();
+        if(hostname==='topcontent.fun'||hostname.endsWith('.topcontent.fun')){
+          setBlockedAdCount(n=>n+1);
+          setAdNotice('Blocked topcontent.fun by the cinema frame policy.');
+        }
+      }catch{}
+    };
+    window.addEventListener('securitypolicyviolation',onViolation);
+    return()=>window.removeEventListener('securitypolicyviolation',onViolation);
+  },[]);
   const [exhausted, setExhausted] = useState(false);
   const preferredInitialized = useRef(false);
   const [ownedUrl, setOwnedUrl] = useState('');
@@ -1266,6 +1281,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
           <button onClick={()=>{setExhausted(false);setFrameRevision(v=>v+1);}} className="text-xs bg-white/10 px-3 py-2 rounded-lg">↻ Reload</button>
           {frameProtected&&!exhausted&&<button onClick={()=>{rememberSource('clean');setAdNotice('Clean source remembered for this title on this device.');}} className="text-xs bg-green-900 px-3 py-2 rounded-lg">No ads ✓</button>}
         </div>}
+        {blockedAdCount>0&&<p className="text-xs text-green-300 mt-2">Topcontent blocked: {blockedAdCount}</p>}
         {adNotice&&<p role="status" className="text-xs text-pink-200 mt-2">{adNotice}</p>}
         {showServerList && !movie.isArabic && <div className="flex gap-2 overflow-x-auto mt-3 pb-1">
           {ACTIVE_SERVER_IDS.map(i=>{const node=fallbackNodes[i];return <button key={i} onClick={()=>handleServerChange(i)} className={`shrink-0 text-left px-3 py-2 rounded-lg ${i===currentServer?'bg-pink-600':'bg-white/10'}`}><span className="block text-xs font-semibold">{node.name}{adMemory[i]?.status==='clean'?' · reported clean':adMemory[i]?.status==='ad'?' · ad':adMemory[i]?.status==='blocked'?' · blocked':''}</span><span className="block text-[10px] opacity-80">{node.health}</span></button>;})}
@@ -1273,11 +1289,11 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
         {showPlaybackHelp && <div className="mt-3 p-3 rounded-xl border border-white/10 bg-zinc-900 space-y-3">
           <p className="text-sm font-bold">Cinema playback settings</p><p className="text-xs text-purple-200">Direct only never loads external player pages. It cannot guarantee that the video itself has no ads.</p>
           <p className="text-xs text-gray-400">Source audit: 13 Nov 2026. Two retired domains are disabled. Documentation availability does not certify video playback or ad-free playback.</p>
-          <p className="text-xs text-gray-300">Ad? Switch and Not playing? skip sources you report as ad-bearing or blocked. Clean reports are saved on this device for this title. Compatibility is unprotected and may show ads or redirects.</p>
+          <p className="text-xs text-gray-300">Ad? Switch and Not playing? skip sources you report as ad-bearing or blocked. Clean reports are saved on this device for this title. Compatibility can allow popups and redirects from external players. The site frame allowlist does not control a separate browser tab.</p>
           <div className="flex flex-wrap gap-2">
             <button onClick={restoreProtection} className="text-xs bg-green-700 px-3 py-2 rounded-lg">Protected mode</button>
             {!isNative && !movie.isArabic && <button onClick={()=>handleServerChange(nextServerId(currentServer))} className="text-xs bg-purple-700 px-3 py-2 rounded-lg">Try next server</button>}
-            {!isNative && <button onClick={enableCompatibility} className="text-xs bg-amber-900 px-3 py-2 rounded-lg">Use compatibility (ads possible)</button>}
+            {!isNative && <button onClick={enableCompatibility} className="text-xs bg-amber-900 px-3 py-2 rounded-lg">Use compatibility (popups possible)</button>}
             {ownedSource && <button onClick={()=>{setOwnedSource(null);setNativeError('');}} className="text-xs bg-white/10 px-3 py-2 rounded-lg">Return to original source</button>}
           </div>
           <details className="text-xs text-gray-300">
