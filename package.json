@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/source-maintenance-test.mjs && node scripts/media-languages-test.mjs && vite build",
+    "build": "node scripts/source-maintenance-test.mjs && node scripts/media-languages-test.mjs && node scripts/arabic-discovery-test.mjs && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
