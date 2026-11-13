@@ -1262,60 +1262,66 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   return (
     <div 
       ref={containerRef}
-      className="min-h-[100dvh] h-[100dvh] bg-black relative flex flex-col overflow-hidden" 
+      className="h-[100dvh] bg-black relative flex flex-col overflow-hidden" 
       dir="ltr" 
       data-cinema-player="true"
     >
-      <DistanceBadge myCoords={myCoords} partnerCoords={partnerCoords} mode={mode} />
+
       
       {floatingEmojis.map(e => (
         <FloatingEmoji key={e.id} emojiChar={e.char} onComplete={() => setFloatingEmojis(p => p.filter(x => x.id !== e.id))} />
       ))}
 
-      {/* Persistent player controls: outside the cross-origin frame */}
-      <header className="relative shrink-0 z-[200] bg-gradient-to-r from-zinc-950 via-purple-950/60 to-zinc-950 border-b border-purple-400/20 px-3 py-3 text-white">
-        <div className="flex items-center justify-between gap-2">
-          <button onClick={onBack} className="bg-white/10 rounded-lg px-3 py-2 text-sm">← Exit</button>
-          <div className="flex-1 min-w-0 text-center"><p className="truncate font-bold text-sm">{movie.title}</p><p className="text-[10px] text-gray-400">{isNative?'Direct player':'Navigation protected'}</p></div>
-          <button onClick={()=>setShowPlaybackHelp(v=>!v)} className="bg-purple-600 px-3 py-2 rounded-lg text-xs font-bold" aria-expanded={showPlaybackHelp}>⚙ Playback</button>
-        </div>
-        <div className="flex items-center justify-between gap-2 mt-3">
-          <div className="flex items-center gap-2 min-w-0"><span className="w-2 h-2 rounded-full bg-purple-400"/><span className="text-xs text-gray-300 truncate">{playState}{mediaInfo.duration>0?' · '+formatTime(Math.floor(mediaInfo.time))+' / '+formatTime(Math.floor(mediaInfo.duration)):''}</span></div>
-          <button onClick={()=>setDirectOnly(v=>!v)} aria-pressed={directOnly} className={`rounded-full px-3 py-1.5 text-xs font-bold border ${directOnly?'bg-purple-600 border-purple-400':'bg-white/5 border-white/15'}`}>{directOnly?'Direct only: ON':'Direct only: OFF'}</button>
-        </div>
-        {isNative&&<p className="text-[11px] text-gray-300 mt-2">Audio: {languageStatus.audio} · CC: {languageStatus.subs}</p>}
-        {!isNative&&currentServer===10&&<p className="text-[11px] text-gray-400 mt-2">Cinesrc default · Original audio preferred · Arabic subtitles managed by EmbedWave.</p>}
-        {isNative&&levels.length>1&&<div className="flex items-center gap-2 mt-2"><label className="text-xs text-gray-300" htmlFor="cinema-quality">Quality</label><select id="cinema-quality" value={quality} onChange={e=>{const v=Number(e.target.value);setQuality(v);if(hlsRef.current)hlsRef.current.currentLevel=v;}} className="bg-zinc-800 text-white rounded-lg px-2 py-1 text-xs"><option value={-1}>Auto</option>{levels.map(l=><option key={l.id} value={l.id}>{l.height?l.height+'p':Math.round(l.bitrate/1000)+' kbps'}</option>)}</select></div>}
-        {!isNative && !directOnly && <div className="flex gap-2 mt-2 items-center overflow-x-auto pb-1">
-          <button onClick={()=>reportPlaybackIssue('ad')} className="text-xs bg-pink-700 px-3 py-2 rounded-lg font-bold">Ad? Switch</button>
-          <button onClick={()=>reportPlaybackIssue('blocked')} className="text-xs bg-white/10 px-3 py-2 rounded-lg">Not playing?</button>
-          {!movie.isArabic && <button onClick={()=>{setShowServerList(v=>!v);setShowPlaybackHelp(false);}} className="text-xs bg-white/10 px-3 py-2 rounded-lg">Server: {fallbackNodes[currentServer]?.name||'Choose'}</button>}
-          <button onClick={()=>{setExhausted(false);setFrameRevision(v=>v+1);}} className="text-xs bg-white/10 px-3 py-2 rounded-lg">↻ Reload</button>
-          {frameProtected&&!exhausted&&<button onClick={()=>{rememberSource('clean');setAdNotice('Clean source remembered for this title on this device.');}} className="text-xs bg-green-900 px-3 py-2 rounded-lg">No ads ✓</button>}
-        </div>}
-        {blockedAdCount>0&&<p className="text-xs text-green-300 mt-2">Topcontent blocked: {blockedAdCount}</p>}
-        {adNotice&&<p role="status" className="text-xs text-pink-200 mt-2">{adNotice}</p>}
-        {showServerList && !movie.isArabic && <div className="flex gap-2 overflow-x-auto mt-3 pb-1">
-          {ACTIVE_SERVER_IDS.map(i=>{const node=fallbackNodes[i];return <button key={i} onClick={()=>handleServerChange(i)} className={`shrink-0 text-left px-3 py-2 rounded-lg ${i===currentServer?'bg-pink-600':'bg-white/10'}`}><span className="block text-xs font-semibold">{node.name}{adMemory[i]?.status==='clean'?' · reported clean':adMemory[i]?.status==='ad'?' · ad':adMemory[i]?.status==='blocked'?' · blocked':''}</span><span className="block text-[10px] opacity-80">{node.health}</span></button>;})}
-        </div>}
-        {showPlaybackHelp && <div className="mt-3 p-3 rounded-xl border border-white/10 bg-zinc-900 space-y-3">
-          <p className="text-sm font-bold">Cinema playback settings</p><p className="text-xs text-purple-200">Direct only never loads external player pages. It cannot guarantee that the video itself has no ads.</p>
-          <p className="text-xs text-gray-400">Source audit: 13 Nov 2026. Two retired domains are disabled. Documentation availability does not certify video playback or ad-free playback.</p>
-          <p className="text-xs text-gray-300">Ad? Switch and Not playing? skip sources you report as ad-bearing or blocked. Clean reports are saved on this device for this title. External players cannot open new tabs or navigate the main cinema page. Some providers may refuse to play under this restriction. Switch sources if necessary.</p>
-          <div className="flex flex-wrap gap-2">
-            <button onClick={restoreProtection} className="text-xs bg-green-700 px-3 py-2 rounded-lg">Protected mode</button>
-            {!isNative && !movie.isArabic && <button onClick={()=>handleServerChange(nextServerId(currentServer))} className="text-xs bg-purple-700 px-3 py-2 rounded-lg">Try next server</button>}
-              {ownedSource && <button onClick={()=>{setOwnedSource(null);setNativeError('');}} className="text-xs bg-white/10 px-3 py-2 rounded-lg">Return to original source</button>}
+      {/* Compact cinema chrome; options overlay the player only when opened. */}
+      <header className="relative shrink-0 z-[200] bg-[#101014] border-b border-white/10 px-3 md:px-6 text-white">
+        <div className="h-14 flex items-center gap-3 max-w-6xl mx-auto">
+          <button onClick={onBack} aria-label="Back to library" className="w-10 h-10 shrink-0 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-2xl">‹</button>
+          <div className="flex-1 min-w-0">
+            <p className="truncate font-semibold text-sm md:text-base leading-tight">{movie.title}</p>
+            <p className="text-[10px] text-gray-400 mt-0.5 truncate">{isNative?'Direct player':currentServer===10?'Cinesrc · Protected':(fallbackNodes[currentServer]?.name||'Player')+' · Protected'}</p>
           </div>
-          <details className="text-xs text-gray-300">
-            <summary className="cursor-pointer">Optional: clean direct video</summary>
-            <p className="mt-2">Use a licensed or owned HTTPS MP4/HLS source. No third-party iframe. This source is local to this device.</p>
-            <div className="flex gap-2 mt-2"><input type="url" value={ownedUrl} onChange={e=>setOwnedUrl(e.target.value)} placeholder="https://…/video.mp4" className="min-w-0 flex-1 bg-black border border-white/20 rounded-lg px-2 py-2 text-white"/><button onClick={openOwned} className="bg-pink-600 px-3 rounded-lg">Play</button></div>
-            {ownedError&&<p className="text-red-300 mt-2">{ownedError}</p>}
-          </details>
-          <a href={`https://www.themoviedb.org/movie/${movie.id}/watch`} target="_blank" rel="noopener noreferrer" className="text-xs text-purple-300 underline">Find official streaming options</a>
-        </div>}
+          <button onClick={()=>{setShowPlaybackHelp(v=>!v);setShowServerList(false);}} aria-label="Playback options" aria-expanded={showPlaybackHelp} className="w-10 h-10 shrink-0 rounded-full bg-white/5 hover:bg-white/10 text-xl flex items-center justify-center">⋯</button>
+        </div>
       </header>
+
+      {showPlaybackHelp&&<div className="absolute inset-0 z-[500] flex items-end md:items-center md:justify-center" onClick={()=>setShowPlaybackHelp(false)}>
+        <div className="absolute inset-0 bg-black/65" aria-hidden="true"/>
+        <section role="dialog" aria-modal="true" aria-label="Playback settings" onClick={e=>e.stopPropagation()} className="relative w-full md:max-w-md max-h-[85dvh] overflow-y-auto rounded-t-3xl md:rounded-3xl border border-white/10 bg-[#18181d] text-white shadow-2xl p-5" style={{paddingBottom:'max(20px, env(safe-area-inset-bottom))'}}>
+          <div className="w-9 h-1 rounded-full bg-white/20 mx-auto mb-4 md:hidden"/>
+          <div className="flex items-center justify-between gap-3 mb-5">
+            <div><h2 className="text-lg font-bold">Playback</h2><p className="text-xs text-gray-400 mt-1">Choose your viewing preferences</p></div>
+            <button onClick={()=>setShowPlaybackHelp(false)} aria-label="Close settings" className="w-9 h-9 rounded-full bg-white/10 text-xl">×</button>
+          </div>
+          <div className="rounded-2xl bg-white/5 p-4 space-y-3">
+            <div className="flex justify-between items-center gap-3"><span className="text-sm text-gray-300">Source</span><span className="text-sm font-semibold text-purple-300">{isNative?'Direct player':movie.isArabic?'Arabic source':fallbackNodes[currentServer]?.name||'Player'}</span></div>
+            {!isNative&&currentServer===10&&!movie.isArabic&&<p className="text-xs text-gray-400">Cinesrc is the default. Audio and Arabic subtitles are controlled by the embedded player.</p>}
+            <div className="flex justify-between items-center gap-3"><span className="text-sm text-gray-300">Navigation protection</span><span className="text-xs text-green-300">Always on</span></div>
+            {isNative&&<p className="text-xs text-gray-400">{playState}{mediaInfo.duration>0?' · '+formatTime(Math.floor(mediaInfo.time))+' / '+formatTime(Math.floor(mediaInfo.duration)):''}<br/>Audio: {languageStatus.audio} · CC: {languageStatus.subs}</p>}
+            {isNative&&levels.length>1&&<div className="flex justify-between items-center"><label htmlFor="cinema-quality" className="text-sm text-gray-300">Quality</label><select id="cinema-quality" value={quality} onChange={e=>{const v=Number(e.target.value);setQuality(v);if(hlsRef.current)hlsRef.current.currentLevel=v;}} className="bg-zinc-800 rounded-lg px-2 py-2 text-xs"><option value={-1}>Auto</option>{levels.map(l=><option key={l.id} value={l.id}>{l.height?l.height+'p':Math.round(l.bitrate/1000)+' kbps'}</option>)}</select></div>}
+            <button onClick={()=>setDirectOnly(v=>!v)} aria-pressed={directOnly} className="w-full flex items-center justify-between gap-3 text-sm text-left"><span>Direct-only mode</span><span className={`rounded-full w-10 h-6 p-1 transition-colors ${directOnly?'bg-purple-600':'bg-zinc-600'}`}><span className={`block w-4 h-4 rounded-full bg-white transition-transform ${directOnly?'translate-x-4':''}`}/></span></button>
+          </div>
+          {!isNative&&!directOnly&&<div className="mt-4 space-y-2">
+            {!movie.isArabic&&<button onClick={()=>setShowServerList(v=>!v)} aria-expanded={showServerList} className="w-full flex items-center justify-between rounded-xl bg-white/5 px-4 py-3 text-sm"><span>Change server</span><span className="text-gray-400">{showServerList?'⌃':'›'}</span></button>}
+            {showServerList&&!movie.isArabic&&<div className="grid grid-cols-2 gap-2">{ACTIVE_SERVER_IDS.map(i=>{const node=fallbackNodes[i];return <button key={i} onClick={()=>{handleServerChange(i);setShowPlaybackHelp(false);}} className={`text-left rounded-xl px-3 py-3 ${i===currentServer?'bg-purple-600':'bg-white/5'}`}><span className="block text-xs font-semibold">{node.name}</span><span className="block text-[10px] opacity-75 mt-1">{adMemory[i]?.status==='ad'?'Ad reported':adMemory[i]?.status==='blocked'?'Blocked':adMemory[i]?.status==='clean'?'Reported clean':node.health}</span></button>;})}</div>}
+            <div className="grid grid-cols-2 gap-2">
+              <button onClick={()=>{setExhausted(false);setFrameRevision(v=>v+1);setShowPlaybackHelp(false);}} className="rounded-xl bg-white/5 p-3 text-sm">↻ Reload</button>
+              <button onClick={()=>{reportPlaybackIssue('blocked');setShowPlaybackHelp(false);}} className="rounded-xl bg-white/5 p-3 text-sm">Not playing?</button>
+              <button onClick={()=>{reportPlaybackIssue('ad');setShowPlaybackHelp(false);}} className="rounded-xl bg-white/5 p-3 text-sm text-pink-300">Report ad</button>
+              {!exhausted&&<button onClick={()=>{rememberSource('clean');setAdNotice('Clean source remembered for this title on this device.');setShowPlaybackHelp(false);}} className="rounded-xl bg-white/5 p-3 text-sm text-green-300">✓ No ads</button>}
+            </div>
+          </div>}
+          {blockedAdCount>0&&<p className="mt-3 text-xs text-green-300">Topcontent blocked: {blockedAdCount}</p>}
+          {adNotice&&<p role="status" className="mt-3 text-xs text-gray-300">{adNotice}</p>}
+          <details className="mt-4 text-xs text-gray-400"><summary className="cursor-pointer py-2">Advanced options</summary><p className="mt-2">Direct-only mode prevents external player pages. Use a licensed or owned HTTPS MP4/HLS source.</p>
+            <div className="flex gap-2 mt-3"><input type="url" value={ownedUrl} onChange={e=>setOwnedUrl(e.target.value)} placeholder="https://…/video.mp4" className="min-w-0 flex-1 bg-black rounded-lg px-2 py-2 text-white"/><button onClick={openOwned} className="bg-purple-600 px-3 rounded-lg">Play</button></div>
+            {ownedError&&<p className="text-red-300 mt-2">{ownedError}</p>}
+            {ownedSource&&<button onClick={()=>{setOwnedSource(null);setNativeError('');setShowPlaybackHelp(false);}} className="mt-3 underline">Return to original source</button>}
+            <button onClick={()=>{restoreProtection();setShowPlaybackHelp(false);}} className="mt-3 block underline">Reset protected player</button>
+            <a href={`https://www.themoviedb.org/movie/${movie.id}/watch`} target="_blank" rel="noopener noreferrer" className="block mt-3 underline">Official streaming options</a>
+          </details>
+          <button onClick={()=>setShowPlaybackHelp(false)} className="mt-5 w-full bg-purple-600 rounded-xl py-3 font-semibold text-sm">Done</button>
+        </section>
+      </div>}
 
       {/* Video Container */}
       <div className="flex-1 min-h-0 bg-[#050505] relative" style={{ zIndex: 1 }}>
@@ -1379,7 +1385,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
 
         {nativeError && <div className="absolute top-3 left-3 right-3 z-[100] bg-red-950/90 text-white p-3 rounded-xl text-sm">{nativeError}<button onClick={()=>setShowPlaybackHelp(true)} className="underline ml-2">Playback options</button></div>}
         {/* Progress Bar Overlay */}
-        {videoProgress > 0 && (
+        {isNative && videoProgress > 0 && (
           <div className="absolute bottom-20 left-4 right-4 h-1 bg-gray-700 rounded-full overflow-hidden z-[100]">
             <div 
               className="h-full bg-gradient-to-r from-purple-500 to-pink-500 transition-all"
@@ -1389,24 +1395,10 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
         )}
       </div>
 
-      <div className="shrink-0 z-[250] bg-zinc-950 p-2"> 
-        {/* Emoji Panel */}
-        {mode === 'couples' && (
-          <div className="flex justify-center" onClick={(e) => e.stopPropagation()}>
-            <div className="bg-black/80 backdrop-blur-xl border border-pink-500/20 p-3 rounded-full flex gap-2 shadow-2xl">
-              {habibtiEmojis.map(emoji => (
-                <button 
-                  key={emoji} 
-                  onClick={(e) => { e.stopPropagation(); sendEmoji(emoji); }} 
-                  className="text-3xl hover:scale-125 active:scale-95 transition-transform p-1 hover:bg-pink-500/10 rounded-full"
-                >
-                  {emoji}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
+      {mode==='couples'&&<footer className="shrink-0 bg-[#101014] border-t border-white/10 px-3 py-2 flex items-center gap-2" style={{paddingBottom:'max(8px, env(safe-area-inset-bottom))'}}>
+        <span className="text-[10px] text-gray-400 shrink-0">♥ Together{myCoords&&partnerCoords?' · '+calculateDistance(myCoords.lat,myCoords.lon,partnerCoords.lat,partnerCoords.lon)+' km':''}</span>
+        <div className="flex gap-1 ml-auto overflow-x-auto">{habibtiEmojis.filter(Boolean).map(emoji=><button key={emoji} onClick={()=>sendEmoji(emoji)} className="shrink-0 text-lg w-8 h-8 rounded-full hover:bg-white/10 active:scale-95" aria-label={'Send '+emoji}>{emoji}</button>)}</div>
+      </footer>}
 
 
     </div>
