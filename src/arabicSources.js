@@ -8,14 +8,19 @@ export const PUBLISHERS=[
  {id:'UCSVSS5aSyHh7ChJlICx_Gkg',name:'السبكي للإنتاج الفني',url:'https://www.youtube.com/@sobkyproductions'},
  {id:'UCog_OCIsfABgX_e9OPZaeoQ',name:'السبكي للإنتاج السينمائي',url:'https://www.youtube.com/@elsobkyforfilm'},
  {id:'UCrIy5XTmRPwZPOlilXDWacA',name:'ماسبيرو دراما',url:'https://www.youtube.com/@MasperoDrama'},
+ {id:'UColf1L4k9OVGwzuwNkzEOLg',name:'ماسبيرو زمان',url:'https://www.youtube.com/@masperozaman'},
+ {handle:'ART_Aflam',name:'ART أفلام',url:'https://www.youtube.com/@ART_Aflam'},
+ {handle:'ART-Nostalgia',name:'ART نوستالجيا',url:'https://www.youtube.com/@ART-Nostalgia'},
 ];
 export function isoDuration(v){const m=String(v||'').match(/^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$/);return m?Number(m[1]||0)*3600+Number(m[2]||0)*60+Number(m[3]||0):0;}
-export function matchPublisherVideo(v,query){
- const s=v?.snippet||{},d=v?.contentDetails||{},status=v?.status||{},publisher=PUBLISHERS.find(p=>p.id===s.channelId);
+export function matchPublisherVideo(v,query,publishers=PUBLISHERS){
+ const s=v?.snippet||{},d=v?.contentDetails||{},status=v?.status||{},publisher=publishers.find(p=>p.id===s.channelId);
  if(!publisher||!status.embeddable||status.privacyStatus!=='public'||!/^[-_A-Za-z0-9]{11}$/.test(v.id||'')||s.liveBroadcastContent==='live'||s.liveBroadcastContent==='upcoming')return null;
  const region=d.regionRestriction;if(region?.blocked?.includes('KW')||(region?.allowed&&!region.allowed.includes('KW')))return null;
  const title=normalizeArabic(s.title),wanted=normalizeArabic(query.title);
  if(!wanted||!(' '+title+' ').includes(' '+wanted+' '))return null;
+ const after=(' '+title+' ').split(' '+wanted+' ')[1]||'';
+ if(query.type!=='tv'&&/^(?:\d+|الجزء|جزء|في الجاهليه|في الجاهلية)(?: |$)/.test(after))return null;
  if(/(?:^| )(اعلان|برومو|تريلر|كواليس|اغنيه|اغنية|مشهد|ملخص|مقطع|trailer|teaser|clip|reaction)(?: |$)/.test(title))return null;
  if(/(?:^| )(جزء|part)(?: |$)/.test(title)&&query.type!=='tv')return null;
  const duration=isoDuration(d.duration),runtime=Number(query.runtime)||0;
