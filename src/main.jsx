@@ -877,8 +877,20 @@ function writeAdMemory(movieId, observations) {
     localStorage.setItem(AD_MEMORY_KEY,JSON.stringify(all));
   } catch {}
 }
+// Stable legacy slots: never reindex, since saved history and peer rooms exchange numeric IDs.
+// Both domains are listed as retired by the provider's published domain register (2026-11-13).
+const RETIRED_SERVER_IDS = new Set([1,9]);
+const ACTIVE_SERVER_IDS = Object.freeze([0,2,3,4,5,6,7,8]);
+function normalizeServerId(value) {
+  const id=Number(value);
+  return ACTIVE_SERVER_IDS.includes(id)?id:ACTIVE_SERVER_IDS[0];
+}
+function nextServerId(current) {
+  const at=ACTIVE_SERVER_IDS.indexOf(normalizeServerId(current));
+  return ACTIVE_SERVER_IDS[(at+1)%ACTIVE_SERVER_IDS.length];
+}
 function pickProtectedSource(observations, count, current=-1) {
-  const eligible=Array.from({length:count},(_,i)=>i).filter(i=>i!==current && !['ad','blocked'].includes(observations[i]?.status));
+  const eligible=ACTIVE_SERVER_IDS.filter(i=>i<count && i!==current && !['ad','blocked'].includes(observations[i]?.status));
   return eligible.sort((a,b)=>(observations[b]?.status==='clean'?1:0)-(observations[a]?.status==='clean'?1:0))[0] ?? null;
 }
 
@@ -920,7 +932,13 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
       progressReportedAt.current=Date.now();onProgressUpdate(percent);
     }
   };
-  const currentServer = localServer ?? syncSettings.fallbackServer ?? 0;
+  const requestedServer = localServer ?? syncSettings.fallbackServer ?? 0;
+  const currentServer = normalizeServerId(requestedServer);
+  useEffect(()=>{
+    if(Number(requestedServer)===currentServer)return;
+    if(role==='admin'){setLocalServer(null);onServerChange(currentServer);}
+    else setLocalServer(currentServer);
+  },[requestedServer,currentServer,role]);
   const nativeSource = ownedSource || (extractionStatus === 'success' ? streamData : null);
   const isNative = Boolean(nativeSource);
   const frameProtected = !compatibility;
@@ -955,16 +973,16 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   const habibtiEmojis = ['💕', '', '💖', '🍿', '🌹', '🦋', '⭐', '💍'];
   
   const fallbackNodes = [
-    { name: "VidLink VIP", url: `https://vidlink.pro/movie/${movie.id}?primaryColor=a855f7&autoplay=false` },
-    { name: "Vidsrc PM", url: `https://vidsrc.pm/embed/movie/${movie.id}` },
-    { name: "Embed SU", url: `https://embed.su/embed/movie/${movie.id}` },
-    { name: "AutoEmbed", url: `https://autoembed.co/movie/tmdb/${movie.id}` },
-    { name: "Smashy", url: `https://player.smashy.stream/movie/${movie.id}` },
-    { name: "VidBinge", url: `https://vidbinge.com/embed/movie/${movie.id}` },
-    { name: "2Embed", url: `https://www.2embed.cc/embed/${movie.id}` },
-    { name: "MultiMov", url: `https://multiembed.mov/directstream.php?video_id=${movie.id}&tmdb=1` },
-    { name: "MoviesClub", url: `https://moviesapi.club/movie/${movie.id}` },
-    { name: "Vidsrc XYZ", url: `https://vidsrc.xyz/embed/movie/${movie.id}` }
+    { name: "VidLink VIP", health: "Docs confirmed", url: `https://vidlink.pro/movie/${movie.id}?primaryColor=a855f7&autoplay=false` },
+    { name: "Vidsrc PM", health: "Retired", retired: true, url: null },
+    { name: "Embed SU", health: "HTTP 502 at audit", url: `https://embed.su/embed/movie/${movie.id}` },
+    { name: "AutoEmbed", health: "Docs confirmed", url: `https://autoembed.co/movie/tmdb/${movie.id}` },
+    { name: "Smashy", health: "Unverified", url: `https://player.smashy.stream/movie/${movie.id}` },
+    { name: "VidBinge", health: "Unverified", url: `https://vidbinge.com/embed/movie/${movie.id}` },
+    { name: "2Embed", health: "Unverified", url: `https://www.2embed.cc/embed/${movie.id}` },
+    { name: "MultiMov", health: "Unverified", url: `https://multiembed.mov/directstream.php?video_id=${movie.id}&tmdb=1` },
+    { name: "MoviesClub", health: "Domain mismatch in docs", url: `https://moviesapi.club/movie/${movie.id}` },
+    { name: "Vidsrc XYZ", health: "Retired", retired: true, url: null }
   ];
   // Start with a previously reported clean protected source when one exists.
   // Never interpret iframe onload as video playback or a clean result.
@@ -1208,6 +1226,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   };
 
   const handleServerChange = (index) => {
+    if(!ACTIVE_SERVER_IDS.includes(index))return;
     setCompatibility(false);
     setExhausted(false);
     setOwnedSource(null);
@@ -1263,14 +1282,15 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
         </div>}
         {adNotice&&<p role="status" className="text-xs text-pink-200 mt-2">{adNotice}</p>}
         {showServerList && !movie.isArabic && <div className="flex gap-2 overflow-x-auto mt-3 pb-1">
-          {fallbackNodes.map((node,i)=><button key={i} onClick={()=>handleServerChange(i)} className={`shrink-0 text-xs px-3 py-2 rounded-lg ${i===currentServer?'bg-pink-600':'bg-white/10'}`}>{node.name}{adMemory[i]?.status==='clean'?' ✓':adMemory[i]?.status==='ad'?' · ad':adMemory[i]?.status==='blocked'?' · blocked':''}</button>)}
+          {ACTIVE_SERVER_IDS.map(i=>{const node=fallbackNodes[i];return <button key={i} onClick={()=>handleServerChange(i)} className={`shrink-0 text-left px-3 py-2 rounded-lg ${i===currentServer?'bg-pink-600':'bg-white/10'}`}><span className="block text-xs font-semibold">{node.name}{adMemory[i]?.status==='clean'?' · reported clean':adMemory[i]?.status==='ad'?' · ad':adMemory[i]?.status==='blocked'?' · blocked':''}</span><span className="block text-[10px] opacity-80">{node.health}</span></button>;})}
         </div>}
         {showPlaybackHelp && <div className="mt-3 p-3 rounded-xl border border-white/10 bg-zinc-900 space-y-3">
           <p className="text-sm font-bold">Cinema playback settings</p><p className="text-xs text-purple-200">Direct only never loads external player pages. It cannot guarantee that the video itself has no ads.</p>
+          <p className="text-xs text-gray-400">Source audit: 13 Nov 2026. Two retired domains are disabled. Documentation availability does not certify video playback or ad-free playback.</p>
           <p className="text-xs text-gray-300">Ad? Switch and Not playing? skip sources you report as ad-bearing or blocked. Clean reports are saved on this device for this title. Compatibility is unprotected and may show ads or redirects.</p>
           <div className="flex flex-wrap gap-2">
             <button onClick={restoreProtection} className="text-xs bg-green-700 px-3 py-2 rounded-lg">Protected mode</button>
-            {!isNative && !movie.isArabic && <button onClick={()=>handleServerChange((currentServer+1)%fallbackNodes.length)} className="text-xs bg-purple-700 px-3 py-2 rounded-lg">Try next server</button>}
+            {!isNative && !movie.isArabic && <button onClick={()=>handleServerChange(nextServerId(currentServer))} className="text-xs bg-purple-700 px-3 py-2 rounded-lg">Try next server</button>}
             {!isNative && <button onClick={enableCompatibility} className="text-xs bg-amber-900 px-3 py-2 rounded-lg">Use compatibility (ads possible)</button>}
             {ownedSource && <button onClick={()=>{setOwnedSource(null);setNativeError('');}} className="text-xs bg-white/10 px-3 py-2 rounded-lg">Return to original source</button>}
           </div>
