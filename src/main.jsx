@@ -890,7 +890,6 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   const [togetherTime, setTogetherTime] = useState(0);
   const [showControls, setShowControls] = useState(true);
   const [showServerList, setShowServerList] = useState(false);
-  const [compatibility, setCompatibility] = useState(false);
   const [frameRevision, setFrameRevision] = useState(0);
   const [showPlaybackHelp, setShowPlaybackHelp] = useState(false);
   const [localServer, setLocalServer] = useState(null);
@@ -942,14 +941,15 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   },[requestedServer,currentServer,role]);
   const nativeSource = ownedSource || (extractionStatus === 'success' ? streamData : null);
   const isNative = Boolean(nativeSource);
-  const frameProtected = !compatibility;
+  // Security invariant: third-party players never receive top-navigation or popup permissions.
+  const frameProtected = true;
   const rememberSource = (status) => {
     const next={...adMemory,[currentServer]:{status,at:Date.now()}};
     setAdMemory(next);
     writeAdMemory(movie.id,next);
     return next;
   };
-  useEffect(() => { setCompatibility(false); setShowPlaybackHelp(false); }, [movie.id, currentServer]);
+  useEffect(() => { setShowPlaybackHelp(false); }, [movie.id, currentServer]);
   const [videoProgress, setVideoProgress] = useState(syncSettings.progress || 0);
   // VidLink's documented playback events, not iframe onload, establish playback progress.
   useEffect(()=>{
@@ -1003,7 +1003,6 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   },[extractionStatus,movie.id,movie.isArabic]);
   const reportPlaybackIssue = (status) => {
     const next=rememberSource(status);
-    setCompatibility(false);
     setShowPlaybackHelp(false);
     const preferred=movie.isArabic?null:pickProtectedSource(next,fallbackNodes.length,currentServer);
     if(preferred===null) {
@@ -1195,15 +1194,8 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     return()=>{video.removeEventListener('error',fail);hls?.destroy();hlsRef.current=null;video.pause();video.removeAttribute('src');video.load();};
   }, [nativeSource,ownedSource]);
 
-  const enableCompatibility=()=>{
-    setExhausted(false);
-    setCompatibility(true);
-    setShowPlaybackHelp(false);
-    setFrameRevision(v=>v+1);
-  };
   const restoreProtection=()=>{
     setExhausted(false);
-    setCompatibility(false);
     setFrameRevision(v=>v+1);
     setShowPlaybackHelp(false);
   };
@@ -1228,7 +1220,6 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
 
   const handleServerChange = (index) => {
     if(!ACTIVE_SERVER_IDS.includes(index))return;
-    setCompatibility(false);
     setExhausted(false);
     setOwnedSource(null);
     if (role === 'admin') { setLocalServer(null); onServerChange(index); }
@@ -1266,7 +1257,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
       <header className="relative shrink-0 z-[200] bg-gradient-to-r from-zinc-950 via-purple-950/60 to-zinc-950 border-b border-purple-400/20 px-3 py-3 text-white">
         <div className="flex items-center justify-between gap-2">
           <button onClick={onBack} className="bg-white/10 rounded-lg px-3 py-2 text-sm">← Exit</button>
-          <div className="flex-1 min-w-0 text-center"><p className="truncate font-bold text-sm">{movie.title}</p><p className="text-[10px] text-gray-400">{isNative?'Direct player':frameProtected?'Protected embed':'Compatibility • ads possible'}</p></div>
+          <div className="flex-1 min-w-0 text-center"><p className="truncate font-bold text-sm">{movie.title}</p><p className="text-[10px] text-gray-400">{isNative?'Direct player':'Navigation protected'}</p></div>
           <button onClick={()=>setShowPlaybackHelp(v=>!v)} className="bg-purple-600 px-3 py-2 rounded-lg text-xs font-bold" aria-expanded={showPlaybackHelp}>⚙ Playback</button>
         </div>
         <div className="flex items-center justify-between gap-2 mt-3">
@@ -1289,12 +1280,11 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
         {showPlaybackHelp && <div className="mt-3 p-3 rounded-xl border border-white/10 bg-zinc-900 space-y-3">
           <p className="text-sm font-bold">Cinema playback settings</p><p className="text-xs text-purple-200">Direct only never loads external player pages. It cannot guarantee that the video itself has no ads.</p>
           <p className="text-xs text-gray-400">Source audit: 13 Nov 2026. Two retired domains are disabled. Documentation availability does not certify video playback or ad-free playback.</p>
-          <p className="text-xs text-gray-300">Ad? Switch and Not playing? skip sources you report as ad-bearing or blocked. Clean reports are saved on this device for this title. Compatibility can allow popups and redirects from external players. The site frame allowlist does not control a separate browser tab.</p>
+          <p className="text-xs text-gray-300">Ad? Switch and Not playing? skip sources you report as ad-bearing or blocked. Clean reports are saved on this device for this title. External players cannot open new tabs or navigate the main cinema page. Some providers may refuse to play under this restriction. Switch sources if necessary.</p>
           <div className="flex flex-wrap gap-2">
             <button onClick={restoreProtection} className="text-xs bg-green-700 px-3 py-2 rounded-lg">Protected mode</button>
             {!isNative && !movie.isArabic && <button onClick={()=>handleServerChange(nextServerId(currentServer))} className="text-xs bg-purple-700 px-3 py-2 rounded-lg">Try next server</button>}
-            {!isNative && <button onClick={enableCompatibility} className="text-xs bg-amber-900 px-3 py-2 rounded-lg">Use compatibility (popups possible)</button>}
-            {ownedSource && <button onClick={()=>{setOwnedSource(null);setNativeError('');}} className="text-xs bg-white/10 px-3 py-2 rounded-lg">Return to original source</button>}
+              {ownedSource && <button onClick={()=>{setOwnedSource(null);setNativeError('');}} className="text-xs bg-white/10 px-3 py-2 rounded-lg">Return to original source</button>}
           </div>
           <details className="text-xs text-gray-300">
             <summary className="cursor-pointer">Optional: clean direct video</summary>
@@ -1345,7 +1335,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
         ) : exhausted ? (
           <div className="h-full flex flex-col items-center justify-center text-center p-6 text-white gap-3">
             <p className="font-bold">Protected sources exhausted</p>
-            <p className="text-sm text-gray-400">We stopped the external player instead of silently disabling protection. You can retry or explicitly choose compatibility.</p>
+            <p className="text-sm text-gray-400">We stopped the external player rather than allow unwanted redirects. Retry or choose another protected source.</p>
             <button onClick={()=>{setAdMemory({});writeAdMemory(movie.id,{});restoreProtection();}} className="bg-purple-700 rounded-xl px-4 py-2 text-sm">Retry protected sources</button>
             <button onClick={()=>setShowPlaybackHelp(true)} className="underline text-sm text-gray-300">Playback options</button>
           </div>
@@ -1353,11 +1343,11 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
           <div className="relative w-full h-full bg-black flex items-center justify-center">
             <iframe
               ref={iframeRef}
-              key={`${movie.id}-${currentServer}-${frameProtected}-${frameRevision}`}
+              key={`${movie.id}-${currentServer}-${frameRevision}`}
               title="Movie playback"
               src={movie.isArabic ? `https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(movie.title + ' فيلم كامل')}` : fallbackNodes[currentServer]?.url}
               className="w-full h-full border-0"
-              sandbox={frameProtected ? "allow-scripts allow-same-origin allow-presentation" : undefined}
+              sandbox="allow-scripts allow-same-origin allow-presentation"
               allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
               allowFullScreen
               referrerPolicy="strict-origin-when-cross-origin"
