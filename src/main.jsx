@@ -989,7 +989,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     { name: "MultiMov", health: "Unverified", url: `https://multiembed.mov/directstream.php?video_id=${movie.id}&tmdb=1` },
     { name: "MoviesClub", health: "Domain mismatch in docs", url: `https://moviesapi.club/movie/${movie.id}` },
     { name: "Vidsrc XYZ", health: "Retired", retired: true, url: null },
-    { name: "EmbedWave", health: "Free · ad-free claimed / trial", url: `https://embedwave.cc/embed/movie/${encodeURIComponent(movie.id)}` }
+    { name: "EmbedWave", health: "Cinesrc default · original audio preferred", url: `https://embedwave.cc/embed/movie/${encodeURIComponent(movie.id)}?server=cinesrc` }
   ];
   // Start with a previously reported clean protected source when one exists.
   // Never interpret iframe onload as video playback or a clean result.
@@ -1284,7 +1284,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
           <button onClick={()=>setDirectOnly(v=>!v)} aria-pressed={directOnly} className={`rounded-full px-3 py-1.5 text-xs font-bold border ${directOnly?'bg-purple-600 border-purple-400':'bg-white/5 border-white/15'}`}>{directOnly?'Direct only: ON':'Direct only: OFF'}</button>
         </div>
         {isNative&&<p className="text-[11px] text-gray-300 mt-2">Audio: {languageStatus.audio} · CC: {languageStatus.subs}</p>}
-        {!isNative&&currentServer===10&&<p className="text-[11px] text-gray-400 mt-2">Preferred: original audio · Arabic subtitles. EmbedWave controls its own tracks.</p>}
+        {!isNative&&currentServer===10&&<p className="text-[11px] text-gray-400 mt-2">Cinesrc default · Original audio preferred · Arabic subtitles managed by EmbedWave.</p>}
         {isNative&&levels.length>1&&<div className="flex items-center gap-2 mt-2"><label className="text-xs text-gray-300" htmlFor="cinema-quality">Quality</label><select id="cinema-quality" value={quality} onChange={e=>{const v=Number(e.target.value);setQuality(v);if(hlsRef.current)hlsRef.current.currentLevel=v;}} className="bg-zinc-800 text-white rounded-lg px-2 py-1 text-xs"><option value={-1}>Auto</option>{levels.map(l=><option key={l.id} value={l.id}>{l.height?l.height+'p':Math.round(l.bitrate/1000)+' kbps'}</option>)}</select></div>}
         {!isNative && !directOnly && <div className="flex gap-2 mt-2 items-center overflow-x-auto pb-1">
           <button onClick={()=>reportPlaybackIssue('ad')} className="text-xs bg-pink-700 px-3 py-2 rounded-lg font-bold">Ad? Switch</button>
