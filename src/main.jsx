@@ -6,6 +6,49 @@ import Peer from 'peerjs'
 // 🔑 TMDB API Key
 const TMDB_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhOWFlNzg3NTBiNWU2MmQ0MWI4NGEyMGQ5MjU0ZDMzMSIsIm5iZiI6MTc3NjQ1ODE2OC4zMzEsInN1YiI6IjY5ZTI5OWI4YWUzYjIzZDMxMTgxOGQ4NSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.G5zxivtx0LQiueaMafbdxYdRdfvLdbDxu192vwo5nwU';
 
+const catalogCache = new Map();
+const categories = [
+  { id: 'popular', label: '🔥 Trending' },
+  { id: 'new', label: '✨ New releases' },
+  { id: 'digital', label: '🎬 Digital releases (US)' },
+  { id: 'upcoming', label: '📅 Coming soon' },
+  { id: 'arabic', label: '🌙 Arabic' },
+];
+const dateISO = d => d.toISOString().slice(0,10);
+function catalogURL(category, query, page) {
+  const base = 'https://api.themoviedb.org/3/';
+  const p = new URLSearchParams({language:'en-US', page:String(page), include_adult:'false'});
+  if(query.trim()) { p.set('query',query.trim()); return base+'search/movie?'+p; }
+  const now = new Date();
+  const past = new Date(now); past.setDate(past.getDate()-90);
+  const future = new Date(now); future.setDate(future.getDate()+90);
+  p.set('sort_by','popularity.desc');
+  if(category==='new' || category==='digital') {
+    p.set('primary_release_date.lte',dateISO(now));
+    p.set('primary_release_date.gte',dateISO(past));
+    if(category==='digital') {
+      p.delete('primary_release_date.lte'); p.delete('primary_release_date.gte');
+      p.set('release_date.gte',dateISO(past)); p.set('release_date.lte',dateISO(now));
+      p.set('region','US'); p.set('with_release_type','4|6');
+    }
+  }
+  if(category==='upcoming') {
+    p.set('primary_release_date.gte',dateISO(now)); p.set('primary_release_date.lte',dateISO(future));
+    p.set('sort_by','primary_release_date.asc');
+  }
+  if(category==='arabic') p.set('with_original_language','ar');
+  return base+'discover/movie?'+p;
+}
+function getMediaSource(id) {
+  try { return JSON.parse(localStorage.getItem('cinema_media_'+id)||'null'); } catch { return null; }
+}
+function saveMediaSource(id, source) {
+  try { localStorage.setItem('cinema_media_'+id,JSON.stringify(source)); } catch {}
+}
+function validSource(source) {
+  try { const u=new URL(source.url); return u.protocol==='https:' && ['hls','mp4'].includes(source.type); }
+  catch { return false; }
+}
 const fetchOptions = {
   method: 'GET',
   headers: { accept: 'application/json', Authorization: `Bearer ${TMDB_TOKEN}` }
@@ -304,6 +347,13 @@ function App() {
   const [roomMovie, setRoomMovie] = useState(null);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
+  const [category, setCategory] = useState('popular');
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(false);
+  const [catalogError, setCatalogError] = useState('');
+  const [retry, setRetry] = useState(0);
+  const selectCategory = id => { setCategory(id); setSearch(''); setPage(1); };
+  const changeSearch = value => { setSearch(value); setPage(1); };
   const [welcomeName, setWelcomeName] = useState('Renad');
   
   const [roomCode, setRoomCode] = useState('');
@@ -480,19 +530,32 @@ function App() {
 
   useEffect(() => {
     if (role !== 'admin') return;
-    const url = search 
-      ? `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(search)}&language=en-US`
-      : `https://api.themoviedb.org/3/discover/movie?language=en-US&sort_by=popularity.desc&vote_count.gte=100&page=1`;
-
+    const controller = new AbortController();
+    const url = catalogURL(category, search, page);
+    setCatalogError('');
+    const apply = data => {
+      const items=(data.results||[]).filter(m=>m.poster_path);
+      setMovies(prev=>page===1?items:[...prev,...items.filter(m=>!prev.some(x=>x.id===m.id))]);
+      setHasMore(page<Math.min(data.total_pages||1,500));
+      setLoading(false);
+    };
+    const cached=catalogCache.get(url);
+    if(cached && Date.now()-cached.at<300000) { apply(cached.data); return; }
     setLoading(true);
-    fetch(url, fetchOptions)
-      .then(res => res.json())
-      .then(data => {
-        setMovies(data.results?.filter(m => m.poster_path && m.backdrop_path) || []);
-        setLoading(false);
-      })
-      .catch(err => { console.error('Fetch error:', err); setLoading(false); });
-  }, [search, role]);
+    const timer=setTimeout(async()=>{
+      try {
+        const res=await fetch(url,{...fetchOptions,signal:controller.signal});
+        if(!res.ok) throw Error('Catalog unavailable');
+        const data=await res.json();
+        if(controller.signal.aborted) return;
+        catalogCache.set(url,{at:Date.now(),data});
+        if(catalogCache.size>60) catalogCache.delete(catalogCache.keys().next().value);
+        apply(data);
+      } catch(e) { if(!controller.signal.aborted) { setCatalogError('Could not load movies. Please retry.'); setLoading(false); } }
+    }, search.trim()?300:0);
+    return ()=>{ clearTimeout(timer); controller.abort(); };
+  }, [search, role, category, page, retry]);
+
 
   const toggleRoomReady = () => {
     const newStatus = !roomReady;
@@ -515,7 +578,7 @@ function App() {
     setSyncSettings(prev => ({ ...prev, progress }));
     if (conn?.open) conn.send({ type: 'progress_update', progress });
     if (roomMovie) {
-      saveToHistory(roomMovie, progress, syncSettings);
+      saveToHistory(roomMovie, progress, { ...syncSettings, progress });
     }
   };
 
@@ -527,11 +590,14 @@ function App() {
     return (
       <HistoryPanel 
         onSelectMovie={(item) => {
+          setMode('single');
+          setRole('admin');
           setRoomMovie({
             id: item.movieId,
             title: item.title,
             poster_path: item.poster,
-            isArabic: item.isArabic
+            isArabic: item.isArabic,
+            source: getMediaSource(item.movieId)
           });
           setSyncSettings(prev => ({
             ...prev,
@@ -603,7 +669,7 @@ function App() {
         onSandboxToggle={toggleSandbox}
         onProgressUpdate={updateProgress}
         onBack={() => {
-          if (role === 'admin' && conn) conn.send({ type: 'end_party' });
+          if (role === 'admin' && conn?.open) conn.send({ type: 'end_party' });
           if (roomMovie) saveToHistory(roomMovie, syncSettings.progress, syncSettings);
           setRoomMovie(null);
           setActiveMovie(null);
@@ -667,12 +733,13 @@ function App() {
 
   if (mode === 'couples' && role === 'admin' && activeMovie) {
     return <MovieDetail movie={activeMovie} onBack={() => setActiveMovie(null)} onStartParty={(movieFull) => {
-      setRoomMovie(movieFull);
       if (conn?.open) {
+        setSyncSettings(prev=>({...prev,progress:getFromHistory(movieFull.id)?.progress||0}));
+        setRoomMovie(movieFull);
         conn.send({ 
           type: 'start_party', 
           movie: movieFull, 
-          settings: syncSettings 
+          settings: {...syncSettings,progress:getFromHistory(movieFull.id)?.progress||0} 
         });
       } else {
         alert("Wait for Renad to connect first!");
@@ -732,34 +799,42 @@ function App() {
             </div>
           </div>
           
-          <input 
-            type="text" 
-            placeholder="Search movies..." 
+          <input
+            type="search"
+            value={search}
+            placeholder="Search movies..."
             className="bg-[#0a0a0a] border border-white/10 rounded-2xl px-6 py-4 w-full focus:ring-2 ring-purple-500/50 outline-none transition-all text-base"
-            onKeyDown={e => e.key === 'Enter' && setSearch(e.target.value)}
+            onChange={e=>changeSearch(e.target.value)}
           />
+          <div className="flex flex-wrap gap-2" aria-label="Movie categories">
+            {categories.map(c=><button key={c.id} onClick={()=>selectCategory(c.id)} className={`px-4 py-2 rounded-full text-sm font-bold ${!search && category===c.id?'bg-pink-600 text-white':'bg-white/10 text-gray-300'}`}>{c.label}</button>)}
+          </div>
+          <p className="text-xs text-gray-400">Release listings are not proof of streaming availability. Use a licensed or owned video source for playback.</p>
         </header>
 
-        {loading ? (
+        {catalogError && <div className="text-center text-pink-300 py-4">{catalogError} <button className="underline" onClick={()=>setRetry(v=>v+1)}>Retry</button></div>}
+        {loading && page===1 ? (
           <div className="flex justify-center mt-32"><div className="w-12 h-12 border-2 border-purple-500 border-t-transparent rounded-full animate-spin"></div></div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
             {movies.map(m => (
               <div key={m.id} onClick={() => setActiveMovie(m)} className="group cursor-pointer">
                 <div className="relative aspect-[2/3] rounded-2xl overflow-hidden border border-white/5 group-hover:border-purple-500/50 transition-all bg-zinc-900 shadow-lg">
-                  <img src={`https://image.tmdb.org/t/p/w500${m.poster_path}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt={m.title} />
+                  <img src={`https://image.tmdb.org/t/p/w342${m.poster_path}`} loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt={m.title} />
                 </div>
                 <h3 className="mt-3 text-xs font-bold text-gray-300 text-center truncate group-hover:text-pink-400 transition-colors">{m.title}</h3>
               </div>
             ))}
           </div>
         )}
+        {!loading && !catalogError && movies.length===0 && <p className="text-center text-gray-400 py-12">No movies found.</p>}
+        {hasMore && <button disabled={loading} onClick={()=>setPage(p=>p+1)} className="block mx-auto mt-8 bg-white/10 hover:bg-white/20 px-6 py-3 rounded-xl font-bold">{loading?'Loading…':'Load more'}</button>}
       </div>
     );
   }
 
   if (mode === 'single' && activeMovie) {
-    return <MovieDetail movie={activeMovie} onBack={() => setActiveMovie(null)} onStartParty={(movieFull) => setRoomMovie(movieFull)} />;
+    return <MovieDetail movie={activeMovie} onBack={() => setActiveMovie(null)} onStartParty={(movieFull) => {setSyncSettings(prev=>({...prev,progress:getFromHistory(movieFull.id)?.progress||0}));setRoomMovie(movieFull);}} />;
   }
 
   if (mode === 'single' && role === 'admin') {
@@ -772,28 +847,36 @@ function App() {
             </h1>
             <p className="text-gray-500 text-sm mt-1">Your personal cinema</p>
           </div>
-          <input 
-            type="text" 
-            placeholder="Search movies..." 
+          <input
+            type="search"
+            value={search}
+            placeholder="Search movies..."
             className="bg-[#0a0a0a] border border-white/10 rounded-2xl px-6 py-4 w-full focus:ring-2 ring-purple-500/50 outline-none transition-all text-base"
-            onKeyDown={e => e.key === 'Enter' && setSearch(e.target.value)}
+            onChange={e=>changeSearch(e.target.value)}
           />
+          <div className="flex flex-wrap gap-2" aria-label="Movie categories">
+            {categories.map(c=><button key={c.id} onClick={()=>selectCategory(c.id)} className={`px-4 py-2 rounded-full text-sm font-bold ${!search && category===c.id?'bg-pink-600 text-white':'bg-white/10 text-gray-300'}`}>{c.label}</button>)}
+          </div>
+          <p className="text-xs text-gray-400">Release listings are not proof of streaming availability. Use a licensed or owned video source for playback.</p>
         </header>
 
-        {loading ? (
+        {catalogError && <div className="text-center text-pink-300 py-4">{catalogError} <button className="underline" onClick={()=>setRetry(v=>v+1)}>Retry</button></div>}
+        {loading && page===1 ? (
           <div className="flex justify-center mt-32"><div className="w-12 h-12 border-2 border-purple-500 border-t-transparent rounded-full animate-spin"></div></div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
             {movies.map(m => (
               <div key={m.id} onClick={() => setActiveMovie(m)} className="group cursor-pointer">
                 <div className="relative aspect-[2/3] rounded-2xl overflow-hidden border border-white/5 group-hover:border-purple-500/50 transition-all bg-zinc-900 shadow-lg">
-                  <img src={`https://image.tmdb.org/t/p/w500${m.poster_path}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt={m.title} />
+                  <img src={`https://image.tmdb.org/t/p/w342${m.poster_path}`} loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt={m.title} />
                 </div>
                 <h3 className="mt-3 text-xs font-bold text-gray-300 text-center truncate group-hover:text-pink-400 transition-colors">{m.title}</h3>
               </div>
             ))}
           </div>
         )}
+        {!loading && !catalogError && movies.length===0 && <p className="text-center text-gray-400 py-12">No movies found.</p>}
+        {hasMore && <button disabled={loading} onClick={()=>setPage(p=>p+1)} className="block mx-auto mt-8 bg-white/10 hover:bg-white/20 px-6 py-3 rounded-xl font-bold">{loading?'Loading…':'Load more'}</button>}
       </div>
     );
   }
@@ -803,17 +886,24 @@ function App() {
 
 function MovieDetail({ movie, onBack, onStartParty }) {
   const [details, setDetails] = useState(null);
+  const [source, setSource] = useState(()=>getMediaSource(movie.id)||{url:'',type:'mp4'});
+  const [sourceError, setSourceError] = useState('');
+  const startWatching = () => {
+    if(!validSource(source)) { setSourceError('Enter an HTTPS URL for a video you own or are licensed to watch.'); return; }
+    saveMediaSource(movie.id,source);
+    onStartParty({...movie,isArabic:details?.original_language==='ar',source});
+  };
   const historyItem = getFromHistory(movie.id);
   
   useEffect(() => {
     fetch(`https://api.themoviedb.org/3/movie/${movie.id}?language=en-US`, fetchOptions)
-      .then(res => res.json()).then(data => setDetails(data));
+      .then(res => res.json()).then(data => setDetails(data)).catch(()=>{});
   }, [movie.id]);
 
   return (
     <div className="min-h-screen w-full bg-black relative flex items-center justify-center p-4 md:p-6 text-left overflow-hidden" dir="ltr">
       <div className="absolute inset-0 z-0">
-        <img src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`} className="w-full h-full object-cover opacity-30 blur-2xl" />
+        <img src={`https://image.tmdb.org/t/p/w780${movie.backdrop_path || movie.poster_path}`} className="w-full h-full object-cover opacity-30 blur-2xl" />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-[#050505]/90 to-transparent"></div>
       </div>
       <div className="z-10 max-w-6xl w-full grid md:grid-cols-[300px_1fr] gap-8 md:gap-12 items-center">
@@ -846,8 +936,16 @@ function MovieDetail({ movie, onBack, onStartParty }) {
           )}
           
           <p className="text-gray-300 text-base md:text-lg leading-relaxed">{movie.overview || "No synopsis available."}</p>
+          <div className="bg-white/5 border border-white/10 rounded-xl p-4 space-y-3">
+            <p className="text-sm font-bold text-pink-300">Ad-free private library</p>
+            <p className="text-xs text-gray-400">Add a direct HTTPS MP4 or HLS link for media you own or have permission to use. Both viewers need access to the same link. No third-party embed or ad scripts.</p>
+            <input type="url" value={source.url} onChange={e=>{setSource(v=>({...v,url:e.target.value}));setSourceError('');}} placeholder="https://…/movie.mp4" className="w-full bg-black border border-white/20 rounded-lg p-3 text-white" />
+            <select value={source.type} onChange={e=>setSource(v=>({...v,type:e.target.value}))} className="bg-black border border-white/20 rounded-lg p-2 text-white"><option value="mp4">MP4 / direct video</option><option value="hls">HLS (.m3u8)</option></select>
+            <a href={`https://www.themoviedb.org/movie/${movie.id}/watch`} target="_blank" rel="noopener noreferrer" className="block text-xs text-purple-300 underline">Find official streaming availability</a>
+            {sourceError && <p className="text-red-400 text-sm">{sourceError}</p>}
+          </div>
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
-            <button onClick={() => onStartParty({ ...movie, isArabic: details?.original_language === 'ar' })} className="bg-gradient-to-r from-purple-600 to-pink-600 px-8 py-4 rounded-2xl font-black text-white hover:scale-105 transition-all shadow-xl">
+            <button onClick={startWatching} className="bg-gradient-to-r from-purple-600 to-pink-600 px-8 py-4 rounded-2xl font-black text-white hover:scale-105 transition-all shadow-xl">
               {historyItem?.progress > 0 ? '▶️ Resume' : '🍿 Start Watching'}
             </button>
             <button onClick={onBack} className="bg-white/5 border border-white/10 px-8 py-4 rounded-2xl font-black text-white hover:bg-white/10 transition-all">
@@ -860,499 +958,88 @@ function MovieDetail({ movie, onBack, onStartParty }) {
   );
 }
 
-// 👑 Player Component - iOS OPTIMIZED AD BLOCKER + MULTI-EXTRACTOR
-function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onServerChange, onSandboxToggle, onProgressUpdate, onBack }) {
-  const videoRef = useRef(null);
-  const iframeRef = useRef(null);
-  const containerRef = useRef(null);
-  const [extractionStatus, setExtractionStatus] = useState('extracting');
-  const [streamData, setStreamData] = useState(null);
-  const [floatingEmojis, setFloatingEmojis] = useState([]);
-  const [togetherTime, setTogetherTime] = useState(0);
-  const [showControls, setShowControls] = useState(true);
-  const [showServerList, setShowServerList] = useState(false);
-  const [isAdDetected, setIsAdDetected] = useState(false);
-  const [videoProgress, setVideoProgress] = useState(syncSettings.progress || 0);
-  
-  // 🛡️ State للدرع المانع للإعلانات (يمتص أول نقرتين)
-  const [clickCount, setClickCount] = useState(0);
-  
-  const habibtiEmojis = ['💕', '', '💖', '🍿', '🌹', '🦋', '⭐', '💍'];
-  
-  const fallbackNodes = [
-    { name: "VidLink VIP", url: `https://vidlink.pro/movie/${movie.id}?primaryColor=a855f7&autoplay=false` },
-    { name: "Vidsrc PM", url: `https://vidsrc.pm/embed/movie/${movie.id}` },
-    { name: "Embed SU", url: `https://embed.su/embed/movie/${movie.id}` },
-    { name: "AutoEmbed", url: `https://autoembed.co/movie/tmdb/${movie.id}` },
-    { name: "Smashy", url: `https://player.smashy.stream/movie/${movie.id}` },
-    { name: "VidBinge", url: `https://vidbinge.com/embed/movie/${movie.id}` },
-    { name: "2Embed", url: `https://www.2embed.cc/embed/${movie.id}` },
-    { name: "MultiMov", url: `https://multiembed.mov/directstream.php?video_id=${movie.id}&tmdb=1` },
-    { name: "MoviesClub", url: `https://moviesapi.club/movie/${movie.id}` },
-    { name: "Vidsrc XYZ", url: `https://vidsrc.xyz/embed/movie/${movie.id}` }
-  ];
-
-  useEffect(() => {
-    const timer = setInterval(() => setTogetherTime(p => p + 1), 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (videoRef.current && videoRef.current.duration) {
-        const progress = (videoRef.current.currentTime / videoRef.current.duration) * 100;
-        setVideoProgress(progress);
-        onProgressUpdate(progress);
-      }
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const formatTime = (s) => `${Math.floor(s/60)}:${(s%60).toString().padStart(2,'0')}`;
-
-  useEffect(() => {
-    let timeout;
-    const resetTimer = () => {
-      setShowControls(true);
-      clearTimeout(timeout);
-      timeout = setTimeout(() => setShowControls(false), 4000);
+// First-party player: no external embeds, popups or ad scripts.
+function Player({movie,role,mode,myCoords,partnerCoords,syncSettings,onProgressUpdate,onBack}) {
+  const videoRef=useRef(null);
+  const remoteUntil=useRef(0);
+  const progressRef=useRef(onProgressUpdate);
+  const initialProgress=useRef(syncSettings.progress||0);
+  const [error,setError]=useState('');
+  const [ready,setReady]=useState(false);
+  const [emojis,setEmojis]=useState([]);
+  const [seconds,setSeconds]=useState(0);
+  const source=movie.source||getMediaSource(movie.id);
+  progressRef.current=onProgressUpdate;
+  useEffect(()=>{
+    const timer=setInterval(()=>setSeconds(v=>v+1),1000);
+    return ()=>clearInterval(timer);
+  },[]);
+  useEffect(()=>{
+    const video=videoRef.current;
+    if(!video || !validSource(source)) return;
+    setError('');setReady(false);
+    let hls;
+    const fail=()=>setError('Video could not be loaded. Check the URL, permission and media server CORS settings.');
+    const loaded=()=>{
+      setReady(true);
+      if(initialProgress.current>0 && Number.isFinite(video.duration)) video.currentTime=Math.min(video.duration-1,video.duration*initialProgress.current/100);
     };
-    
-    window.addEventListener('mousemove', resetTimer, { passive: true });
-    window.addEventListener('touchstart', resetTimer, { passive: true });
-    window.addEventListener('click', resetTimer, { passive: true });
-    
-    return () => { 
-      window.removeEventListener('mousemove', resetTimer); 
-      window.removeEventListener('touchstart', resetTimer);
-      window.removeEventListener('click', resetTimer);
-      clearTimeout(timeout);
+    video.addEventListener('loadedmetadata',loaded);
+    video.addEventListener('error',fail);
+    if(source.type==='hls' && video.canPlayType('application/vnd.apple.mpegurl')) video.src=source.url;
+    else if(source.type==='hls' && Hls.isSupported()) {
+      hls=new Hls({enableWorker:true,maxBufferLength:30,maxMaxBufferLength:60,startLevel:-1});
+      hls.loadSource(source.url);hls.attachMedia(video);
+      hls.on(Hls.Events.ERROR,(_event,data)=>{if(data.fatal) fail();});
+    } else if(source.type==='mp4') video.src=source.url;
+    else fail();
+    const interval=setInterval(()=>{
+      if(Number.isFinite(video.duration)&&video.duration>0) progressRef.current(video.currentTime/video.duration*100);
+    },5000);
+    return ()=>{clearInterval(interval);video.removeEventListener('loadedmetadata',loaded);video.removeEventListener('error',fail);hls?.destroy();video.pause();video.removeAttribute('src');video.load();};
+  },[movie.id,source?.url,source?.type]);
+  useEffect(()=>{
+    const handle=e=>{
+      const d=e.detail;
+      if(d.type==='emoji') setEmojis(v=>[...v,{id:Date.now()+Math.random(),char:d.emoji}]);
+      const video=videoRef.current;
+      if(!video||d.type!=='video_sync'||d.sender===role) return;
+      remoteUntil.current=Date.now()+1200;
+      if(Number.isFinite(d.time)&&Math.abs(video.currentTime-d.time)>1.5) video.currentTime=d.time;
+      if(d.action==='play') video.play().catch(()=>{});
+      if(d.action==='pause') video.pause();
     };
-  }, []);
-
-  // 🚫 iOS OPTIMIZED AD BLOCKER CSS
-  useEffect(() => {
-    const injectAntiAdStyles = () => {
-      const style = document.createElement('style');
-      style.id = 'ios-ad-blocker';
-      style.textContent = `
-        iframe[src*="ad"], iframe[src*="pop"], iframe[src*="click"],
-        iframe[src*="redirect"], iframe[src*="track"] {
-          display: none !important;
-          visibility: hidden !important;
-          pointer-events: none !important;
-        }
-        div[style*="position: fixed"][style*="z-index: 9"],
-        div[style*="position: fixed"][style*="z-index: 99"],
-        div[style*="position: fixed"][style*="z-index: 999"] {
-          display: none !important;
-        }
-        .ad, .ads, .advert, .popup, .popunder, .overlay, .modal {
-          display: none !important;
-        }
-        [onclick*="window.open"], [onclick*="location.href"] {
-          pointer-events: none !important;
-        }
-      `;
-      if (!document.getElementById('ios-ad-blocker')) {
-        document.head.appendChild(style);
-      }
-    };
-
-    const handleTouch = (e) => {
-      const target = e.target;
-      if (!target) return;
-      const style = window.getComputedStyle(target);
-      if (style.opacity === '0' || style.visibility === 'hidden') {
-        e.preventDefault();
-        e.stopPropagation();
-        setIsAdDetected(true);
-        return false;
-      }
-      if (target.tagName === 'IFRAME' && target !== iframeRef.current) {
-        e.preventDefault();
-        e.stopPropagation();
-        setIsAdDetected(true);
-        return false;
-      }
-    };
-
-    const handleBeforeUnload = (e) => {
-      e.preventDefault();
-      e.returnValue = '';
-    };
-
-    const originalWindowOpen = window.open;
-    window.open = function(url, target, features) {
-      console.log('🚫 iOS: Blocked popup:', url);
-      setIsAdDetected(true);
-      return null;
-    };
-
-    injectAntiAdStyles();
-    document.addEventListener('touchstart', handleTouch, { passive: false, capture: true });
-    document.addEventListener('click', handleTouch, { capture: true });
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
-    return () => {
-      window.open = originalWindowOpen;
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-      document.removeEventListener('touchstart', handleTouch, true);
-      document.removeEventListener('click', handleTouch, true);
-      const style = document.getElementById('ios-ad-blocker');
-      if (style) style.remove();
-    };
-  }, []);
-
-  // 🌟 🌟 الإضافة الهندسية الذكية (Multi-Extractor) 🌟 🌟
-  useEffect(() => {
-    const fetchRawStream = async () => {
-      setExtractionStatus('extracting');
-
-      let imdbId = null;
-      // 1. جلب الـ IMDB ID (نحتاجه إذا أردت استخدام سيرفر أكوام الخاص بك مستقبلاً)
-      try {
-        const idRes = await fetch(`https://api.themoviedb.org/3/movie/${movie.id}/external_ids`, fetchOptions);
-        if (idRes.ok) {
-          const idData = await idRes.json();
-          imdbId = idData.imdb_id;
-        }
-      } catch (err) {
-        console.warn("Failed to fetch IMDB ID");
-      }
-
-      const extractors = [];
-      // 🛠️ هذا هو الرابط الذي ستغيره عندما تنتهي من رفع سيرفر أكوام على Render
-      const OMAR_AKWAM_API = 'https://omar-akwam.onrender.com';
-
-      if (movie.isArabic) {
-        if (imdbId) {
-          // الخطة أ للفيلم العربي: استخدام سيرفر أكوام الخاص بك (المبني على Stremio-akwam)
-          extractors.push(`${OMAR_AKWAM_API}/stream/movie/${imdbId}.json`);
-        }
-      } else {
-        // الخطة أ للفيلم الأجنبي: أفضل واجهات الاستخراج النظيفة عالمياً
-        extractors.push(`https://vidlink.pro/api/movie/${movie.id}`);
-        extractors.push(`https://vidsrc.pro/api/movie/${movie.id}`);
-      }
-
-      // 2. محرك البحث (يختبر السيرفرات واحداً تلو الآخر)
-      for (const url of extractors) {
-        try {
-          const res = await fetch(url);
-          if (!res.ok) continue; // فشل هذا السيرفر؟ أكمل للتالي
-          
-          const data = await res.json();
-          
-          // أ) معالجة ردود الـ Stremio Protocols (كسيرفر أكوام الذي سترفعه)
-          if (data && data.streams && data.streams.length > 0) {
-            const bestStream = data.streams[0];
-            if (bestStream && bestStream.url) {
-              setStreamData({
-                stream_url: bestStream.url,
-                subtitles: [] // الروابط العربية غالباً مدمجة
-              });
-              setExtractionStatus('success');
-              return; // وجدنا الرابط! نوقف البحث
-            }
-          }
-          // ب) معالجة ردود الـ APIs النظيفة (Vidlink/Vidsrc)
-          else if (data && data.stream_url) {
-            const cleanSubtitles = data.subtitles?.filter(sub => 
-              sub.lang?.includes('ar') || sub.language?.toLowerCase().includes('arabic') ||
-              sub.lang?.includes('en') || sub.language?.toLowerCase().includes('english')
-            ) || [];
-
-            setStreamData({
-              stream_url: data.stream_url,
-              subtitles: cleanSubtitles
-            });
-            setExtractionStatus('success');
-            return; // وجدنا الرابط! نوقف البحث
-          }
-        } catch (err) {
-          console.warn(`Extractor ${url} failed, trying next...`);
-        }
-      }
-
-      // 3. إذا فشلت كل السيرفرات النظيفة (أو إذا كان الفيلم عربي ولم تجهز سيرفرك بعد)
-      console.log("All raw extractors failed. Falling back to iframes.");
-      setExtractionStatus('failed'); // هذا سيفعل نظام الـ Iframes القديم تلقائياً
-    };
-
-    fetchRawStream();
-  }, [movie.id, movie.isArabic]);
-
-  useEffect(() => {
-    if (mode === 'single') return;
-    const handler = (e) => {
-      const d = e.detail;
-      if (d.type === 'emoji') setFloatingEmojis(prev => [...prev, { id: Date.now()+Math.random(), char: d.emoji }]);
-      if (videoRef.current && d.type === 'video_sync' && d.sender !== role) {
-        if (d.action === 'play') videoRef.current.play();
-        if (d.action === 'pause') videoRef.current.pause();
-        if (d.action === 'seek' && Math.abs(videoRef.current.currentTime - d.time) > 2) {
-          videoRef.current.currentTime = d.time;
-        }
-      }
-    };
-    window.addEventListener('peer-video-sync', handler);
-    window.addEventListener('peer-emoji', handler);
-    return () => {
-      window.removeEventListener('peer-video-sync', handler);
-      window.removeEventListener('peer-emoji', handler);
-    };
-  }, [role, mode]);
-
-  useEffect(() => {
-    if (extractionStatus === 'success' && streamData && videoRef.current) {
-      const video = videoRef.current;
-      if (Hls.isSupported()) {
-        const hls = new Hls({ maxMaxBufferLength: 600, enableWorker: true });
-        hls.loadSource(streamData.stream_url);
-        hls.attachMedia(video);
-        hls.on(Hls.Events.ERROR, (event, data) => {
-          if (data.fatal) setExtractionStatus('failed'); // ارجع للـ Iframe لو فشل التشغيل
-        });
-      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-        video.src = streamData.stream_url;
-      }
-    }
-  }, [extractionStatus, streamData]);
-
-  const sendEmoji = (emoji) => {
-    setFloatingEmojis(prev => [...prev, { id: Date.now(), char: emoji }]);
-    if (mode === 'couples' && conn?.open) conn.send({ type: 'emoji', emoji });
+    window.addEventListener('peer-video-sync',handle);
+    window.addEventListener('peer-emoji',handle);
+    return()=>{window.removeEventListener('peer-video-sync',handle);window.removeEventListener('peer-emoji',handle);};
+  },[role]);
+  const send=action=>{
+    if(mode!=='couples'||!conn?.open||Date.now()<remoteUntil.current||!videoRef.current)return;
+    conn.send({type:'video_sync',action,time:videoRef.current.currentTime,sender:role});
   };
-
-  const sendVideoEvent = (action) => {
-    if (!videoRef.current || mode === 'single' || !conn?.open) return;
-    conn.send({ type: 'video_sync', action, time: videoRef.current.currentTime, sender: role });
+  const react=emoji=>{
+    setEmojis(v=>[...v,{id:Date.now()+Math.random(),char:emoji}]);
+    if(mode==='couples'&&conn?.open)conn.send({type:'emoji',emoji});
   };
-
-  const handleServerChange = (index) => {
-    if (role === 'admin') {
-      onServerChange(index);
-      setShowServerList(false);
-    }
-  };
-
-  if (extractionStatus === 'extracting') {
-    return (
-      <div className="h-screen bg-black flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-pink-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-pink-400 font-bold">Preparing Room...</p>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div 
-      ref={containerRef}
-      className="h-screen bg-black relative flex flex-col overflow-hidden" 
-      dir="ltr" 
-      data-cinema-player="true"
-    >
-      <DistanceBadge myCoords={myCoords} partnerCoords={partnerCoords} mode={mode} />
-      
-      {floatingEmojis.map(e => (
-        <FloatingEmoji key={e.id} emojiChar={e.char} onComplete={() => setFloatingEmojis(p => p.filter(x => x.id !== e.id))} />
-      ))}
-
-      {/* Ad Detection Warning */}
-      {isAdDetected && (
-        <div className="fixed top-4 right-4 z-[9999] bg-red-600 text-white px-4 py-2 rounded-xl text-sm font-bold animate-pulse">
-          🚫 Ad Blocked!
-        </div>
-      )}
-
-      {/* Top Controls */}
-      <div className={`absolute top-0 left-0 right-0 z-[200] p-4 bg-gradient-to-b from-black/90 to-transparent transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-        <div className="flex justify-between items-center flex-wrap gap-2">
-          <button onClick={(e) => { e.stopPropagation(); onBack(); }} className="bg-red-600/20 text-red-400 px-6 py-3 rounded-xl font-bold hover:bg-red-600/40 transition-all backdrop-blur-md border border-red-600/30">
-            ← Exit
-          </button>
-          <div className="flex items-center gap-3 bg-black/60 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10">
-            <span className="text-[10px] text-pink-400 font-mono">⏱️ {formatTime(togetherTime)}</span>
-            <span className="text-white text-sm font-bold hidden sm:inline">{movie.title}</span>
-            {mode === 'couples' && <span className="text-pink-400 text-xs">💑</span>}
-          </div>
-          
-          {/* 🎮 Sandbox Toggle (Admin Only) */}
-          {role === 'admin' && (
-            <button 
-              onClick={(e) => { e.stopPropagation(); onSandboxToggle(); }}
-              className={`px-4 py-2 rounded-xl font-bold text-xs transition-all ${
-                syncSettings.sandbox 
-                  ? 'bg-green-600 text-white' 
-                  : 'bg-gray-600 text-gray-300'
-              }`}
-            >
-              🛡️ Sandbox: {syncSettings.sandbox ? 'ON' : 'OFF'}
-            </button>
-          )}
-        </div>
-      </div>
-
-      {/* Video Container */}
-      <div className="flex-1 bg-[#050505] relative pb-24" style={{ zIndex: 1 }}>
-        {extractionStatus === 'success' ? (
-          <video 
-            ref={videoRef} 
-            controls 
-            autoPlay 
-            crossOrigin="anonymous" 
-            className="w-full h-full object-contain"
-            style={{ pointerEvents: 'auto', zIndex: 10, position: 'relative' }}
-            onPlay={() => sendVideoEvent('play')} 
-            onPause={() => sendVideoEvent('pause')} 
-            onSeeked={() => sendVideoEvent('seek')}
-            onTimeUpdate={() => {
-              if (videoRef.current && videoRef.current.duration) {
-                const progress = (videoRef.current.currentTime / videoRef.current.duration) * 100;
-                setVideoProgress(progress);
-                onProgressUpdate(progress);
-              }
-            }}
-            onClick={(e) => {
-              e.stopPropagation();
-              e.preventDefault();
-            }}
-          >
-            {streamData?.subtitles?.map((sub, i) => (
-              <track key={i} kind="subtitles" src={sub.url} srcLang={sub.lang} label={sub.language} default={sub.lang?.includes('ar')} />
-            ))}
-          </video>
-        ) : movie.isArabic ? (
-          <div className="relative w-full h-full bg-black flex items-center justify-center" style={{ pointerEvents: 'auto' }}>
-            {/* 🛡️ Click-Eater (يمتص الإعلانات المنبثقة من اليوتيوب أو المواقع العربية) */}
-            {clickCount < 2 && (
-              <div 
-                className="absolute inset-0 z-[50] flex flex-col items-center justify-center bg-black/60 backdrop-blur-sm cursor-pointer"
-                onClick={(e) => {
-                  e.stopPropagation(); e.preventDefault();
-                  setClickCount(c => c + 1);
-                }}
-              >
-                <div className="bg-pink-600 text-white px-6 py-3 rounded-full font-bold animate-pulse">
-                  {clickCount === 0 ? "اضغط هنا لتخطي الإعلانات 🛡️" : "اضغط مرة أخرى للتشغيل ▶️"}
-                </div>
-              </div>
-            )}
-            <iframe 
-              ref={iframeRef}
-              src={`https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(movie.title + ' فيلم كامل')}`} 
-              className="w-full h-full border-0" 
-              allowFullScreen
-              style={{ pointerEvents: clickCount >= 2 ? 'auto' : 'none', zIndex: 10, position: 'relative' }}
-            ></iframe>
-          </div>
-        ) : (
-          <div className="relative w-full h-full bg-black flex items-center justify-center" style={{ pointerEvents: 'auto' }}>
-            {/* 🛡️ Click-Eater للسيرفرات الأجنبية (يمنع الـ Pop-unders) */}
-            {clickCount < 2 && (
-              <div 
-                className="absolute inset-0 z-[50] flex flex-col items-center justify-center bg-black/60 backdrop-blur-sm cursor-pointer"
-                onClick={(e) => {
-                  e.stopPropagation(); e.preventDefault();
-                  setClickCount(c => c + 1);
-                }}
-              >
-                <div className="bg-pink-600 text-white px-6 py-3 rounded-full font-bold animate-pulse">
-                  {clickCount === 0 ? "اضغط هنا لتخطي الإعلانات 🛡️" : "اضغط مرة أخرى للتشغيل ▶️"}
-                </div>
-              </div>
-            )}
-            <iframe 
-              ref={iframeRef}
-              key={syncSettings.fallbackServer} 
-              src={fallbackNodes[syncSettings.fallbackServer]?.url} 
-              className="w-full h-full border-0" 
-              allowFullScreen 
-              allow="autoplay; encrypted-media"
-              style={{ pointerEvents: clickCount >= 2 ? 'auto' : 'none', zIndex: 10, position: 'relative' }}
-            ></iframe>
-          </div>
-        )}
-        
-        {/* Progress Bar Overlay */}
-        {videoProgress > 0 && (
-          <div className="absolute bottom-20 left-4 right-4 h-1 bg-gray-700 rounded-full overflow-hidden z-[100]">
-            <div 
-              className="h-full bg-gradient-to-r from-purple-500 to-pink-500 transition-all"
-              style={{ width: `${Math.min(videoProgress, 100)}%` }}
-            />
-          </div>
-        )}
-      </div>
-
-      {/* Bottom Controls */}
-      <div className={`absolute bottom-0 left-0 right-0 z-[250] bg-gradient-to-t from-black/95 via-black/80 to-transparent p-4 transition-all duration-300 ${showControls ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-full pointer-events-none'}`}>
-        
-        {/* Server Selection */}
-        {extractionStatus === 'failed' && !movie.isArabic && role === 'admin' && (
-          <div className="mb-4" onClick={(e) => e.stopPropagation()}>
-            <button 
-              onClick={(e) => { e.stopPropagation(); setShowServerList(!showServerList); }}
-              className="bg-white/10 hover:bg-white/20 backdrop-blur-md px-4 py-2 rounded-lg text-sm font-bold text-white mb-2 transition-all border border-white/20"
-            >
-              📺 {showServerList ? 'Hide Servers' : `Change Server (${fallbackNodes[syncSettings.fallbackServer]?.name})`}
-            </button>
-            
-            {showServerList && (
-              <div className="flex gap-2 overflow-x-auto pb-2 hide-scrollbar">
-                {fallbackNodes.map((s, i) => (
-                  <button 
-                    key={i} 
-                    onClick={(e) => { e.stopPropagation(); handleServerChange(i); }}
-                    className={`flex-shrink-0 px-4 py-2 rounded-lg text-xs font-bold transition-all ${
-                      syncSettings.fallbackServer === i 
-                        ? 'bg-pink-600 text-white shadow-lg' 
-                        : 'bg-white/5 text-gray-400 hover:text-white hover:bg-white/10'
-                    }`}
-                  >
-                    {s.name}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Emoji Panel */}
-        {mode === 'couples' && (
-          <div className="flex justify-center" onClick={(e) => e.stopPropagation()}>
-            <div className="bg-black/80 backdrop-blur-xl border border-pink-500/20 p-3 rounded-full flex gap-2 shadow-2xl">
-              {habibtiEmojis.map(emoji => (
-                <button 
-                  key={emoji} 
-                  onClick={(e) => { e.stopPropagation(); sendEmoji(emoji); }} 
-                  className="text-3xl hover:scale-125 active:scale-95 transition-transform p-1 hover:bg-pink-500/10 rounded-full"
-                >
-                  {emoji}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Click overlay */}
-      <div 
-        className="absolute inset-0 z-[50]"
-        style={{ pointerEvents: showControls ? 'none' : 'auto' }}
-        onClick={(e) => {
-          if (e.target === e.currentTarget) {
-            e.stopPropagation();
-            e.preventDefault();
-            setShowControls(prev => !prev);
-          }
-        }}
-      />
+  return <div className="min-h-screen bg-black text-white flex flex-col relative" dir="ltr">
+    <header className="flex items-center justify-between gap-3 p-4 border-b border-white/10">
+      <button onClick={onBack} className="bg-white/10 px-4 py-2 rounded-xl">← Exit</button>
+      <h1 className="font-bold text-center">{movie.title}</h1>
+      <span className="text-xs text-pink-300">{Math.floor(seconds/60)}:{String(seconds%60).padStart(2,'0')}</span>
+    </header>
+    <div className="relative flex-1 flex flex-col justify-center min-h-[60vh]">
+      {validSource(source) ? <>
+        <video ref={videoRef} playsInline controls preload="metadata" className="w-full max-h-[75vh] bg-black" onPlay={()=>send('play')} onPause={()=>send('pause')} onSeeked={()=>send('seek')}/>
+        {!ready&&!error&&<p className="text-center text-gray-400 p-4">Preparing video…</p>}
+        {error&&<p className="text-center text-red-300 p-4">{error}</p>}
+      </> : <div className="text-center p-8"><p className="text-lg font-bold">No authorized video source configured</p><p className="text-gray-400 mt-2">Return to the movie page and add your direct MP4 or HLS link.</p><a className="text-purple-300 underline block mt-4" href={`https://www.themoviedb.org/movie/${movie.id}/watch`} target="_blank" rel="noopener noreferrer">Find official streaming options</a></div>}
+      {emojis.map(e=><FloatingEmoji key={e.id} emojiChar={e.char} onComplete={()=>setEmojis(v=>v.filter(x=>x.id!==e.id))}/>)}
     </div>
-  );
+    {mode==='couples'&&<footer className="p-4 text-center border-t border-white/10">
+      <p className="text-xs text-gray-400 mb-2">{myCoords&&partnerCoords?`${calculateDistance(myCoords.lat,myCoords.lon,partnerCoords.lat,partnerCoords.lon)} km apart 💍`:'Watch together 💍'}</p>
+      {['💕','💖','🍿','🌹','⭐','💍'].map(e=><button key={e} onClick={()=>react(e)} className="p-2 text-2xl">{e}</button>)}
+    </footer>}
+  </div>;
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(<App />);
