@@ -4,6 +4,8 @@ import Hls from 'hls.js'
 import ArabicClassics from './ArabicClassics.jsx'
 import ArabicDiscovery,{OfficialAvailability} from './ArabicDiscovery.jsx'
 import {embedwaveUrl} from './arabicDiscovery.js'
+import {ARABIC_BACKENDS,arabicSourceIds,backendUrl,nextArabicSource} from './arabicSources.js'
+import PublisherFallback from './PublisherFallback.jsx'
 import {languageCode,originalAudioIndex,arabicSubtitleIndex,orderedSubtitles} from './mediaLanguages.js'
 import Peer from 'peerjs'
 import { ACTIVE_SERVER_IDS, normalizeServerId, nextServerId, pickProtectedSource } from './sourceMaintenance.js'
@@ -52,7 +54,7 @@ const saveToHistory = (movie, progress, settings) => {
       lastWatched: Date.now(),
       isArabic: movie.isArabic,
       original_language: movie.original_language,
-      media_type: movie.media_type,tmdbId:movie.tmdbId,season:movie.season,episode:movie.episode
+      media_type: movie.media_type,tmdbId:movie.tmdbId,season:movie.season,episode:movie.episode,seriesTitle:movie.seriesTitle,runtime:movie.runtime,release_date:movie.release_date,original_title:movie.original_title
     };
     
     if (existingIndex >= 0) {
@@ -561,7 +563,7 @@ function App() {
             poster_path: item.poster,
             isArabic: item.isArabic,
             original_language: item.original_language,
-            media_type:item.media_type,tmdbId:item.tmdbId,season:item.season,episode:item.episode
+            media_type:item.media_type,tmdbId:item.tmdbId,season:item.season,episode:item.episode,seriesTitle:item.seriesTitle,runtime:item.runtime,release_date:item.release_date,original_title:item.original_title
           });
           setSyncSettings(prev => ({
             ...prev,
@@ -894,7 +896,7 @@ function MovieDetail({ movie, onBack, onStartParty }) {
           <p className="text-gray-300 text-base md:text-lg leading-relaxed">{movie.overview || "No synopsis available."}</p>
           {(movie.original_language==='ar'||details?.original_language==='ar')&&<OfficialAvailability movie={movie} options={fetchOptions}/>}
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
-            <button onClick={() => onStartParty({ ...movie, original_language: details?.original_language || movie.original_language, isArabic: (details?.original_language || movie.original_language) === 'ar' })} className="bg-gradient-to-r from-purple-600 to-pink-600 px-8 py-4 rounded-2xl font-black text-white hover:scale-105 transition-all shadow-xl">
+            <button onClick={() => onStartParty({ ...movie, runtime:details?.runtime||movie.runtime,original_title:details?.original_title||movie.original_title, original_language: details?.original_language || movie.original_language, isArabic: (details?.original_language || movie.original_language) === 'ar' })} className="bg-gradient-to-r from-purple-600 to-pink-600 px-8 py-4 rounded-2xl font-black text-white hover:scale-105 transition-all shadow-xl">
               {historyItem?.progress > 0 ? '▶️ Resume' : '🍿 Start Watching'}
             </button>
             <button onClick={onBack} className="bg-white/5 border border-white/10 px-8 py-4 rounded-2xl font-black text-white hover:bg-white/10 transition-all">
@@ -981,7 +983,10 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   };
   const requestedServer = localServer ?? syncSettings.fallbackServer ?? 10;
   const isTV=movie.media_type==='tv';
-  const currentServer = isTV?10:normalizeServerId(requestedServer);
+  const arabic=movie.isArabic||movie.original_language==='ar';
+  const sourceIds=arabic?arabicSourceIds(isTV,ACTIVE_SERVER_IDS):(isTV?[10]:ACTIVE_SERVER_IDS);
+  const currentServer=sourceIds.includes(Number(requestedServer))?Number(requestedServer):sourceIds[0];
+  const [publisherSource,setPublisherSource]=useState(null);
   useEffect(()=>{
     if(Number(requestedServer)===currentServer)return;
     if(role==='admin'){setLocalServer(null);onServerChange(currentServer);}
@@ -1032,15 +1037,17 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     { name: "MultiMov", health: "Unverified", url: `https://multiembed.mov/directstream.php?video_id=${movie.id}&tmdb=1` },
     { name: "MoviesClub", health: "Domain mismatch in docs", url: `https://moviesapi.club/movie/${movie.id}` },
     { name: "Vidsrc XYZ", health: "Retired", retired: true, url: null },
-    { name: "EmbedWave", health: "Cinesrc default · original audio preferred", url: embedwaveUrl(movie) }
+    { name: "EmbedWave", health: "Cinesrc default · original audio preferred", url: embedwaveUrl(movie) },
+    { name:'EmbedWave 4K',health:'Arabic backup · Videasy',url:arabic?backendUrl(movie,11):null },
+    { name:'EmbedWave Multi HD',health:'Arabic backup · audio may vary',url:arabic?backendUrl(movie,12):null }
   ];
   // Start with a previously reported clean protected source when one exists.
   // Never interpret iframe onload as video playback or a clean result.
   useEffect(()=>{
-    if(extractionStatus!=='failed'||isTV||preferredInitialized.current) return;
+    if(extractionStatus!=='failed'||(isTV&&!arabic)||preferredInitialized.current) return;
     preferredInitialized.current=true;
     const known=readAdMemory(movie.id);
-    const preferred=pickProtectedSource(known,fallbackNodes.length);
+    const preferred=arabic?nextArabicSource(sourceIds,known,-1):pickProtectedSource(known,fallbackNodes.length);
     const currentStatus=known[currentServer]?.status;
     if(preferred!==null && (known[preferred]?.status==='clean'||['ad','blocked'].includes(currentStatus))) {
       if(role==='admin') onServerChange(preferred);
@@ -1051,9 +1058,10 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     }
   },[extractionStatus,movie.id,movie.isArabic]);
   const reportPlaybackIssue = (status) => {
+    if(publisherSource){setPublisherSource(null);setExhausted(false);setFrameRevision(v=>v+1);setShowPlaybackHelp(false);return;}
     const next=rememberSource(status);
     setShowPlaybackHelp(false);
-    const preferred=isTV?null:pickProtectedSource(next,fallbackNodes.length,currentServer);
+    const preferred=arabic?nextArabicSource(sourceIds,next,currentServer):isTV?null:pickProtectedSource(next,fallbackNodes.length,currentServer);
     if(preferred===null) {
       setExhausted(true);
       setAdNotice('No other protected source remains. The external player is stopped.');
@@ -1283,7 +1291,8 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   };
 
   const handleServerChange = (index) => {
-    if(!ACTIVE_SERVER_IDS.includes(index)||(isTV&&index!==10))return;
+    if(!sourceIds.includes(index))return;
+    setPublisherSource(null);
     setExhausted(false);
     setOwnedSource(null);
     if (role === 'admin') { setLocalServer(null); onServerChange(index); }
@@ -1323,7 +1332,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
           <button onClick={onBack} aria-label="Back to library" className="w-10 h-10 shrink-0 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-2xl">‹</button>
           <div className="flex-1 min-w-0">
             <p className="truncate font-semibold text-sm md:text-base leading-tight">{movie.title}</p>
-            <p className="text-[10px] text-gray-400 mt-0.5 truncate">{isNative?'Direct player':currentServer===10?'Cinesrc · Protected':(fallbackNodes[currentServer]?.name||'Player')+' · Protected'}</p>
+            <p className="text-[10px] text-gray-400 mt-0.5 truncate">{isNative?'Direct player':publisherSource?'Official publisher · ads possible':currentServer===10?'Cinesrc · Protected':(fallbackNodes[currentServer]?.name||'Player')+' · Protected'}</p>
           </div>
           <button onClick={()=>{setShowPlaybackHelp(v=>!v);setShowServerList(false);}} aria-label="Playback options" aria-expanded={showPlaybackHelp} className="w-10 h-10 shrink-0 rounded-full bg-white/5 hover:bg-white/10 text-xl flex items-center justify-center">⋯</button>
         </div>
@@ -1338,16 +1347,16 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
             <button onClick={()=>setShowPlaybackHelp(false)} aria-label="Close settings" className="w-9 h-9 rounded-full bg-white/10 text-xl">×</button>
           </div>
           <div className="rounded-2xl bg-white/5 p-4 space-y-3">
-            <div className="flex justify-between items-center gap-3"><span className="text-sm text-gray-300">Source</span><span className="text-sm font-semibold text-purple-300">{isNative?'Direct player':fallbackNodes[currentServer]?.name||'Player'}</span></div>
+            <div className="flex justify-between items-center gap-3"><span className="text-sm text-gray-300">Source</span><span className="text-sm font-semibold text-purple-300">{isNative?'Direct player':publisherSource?publisherSource.publisher:fallbackNodes[currentServer]?.name||'Player'}</span></div>
             {!isNative&&currentServer===10&&<p className="text-xs text-gray-400">Cinesrc is the default. Audio and Arabic subtitles are controlled by the embedded player.</p>}
             <div className="flex justify-between items-center gap-3"><span className="text-sm text-gray-300">Navigation protection</span><span className="text-xs text-green-300">Always on</span></div>
             {isNative&&<p className="text-xs text-gray-400">{playState}{mediaInfo.duration>0?' · '+formatTime(Math.floor(mediaInfo.time))+' / '+formatTime(Math.floor(mediaInfo.duration)):''}<br/>Audio: {languageStatus.audio} · CC: {languageStatus.subs}</p>}
             {isNative&&levels.length>1&&<div className="flex justify-between items-center"><label htmlFor="cinema-quality" className="text-sm text-gray-300">Quality</label><select id="cinema-quality" value={quality} onChange={e=>{const v=Number(e.target.value);setQuality(v);if(hlsRef.current)hlsRef.current.currentLevel=v;}} className="bg-zinc-800 rounded-lg px-2 py-2 text-xs"><option value={-1}>Auto</option>{levels.map(l=><option key={l.id} value={l.id}>{l.height?l.height+'p':Math.round(l.bitrate/1000)+' kbps'}</option>)}</select></div>}
-            <button onClick={()=>setDirectOnly(v=>!v)} aria-pressed={directOnly} className="w-full flex items-center justify-between gap-3 text-sm text-left"><span>Direct-only mode</span><span className={`rounded-full w-10 h-6 p-1 transition-colors ${directOnly?'bg-purple-600':'bg-zinc-600'}`}><span className={`block w-4 h-4 rounded-full bg-white transition-transform ${directOnly?'translate-x-4':''}`}/></span></button>
+            <button onClick={()=>{setPublisherSource(null);setDirectOnly(v=>!v);}} aria-pressed={directOnly} className="w-full flex items-center justify-between gap-3 text-sm text-left"><span>Direct-only mode</span><span className={`rounded-full w-10 h-6 p-1 transition-colors ${directOnly?'bg-purple-600':'bg-zinc-600'}`}><span className={`block w-4 h-4 rounded-full bg-white transition-transform ${directOnly?'translate-x-4':''}`}/></span></button>
           </div>
           {!isNative&&!directOnly&&<div className="mt-4 space-y-2">
             {<button onClick={()=>setShowServerList(v=>!v)} aria-expanded={showServerList} className="w-full flex items-center justify-between rounded-xl bg-white/5 px-4 py-3 text-sm"><span>Change server</span><span className="text-gray-400">{showServerList?'⌃':'›'}</span></button>}
-            {showServerList&&<div className="grid grid-cols-2 gap-2">{(isTV?[10]:ACTIVE_SERVER_IDS).map(i=>{const node=fallbackNodes[i];return <button key={i} onClick={()=>{handleServerChange(i);setShowPlaybackHelp(false);}} className={`text-left rounded-xl px-3 py-3 ${i===currentServer?'bg-purple-600':'bg-white/5'}`}><span className="block text-xs font-semibold">{node.name}</span><span className="block text-[10px] opacity-75 mt-1">{adMemory[i]?.status==='ad'?'Ad reported':adMemory[i]?.status==='blocked'?'Blocked':adMemory[i]?.status==='clean'?'Reported clean':node.health}</span></button>;})}</div>}
+            {showServerList&&<div className="grid grid-cols-2 gap-2">{sourceIds.map(i=>{const node=fallbackNodes[i];return <button key={i} onClick={()=>{handleServerChange(i);setShowPlaybackHelp(false);}} className={`text-left rounded-xl px-3 py-3 ${i===currentServer?'bg-purple-600':'bg-white/5'}`}><span className="block text-xs font-semibold">{node.name}</span><span className="block text-[10px] opacity-75 mt-1">{adMemory[i]?.status==='ad'?'Ad reported':adMemory[i]?.status==='blocked'?'Blocked':adMemory[i]?.status==='clean'?'Reported clean':node.health}</span></button>;})}</div>}
             <div className="grid grid-cols-2 gap-2">
               <button onClick={()=>{setExhausted(false);setFrameRevision(v=>v+1);setShowPlaybackHelp(false);}} className="rounded-xl bg-white/5 p-3 text-sm">↻ Reload</button>
               <button onClick={()=>{reportPlaybackIssue('blocked');setShowPlaybackHelp(false);}} className="rounded-xl bg-white/5 p-3 text-sm">Not playing?</button>
@@ -1364,6 +1373,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
             <button onClick={()=>{restoreProtection();setShowPlaybackHelp(false);}} className="mt-3 block underline">Reset protected player</button>
             <a href={`https://www.themoviedb.org/${isTV?'tv':'movie'}/${movie.tmdbId||movie.id}/watch`} target="_blank" rel="noopener noreferrer" className="block mt-3 underline">Official streaming options</a>
           </details>
+          {arabic&&<PublisherFallback movie={movie} onSelect={v=>{setPublisherSource(v);setDirectOnly(false);setExhausted(false);setShowPlaybackHelp(false);setFrameRevision(x=>x+1);}}/>}
           {(movie.isArabic||isTV)&&<OfficialAvailability movie={movie} options={fetchOptions}/>}
           <button onClick={()=>setShowPlaybackHelp(false)} className="mt-5 w-full bg-purple-600 rounded-xl py-3 font-semibold text-sm">Done</button>
         </section>
@@ -1417,14 +1427,14 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
           <div className="relative w-full h-full bg-black flex items-center justify-center">
             <iframe
               ref={iframeRef}
-              key={`${movie.id}-${currentServer}-${frameRevision}`}
+              key={`${movie.id}-${currentServer}-${publisherSource?.id||''}-${frameRevision}`}
               title="Movie playback"
-              src={fallbackNodes[currentServer]?.url}
+              src={publisherSource?.embed||fallbackNodes[currentServer]?.url}
               className="w-full h-full border-0"
               sandbox="allow-scripts allow-same-origin allow-presentation"
               allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
               allowFullScreen
-              referrerPolicy={currentServer===10?'no-referrer':'strict-origin-when-cross-origin'}
+              referrerPolicy={!publisherSource&&ARABIC_BACKENDS.includes(currentServer)?'no-referrer':'strict-origin-when-cross-origin'}
               style={{ zIndex: 10, position: 'relative' }}
             />
           </div>
