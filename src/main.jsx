@@ -974,7 +974,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   const habibtiEmojis = ['💕', '', '💖', '🍿', '🌹', '🦋', '⭐', '💍'];
   
   const fallbackNodes = [
-    { name: "VidLink VIP", health: "Docs confirmed", url: `https://vidlink.pro/movie/${movie.id}?primaryColor=a855f7&autoplay=false` },
+    { name: "VidLink JW", health: "JW player trial", url: `https://vidlink.pro/movie/${movie.id}?primaryColor=a855f7&autoplay=false&player=jw` },
     { name: "Vidsrc PM", health: "Retired", retired: true, url: null },
     { name: "Embed SU", health: "HTTP 502 at audit", url: `https://embed.su/embed/movie/${movie.id}` },
     { name: "AutoEmbed", health: "Docs confirmed", url: `https://autoembed.co/movie/tmdb/${movie.id}` },
