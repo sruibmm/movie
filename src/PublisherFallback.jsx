@@ -1,0 +1,13 @@
+import React,{useEffect,useState} from 'react';
+import {PUBLISHERS} from './arabicSources.js';
+export default function PublisherFallback({movie,onSelect}){
+ const [state,setState]=useState({loading:true,items:[],configured:null});
+ const [retry,setRetry]=useState(0);
+ useEffect(()=>{const c=new AbortController();setState({loading:true,items:[],configured:null});
+ const p=new URLSearchParams({title:movie.seriesTitle||movie.original_title||movie.title,type:movie.media_type==='tv'?'tv':'movie',season:String(movie.season||1),episode:String(movie.episode||0),runtime:String(movie.runtime||0),year:String(movie.release_date||'').slice(0,4)});
+ fetch('/api/arabic-sources?'+p,{signal:c.signal}).then(r=>{if(!r.ok)throw Error();return r.json();}).then(d=>{if(!c.signal.aborted)setState({...d,loading:false});}).catch(()=>{if(!c.signal.aborted)setState({loading:false,error:true,items:[],configured:null});});
+ return()=>c.abort();},[movie.id,retry]);
+ return <div dir="rtl" className="rounded-2xl bg-white/5 p-4 mt-3"><h3 className="font-bold text-sm">المصادر العربية الرسمية</h3><p className="text-xs text-gray-400 mt-1">بديل اختياري: قد يعرض الناشر إعلانات. لا يتم الانتقال إليه تلقائياً.</p>
+ {state.loading?<p className="text-xs text-gray-400 mt-3">جاري التحقق من النسخ المطابقة…</p>:state.error?<><p className="text-xs text-red-300 mt-3">تعذر البحث حالياً.</p><button onClick={()=>setRetry(x=>x+1)} className="text-xs text-purple-300 underline mt-2">إعادة المحاولة</button></>:state.configured===false?<p className="text-xs text-gray-400 mt-3">البحث التلقائي ينتظر تفعيل مفتاح الناشرين في إعدادات الموقع.</p>:state.items?.length?<div className="mt-3 space-y-2">{state.items.map(v=><button key={v.id} onClick={()=>onSelect(v)} className="block w-full text-right rounded-xl bg-black/30 p-3"><span className="text-sm font-semibold">{v.title}</span><span className="block text-xs text-gray-400 mt-1">{v.publisher} · {Math.round(v.duration/60)} دقيقة</span><span className="block text-xs text-purple-300 mt-2">تشغيل النسخة الرسمية</span></button>)}</div>:<p className="text-xs text-gray-400 mt-3">لم نجد نسخة مطابقة من الناشرين المتصلين.</p>}
+ <details className="mt-3 text-xs text-gray-400"><summary className="cursor-pointer">المكتبات المتصلة</summary><div className="mt-2 space-y-2">{PUBLISHERS.map(p=><a key={p.id} className="block underline text-purple-300" href={p.url} target="_blank" rel="noopener noreferrer">{p.name}</a>)}</div></details></div>;
+}
