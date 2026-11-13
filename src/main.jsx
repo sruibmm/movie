@@ -871,6 +871,19 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   const [togetherTime, setTogetherTime] = useState(0);
   const [showControls, setShowControls] = useState(true);
   const [showServerList, setShowServerList] = useState(false);
+  const [compatibility, setCompatibility] = useState(false);
+  const [frameRevision, setFrameRevision] = useState(0);
+  const [showPlaybackHelp, setShowPlaybackHelp] = useState(false);
+  const [localServer, setLocalServer] = useState(null);
+  const [ownedUrl, setOwnedUrl] = useState('');
+  const [ownedError, setOwnedError] = useState('');
+  const [ownedSource, setOwnedSource] = useState(null);
+  const [nativeError, setNativeError] = useState('');
+  const currentServer = localServer ?? syncSettings.fallbackServer ?? 0;
+  const nativeSource = ownedSource || (extractionStatus === 'success' ? streamData : null);
+  const isNative = Boolean(nativeSource);
+  const frameProtected = !compatibility;
+  useEffect(() => { setCompatibility(false); setShowPlaybackHelp(false); }, [movie.id, currentServer]);
   const [videoProgress, setVideoProgress] = useState(syncSettings.progress || 0);
   
   // 🛡️ State للدرع المانع للإعلانات (يمتص أول نقرتين)
@@ -897,7 +910,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (videoRef.current && videoRef.current.duration) {
+      if (videoRef.current && Number.isFinite(videoRef.current.duration) && videoRef.current.duration > 0) {
         const progress = (videoRef.current.currentTime / videoRef.current.duration) * 100;
         setVideoProgress(progress);
         onProgressUpdate(progress);
@@ -1031,22 +1044,44 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   }, [role, mode]);
 
   useEffect(() => {
-    if (extractionStatus === 'success' && streamData && videoRef.current) {
-      const video = videoRef.current;
-      if (video.canPlayType('application/vnd.apple.mpegurl')) {
-        video.src = streamData.stream_url;
-        return () => { video.removeAttribute('src'); video.load(); };
-      } else if (Hls.isSupported()) {
-        const hls = new Hls({ maxMaxBufferLength: 600, enableWorker: true });
-        hls.loadSource(streamData.stream_url);
-        hls.attachMedia(video);
-        hls.on(Hls.Events.ERROR, (event, data) => {
-          if (data.fatal) setExtractionStatus('failed');
-        });
-        return () => hls.destroy();
-      }
-    }
-  }, [extractionStatus, streamData]);
+    const video=videoRef.current;
+    if(!nativeSource || !video) return;
+    setNativeError('');
+    const url=nativeSource.stream_url;
+    let hls;
+    const fail=()=> {
+      if(ownedSource) setNativeError('This video could not be loaded. Check its URL, permissions and CORS.');
+      else setExtractionStatus('failed');
+    };
+    video.addEventListener('error',fail);
+    const isMp4=nativeSource.type==='mp4'||/\.mp4(?:[?#]|$)/i.test(url);
+    if(isMp4 || video.canPlayType('application/vnd.apple.mpegurl')) video.src=url;
+    else if(Hls.isSupported()) {
+      hls=new Hls({maxBufferLength:30,maxMaxBufferLength:60,enableWorker:true});
+      hls.loadSource(url);hls.attachMedia(video);
+      hls.on(Hls.Events.ERROR,(_event,data)=>{if(data.fatal)fail();});
+    } else fail();
+    return()=>{video.removeEventListener('error',fail);hls?.destroy();video.pause();video.removeAttribute('src');video.load();};
+  }, [nativeSource,ownedSource]);
+
+  const enableCompatibility=()=>{
+    setCompatibility(true);
+    setShowPlaybackHelp(false);
+    setFrameRevision(v=>v+1);
+  };
+  const restoreProtection=()=>{
+    setCompatibility(false);
+    setFrameRevision(v=>v+1);
+    setShowPlaybackHelp(false);
+  };
+  const openOwned=()=>{
+    try {
+      const url=new URL(ownedUrl.trim());
+      if(url.protocol!=='https:') throw Error('HTTPS required');
+      setOwnedSource({stream_url:url.href,subtitles:[],type:/\.mp4(?:[?#]|$)/i.test(url.href)?'mp4':'hls'});
+      setOwnedError('');setShowPlaybackHelp(false);
+    } catch {setOwnedError('Enter a valid HTTPS MP4 or HLS URL you are authorized to use.');}
+  };
 
   const sendEmoji = (emoji) => {
     setFloatingEmojis(prev => [...prev, { id: Date.now(), char: emoji }]);
@@ -1059,10 +1094,12 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   };
 
   const handleServerChange = (index) => {
-    if (role === 'admin') {
-      onServerChange(index);
-      setShowServerList(false);
-    }
+    setCompatibility(false);
+    setOwnedSource(null);
+    if (role === 'admin') { setLocalServer(null); onServerChange(index); }
+    else setLocalServer(index);
+    setShowServerList(false);
+    setFrameRevision(v=>v+1);
   };
 
   if (extractionStatus === 'extracting') {
@@ -1071,6 +1108,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-pink-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-pink-400 font-bold">Preparing Room...</p>
+          <button onClick={onBack} className="mt-5 px-4 py-2 bg-white/10 rounded-xl text-white">← Back</button>
         </div>
       </div>
     );
@@ -1079,7 +1117,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   return (
     <div 
       ref={containerRef}
-      className="h-screen bg-black relative flex flex-col overflow-hidden" 
+      className="min-h-[100dvh] h-[100dvh] bg-black relative flex flex-col overflow-hidden" 
       dir="ltr" 
       data-cinema-player="true"
     >
@@ -1089,25 +1127,43 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
         <FloatingEmoji key={e.id} emojiChar={e.char} onComplete={() => setFloatingEmojis(p => p.filter(x => x.id !== e.id))} />
       ))}
 
-      {/* Top Controls */}
-      <div className={`absolute top-0 left-0 right-0 z-[200] p-4 bg-gradient-to-b from-black/90 to-transparent transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-        <div className="flex justify-between items-center flex-wrap gap-2">
-          <button onClick={(e) => { e.stopPropagation(); onBack(); }} className="bg-red-600/20 text-red-400 px-6 py-3 rounded-xl font-bold hover:bg-red-600/40 transition-all backdrop-blur-md border border-red-600/30">
-            ← Exit
-          </button>
-          <div className="flex items-center gap-3 bg-black/60 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10">
-            <span className="text-[10px] text-pink-400 font-mono">⏱️ {formatTime(togetherTime)}</span>
-            <span className="text-white text-sm font-bold hidden sm:inline">{movie.title}</span>
-            {mode === 'couples' && <span className="text-pink-400 text-xs">💑</span>}
-          </div>
-          
-          <span className="bg-green-900/40 text-green-300 border border-green-600/30 px-3 py-2 rounded-xl text-xs font-bold" title="Browser sandbox blocks popups and top-level redirects, but cannot remove ads inside an external video.">🛡️ Pop-up protection</span>
+      {/* Persistent player controls: outside the cross-origin frame */}
+      <header className="relative shrink-0 z-[200] bg-zinc-950 border-b border-white/10 px-3 py-3 text-white">
+        <div className="flex items-center justify-between gap-2">
+          <button onClick={onBack} className="bg-white/10 rounded-lg px-3 py-2 text-sm">← Exit</button>
+          <div className="flex-1 min-w-0 text-center"><p className="truncate font-bold text-sm">{movie.title}</p><p className="text-[10px] text-gray-400">{isNative?'Direct player':frameProtected?'Protected embed':'Compatibility • ads possible'}</p></div>
+          <button onClick={()=>setShowPlaybackHelp(v=>!v)} className="bg-purple-600 px-3 py-2 rounded-lg text-xs font-bold" aria-expanded={showPlaybackHelp}>⚙ Playback</button>
         </div>
-      </div>
+        {!isNative && <div className="flex gap-2 mt-2 items-center">
+          <button onClick={()=>{setShowPlaybackHelp(true);setShowServerList(false);}} className="text-xs bg-white/10 px-3 py-2 rounded-lg">Not playing?</button>
+          {!movie.isArabic && <button onClick={()=>{setShowServerList(v=>!v);setShowPlaybackHelp(false);}} className="text-xs bg-white/10 px-3 py-2 rounded-lg">Server: {fallbackNodes[currentServer]?.name||'Choose'}</button>}
+          <button onClick={()=>setFrameRevision(v=>v+1)} className="text-xs bg-white/10 px-3 py-2 rounded-lg">↻ Reload</button>
+        </div>}
+        {showServerList && !movie.isArabic && <div className="flex gap-2 overflow-x-auto mt-3 pb-1">
+          {fallbackNodes.map((node,i)=><button key={i} onClick={()=>handleServerChange(i)} className={`shrink-0 text-xs px-3 py-2 rounded-lg ${i===currentServer?'bg-pink-600':'bg-white/10'}`}>{node.name}</button>)}
+        </div>}
+        {showPlaybackHelp && <div className="mt-3 p-3 rounded-xl border border-white/10 bg-zinc-900 space-y-3">
+          <p className="text-sm font-bold">Playback recovery</p>
+          <p className="text-xs text-gray-300">If the provider shows “Please Disable Sandbox”, it does not support protected playback. Try another source first. Compatibility is unprotected and may show ads or redirects.</p>
+          <div className="flex flex-wrap gap-2">
+            <button onClick={restoreProtection} className="text-xs bg-green-700 px-3 py-2 rounded-lg">Protected mode</button>
+            {!isNative && !movie.isArabic && <button onClick={()=>handleServerChange((currentServer+1)%fallbackNodes.length)} className="text-xs bg-purple-700 px-3 py-2 rounded-lg">Try next server</button>}
+            {!isNative && <button onClick={enableCompatibility} className="text-xs bg-amber-900 px-3 py-2 rounded-lg">Use compatibility (ads possible)</button>}
+            {ownedSource && <button onClick={()=>{setOwnedSource(null);setNativeError('');}} className="text-xs bg-white/10 px-3 py-2 rounded-lg">Return to original source</button>}
+          </div>
+          <details className="text-xs text-gray-300">
+            <summary className="cursor-pointer">Optional: clean direct video</summary>
+            <p className="mt-2">Use a licensed or owned HTTPS MP4/HLS source. No third-party iframe. This source is local to this device.</p>
+            <div className="flex gap-2 mt-2"><input type="url" value={ownedUrl} onChange={e=>setOwnedUrl(e.target.value)} placeholder="https://…/video.mp4" className="min-w-0 flex-1 bg-black border border-white/20 rounded-lg px-2 py-2 text-white"/><button onClick={openOwned} className="bg-pink-600 px-3 rounded-lg">Play</button></div>
+            {ownedError&&<p className="text-red-300 mt-2">{ownedError}</p>}
+          </details>
+          <a href={`https://www.themoviedb.org/movie/${movie.id}/watch`} target="_blank" rel="noopener noreferrer" className="text-xs text-purple-300 underline">Find official streaming options</a>
+        </div>}
+      </header>
 
       {/* Video Container */}
-      <div className="flex-1 bg-[#050505] relative pb-24" style={{ zIndex: 1 }}>
-        {extractionStatus === 'success' ? (
+      <div className="flex-1 min-h-0 bg-[#050505] relative" style={{ zIndex: 1 }}>
+        {isNative ? (
           <video 
             ref={videoRef} 
             controls 
@@ -1131,7 +1187,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
               e.preventDefault();
             }}
           >
-            {streamData?.subtitles?.map((sub, i) => (
+            {nativeSource?.subtitles?.map((sub, i) => (
               <track key={i} kind="subtitles" src={sub.url} srcLang={sub.lang} label={sub.language} default={sub.lang?.includes('ar')} />
             ))}
           </video>
@@ -1139,11 +1195,11 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
           <div className="relative w-full h-full bg-black flex items-center justify-center">
             <iframe
               ref={iframeRef}
-              key={movie.isArabic ? movie.id : syncSettings.fallbackServer}
+              key={`${movie.id}-${currentServer}-${frameProtected}-${frameRevision}`}
               title="Movie playback"
-              src={movie.isArabic ? `https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(movie.title + ' فيلم كامل')}` : fallbackNodes[syncSettings.fallbackServer]?.url}
+              src={movie.isArabic ? `https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(movie.title + ' فيلم كامل')}` : fallbackNodes[currentServer]?.url}
               className="w-full h-full border-0"
-              sandbox="allow-scripts allow-same-origin allow-presentation"
+              sandbox={frameProtected ? "allow-scripts allow-same-origin allow-presentation" : undefined}
               allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
               allowFullScreen
               referrerPolicy="strict-origin-when-cross-origin"
@@ -1152,6 +1208,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
           </div>
         )}
 
+        {nativeError && <div className="absolute top-3 left-3 right-3 z-[100] bg-red-950/90 text-white p-3 rounded-xl text-sm">{nativeError}<button onClick={()=>setShowPlaybackHelp(true)} className="underline ml-2">Playback options</button></div>}
         {/* Progress Bar Overlay */}
         {videoProgress > 0 && (
           <div className="absolute bottom-20 left-4 right-4 h-1 bg-gray-700 rounded-full overflow-hidden z-[100]">
@@ -1163,39 +1220,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
         )}
       </div>
 
-      {/* Bottom Controls */}
-      <div className={`absolute bottom-0 left-0 right-0 z-[250] bg-gradient-to-t from-black/95 via-black/80 to-transparent p-4 transition-all duration-300 ${showControls ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-full pointer-events-none'}`}>
-        
-        {/* Server Selection */}
-        {extractionStatus === 'failed' && !movie.isArabic && role === 'admin' && (
-          <div className="mb-4" onClick={(e) => e.stopPropagation()}>
-            <button 
-              onClick={(e) => { e.stopPropagation(); setShowServerList(!showServerList); }}
-              className="bg-white/10 hover:bg-white/20 backdrop-blur-md px-4 py-2 rounded-lg text-sm font-bold text-white mb-2 transition-all border border-white/20"
-            >
-              📺 {showServerList ? 'Hide Servers' : `Change Server (${fallbackNodes[syncSettings.fallbackServer]?.name})`}
-            </button>
-            
-            {showServerList && (
-              <div className="flex gap-2 overflow-x-auto pb-2 hide-scrollbar">
-                {fallbackNodes.map((s, i) => (
-                  <button 
-                    key={i} 
-                    onClick={(e) => { e.stopPropagation(); handleServerChange(i); }}
-                    className={`flex-shrink-0 px-4 py-2 rounded-lg text-xs font-bold transition-all ${
-                      syncSettings.fallbackServer === i 
-                        ? 'bg-pink-600 text-white shadow-lg' 
-                        : 'bg-white/5 text-gray-400 hover:text-white hover:bg-white/10'
-                    }`}
-                  >
-                    {s.name}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-
+      <div className="shrink-0 z-[250] bg-zinc-950 p-2"> 
         {/* Emoji Panel */}
         {mode === 'couples' && (
           <div className="flex justify-center" onClick={(e) => e.stopPropagation()}>
