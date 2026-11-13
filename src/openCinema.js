@@ -10,6 +10,8 @@ export const OPEN_FILMS=[
 ];
 export function normalizeTitle(v){return String(v||'').normalize('NFKC').toLowerCase().replace(/[^\p{L}\p{N}]+/gu,' ').trim();}
 export function yearOf(v){return String(v||'').match(/^\d{4}/)?.[0]||'';}
+// Conservative age gate for third-party uploads; modern releases must be creator-vetted seeds.
+export function historicArchiveYear(v){const y=Number(yearOf(v));return y>=1890&&y<=1930;}
 export function safeArchiveId(v){return typeof v==='string'&&/^[A-Za-z0-9_.-]{1,180}$/.test(v)&&!v.includes('..')&&v!=='.';}
 export function openLicense(v){
  const values=Array.isArray(v)?v:[v];
@@ -29,7 +31,7 @@ export function seconds(v){if(typeof v==='number')return v;const a=String(v||'')
 export function archiveSource(data,expected={}){
  const m=data?.metadata||{},id=m.identifier;
  const license=openLicense(m.licenseurl);
- if(!safeArchiveId(id)||m.mediatype!=='movies'||!license||data.is_dark||m.access_restricted_item==='true'||m.access_restricted_item===true)return null;
+ if(!safeArchiveId(id)||m.mediatype!=='movies'||!license||!historicArchiveYear(m.year||m.date)||data.is_dark||m.access_restricted_item==='true'||m.access_restricted_item===true)return null;
  if(expected.title&&normalizeTitle(m.title)!==normalizeTitle(expected.title))return null;
  if(expected.year&&yearOf(m.year||m.date)!==String(expected.year))return null;
  const files=(data.files||[]).filter(f=>typeof f.name==='string'&&/\.mp4$/i.test(f.name)&&!f.name.includes('..')&&!f.private&&Number(f.size)>5000000&&!/(trailer|sample|preview|teaser)/i.test(f.name));
