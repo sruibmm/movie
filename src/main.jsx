@@ -613,6 +613,7 @@ function App() {
   if (roomMovie) {
     return (
       <Player 
+        key={roomMovie.id}
         movie={roomMovie} 
         role={role}
         mode={mode}
@@ -1396,7 +1397,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
           </div>
         )}
 
-        {nativeError && <div className="absolute top-3 left-3 right-3 z-[100] bg-red-950/90 text-white p-3 rounded-xl text-sm">{nativeError}<button onClick={()=>setShowPlaybackHelp(true)} className="underline ml-2">Playback options</button></div>}
+        {nativeError && <div className="absolute top-3 left-3 right-3 z-[100] bg-red-950/90 text-white p-3 rounded-xl text-sm">{nativeError}<button onClick={()=>setShowPlaybackHelp(true)} className="underline ml-2">Playback options</button>{nativeSource?.open&&!movie.openCatalog&&<button onClick={()=>{setStreamData(null);setNativeError('');setExtractionStatus('failed');}} className="underline ml-2">Use existing sources</button>}</div>}
         {/* Progress Bar Overlay */}
         {videoProgress > 0 && (
           <div className="absolute bottom-20 left-4 right-4 h-1 bg-gray-700 rounded-full overflow-hidden z-[100]">
