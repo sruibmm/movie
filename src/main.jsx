@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react'
 import ReactDOM from 'react-dom/client'
 import Hls from 'hls.js'
 import ArabicClassics from './ArabicClassics.jsx'
+import ArabicDiscovery,{OfficialAvailability} from './ArabicDiscovery.jsx'
+import {embedwaveUrl} from './arabicDiscovery.js'
 import {languageCode,originalAudioIndex,arabicSubtitleIndex,orderedSubtitles} from './mediaLanguages.js'
 import Peer from 'peerjs'
 import { ACTIVE_SERVER_IDS, normalizeServerId, nextServerId, pickProtectedSource } from './sourceMaintenance.js'
@@ -49,7 +51,8 @@ const saveToHistory = (movie, progress, settings) => {
       settings: settings,
       lastWatched: Date.now(),
       isArabic: movie.isArabic,
-      original_language: movie.original_language
+      original_language: movie.original_language,
+      media_type: movie.media_type,tmdbId:movie.tmdbId,season:movie.season,episode:movie.episode
     };
     
     if (existingIndex >= 0) {
@@ -537,6 +540,13 @@ function App() {
     }
   };
 
+  const startArabicEpisode=(movie)=>{
+    if(mode==='couples'&&!conn?.open){alert('Connect Renad first, then start the episode.');return;}
+    const settings={...syncSettings,fallbackServer:10,progress:getFromHistory(movie.id)?.progress||0};
+    setSyncSettings(settings);setRoomMovie(movie);
+    if(mode==='couples'&&conn?.open)conn.send({type:'start_party',movie,settings});
+  };
+
   if (showPasswordModal) {
     return <PasswordModal onVerify={handlePasswordVerify} onClose={() => setShowPasswordModal(false)} />;
   }
@@ -550,7 +560,8 @@ function App() {
             title: item.title,
             poster_path: item.poster,
             isArabic: item.isArabic,
-            original_language: item.original_language
+            original_language: item.original_language,
+            media_type:item.media_type,tmdbId:item.tmdbId,season:item.season,episode:item.episode
           });
           setSyncSettings(prev => ({
             ...prev,
@@ -781,6 +792,7 @@ function App() {
             ))}
           </div>
         )}
+        {arabicLibrary&&<ArabicDiscovery query={search} existing={movies} options={fetchOptions} onMovie={setActiveMovie} onEpisode={startArabicEpisode}/>}
       </div>
     );
   }
@@ -827,6 +839,7 @@ function App() {
             ))}
           </div>
         )}
+        {arabicLibrary&&<ArabicDiscovery query={search} existing={movies} options={fetchOptions} onMovie={setActiveMovie} onEpisode={startArabicEpisode}/>}
       </div>
     );
   }
@@ -879,6 +892,7 @@ function MovieDetail({ movie, onBack, onStartParty }) {
           )}
           
           <p className="text-gray-300 text-base md:text-lg leading-relaxed">{movie.overview || "No synopsis available."}</p>
+          {(movie.original_language==='ar'||details?.original_language==='ar')&&<OfficialAvailability movie={movie} options={fetchOptions}/>}
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
             <button onClick={() => onStartParty({ ...movie, original_language: details?.original_language || movie.original_language, isArabic: (details?.original_language || movie.original_language) === 'ar' })} className="bg-gradient-to-r from-purple-600 to-pink-600 px-8 py-4 rounded-2xl font-black text-white hover:scale-105 transition-all shadow-xl">
               {historyItem?.progress > 0 ? '▶️ Resume' : '🍿 Start Watching'}
@@ -966,7 +980,8 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     }
   };
   const requestedServer = localServer ?? syncSettings.fallbackServer ?? 10;
-  const currentServer = normalizeServerId(requestedServer);
+  const isTV=movie.media_type==='tv';
+  const currentServer = isTV?10:normalizeServerId(requestedServer);
   useEffect(()=>{
     if(Number(requestedServer)===currentServer)return;
     if(role==='admin'){setLocalServer(null);onServerChange(currentServer);}
@@ -986,7 +1001,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   const [videoProgress, setVideoProgress] = useState(syncSettings.progress || 0);
   // VidLink's documented playback events, not iframe onload, establish playback progress.
   useEffect(()=>{
-    if(isNative||currentServer!==0||directOnly||exhausted)return;
+    if(isNative||isTV||currentServer!==0||directOnly||exhausted)return;
     const handle=(e)=>{
       if(e.origin!=='https://vidlink.pro'||e.source!==iframeRef.current?.contentWindow)return;
       const d=e.data?.type==='PLAYER_EVENT'?e.data.data:null;
@@ -1017,12 +1032,12 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     { name: "MultiMov", health: "Unverified", url: `https://multiembed.mov/directstream.php?video_id=${movie.id}&tmdb=1` },
     { name: "MoviesClub", health: "Domain mismatch in docs", url: `https://moviesapi.club/movie/${movie.id}` },
     { name: "Vidsrc XYZ", health: "Retired", retired: true, url: null },
-    { name: "EmbedWave", health: "Cinesrc default · original audio preferred", url: `https://embedwave.cc/embed/movie/${encodeURIComponent(movie.id)}?server=cinesrc` }
+    { name: "EmbedWave", health: "Cinesrc default · original audio preferred", url: embedwaveUrl(movie) }
   ];
   // Start with a previously reported clean protected source when one exists.
   // Never interpret iframe onload as video playback or a clean result.
   useEffect(()=>{
-    if(extractionStatus!=='failed'||preferredInitialized.current) return;
+    if(extractionStatus!=='failed'||isTV||preferredInitialized.current) return;
     preferredInitialized.current=true;
     const known=readAdMemory(movie.id);
     const preferred=pickProtectedSource(known,fallbackNodes.length);
@@ -1038,7 +1053,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   const reportPlaybackIssue = (status) => {
     const next=rememberSource(status);
     setShowPlaybackHelp(false);
-    const preferred=pickProtectedSource(next,fallbackNodes.length,currentServer);
+    const preferred=isTV?null:pickProtectedSource(next,fallbackNodes.length,currentServer);
     if(preferred===null) {
       setExhausted(true);
       setAdNotice('No other protected source remains. The external player is stopped.');
@@ -1105,7 +1120,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     const fetchRawStream = async () => {
       setExtractionStatus('extracting');
       // Arabic movies use the same TMDB-ID based EmbedWave route as world cinema.
-      if(movie.isArabic||movie.original_language==='ar'){setStreamData(null);setExtractionStatus('failed');return;}
+      if(isTV||movie.isArabic||movie.original_language==='ar'){setStreamData(null);setExtractionStatus('failed');return;}
 
       let imdbId = null;
       // 1. جلب الـ IMDB ID (نحتاجه إذا أردت استخدام سيرفر أكوام الخاص بك مستقبلاً)
@@ -1268,7 +1283,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   };
 
   const handleServerChange = (index) => {
-    if(!ACTIVE_SERVER_IDS.includes(index))return;
+    if(!ACTIVE_SERVER_IDS.includes(index)||(isTV&&index!==10))return;
     setExhausted(false);
     setOwnedSource(null);
     if (role === 'admin') { setLocalServer(null); onServerChange(index); }
@@ -1332,7 +1347,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
           </div>
           {!isNative&&!directOnly&&<div className="mt-4 space-y-2">
             {<button onClick={()=>setShowServerList(v=>!v)} aria-expanded={showServerList} className="w-full flex items-center justify-between rounded-xl bg-white/5 px-4 py-3 text-sm"><span>Change server</span><span className="text-gray-400">{showServerList?'⌃':'›'}</span></button>}
-            {showServerList&&<div className="grid grid-cols-2 gap-2">{ACTIVE_SERVER_IDS.map(i=>{const node=fallbackNodes[i];return <button key={i} onClick={()=>{handleServerChange(i);setShowPlaybackHelp(false);}} className={`text-left rounded-xl px-3 py-3 ${i===currentServer?'bg-purple-600':'bg-white/5'}`}><span className="block text-xs font-semibold">{node.name}</span><span className="block text-[10px] opacity-75 mt-1">{adMemory[i]?.status==='ad'?'Ad reported':adMemory[i]?.status==='blocked'?'Blocked':adMemory[i]?.status==='clean'?'Reported clean':node.health}</span></button>;})}</div>}
+            {showServerList&&<div className="grid grid-cols-2 gap-2">{(isTV?[10]:ACTIVE_SERVER_IDS).map(i=>{const node=fallbackNodes[i];return <button key={i} onClick={()=>{handleServerChange(i);setShowPlaybackHelp(false);}} className={`text-left rounded-xl px-3 py-3 ${i===currentServer?'bg-purple-600':'bg-white/5'}`}><span className="block text-xs font-semibold">{node.name}</span><span className="block text-[10px] opacity-75 mt-1">{adMemory[i]?.status==='ad'?'Ad reported':adMemory[i]?.status==='blocked'?'Blocked':adMemory[i]?.status==='clean'?'Reported clean':node.health}</span></button>;})}</div>}
             <div className="grid grid-cols-2 gap-2">
               <button onClick={()=>{setExhausted(false);setFrameRevision(v=>v+1);setShowPlaybackHelp(false);}} className="rounded-xl bg-white/5 p-3 text-sm">↻ Reload</button>
               <button onClick={()=>{reportPlaybackIssue('blocked');setShowPlaybackHelp(false);}} className="rounded-xl bg-white/5 p-3 text-sm">Not playing?</button>
@@ -1347,8 +1362,9 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
             {ownedError&&<p className="text-red-300 mt-2">{ownedError}</p>}
             {ownedSource&&<button onClick={()=>{setOwnedSource(null);setNativeError('');setShowPlaybackHelp(false);}} className="mt-3 underline">Return to original source</button>}
             <button onClick={()=>{restoreProtection();setShowPlaybackHelp(false);}} className="mt-3 block underline">Reset protected player</button>
-            <a href={`https://www.themoviedb.org/movie/${movie.id}/watch`} target="_blank" rel="noopener noreferrer" className="block mt-3 underline">Official streaming options</a>
+            <a href={`https://www.themoviedb.org/${isTV?'tv':'movie'}/${movie.tmdbId||movie.id}/watch`} target="_blank" rel="noopener noreferrer" className="block mt-3 underline">Official streaming options</a>
           </details>
+          {(movie.isArabic||isTV)&&<OfficialAvailability movie={movie} options={fetchOptions}/>}
           <button onClick={()=>setShowPlaybackHelp(false)} className="mt-5 w-full bg-purple-600 rounded-xl py-3 font-semibold text-sm">Done</button>
         </section>
       </div>}
@@ -1391,10 +1407,11 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
           </div>
         ) : exhausted ? (
           <div className="h-full flex flex-col items-center justify-center text-center p-6 text-white gap-3">
-            <p className="font-bold">Protected sources exhausted</p>
+            <p className="font-bold">{isTV?'Episode source unavailable':'Protected sources exhausted'}</p>
             <p className="text-sm text-gray-400">We stopped the external player rather than allow unwanted redirects. Retry or choose another protected source.</p>
             <button onClick={()=>{setAdMemory({});writeAdMemory(movie.id,{});restoreProtection();}} className="bg-purple-700 rounded-xl px-4 py-2 text-sm">Retry protected sources</button>
             <button onClick={()=>setShowPlaybackHelp(true)} className="underline text-sm text-gray-300">Playback options</button>
+            {(movie.isArabic||isTV)&&<OfficialAvailability movie={movie} options={fetchOptions}/>}
           </div>
         ) : (
           <div className="relative w-full h-full bg-black flex items-center justify-center">
