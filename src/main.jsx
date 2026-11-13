@@ -414,7 +414,7 @@ function App() {
           type: 'room_state', 
           roomReady, 
           movie: roomMovie, 
-          settings 
+          settings: syncSettings 
         });
       }
       if (myCoords) conn.send({ type: 'location_update', coords: myCoords });
@@ -674,7 +674,7 @@ function App() {
         conn.send({ 
           type: 'start_party', 
           movie: movieFull, 
-          settings: syncSettings 
+          settings 
         });
       } else {
         alert("Wait for Renad to connect first!");
