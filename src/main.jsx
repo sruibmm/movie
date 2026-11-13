@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import ReactDOM from 'react-dom/client'
 import Hls from 'hls.js'
+import {languageCode,originalAudioIndex,arabicSubtitleIndex,orderedSubtitles} from './mediaLanguages.js'
 import Peer from 'peerjs'
 import { ACTIVE_SERVER_IDS, normalizeServerId, nextServerId, pickProtectedSource } from './sourceMaintenance.js'
 
@@ -46,7 +47,8 @@ const saveToHistory = (movie, progress, settings) => {
       progress: progress,
       settings: settings,
       lastWatched: Date.now(),
-      isArabic: movie.isArabic
+      isArabic: movie.isArabic,
+      original_language: movie.original_language
     };
     
     if (existingIndex >= 0) {
@@ -532,7 +534,8 @@ function App() {
             id: item.movieId,
             title: item.title,
             poster_path: item.poster,
-            isArabic: item.isArabic
+            isArabic: item.isArabic,
+            original_language: item.original_language
           });
           setSyncSettings(prev => ({
             ...prev,
@@ -849,7 +852,7 @@ function MovieDetail({ movie, onBack, onStartParty }) {
           
           <p className="text-gray-300 text-base md:text-lg leading-relaxed">{movie.overview || "No synopsis available."}</p>
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
-            <button onClick={() => onStartParty({ ...movie, isArabic: details?.original_language === 'ar' })} className="bg-gradient-to-r from-purple-600 to-pink-600 px-8 py-4 rounded-2xl font-black text-white hover:scale-105 transition-all shadow-xl">
+            <button onClick={() => onStartParty({ ...movie, original_language: details?.original_language || movie.original_language, isArabic: (details?.original_language || movie.original_language) === 'ar' })} className="bg-gradient-to-r from-purple-600 to-pink-600 px-8 py-4 rounded-2xl font-black text-white hover:scale-105 transition-all shadow-xl">
               {historyItem?.progress > 0 ? '▶️ Resume' : '🍿 Start Watching'}
             </button>
             <button onClick={onBack} className="bg-white/5 border border-white/10 px-8 py-4 rounded-2xl font-black text-white hover:bg-white/10 transition-all">
@@ -921,6 +924,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   const [playState, setPlayState] = useState('Preparing');
   const [mediaInfo, setMediaInfo] = useState({time:0,duration:0});
   const [quality, setQuality] = useState(-1);
+  const [languageStatus,setLanguageStatus]=useState({audio:'',subs:''});
   const [levels, setLevels] = useState([]);
   const hlsRef = useRef(null);
   const remoteAction = useRef(0);
@@ -1124,10 +1128,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
           }
           // ب) معالجة ردود الـ APIs النظيفة (Vidlink/Vidsrc)
           else if (data && data.stream_url) {
-            const cleanSubtitles = data.subtitles?.filter(sub => 
-              sub.lang?.includes('ar') || sub.language?.toLowerCase().includes('arabic') ||
-              sub.lang?.includes('en') || sub.language?.toLowerCase().includes('english')
-            ) || [];
+            const cleanSubtitles = orderedSubtitles(data.subtitles);
 
             setStreamData({
               stream_url: data.stream_url,
@@ -1178,7 +1179,17 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     if(!nativeSource || !video) return;
     setNativeError('');setQuality(-1);setLevels([]);setPlayState('Preparing');
     const url=nativeSource.stream_url;
-    let hls;
+    const desired=languageCode(movie.original_language);
+    let hls, selectedAudio=false,selectedSub=false;
+    setLanguageStatus({audio:desired?'Looking for original audio':'Original language unknown',subs:'Looking for Arabic subtitles'});
+    const applyNative=()=>{
+      const audio=video.audioTracks;const subs=video.textTracks;
+      if(!selectedAudio&&audio?.length){const index=originalAudioIndex(audio,desired);if(index>=0){for(let i=0;i<audio.length;i++)audio[i].enabled=i===index;selectedAudio=true;setLanguageStatus(v=>({...v,audio:'Original language selected'}));}}
+      if(!selectedSub&&subs?.length){const index=arabicSubtitleIndex(subs);if(index>=0){for(let i=0;i<subs.length;i++)if(subs[i].kind==='subtitles'||subs[i].kind==='captions')subs[i].mode=i===index?'showing':'disabled';selectedSub=true;setLanguageStatus(v=>({...v,subs:'Arabic selected'}));}}
+    };
+    video.addEventListener('loadedmetadata',applyNative);
+    video.textTracks?.addEventListener('addtrack',applyNative);
+    video.audioTracks?.addEventListener('addtrack',applyNative);
     const fail=()=> {
       if(ownedSource) setNativeError('This video could not be loaded. Check its URL, permissions and CORS.');
       else setExtractionStatus('failed');
@@ -1189,12 +1200,18 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     else if(Hls.isSupported()) {
       hls=new Hls({maxBufferLength:30,maxMaxBufferLength:60,enableWorker:true});
       hlsRef.current=hls;
-      hls.on(Hls.Events.MANIFEST_PARSED,()=>setLevels(hls.levels.map((l,i)=>({id:i,height:l.height||0,bitrate:l.bitrate||0}))));
+      const applyHls=()=>{
+        if(!selectedAudio&&hls.audioTracks.length){const i=originalAudioIndex(hls.audioTracks,desired);if(i>=0){hls.audioTrack=i;selectedAudio=true;setLanguageStatus(v=>({...v,audio:'Original language selected'}));}}
+        if(!selectedSub&&hls.subtitleTracks.length){const i=arabicSubtitleIndex(hls.subtitleTracks);if(i>=0){hls.subtitleTrack=i;hls.subtitleDisplay=true;selectedSub=true;setLanguageStatus(v=>({...v,subs:'Arabic selected'}));}}
+      };
+      hls.on(Hls.Events.MANIFEST_PARSED,()=>{setLevels(hls.levels.map((l,i)=>({id:i,height:l.height||0,bitrate:l.bitrate||0})));applyHls();});
+      hls.on(Hls.Events.AUDIO_TRACKS_UPDATED,applyHls);
+      hls.on(Hls.Events.SUBTITLE_TRACKS_UPDATED,applyHls);
       hls.loadSource(url);hls.attachMedia(video);
       hls.on(Hls.Events.ERROR,(_event,data)=>{if(data.fatal)fail();});
     } else fail();
-    return()=>{video.removeEventListener('error',fail);hls?.destroy();hlsRef.current=null;video.pause();video.removeAttribute('src');video.load();};
-  }, [nativeSource,ownedSource]);
+    return()=>{video.removeEventListener('error',fail);video.removeEventListener('loadedmetadata',applyNative);video.textTracks?.removeEventListener('addtrack',applyNative);video.audioTracks?.removeEventListener('addtrack',applyNative);hls?.destroy();hlsRef.current=null;video.pause();video.removeAttribute('src');video.load();};
+  }, [nativeSource,ownedSource,movie.original_language]);
 
   const restoreProtection=()=>{
     setExhausted(false);
@@ -1266,6 +1283,8 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
           <div className="flex items-center gap-2 min-w-0"><span className="w-2 h-2 rounded-full bg-purple-400"/><span className="text-xs text-gray-300 truncate">{playState}{mediaInfo.duration>0?' · '+formatTime(Math.floor(mediaInfo.time))+' / '+formatTime(Math.floor(mediaInfo.duration)):''}</span></div>
           <button onClick={()=>setDirectOnly(v=>!v)} aria-pressed={directOnly} className={`rounded-full px-3 py-1.5 text-xs font-bold border ${directOnly?'bg-purple-600 border-purple-400':'bg-white/5 border-white/15'}`}>{directOnly?'Direct only: ON':'Direct only: OFF'}</button>
         </div>
+        {isNative&&<p className="text-[11px] text-gray-300 mt-2">Audio: {languageStatus.audio} · CC: {languageStatus.subs}</p>}
+        {!isNative&&currentServer===10&&<p className="text-[11px] text-gray-400 mt-2">Preferred: original audio · Arabic subtitles. EmbedWave controls its own tracks.</p>}
         {isNative&&levels.length>1&&<div className="flex items-center gap-2 mt-2"><label className="text-xs text-gray-300" htmlFor="cinema-quality">Quality</label><select id="cinema-quality" value={quality} onChange={e=>{const v=Number(e.target.value);setQuality(v);if(hlsRef.current)hlsRef.current.currentLevel=v;}} className="bg-zinc-800 text-white rounded-lg px-2 py-1 text-xs"><option value={-1}>Auto</option>{levels.map(l=><option key={l.id} value={l.id}>{l.height?l.height+'p':Math.round(l.bitrate/1000)+' kbps'}</option>)}</select></div>}
         {!isNative && !directOnly && <div className="flex gap-2 mt-2 items-center overflow-x-auto pb-1">
           <button onClick={()=>reportPlaybackIssue('ad')} className="text-xs bg-pink-700 px-3 py-2 rounded-lg font-bold">Ad? Switch</button>
@@ -1323,8 +1342,8 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
               e.stopPropagation();
             }}
           >
-            {nativeSource?.subtitles?.map((sub, i) => (
-              <track key={i} kind="subtitles" src={sub.url} srcLang={sub.lang} label={sub.language} default={sub.lang?.includes('ar')} />
+            {orderedSubtitles(nativeSource?.subtitles).map((sub, i, all) => (
+              <track key={i} kind="subtitles" src={sub.url} srcLang={sub.lang} label={sub.language} default={i===arabicSubtitleIndex(all)} />
             ))}
           </video>
         ) : directOnly ? (
