@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import ReactDOM from 'react-dom/client'
 import Hls from 'hls.js'
 import Peer from 'peerjs'
+import { ACTIVE_SERVER_IDS, normalizeServerId, nextServerId, pickProtectedSource } from './sourceMaintenance.js'
 
 // 🔑 TMDB API Key
 const TMDB_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhOWFlNzg3NTBiNWU2MmQ0MWI4NGEyMGQ5MjU0ZDMzMSIsIm5iZiI6MTc3NjQ1ODE2OC4zMzEsInN1YiI6IjY5ZTI5OWI4YWUzYjIzZDMxMTgxOGQ4NSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.G5zxivtx0LQiueaMafbdxYdRdfvLdbDxu192vwo5nwU';
@@ -877,22 +878,7 @@ function writeAdMemory(movieId, observations) {
     localStorage.setItem(AD_MEMORY_KEY,JSON.stringify(all));
   } catch {}
 }
-// Stable legacy slots: never reindex, since saved history and peer rooms exchange numeric IDs.
-// Both domains are listed as retired by the provider's published domain register (2026-11-13).
-const RETIRED_SERVER_IDS = new Set([1,9]);
-const ACTIVE_SERVER_IDS = Object.freeze([0,2,3,4,5,6,7,8]);
-function normalizeServerId(value) {
-  const id=Number(value);
-  return ACTIVE_SERVER_IDS.includes(id)?id:ACTIVE_SERVER_IDS[0];
-}
-function nextServerId(current) {
-  const at=ACTIVE_SERVER_IDS.indexOf(normalizeServerId(current));
-  return ACTIVE_SERVER_IDS[(at+1)%ACTIVE_SERVER_IDS.length];
-}
-function pickProtectedSource(observations, count, current=-1) {
-  const eligible=ACTIVE_SERVER_IDS.filter(i=>i<count && i!==current && !['ad','blocked'].includes(observations[i]?.status));
-  return eligible.sort((a,b)=>(observations[b]?.status==='clean'?1:0)-(observations[a]?.status==='clean'?1:0))[0] ?? null;
-}
+
 
 function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onServerChange, onSandboxToggle, onProgressUpdate, onBack }) {
   const videoRef = useRef(null);
