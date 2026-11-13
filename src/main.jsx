@@ -1278,7 +1278,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
           <button onClick={onBack} aria-label="Back to library" className="w-10 h-10 shrink-0 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-2xl">‹</button>
           <div className="flex-1 min-w-0">
             <p className="truncate font-semibold text-sm md:text-base leading-tight">{movie.title}</p>
-            <p className="text-[10px] text-gray-400 mt-0.5 truncate">{isNative?'Direct player':currentServer===10?'Cinesrc · Protected':(fallbackNodes[currentServer]?.name||'Player')+' · Protected'}</p>
+            <p className="text-[10px] text-gray-400 mt-0.5 truncate">{isNative?'Direct player':movie.isArabic?'Arabic source · Protected':currentServer===10?'Cinesrc · Protected':(fallbackNodes[currentServer]?.name||'Player')+' · Protected'}</p>
           </div>
           <button onClick={()=>{setShowPlaybackHelp(v=>!v);setShowServerList(false);}} aria-label="Playback options" aria-expanded={showPlaybackHelp} className="w-10 h-10 shrink-0 rounded-full bg-white/5 hover:bg-white/10 text-xl flex items-center justify-center">⋯</button>
         </div>
