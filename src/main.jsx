@@ -6,8 +6,13 @@ import Peer from 'peerjs'
 // 🔑 TMDB API Key
 const TMDB_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhOWFlNzg3NTBiNWU2MmQ0MWI4NGEyMGQ5MjU0ZDMzMSIsIm5iZiI6MTc3NjQ1ODE2OC4zMzEsInN1YiI6IjY5ZTI5OWI4YWUzYjIzZDMxMTgxOGQ4NSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.G5zxivtx0LQiueaMafbdxYdRdfvLdbDxu192vwo5nwU';
 
+// Centrally managed, rights-cleared direct video catalog. Never embed ad-bearing pages.
+const cleanCatalog = Object.freeze({
+  10378: { title:'Big Buck Bunny', url:'https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4', type:'mp4', credit:'© 2008 Blender Foundation / www.bigbuckbunny.org — CC BY 3.0', license:'https://peach.blender.org/about/' },
+});
 const catalogCache = new Map();
 const categories = [
+  { id: 'ready', label: '▶ Watch now' },
   { id: 'popular', label: '🔥 Trending' },
   { id: 'new', label: '✨ New releases' },
   { id: 'digital', label: '🎬 Digital releases (US)' },
@@ -39,12 +44,7 @@ function catalogURL(category, query, page) {
   if(category==='arabic') p.set('with_original_language','ar');
   return base+'discover/movie?'+p;
 }
-function getMediaSource(id) {
-  try { return JSON.parse(localStorage.getItem('cinema_media_'+id)||'null'); } catch { return null; }
-}
-function saveMediaSource(id, source) {
-  try { localStorage.setItem('cinema_media_'+id,JSON.stringify(source)); } catch {}
-}
+function getMediaSource(id) { return cleanCatalog[id] || null; }
 function validSource(source) {
   try { const u=new URL(source.url); return u.protocol==='https:' && ['hls','mp4'].includes(source.type); }
   catch { return false; }
@@ -347,7 +347,7 @@ function App() {
   const [roomMovie, setRoomMovie] = useState(null);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
-  const [category, setCategory] = useState('popular');
+  const [category, setCategory] = useState('ready');
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(false);
   const [catalogError, setCatalogError] = useState('');
@@ -531,6 +531,11 @@ function App() {
   useEffect(() => {
     if (role !== 'admin') return;
     const controller = new AbortController();
+    if(category==='ready' && !search.trim()) {
+      setCatalogError('');setHasMore(false);setLoading(false);
+      setMovies(Object.entries(cleanCatalog).map(([id,entry])=>({id:Number(id),title:entry.title,overview:'An openly licensed film available to watch directly.',release_date:'2008-04-10',poster_path:null,backdrop_path:null})));
+      return;
+    }
     const url = catalogURL(category, search, page);
     setCatalogError('');
     const apply = data => {
@@ -809,7 +814,7 @@ function App() {
           <div className="flex flex-wrap gap-2" aria-label="Movie categories">
             {categories.map(c=><button key={c.id} onClick={()=>selectCategory(c.id)} className={`px-4 py-2 rounded-full text-sm font-bold ${!search && category===c.id?'bg-pink-600 text-white':'bg-white/10 text-gray-300'}`}>{c.label}</button>)}
           </div>
-          <p className="text-xs text-gray-400">Release listings are not proof of streaming availability. Use a licensed or owned video source for playback.</p>
+          <p className="text-xs text-gray-400">Watch Now shows films available in the shared ad-free library. Other categories are discovery listings.</p>
         </header>
 
         {catalogError && <div className="text-center text-pink-300 py-4">{catalogError} <button className="underline" onClick={()=>setRetry(v=>v+1)}>Retry</button></div>}
@@ -820,9 +825,9 @@ function App() {
             {movies.map(m => (
               <div key={m.id} onClick={() => setActiveMovie(m)} className="group cursor-pointer">
                 <div className="relative aspect-[2/3] rounded-2xl overflow-hidden border border-white/5 group-hover:border-purple-500/50 transition-all bg-zinc-900 shadow-lg">
-                  <img src={`https://image.tmdb.org/t/p/w342${m.poster_path}`} loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt={m.title} />
+                  <img src={m.poster_path ? `https://image.tmdb.org/t/p/w342${m.poster_path}` : undefined} loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt={m.title} />
                 </div>
-                <h3 className="mt-3 text-xs font-bold text-gray-300 text-center truncate group-hover:text-pink-400 transition-colors">{m.title}</h3>
+                <h3 className="mt-3 text-xs font-bold text-gray-300 text-center truncate group-hover:text-pink-400 transition-colors">{m.title}</h3><p className="text-center text-[10px] text-gray-400">{getMediaSource(m.id)?"▶ Watch now · Ad-free":"Explore · Not in library"}</p>
               </div>
             ))}
           </div>
@@ -857,7 +862,7 @@ function App() {
           <div className="flex flex-wrap gap-2" aria-label="Movie categories">
             {categories.map(c=><button key={c.id} onClick={()=>selectCategory(c.id)} className={`px-4 py-2 rounded-full text-sm font-bold ${!search && category===c.id?'bg-pink-600 text-white':'bg-white/10 text-gray-300'}`}>{c.label}</button>)}
           </div>
-          <p className="text-xs text-gray-400">Release listings are not proof of streaming availability. Use a licensed or owned video source for playback.</p>
+          <p className="text-xs text-gray-400">Watch Now shows films available in the shared ad-free library. Other categories are discovery listings.</p>
         </header>
 
         {catalogError && <div className="text-center text-pink-300 py-4">{catalogError} <button className="underline" onClick={()=>setRetry(v=>v+1)}>Retry</button></div>}
@@ -868,9 +873,9 @@ function App() {
             {movies.map(m => (
               <div key={m.id} onClick={() => setActiveMovie(m)} className="group cursor-pointer">
                 <div className="relative aspect-[2/3] rounded-2xl overflow-hidden border border-white/5 group-hover:border-purple-500/50 transition-all bg-zinc-900 shadow-lg">
-                  <img src={`https://image.tmdb.org/t/p/w342${m.poster_path}`} loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt={m.title} />
+                  <img src={m.poster_path ? `https://image.tmdb.org/t/p/w342${m.poster_path}` : undefined} loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt={m.title} />
                 </div>
-                <h3 className="mt-3 text-xs font-bold text-gray-300 text-center truncate group-hover:text-pink-400 transition-colors">{m.title}</h3>
+                <h3 className="mt-3 text-xs font-bold text-gray-300 text-center truncate group-hover:text-pink-400 transition-colors">{m.title}</h3><p className="text-center text-[10px] text-gray-400">{getMediaSource(m.id)?"▶ Watch now · Ad-free":"Explore · Not in library"}</p>
               </div>
             ))}
           </div>
@@ -886,11 +891,10 @@ function App() {
 
 function MovieDetail({ movie, onBack, onStartParty }) {
   const [details, setDetails] = useState(null);
-  const [source, setSource] = useState(()=>getMediaSource(movie.id)||{url:'',type:'mp4'});
+  const source = getMediaSource(movie.id);
   const [sourceError, setSourceError] = useState('');
   const startWatching = () => {
-    if(!validSource(source)) { setSourceError('Enter an HTTPS URL for a video you own or are licensed to watch.'); return; }
-    saveMediaSource(movie.id,source);
+    if(!validSource(source)) { setSourceError('This title is not yet in the shared ad-free library.'); return; }
     onStartParty({...movie,isArabic:details?.original_language==='ar',source});
   };
   const historyItem = getFromHistory(movie.id);
@@ -903,13 +907,13 @@ function MovieDetail({ movie, onBack, onStartParty }) {
   return (
     <div className="min-h-screen w-full bg-black relative flex items-center justify-center p-4 md:p-6 text-left overflow-hidden" dir="ltr">
       <div className="absolute inset-0 z-0">
-        <img src={`https://image.tmdb.org/t/p/w780${movie.backdrop_path || movie.poster_path}`} className="w-full h-full object-cover opacity-30 blur-2xl" />
+        <img src={`https://image.tmdb.org/t/p/w780${movie.backdrop_path || movie.poster_path || details?.backdrop_path || ''}`} className="w-full h-full object-cover opacity-30 blur-2xl" />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-[#050505]/90 to-transparent"></div>
       </div>
       <div className="z-10 max-w-6xl w-full grid md:grid-cols-[300px_1fr] gap-8 md:gap-12 items-center">
         <div className="relative hidden md:block">
           <div className="absolute -inset-1 bg-gradient-to-br from-purple-600 to-pink-600 rounded-3xl blur opacity-25"></div>
-          <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} className="rounded-3xl border border-white/10 relative shadow-2xl" />
+          <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path || details?.poster_path || ''}`} className="rounded-3xl border border-white/10 relative shadow-2xl" />
         </div>
         <div className="space-y-6">
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-black text-white leading-tight">{movie.title}</h2>
@@ -937,15 +941,14 @@ function MovieDetail({ movie, onBack, onStartParty }) {
           
           <p className="text-gray-300 text-base md:text-lg leading-relaxed">{movie.overview || "No synopsis available."}</p>
           <div className="bg-white/5 border border-white/10 rounded-xl p-4 space-y-3">
-            <p className="text-sm font-bold text-pink-300">Ad-free private library</p>
-            <p className="text-xs text-gray-400">Add a direct HTTPS MP4 or HLS link for media you own or have permission to use. Both viewers need access to the same link. No third-party embed or ad scripts.</p>
-            <input type="url" value={source.url} onChange={e=>{setSource(v=>({...v,url:e.target.value}));setSourceError('');}} placeholder="https://…/movie.mp4" className="w-full bg-black border border-white/20 rounded-lg p-3 text-white" />
-            <select value={source.type} onChange={e=>setSource(v=>({...v,type:e.target.value}))} className="bg-black border border-white/20 rounded-lg p-2 text-white"><option value="mp4">MP4 / direct video</option><option value="hls">HLS (.m3u8)</option></select>
-            <a href={`https://www.themoviedb.org/movie/${movie.id}/watch`} target="_blank" rel="noopener noreferrer" className="block text-xs text-purple-300 underline">Find official streaming availability</a>
+            <p className="text-sm font-bold text-pink-300">{source?'Ready to watch — no ads':'Not yet available for ad-free playback'}</p>
+            <p className="text-xs text-gray-400">{source?'One click, same direct player for every visitor. No browser add-ons.':'We do not open ad-bearing external players. This movie needs a rights-cleared source before it can play here.'}</p>
+            {source&&<p className="text-xs text-gray-400">{source.credit} <a href={source.license} target="_blank" rel="noopener noreferrer" className="underline">License</a></p>}
+            {!source&&<a href={`https://www.themoviedb.org/movie/${movie.id}/watch`} target="_blank" rel="noopener noreferrer" className="block text-xs text-purple-300 underline">Find official streaming availability</a>}
             {sourceError && <p className="text-red-400 text-sm">{sourceError}</p>}
           </div>
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
-            <button onClick={startWatching} className="bg-gradient-to-r from-purple-600 to-pink-600 px-8 py-4 rounded-2xl font-black text-white hover:scale-105 transition-all shadow-xl">
+            <button disabled={!source} onClick={startWatching} className="disabled:opacity-40 bg-gradient-to-r from-purple-600 to-pink-600 px-8 py-4 rounded-2xl font-black text-white hover:scale-105 transition-all shadow-xl">
               {historyItem?.progress > 0 ? '▶️ Resume' : '🍿 Start Watching'}
             </button>
             <button onClick={onBack} className="bg-white/5 border border-white/10 px-8 py-4 rounded-2xl font-black text-white hover:bg-white/10 transition-all">
@@ -968,7 +971,7 @@ function Player({movie,role,mode,myCoords,partnerCoords,syncSettings,onProgressU
   const [ready,setReady]=useState(false);
   const [emojis,setEmojis]=useState([]);
   const [seconds,setSeconds]=useState(0);
-  const source=movie.source||getMediaSource(movie.id);
+  const source=getMediaSource(movie.id);
   progressRef.current=onProgressUpdate;
   useEffect(()=>{
     const timer=setInterval(()=>setSeconds(v=>v+1),1000);
@@ -1032,7 +1035,7 @@ function Player({movie,role,mode,myCoords,partnerCoords,syncSettings,onProgressU
         <video ref={videoRef} playsInline controls preload="metadata" className="w-full max-h-[75vh] bg-black" onPlay={()=>send('play')} onPause={()=>send('pause')} onSeeked={()=>send('seek')}/>
         {!ready&&!error&&<p className="text-center text-gray-400 p-4">Preparing video…</p>}
         {error&&<p className="text-center text-red-300 p-4">{error}</p>}
-      </> : <div className="text-center p-8"><p className="text-lg font-bold">No authorized video source configured</p><p className="text-gray-400 mt-2">Return to the movie page and add your direct MP4 or HLS link.</p><a className="text-purple-300 underline block mt-4" href={`https://www.themoviedb.org/movie/${movie.id}/watch`} target="_blank" rel="noopener noreferrer">Find official streaming options</a></div>}
+      </> : <div className="text-center p-8"><p className="text-lg font-bold">No authorized video source configured</p><p className="text-gray-400 mt-2">This title has not been added to the shared ad-free catalog.</p><a className="text-purple-300 underline block mt-4" href={`https://www.themoviedb.org/movie/${movie.id}/watch`} target="_blank" rel="noopener noreferrer">Find official streaming options</a></div>}
       {emojis.map(e=><FloatingEmoji key={e.id} emojiChar={e.char} onComplete={()=>setEmojis(v=>v.filter(x=>x.id!==e.id))}/>)}
     </div>
     {mode==='couples'&&<footer className="p-4 text-center border-t border-white/10">
