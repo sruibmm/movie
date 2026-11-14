@@ -1,5 +1,6 @@
 import React,{useEffect,useRef,useState} from 'react';
 import {createPortal} from 'react-dom';
+import DubaiPublisherMatches from './DubaiPublisherMatches.jsx';
 import {normalizeArabic} from './arabicDiscovery.js';
 import {DUBAI_PLUS_HOME,DUBAI_PLUS_TERMS,DUBAI_PLUS_TITLES,officialDubaiUrl} from './dubaiPlusCatalog.js';
 
@@ -32,7 +33,7 @@ function SourceViewer({item,onClose}){
   </footer>
  </div>,document.body);
 }
-export default function DubaiPlusLibrary({query='',kind='all',standalone=false}){
+export default function DubaiPlusLibrary({query='',kind='all',standalone=false,onPlay}){
  const [selected,setSelected]=useState(null);
  const [limit,setLimit]=useState(12);
  useEffect(()=>setLimit(12),[query,kind]);
@@ -46,6 +47,7 @@ export default function DubaiPlusLibrary({query='',kind='all',standalone=false})
    <button onClick={()=>setSelected(home)} className="mt-4 w-full rounded-xl bg-violet-600 hover:bg-violet-500 px-4 py-3 font-bold text-sm text-white">استكشف مكتبة Dubai+ داخل Cinema ‹</button>
    <p className="mt-2 text-[11px] leading-relaxed text-gray-400">معاينة مدمجة للصفحة الأصلية. التشغيل يعتمد على المصدر؛ قد تظهر إعلانات أو يلزم تسجيل الدخول أو اشتراك لبعض العناوين.</p>
   </div>
+  {standalone&&<DubaiPublisherMatches query={query} kind={kind} onPlay={onPlay}/>}
   {!!titles.length&&<div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">{titles.slice(0,limit).map(item=><button key={item.id} onClick={()=>setSelected(item)} className="rounded-2xl bg-[#17171c] border border-white/10 hover:border-purple-500/60 text-right p-4"><span className="text-[10px] text-violet-300">Dubai+ · مسلسل</span><p className="font-black text-lg mt-1">{item.title}</p><p className="text-xs text-gray-400 mt-1">{[item.year,item.episodes?item.episodes+' حلقة مفهرسة':null,item.seasons?item.seasons+' موسم':null].filter(Boolean).join(' · ')||'صفحة المسلسل الرسمية'}</p><p className="text-xs text-violet-200 mt-3">▶ افتح صفحة المسلسل داخل Cinema</p></button>)}</div>}
   {titles.length>limit&&<button onClick={()=>setLimit(n=>n+24)} className="mt-3 w-full rounded-xl bg-white/10 py-3 text-sm">عرض المزيد ({titles.length-limit})</button>}
   {standalone&&q&&!titles.length&&<p className="mt-3 text-xs text-gray-400">استخدم البحث داخل مكتبة المصدر لتصفح بقية الأعمال. لم نفهرس كل العناوين محليًا بعد.</p>}
