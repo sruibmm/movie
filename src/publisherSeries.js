@@ -2,7 +2,7 @@ import {normalizeArabic} from './arabicDiscovery.js';
 import {WATAN_SERIES} from './watanSeries.js';
 const valid=id=>/^[-_A-Za-z0-9]{11}$/.test(id||'');
 const norm=s=>normalizeArabic(s).replace(/\s+/g,' ').trim();
-const collections=new Set(['حول العالم في 30 طبخة','أفلام عرب دراما','افلام شام دراما','زاد الروح','هو الله'].map(norm));
+const collections=new Set(['حول العالم في 30 طبخة','أفلام عرب دراما','افلام شام دراما','زاد الروح','هو الله','حقائق قرآنية','نساء عصر النبوة','معالم أثرية','إذاعة فيتامين','طرائف العرب'].map(norm));
 const grouped=new Map();
 for(const row of WATAN_SERIES){
  if(!row.episodes?.length)continue;

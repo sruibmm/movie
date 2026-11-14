@@ -7,3 +7,6 @@ WatanFlix: 139 discovered series pages, 130 passed count, consecutive episode-nu
 
 ### Expanded series catalog
 Scanned 21 public catalogue index pages and matched additional numbered episodes against public YouTube watch URLs and matching thumbnail IDs. 162 new season records, 4606 additional unique episode/video IDs, 292 total season records and 8212 total links. Duplicate sources, conflicting normalized title/season pairs, and overlapping video IDs are excluded; current video playback and geographic eligibility are not established by this indexing test. Under Seventh Earth is searchable as an external official availability record, not a YouTube full-series source.
+
+### Additional catalogue expansion
+183 new season records and 5528 unique video references accepted from two additional scans of the remaining catalogue pages. 475 total season records, 435 normalized grouped titles and 13740 unique video references. Duplicate sources, title/season conflicts and overlapping IDs excluded. Counts are link matches, not individual live-playback verification.
