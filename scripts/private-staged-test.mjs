@@ -5,7 +5,7 @@ const e=(id,n,phase)=>['episode:'+id+':'+n,{type:'episode',id,n,phase}];
 const w=id=>['work:'+id,{type:'work',id}];
 const index=['index:1',{type:'index'}];
 const lanes=[[e('a',1),e('a',2),e('a',3),e('b',1),e('c',1),e('v',1,'verify')],[w('a'),w('b')],[index]];
-assert.equal(VERSION,'auto-v9');
+assert.equal(VERSION,'auto-v10');
 const fresh=pickJobs(lanes,20,new Map(),now);
 assert.equal(fresh.filter(([,j])=>j.id==='a'&&j.type==='episode').length,1);
 assert.equal(fresh.filter(([,j])=>j.type==='episode').length,4);
