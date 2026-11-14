@@ -1,0 +1,13 @@
+name: CineSrc caption preference audit
+on:
+  pull_request:
+    branches: [cloudflare-ready]
+    paths:
+      - '.github/workflows/cinesrc-caption-audit.yml'
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - run: python scripts/cinesrc-caption-audit.py
