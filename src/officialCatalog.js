@@ -1,4 +1,5 @@
 import {normalizeArabic} from './arabicDiscovery.js';
+import {matchPublisherSeries,publisherEpisode} from './publisherSeries.js';
 export const OFFICIAL_CATALOG=[
  {"id":"hag-metwaly","title":"عائلة الحاج متولي","year":"2001","kind":"مسلسل","channel":"ماسبيرو دراما","playlist":"PL9KkecclNUBTV7wu4vxdM8X0TPVyyFdWt","aliases":"نور الشريف ماجدة زكي سمية الخشاب الحاج متولي"},
  {"id":"kahf-wahm","title":"الكهف والوهم والحب","year":"","kind":"مسلسل","channel":"ماسبيرو زمان","playlist":"PLUOtJ4Uut5UKgGXdAUmTeTRbYmgGeU9gC","aliases":"صلاح قابيل شهيرة محمد ثروت الكهف و الوهم و الحب"},
@@ -16,7 +17,7 @@ export const OFFICIAL_CATALOG=[
 
 export function officialEmbed(id){if(!/^[-_A-Za-z0-9]{11}$/.test(id||''))throw Error('Invalid official video');return 'https://www.youtube-nocookie.com/embed/'+id+'?playsinline=1&rel=0';}
 export function findOfficialTitles(movie){
- if(movie.media_type==='tv')return [];
+ if(movie.media_type==='tv'){const g=matchPublisherSeries(movie);const source=g&&publisherEpisode(g,movie.season,movie.episode);return source?[source]:[];}
  const titles=new Set([movie.title,movie.original_title].filter(Boolean).map(normalizeArabic));
  const year=String(movie.release_date||'').slice(0,4);
  return OFFICIAL_CATALOG.filter(x=>x.video&&x.kind==='فيلم'&&titles.has(normalizeArabic(x.title))&&(!year||year===x.year)).map(x=>({id:x.video,title:x.title,publisher:x.channel,embed:officialEmbed(x.video),adsPossible:true}));

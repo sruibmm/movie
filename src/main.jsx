@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react'
 import ReactDOM from 'react-dom/client'
 import Hls from 'hls.js'
 import ArabicClassics from './ArabicClassics.jsx'
+import PublisherPlayer from './PublisherPlayer.jsx'
+import {attachPublisherEpisode} from './publisherSeries.js'
 import LicensedLibrary from './LicensedLibrary.jsx'
 import ArabicDiscovery,{OfficialAvailability} from './ArabicDiscovery.jsx'
 import {embedwaveUrl} from './arabicDiscovery.js'
@@ -50,7 +52,7 @@ const saveToHistory = (movie, progress, settings) => {
       movieId: movie.id,
       title: movie.title,
       poster: movie.poster_path,
-      licensedSource:movie.licensedSource,licensedPoster:movie.licensedPoster,
+      licensedSource:movie.licensedSource,licensedPoster:movie.licensedPoster,publisherSource:movie.publisherSource,
       progress: progress,
       settings: settings,
       lastWatched: Date.now(),
@@ -544,7 +546,8 @@ function App() {
     }
   };
 
-  const startArabicEpisode=(movie)=>{
+  const startArabicEpisode=(input)=>{
+    const movie=attachPublisherEpisode(input);
     if(mode==='couples'&&!conn?.open){alert('Connect Renad first, then start the episode.');return;}
     const settings={...syncSettings,fallbackServer:10,progress:getFromHistory(movie.id)?.progress||0};
     setSyncSettings(settings);setRoomMovie(movie);
@@ -563,7 +566,7 @@ function App() {
             id: item.movieId,
             title: item.title,
             poster_path: item.poster,
-            licensedSource:item.licensedSource,licensedPoster:item.licensedPoster,
+            licensedSource:item.licensedSource,licensedPoster:item.licensedPoster,publisherSource:item.publisherSource,
             isArabic: item.isArabic,
             original_language: item.original_language,
             media_type:item.media_type,tmdbId:item.tmdbId,season:item.season,episode:item.episode,seriesTitle:item.seriesTitle,runtime:item.runtime,release_date:item.release_date,original_title:item.original_title
@@ -625,6 +628,9 @@ function App() {
     );
   }
 
+  if (roomMovie?.publisherSource) {
+    return <PublisherPlayer key={roomMovie.id} movie={roomMovie} mode={mode} onBack={()=>{if(role==='admin'&&conn?.open)conn.send({type:'end_party'});saveToHistory(roomMovie,syncSettings.progress,syncSettings);setRoomMovie(null);setActiveMovie(null);}}/>;
+  }
   if (roomMovie) {
     return (
       <Player 
