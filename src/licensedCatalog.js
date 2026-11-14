@@ -1,10 +1,10 @@
 // Only provider-authorized, direct, ad-free media. No HTML embeds or extraction.
-export function validMediaUrl(v,type){
- try{const u=new URL(v);return u.protocol==='https:'&&!u.username&&!u.password&&['mp4','hls'].includes(type)&& (type==='mp4'?/\.mp4$/i:/\.m3u8$/i).test(u.pathname);}catch{return false;}
+export function validMediaUrl(v,type,rights){
+ try{const u=new URL(v);return u.protocol==='https:'&&!u.username&&!u.password&&['mp4','hls'].includes(type)&& ((type==='mp4'&&rights?.nativeMp4===true)|| (type==='mp4'?/\.mp4$/i:/\.m3u8$/i).test(u.pathname));}catch{return false;}
 }
 export function eligibleAsset(a,now=Date.now(),region='KW'){
  const r=a?.rights;
- return Boolean(a&&typeof a.id==='string'&&a.id&&typeof a.title==='string'&&a.title.trim()&&r?.reference&&r?.provider&&r?.adFree===true&&r?.webPlayback===true&&Array.isArray(r.territories)&&(r.territories.includes(region)||r.territories.includes('*'))&&Number.isFinite(Date.parse(r.expires))&&Date.parse(r.expires)>now&&validMediaUrl(a.url,a.format));
+ return Boolean(a&&typeof a.id==='string'&&a.id&&typeof a.title==='string'&&a.title.trim()&&r?.reference&&r?.provider&&r?.adFree===true&&r?.webPlayback===true&&Array.isArray(r.territories)&&(r.territories.includes(region)||r.territories.includes('*'))&&Number.isFinite(Date.parse(r.expires))&&Date.parse(r.expires)>now&&validMediaUrl(a.url,a.format,r));
 }
 export function normalizeLicensedCatalog(doc,now=Date.now()){
  if(doc?.version!==1||!Array.isArray(doc.titles))throw Error('Unsupported catalog format');
@@ -24,4 +24,11 @@ export function normalizeLicensedCatalog(doc,now=Date.now()){
 export function licensedMovie(title,asset){
  if(!eligibleAsset(asset))throw Error('Playback rights unavailable');
  return {id:'licensed:'+asset.id,title:title.kind==='tv'?title.title+' · S'+asset.season+' E'+asset.episode:title.title,seriesTitle:title.title,media_type:title.kind==='tv'?'tv':'movie',season:asset.season,episode:asset.episode,poster_path:null,licensedPoster:title.poster||null,isArabic:true,original_language:'ar',release_date:title.year?title.year+'-01-01':'',licensedSource:{stream_url:asset.url,type:asset.format,rights:asset.rights,subtitles:[]}};
+}
+
+// Native MP4 is an explicit provider-approved delivery mode, not a proxy or CORS bypass.
+export function nativeMp4Delivery(asset){return asset?.format==='mp4'&&asset.rights?.nativeMp4===true;}
+export function approvedDelivery(asset,policy,observation){
+ if(!nativeMp4Delivery(asset))return true;
+ return policy?.allowNativeMp4===true&&observation?.container==='mp4'&&observation?.delivery==='native-mp4'&&observation?.origin==='https://movie.o-a-f-a.workers.dev';
 }

@@ -1434,7 +1434,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
             controls 
             autoPlay
             playsInline
-            crossOrigin="anonymous" 
+            crossOrigin={nativeSource?.type==='mp4'&&nativeSource?.rights?.nativeMp4===true?undefined:'anonymous'} 
             className="w-full h-full object-contain"
             style={{ pointerEvents: 'auto', zIndex: 10, position: 'relative' }}
             onPlay={() => {setPlayState('Playing');sendVideoEvent('play');}} 

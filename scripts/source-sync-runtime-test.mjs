@@ -40,3 +40,10 @@ assert.equal(policies({}).length,0);assert.equal(policies({SOURCE_POLICIES:JSON.
 await assert.rejects(()=>readFeed('https://evil.example/a.json',a.policy.feedHosts,async()=>{throw Error('must not fetch');}),/unapproved-feed-url/);
 await assert.rejects(()=>readFeed(a.policy.feedUrl,a.policy.feedHosts,async()=>new Response('{}',{status:200,headers:{'content-type':'text/html'}})),/feed-unavailable/);
 console.log('PASS persistent last-good snapshots, exact episode failover, fresh evidence, approved hosts, atomic update, failed feed and incomplete snapshot retention; synthetic sources only');
+
+const native=fixture('native');native.snapshot.titles[0].assets[0].format='mp4';native.snapshot.titles[0].assets[0].url='https://native.example.com/delivery/asset123';native.snapshot.titles[0].assets[0].rights={...native.snapshot.titles[0].assets[0].rights,nativeMp4:true};native.observations['a0-1']={...native.observations['a0-1'],url:native.snapshot.titles[0].assets[0].url,container:'mp4',delivery:'native-mp4',origin:'https://movie.o-a-f-a.workers.dev'};
+assert.equal((await synchronize(storage,native.policy,native.fetcher,now)).reason,'playback-not-verified');native.policy.allowNativeMp4=true;
+assert.equal((await synchronize(storage,native.policy,native.fetcher,now)).status,'updated');
+assert.equal((await resolveCandidates(storage,[native.policy],{...req,episode:1},now)).length,1);
+assert.equal((await resolveCandidates(storage,[{...native.policy,allowNativeMp4:false}],{...req,episode:1},now)).length,0);
+console.log('PASS native MP4 requires explicit provider approval and independent origin playback evidence');

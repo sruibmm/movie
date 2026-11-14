@@ -7,13 +7,13 @@ const requests=[];const errors=[];
 p.on('pageerror',e=>errors.push(String(e.message)));
 const now=Date.now(),rights={provider:'fixture',reference:'SYNTHETIC-TEST',adFree:true,webPlayback:true,territories:['KW'],expires:new Date(now+86400000).toISOString()};
 const candidate=(id,height)=>({id,provider:'fixture',url:'https://media.example.com/'+id+'.mp4',format:'mp4',height,duration:70,checkedAt:now,rights});
-const list=[candidate('a-primary',1080),candidate('b-backup',720),candidate('c-backup',720)];
+const list=[candidate('a-primary',1080),{...candidate('b-backup',720),url:'https://media.example.com/delivery/b-backup',rights:{...rights,nativeMp4:true}},candidate('c-backup',720)];
 const bytes=fs.readFileSync('/tmp/cinema-fixture.mp4');
 try{
  await p.route('**/api/source-sync/catalog',r=>r.fulfill({json:{titles:[{work:'fixture:direct',title:'اختبار الفيديو المباشر',kind:'tv',year:2026,episodes:[{season:1,episode:1}]}]}}));
  await p.route('**/api/source-sync/resolve?*',r=>{const u=new URL(r.request().url());assert.equal(u.searchParams.get('work'),'fixture:direct');assert.equal(u.searchParams.get('season'),'1');assert.equal(u.searchParams.get('episode'),'1');return r.fulfill({json:{candidates:list}});});
  await p.route('https://api.themoviedb.org/**',r=>r.fulfill({json:{results:[],total_pages:1,page:1}}));
- await p.route('https://media.example.com/**',r=>{const url=r.request().url();requests.push(url);const headers={'access-control-allow-origin':'*','content-type':'video/mp4','accept-ranges':'bytes'};if(url.includes('a-primary'))return r.fulfill({status:503,headers,body:'fixture failure'});const range=r.request().headers()['range'];if(range){const m=/bytes=(\d+)-(\d*)/.exec(range);if(m){const start=+m[1],end=m[2]?Math.min(+m[2],bytes.length-1):bytes.length-1;if(start<bytes.length)return r.fulfill({status:206,headers:{...headers,'content-range':'bytes '+start+'-'+end+'/'+bytes.length},body:bytes.subarray(start,end+1)});}}return r.fulfill({status:200,headers,body:bytes});});
+ await p.route('https://media.example.com/**',r=>{const url=r.request().url();requests.push(url);const headers={'access-control-allow-origin':'*','content-type':'video/mp4','accept-ranges':'bytes'};if(url.includes('b-backup'))delete headers['access-control-allow-origin'];if(url.includes('a-primary'))return r.fulfill({status:503,headers,body:'fixture failure'});const range=r.request().headers()['range'];if(range){const m=/bytes=(\d+)-(\d*)/.exec(range);if(m){const start=+m[1],end=m[2]?Math.min(+m[2],bytes.length-1):bytes.length-1;if(start<bytes.length)return r.fulfill({status:206,headers:{...headers,'content-range':'bytes '+start+'-'+end+'/'+bytes.length},body:bytes.subarray(start,end+1)});}}return r.fulfill({status:200,headers,body:bytes});});
  await p.goto('http://127.0.0.1:4173/',{waitUntil:'domcontentloaded'});
  await p.getByText('Solo Mode',{exact:true}).click();
  await p.getByRole('button',{name:/Start Watching/}).click();
@@ -24,7 +24,7 @@ try{
  assert(requests.some(x=>x.includes('a-primary')));assert(requests.some(x=>x.includes('b-backup')));
  assert.equal(await p.locator('iframe').count(),0);
  const first=await p.locator('video').evaluate(v=>({width:v.videoWidth,height:v.videoHeight,time:v.currentTime}));
- assert.equal(first.height,720);
+ assert.equal(first.height,720);assert.equal(await p.locator('video').getAttribute('crossorigin'),null);
  await p.locator('video').evaluate(v=>{v.currentTime=12;});
  await p.waitForFunction(()=>{const v=document.querySelector('video');return v.currentTime>=12&&!v.seeking;});
  await p.locator('video').evaluate(v=>v.dispatchEvent(new Event('error')));

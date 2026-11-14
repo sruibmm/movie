@@ -1,5 +1,5 @@
 import {reviewSourceSnapshot} from '../src/sourceSyncGate.js';
-import {eligibleAsset} from '../src/licensedCatalog.js';
+import {eligibleAsset,approvedDelivery} from '../src/licensedCatalog.js';
 
 const MAX_BYTES=8*1024*1024;
 const validUrl=(raw,hosts)=>{
@@ -61,7 +61,7 @@ export async function resolveCandidates(storage,config,request,now=Date.now()){
     if(exclude.includes(id)||!eligibleAsset(a,now,p.region??'KW')||a.rights.provider!==p.provider||a.rights.reference!==p.grantReference)continue;
     try{validUrl(a.url,p.hosts);}catch{continue;}
     const o=record.observations[a.id];
-    if(!o||o.url!==a.url||o.played!==true||!Number.isFinite(o.height)||o.height<720||!Number.isFinite(o.checkedAt)||o.checkedAt>now||now-o.checkedAt>(p.maxAgeMs??86400000))continue;
+    if(!approvedDelivery(a,p,o)||!approvedDelivery(a,p,o)||!o||o.url!==a.url||o.played!==true||!Number.isFinite(o.height)||o.height<720||!Number.isFinite(o.checkedAt)||o.checkedAt>now||now-o.checkedAt>(p.maxAgeMs??86400000))continue;
     options.push({id,provider:p.provider,url:a.url,format:a.format,height:o.height,duration:o.duration,checkedAt:o.checkedAt,rights:a.rights});
    }
   }

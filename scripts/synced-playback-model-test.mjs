@@ -7,3 +7,7 @@ const rights={provider:'test',reference:'synthetic',adFree:true,webPlayback:true
 const a={id:'a',provider:'test',url:'https://media.example.com/1.mp4',format:'mp4',height:720,duration:100,checkedAt:now,rights};
 assert.deepEqual(filterCandidates({candidates:[a,{...a,id:'b',height:1080},{...a,id:'c',height:480},{...a,id:'d',url:a.url+'?token=x'},{...a,id:'e',rights:{...rights,expires:'2020-01-01'}},a]},now).map(x=>x.id),['b','a']);
 console.log('PASS canonical movie identity, exact episode, candidate ordering and rights checks');
+
+const opaque={...a,id:'opaque',url:'https://media.example.com/delivery/asset123',rights:{...rights,nativeMp4:true}};
+assert.deepEqual(filterCandidates({candidates:[opaque,{...opaque,id:'unapproved',rights}]},now).map(x=>x.id),['opaque']);
+console.log('PASS provider-declared opaque MP4 delivery');
