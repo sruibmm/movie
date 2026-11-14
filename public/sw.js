@@ -19,6 +19,9 @@ self.addEventListener('activate',event=>event.waitUntil(self.clients.claim()));
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
   if(url.origin===self.location.origin)return;
+  // Media byte ranges and opaque native playback must go directly to the browser.
+  // A synthetic 200 response or service-worker fetch can break video seeking.
+  if(event.request.destination==='video'||event.request.destination==='audio'||event.request.headers.has('Range'))return;
   
   // Block ad domains
   if (AD_DOMAINS.some(domain => url.hostname.includes(domain))) {
