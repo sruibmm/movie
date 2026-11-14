@@ -144,7 +144,7 @@ export function explicitVideoLinks(html,page){
  const add=raw=>{const url=image(raw,page);if(url&&validMedia(url))out.add(url);};
  for(const ld of schema(html)){
   if(!types(ld).includes('VideoObject'))continue;
-  const identity=value(ld.mainEntityOfPage)||value(ld.url)||ld['@id'];
+  const identity=value(ld.mainEntityOfPage)||ld.mainEntityOfPage?.['@id']||value(ld.url)||ld['@id'];
   if(identity&&same(identity))add(value(ld.contentUrl));
  }
  if(declared&&same(declared)){
@@ -233,9 +233,9 @@ export async function crawl(s,fetcher=fetch,now=Date.now(),budget=48){
   const rows=(await getFastIndex(s)).filter(t=>t.discovered&&t.sourcePage);
   const queued=new Set([...lanes[1].values()].map(j=>j.id));
   const candidates=rows.filter(t=>!queued.has(t.id)).flatMap(t=>{const u=source(t.sourcePage);return u&&workPath(u)&&workId(u)===t.id?[{type:'work',id:t.id,url:ORIGIN+u.pathname,kind:t.kind,title:t.title,poster:t.poster}]:[];});
-  const keys=candidates.flatMap(j=>[P+'preview:'+j.id,P+'seen:'+jobKey(j),P+'error:'+jobKey(j)]);
+  const keys=candidates.flatMap(j=>[P+'preview:'+j.id,P+'draft:'+j.id,P+'seen:'+jobKey(j),P+'error:'+jobKey(j)]);
   const known=await getMany(s,keys);
-  const missing=candidates.filter(j=>!known.get(P+'preview:'+j.id)&&!(Number(known.get(P+'seen:'+jobKey(j)))>now-DAY)&&!(Number(known.get(P+'error:'+jobKey(j))?.at)>now-6*3600000)).slice(0,80-lanes[1].size);
+  const missing=candidates.filter(j=>(!known.get(P+'preview:'+j.id)||!known.get(P+'draft:'+j.id))&&!(Number(known.get(P+'seen:'+jobKey(j)))>now-DAY)&&!(Number(known.get(P+'error:'+jobKey(j))?.at)>now-6*3600000)).slice(0,80-lanes[1].size);
   const entries=missing.map(j=>[jobKey(j),{...j,tries:0,after:0,revision:REVISION}]);
   await putMany(s,entries);for(const [k,v] of entries)lanes[1].set(k,v);
  }
@@ -246,7 +246,7 @@ export async function crawl(s,fetcher=fetch,now=Date.now(),budget=48){
  for(const rows of lanes)for(const [k,j] of rows){
   const previous=oldErrors.get(P+'error:'+k);
   if(!previous)continue;
-  const plan=retryPlan(previous.reason,j.tries||1,previous.at);
+  if(!Number.isFinite(previous.at))continue;const plan=retryPlan(previous.reason,j.tries||1,previous.at);
   const v={...j,reason:previous.reason,structural:plan.structural,deferredAt:previous.at,after:Math.min(j.after,plan.after)};
   rows.set(k,v);migrated.push([k,v]);
  }
@@ -268,8 +268,8 @@ export async function crawl(s,fetcher=fetch,now=Date.now(),budget=48){
   const link=rawLink&&now-rawLink.at<DAY?rawLink:null;
   const newLink=!!(link?.urls?.length&&now-link.at<DAY&&link.at>(j.deferredAt||j.after||0));
   if(effectiveDue(j,health.get(j.id),now,newLink)>now)return [];
-  const direct=j.type==='episode'&&j.phase!=='verify'&&!j.refreshLinks&&(link?.urls?.length||j.candidates?.length);
-  return [[key,{...j,url:ORIGIN+u.pathname+u.search,revision:REVISION,rescued:newLink,phase:direct?'verify':j.phase,candidates:link?.urls||j.candidates}]];
+  const direct=j.type==='episode'&&j.phase!=='verify'&&(!j.refreshLinks||newLink)&&(link?.urls?.length||j.candidates?.length);
+  return [[key,{...j,url:ORIGIN+u.pathname+u.search,revision:REVISION,rescued:newLink,phase:direct?'verify':j.phase,refreshLinks:newLink?false:j.refreshLinks,candidates:link?.urls||j.candidates}]];
  }));
  const jobs=pickJobs(ready,budget,health,now,draftsById);
  let done=0,failed=0,skipped=stale.length,extracted=0;const start=Date.now();const errors=[];const prior=await s.get(P+'status')||{};const totals={processed:0,failed:0,extracted:0,...prior.totals};
