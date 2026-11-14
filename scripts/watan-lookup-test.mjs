@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import {parseWatanPage,verifyWatanVideo,youtubeEmbed,cataloguePages,titleKey,publisherEmbed} from '../src/watanLookup.js';
+const html='<h1>دهشة</h1><a href="https://www.youtube.com/watch?v=Ag-fVJvmCic">شاهد الآن</a><a href="https://www.youtube.com/watch?v=Ag-fVJvmCic">دهشة الحلقة 1</a><a href="https://www.youtube.com/watch?v=u1xyIGYv4Uk">دهشة الحلقة 2</a>';
+const meta={title:'دهشة | حلقة 1',author_name:'CedarsArt Drama- قناة الدراما',author_url:'https://www.youtube.com/@cedarsartdrama-1525'};
+const q={title:'دهشة',type:'tv',season:1,episode:1};
+assert.equal(parseWatanPage(html,'دهشة','tv',1)[0].id,'Ag-fVJvmCic');
+assert.equal(parseWatanPage(html,'دهشة','tv',2)[0].id,'u1xyIGYv4Uk');
+assert.equal(parseWatanPage(html,'غيره','tv',1).length,0);
+assert.equal(parseWatanPage(html,'دهشة','tv',1,2).length,0);
+assert.equal(verifyWatanVideo({id:'Ag-fVJvmCic'},meta,q).id,'Ag-fVJvmCic');
+assert.equal(verifyWatanVideo({id:'Ag-fVJvmCic'},meta,{...q,episode:2}),null);
+assert.equal(verifyWatanVideo({id:'Ag-fVJvmCic'},{...meta,author_name:'Random',author_url:'https://www.youtube.com/@random'},q),null);
+assert.equal(youtubeEmbed('Ag-fVJvmCic'),'https://www.youtube-nocookie.com/embed/Ag-fVJvmCic?playsinline=1&rel=0&enablejsapi=1');
+assert.throws(()=>youtubeEmbed('https://fake.com'));
+assert.equal(publisherEmbed({id:'Ag-fVJvmCic',embed:'https://fake.com'}).embed,youtubeEmbed('Ag-fVJvmCic'));
+assert.equal(cataloguePages('<a href="/ar/series/مدرسه-المشاغبين">مدرسه المشاغبين</a>','مدرسة المشاغبين').length,1);
+console.log('WATAN LOOKUP PASS: 11 public-link, identity, episode and embed checks');
