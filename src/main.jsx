@@ -7,7 +7,7 @@ import {attachArabicSiteEpisode,allowArabicPlayback,approvedPublisherUrl} from '
 import {attachPublisherEpisode} from './publisherSeries.js'
 import LicensedLibrary from './LicensedLibrary.jsx'
 import AutoLibrary from './AutoLibrary.jsx'
-import {isPrivateMedia,PRIVATE_KEY,PRIVATE_ACTIVE_KEY,validatePrivateCatalog,privateMovie} from './privateCatalog.js'
+import {fullWorkMediaStatus,isPrivateMedia,PRIVATE_KEY,PRIVATE_ACTIVE_KEY,validatePrivateCatalog,privateMovie} from './privateCatalog.js'
 import SyncedLibrary from './SyncedLibrary.jsx'
 import SyncedPlayback from './SyncedPlayback.jsx'
 import ArabicDiscovery,{OfficialAvailability} from './ArabicDiscovery.jsx'
@@ -1032,8 +1032,10 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   const hlsRef = useRef(null);
   const remoteAction = useRef(0);
   const progressReportedAt = useRef(0);
+  const fullWorkGuard=fullWorkMediaStatus(movie,NaN)==='pending';
+  const mediaIsValid=()=>!fullWorkGuard||fullWorkMediaStatus(movie,videoRef.current?.duration)==='valid';
   const publishProgress = (time,duration,force=false)=>{
-    if(!Number.isFinite(time)||!Number.isFinite(duration)||duration<=0||time<0)return;
+    if(!mediaIsValid()||!Number.isFinite(time)||!Number.isFinite(duration)||duration<=0||time<0)return;
     const percent=Math.max(0,Math.min(100,time/duration*100));
     setMediaInfo({time,duration});setVideoProgress(percent);
     if(force||Date.now()-progressReportedAt.current>4000){
@@ -1470,17 +1472,17 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
           <video 
             ref={videoRef} 
             controls={!tvPlayback}
-            autoPlay
+            autoPlay={!fullWorkGuard}
             playsInline
             crossOrigin={nativeSource?.type==='mp4'&&nativeSource?.rights?.nativeMp4===true?undefined:'anonymous'} 
             className="w-full h-full object-contain"
             style={{ pointerEvents: 'auto', zIndex: 10, position: 'relative' }}
-            onPlay={() => {setPlayState('Playing');sendVideoEvent('play');}} 
+            onPlay={() => {if(!mediaIsValid()){videoRef.current?.pause();return;}setPlayState('Playing');sendVideoEvent('play');}} 
             onPause={() => {setPlayState('Paused');sendVideoEvent('pause');if(tvPlayback)publishProgress(videoRef.current?.currentTime,videoRef.current?.duration,true);}}
             onWaiting={()=>setPlayState('Buffering')}
             onPlaying={()=>setPlayState('Playing')}
-            onEnded={()=>{setPlayState('Finished');publishProgress(videoRef.current?.duration,videoRef.current?.duration,true);onNextEpisode?.();}}
-            onLoadedMetadata={()=>{if(tvPlayback)tvCaptionApply.current?.();const v=videoRef.current;if(v&&Number.isFinite(v.duration)&&v.duration>0){const p=Number(syncSettings.progress||0);if(Number.isFinite(initialResumeSeconds)&&initialResumeSeconds>0&&initialResumeSeconds<v.duration-1)v.currentTime=initialResumeSeconds;else if(p>0&&p<95&&v.currentTime<1)v.currentTime=v.duration*p/100;publishProgress(v.currentTime,v.duration);}}} 
+            onEnded={()=>{if(!mediaIsValid())return;setPlayState('Finished');publishProgress(videoRef.current?.duration,videoRef.current?.duration,true);onNextEpisode?.();}}
+            onLoadedMetadata={()=>{const v=videoRef.current;if(fullWorkGuard&&!mediaIsValid()){v?.pause();setNativeError('هذا المصدر لا يعرض الفيلم أو الحلقة الكاملة. ارجع للمكتبة واختر مصدراً صالحاً.');setPlayState('Source unavailable');return;}if(tvPlayback)tvCaptionApply.current?.();if(v&&Number.isFinite(v.duration)&&v.duration>0){const p=Number(syncSettings.progress||0);if(Number.isFinite(initialResumeSeconds)&&initialResumeSeconds>0&&initialResumeSeconds<v.duration-1)v.currentTime=initialResumeSeconds;else if(p>0&&p<95&&v.currentTime<1)v.currentTime=v.duration*p/100;publishProgress(v.currentTime,v.duration);if(fullWorkGuard)v.play().catch(()=>{});}}} 
             onSeeked={() => sendVideoEvent('seek')}
             onTimeUpdate={() => {
               if (videoRef.current) publishProgress(videoRef.current.currentTime,videoRef.current.duration);
