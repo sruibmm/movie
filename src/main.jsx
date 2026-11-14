@@ -15,6 +15,7 @@ import {embedwaveUrl} from './arabicDiscovery.js'
 import {ARABIC_BACKENDS,arabicSourceIds,backendUrl,nextArabicSource} from './arabicSources.js'
 import PublisherFallback from './PublisherFallback.jsx'
 import {languageCode,originalAudioIndex,arabicSubtitleIndex,orderedSubtitles} from './mediaLanguages.js'
+import {TV_CC_KEY,readTvCC,applyTvCC,seekTarget} from './tvPreferences.js'
 import Peer from 'peerjs'
 import { ACTIVE_SERVER_IDS, normalizeServerId, nextServerId, pickProtectedSource } from './sourceMaintenance.js'
 
@@ -149,7 +150,7 @@ function HistoryPanel({ onSelectMovie, onClose }) {
         <div className="bg-gradient-to-br from-zinc-900 to-black border border-purple-500/30 rounded-3xl p-8 max-w-2xl w-full max-h-[80vh] overflow-y-auto">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-black text-white">📜 Watch History</h2>
-            <button onClick={onClose} className="text-gray-400 hover:text-white text-2xl">×</button>
+            <button onClick={onClose} aria-label="Close history" className="text-gray-400 hover:text-white text-2xl">×</button>
           </div>
           <div className="text-center text-gray-400 py-12">
             <div className="text-6xl mb-4">📭</div>
@@ -172,6 +173,7 @@ function HistoryPanel({ onSelectMovie, onClose }) {
           {history.map((item, index) => (
             <div 
               key={index}
+              role="button" tabIndex={0} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();onSelectMovie(item);onClose();}}}
               onClick={() => {
                 onSelectMovie(item);
                 onClose();
@@ -802,6 +804,7 @@ function App() {
           </div>
           
           <div className="flex flex-wrap gap-2">
+            {tvMode&&<button onClick={()=>setShowHistory(true)} className="px-4 py-2 rounded-full text-sm font-bold bg-white/10">▶ متابعة المشاهدة</button>}
             <button onClick={()=>switchLibrary(false)} aria-pressed={!arabicLibrary} className={`px-4 py-2 rounded-full text-sm font-bold ${!arabicLibrary?'bg-purple-600':'bg-white/5 text-gray-300'}`}>World Cinema</button>
             <button onClick={()=>switchLibrary(true)} aria-pressed={arabicLibrary} className={`px-4 py-2 rounded-full text-sm font-bold ${arabicLibrary?'bg-purple-600':'bg-white/5 text-gray-300'}`}>السينما العربية</button>
           </div>
@@ -877,7 +880,7 @@ function App() {
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
             {movies.map(m => (
-              <div key={m.id} onClick={() => setActiveMovie(m)} className="group cursor-pointer">
+              <div key={m.id} role="button" tabIndex={0} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();setActiveMovie(m);}}} onClick={() => setActiveMovie(m)} className="group cursor-pointer">
                 <div className="relative aspect-[2/3] rounded-2xl overflow-hidden border border-white/5 group-hover:border-purple-500/50 transition-all bg-zinc-900 shadow-lg">
                   <img src={`https://image.tmdb.org/t/p/w500${m.poster_path}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt={m.title} />
                 </div>
@@ -1014,6 +1017,11 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   const [mediaInfo, setMediaInfo] = useState({time:0,duration:0});
   const [quality, setQuality] = useState(-1);
   const [languageStatus,setLanguageStatus]=useState({audio:'',subs:''});
+  const tvPlayback=new URLSearchParams(location.search).get('tv')==='1';
+  const [tvCC,setTvCC]=useState(()=>readTvCC(localStorage));
+  const tvCCRef=useRef(tvCC),tvCaptionApply=useRef(null);
+  const [tvCaptionStatus,setTvCaptionStatus]=useState('waiting');
+  useEffect(()=>{tvCCRef.current=tvCC;if(tvPlayback){try{localStorage.setItem(TV_CC_KEY,tvCC);}catch{}tvCaptionApply.current?.();}},[tvCC,tvPlayback]);
   const [levels, setLevels] = useState([]);
   const hlsRef = useRef(null);
   const remoteAction = useRef(0);
@@ -1049,6 +1057,10 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   };
   useEffect(() => { setShowPlaybackHelp(false); }, [movie.id, currentServer]);
   const [videoProgress, setVideoProgress] = useState(syncSettings.progress || 0);
+  const tvSeek=delta=>{const v=videoRef.current;if(v){const t=seekTarget(v.currentTime,v.duration,delta);if(t!==null)v.currentTime=t;}};
+  const tvToggle=()=>{const v=videoRef.current;if(v){if(v.paused)v.play().catch(()=>{});else v.pause();}};
+  const [tvFullscreen,setTvFullscreen]=useState(false);
+  useEffect(()=>{if(!tvPlayback)return;const key=e=>{if(e.defaultPrevented||/INPUT|SELECT|TEXTAREA/.test(e.target?.tagName||''))return;const k=e.keyCode;if(k===10221){setShowPlaybackHelp(v=>!v);e.preventDefault();return;}if(!isNative)return;if(k===10252){tvToggle();e.preventDefault();}else if(k===415){videoRef.current?.play().catch(()=>{});e.preventDefault();}else if(k===19){videoRef.current?.pause();e.preventDefault();}else if(k===412||k===417){tvSeek(k===412?-10:10);e.preventDefault();}};window.addEventListener('keydown',key);return()=>window.removeEventListener('keydown',key);},[tvPlayback,isNative]);
   // VidLink's documented playback events, not iframe onload, establish playback progress.
   useEffect(()=>{
     if(isNative||isTV||currentServer!==0||directOnly||exhausted)return;
@@ -1219,7 +1231,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
             if (bestStream && bestStream.url) {
               setStreamData({
                 stream_url: bestStream.url,
-                subtitles: [] // الروابط العربية غالباً مدمجة
+                subtitles: orderedSubtitles(bestStream.subtitles||data.subtitles)
               });
               setExtractionStatus('success');
               return; // وجدنا الرابط! نوقف البحث
@@ -1281,11 +1293,14 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     if(movie.licensedSource&&!isPrivateMedia(movie.licensedSource)&&(!Number.isFinite(Date.parse(movie.licensedSource.rights?.expires))||Date.parse(movie.licensedSource.rights.expires)<=Date.now())){if(onNativeFailure)onNativeFailure({time:0,duration:0});else setNativeError('Playback authorization expired.');return;}
     const desired=languageCode(movie.original_language);
     let hls, selectedAudio=false,selectedSub=false;
+    const applyTv=()=>{const result=applyTvCC(video,hls,tvCCRef.current);setTvCaptionStatus(result.status);};
+    if(tvPlayback){tvCaptionApply.current=applyTv;setTvCaptionStatus('waiting');}
     setLanguageStatus({audio:desired?'Looking for original audio':'Original language unknown',subs:'Looking for Arabic subtitles'});
     const applyNative=()=>{
       const audio=video.audioTracks;const subs=video.textTracks;
       if(!selectedAudio&&audio?.length){const index=originalAudioIndex(audio,desired);if(index>=0){for(let i=0;i<audio.length;i++)audio[i].enabled=i===index;selectedAudio=true;setLanguageStatus(v=>({...v,audio:'Original language selected'}));}}
-      if(!selectedSub&&subs?.length){const index=arabicSubtitleIndex(subs);if(index>=0){for(let i=0;i<subs.length;i++)if(subs[i].kind==='subtitles'||subs[i].kind==='captions')subs[i].mode=i===index?'showing':'disabled';selectedSub=true;setLanguageStatus(v=>({...v,subs:'Arabic selected'}));}}
+      if(tvPlayback)applyTv();
+      else if(!selectedSub&&subs?.length){const index=arabicSubtitleIndex(subs);if(index>=0){for(let i=0;i<subs.length;i++)if(subs[i].kind==='subtitles'||subs[i].kind==='captions')subs[i].mode=i===index?'showing':'disabled';selectedSub=true;setLanguageStatus(v=>({...v,subs:'Arabic selected'}));}}
     };
     video.addEventListener('loadedmetadata',applyNative);
     video.textTracks?.addEventListener('addtrack',applyNative);
@@ -1315,16 +1330,18 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
       hlsRef.current=hls;
       const applyHls=()=>{
         if(!selectedAudio&&hls.audioTracks.length){const i=originalAudioIndex(hls.audioTracks,desired);if(i>=0){hls.audioTrack=i;selectedAudio=true;setLanguageStatus(v=>({...v,audio:'Original language selected'}));}}
-        if(!selectedSub&&hls.subtitleTracks.length){const i=arabicSubtitleIndex(hls.subtitleTracks);if(i>=0){hls.subtitleTrack=i;hls.subtitleDisplay=true;selectedSub=true;setLanguageStatus(v=>({...v,subs:'Arabic selected'}));}}
+        if(tvPlayback)applyTv();
+        else if(!selectedSub&&hls.subtitleTracks.length){const i=arabicSubtitleIndex(hls.subtitleTracks);if(i>=0){hls.subtitleTrack=i;hls.subtitleDisplay=true;selectedSub=true;setLanguageStatus(v=>({...v,subs:'Arabic selected'}));}}
       };
       hls.on(Hls.Events.MANIFEST_PARSED,()=>{const all=hls.levels.map((l,i)=>({id:i,height:l.height||0,bitrate:l.bitrate||0}));const usable=movie.sourceSync?all.filter(l=>l.height>=720):all;setLevels(usable);if(movie.sourceSync){if(!usable.length){fail();return;}const best=usable.reduce((a,b)=>b.height>a.height?b:a);hls.currentLevel=best.id;setQuality(best.id);}applyHls();});
       hls.on(Hls.Events.AUDIO_TRACKS_UPDATED,applyHls);
       hls.on(Hls.Events.SUBTITLE_TRACKS_UPDATED,applyHls);
+      if(tvPlayback)hls.on(Hls.Events.SUBTITLE_TRACK_LOADED,()=>setTvCaptionStatus('selected'));
       hls.loadSource(url);hls.attachMedia(video);
       hls.on(Hls.Events.ERROR,(_event,data)=>{if(data.fatal)fail();});
     } else fail();
-    return()=>{clearDeadline();video.removeEventListener('error',fail);video.removeEventListener('canplay',onCanPlay);video.removeEventListener('playing',clearDeadline);video.removeEventListener('waiting',onStall);video.removeEventListener('stalled',onStall);video.removeEventListener('pause',clearDeadline);video.removeEventListener('loadedmetadata',applyNative);video.textTracks?.removeEventListener('addtrack',applyNative);video.audioTracks?.removeEventListener('addtrack',applyNative);hls?.destroy();hlsRef.current=null;video.pause();video.removeAttribute('src');video.load();};
-  }, [nativeSource,ownedSource,movie.original_language]);
+    return()=>{tvCaptionApply.current=null;clearDeadline();video.removeEventListener('error',fail);video.removeEventListener('canplay',onCanPlay);video.removeEventListener('playing',clearDeadline);video.removeEventListener('waiting',onStall);video.removeEventListener('stalled',onStall);video.removeEventListener('pause',clearDeadline);video.removeEventListener('loadedmetadata',applyNative);video.textTracks?.removeEventListener('addtrack',applyNative);video.audioTracks?.removeEventListener('addtrack',applyNative);hls?.destroy();hlsRef.current=null;video.pause();video.removeAttribute('src');video.load();};
+  }, [nativeSource,ownedSource,movie.original_language,tvPlayback]);
 
   const restoreProtection=()=>{
     setExhausted(false);
@@ -1376,7 +1393,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   return (
     <div 
       ref={containerRef}
-      className="h-[100dvh] bg-black relative flex flex-col overflow-hidden" 
+      className="h-[100dvh] bg-black relative flex flex-col overflow-hidden" style={tvPlayback?{height:"100vh"}:undefined} 
       dir="ltr" 
       data-cinema-player="true"
     >
@@ -1387,7 +1404,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
       ))}
 
       {/* Compact cinema chrome; options overlay the player only when opened. */}
-      <header className="relative shrink-0 z-[200] bg-[#101014] border-b border-white/10 px-3 md:px-6 text-white">
+      <header data-tv-chrome="true" className={`relative shrink-0 z-[200] bg-[#101014] border-b border-white/10 px-3 md:px-6 text-white ${tvPlayback&&tvFullscreen?"hidden":""}`}>
         <div className="h-14 flex items-center gap-3 max-w-6xl mx-auto">
           <button onClick={onBack} aria-label="Back to library" className="w-10 h-10 shrink-0 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-2xl">‹</button>
           <div className="flex-1 min-w-0">
@@ -1410,7 +1427,8 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
             <div className="flex justify-between items-center gap-3"><span className="text-sm text-gray-300">Source</span><span className="text-sm font-semibold text-purple-300">{isNative?'Direct player':publisherSource?publisherSource.publisher:fallbackNodes[currentServer]?.name||'Player'}</span></div>
             {!isNative&&currentServer===10&&<p className="text-xs text-gray-400">Cinesrc is the default. Audio and Arabic subtitles are controlled by the embedded player.</p>}
             <div className="flex justify-between items-center gap-3"><span className="text-sm text-gray-300">Navigation protection</span><span className="text-xs text-green-300">Always on</span></div>
-            {isNative&&<p className="text-xs text-gray-400">{playState}{mediaInfo.duration>0?' · '+formatTime(Math.floor(mediaInfo.time))+' / '+formatTime(Math.floor(mediaInfo.duration)):''}<br/>Audio: {languageStatus.audio} · CC: {languageStatus.subs}</p>}
+            {tvPlayback&&<div className="space-y-2"><label htmlFor="tv-cc">الترجمة · CC</label><select id="tv-cc" value={tvCC} onChange={e=>setTvCC(e.target.value)} className="w-full bg-zinc-800 rounded-lg p-3"><option value="ar">العربية (افتراضي)</option><option value="en">English</option><option value="off">إيقاف الترجمة</option></select><p className="text-sm text-gray-300">{!isNative?'المشغّل الخارجي يتحكم بالترجمة؛ اختر العربية من زر CC داخله.':tvCaptionStatus==='selected'?'تم اختيار مسار الترجمة · '+(tvCC==='ar'?'العربية':'English'):tvCaptionStatus==='off'?'الترجمة متوقفة':tvCaptionStatus==='waiting'?'جاري فحص مسارات الترجمة…':'الترجمة المختارة غير متوفرة في هذا المصدر حالياً.'}</p></div>}
+            {isNative&&<p className="text-xs text-gray-400">{playState}{mediaInfo.duration>0?' · '+formatTime(Math.floor(mediaInfo.time))+' / '+formatTime(Math.floor(mediaInfo.duration)):''}<br/>Audio: {languageStatus.audio} · CC: {tvPlayback?(tvCaptionStatus==='selected'?tvCC:tvCaptionStatus):languageStatus.subs}</p>}
             {isNative&&levels.length>1&&<div className="flex justify-between items-center"><label htmlFor="cinema-quality" className="text-sm text-gray-300">Quality</label><select id="cinema-quality" value={quality} onChange={e=>{const v=Number(e.target.value);setQuality(v);if(hlsRef.current)hlsRef.current.currentLevel=v;}} className="bg-zinc-800 rounded-lg px-2 py-2 text-xs">{!movie.sourceSync&&<option value={-1}>Auto</option>}{levels.map(l=><option key={l.id} value={l.id}>{l.height?l.height+'p':Math.round(l.bitrate/1000)+' kbps'}</option>)}</select></div>}
             <button disabled={Boolean(movie.sourceSync)} onClick={()=>{setPublisherSource(null);setDirectOnly(v=>!v);}} aria-pressed={directOnly} className="w-full flex items-center justify-between gap-3 text-sm text-left"><span>Direct-only mode</span><span className={`rounded-full w-10 h-6 p-1 transition-colors ${directOnly?'bg-purple-600':'bg-zinc-600'}`}><span className={`block w-4 h-4 rounded-full bg-white transition-transform ${directOnly?'translate-x-4':''}`}/></span></button>
           </div>
@@ -1439,23 +1457,24 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
         </section>
       </div>}
 
+      {tvPlayback&&tvFullscreen&&<button className="absolute top-3 right-4 z-[201] bg-black/70 rounded-full px-4 py-2 text-white" onClick={()=>setTvFullscreen(false)} aria-label="إظهار أدوات المشاهدة">إظهار الأدوات</button>}
       {/* Video Container */}
       <div className="flex-1 min-h-0 bg-[#050505] relative" style={{ zIndex: 1 }}>
         {isNative ? (
           <video 
             ref={videoRef} 
-            controls 
+            controls={!tvPlayback}
             autoPlay
             playsInline
             crossOrigin={nativeSource?.type==='mp4'&&nativeSource?.rights?.nativeMp4===true?undefined:'anonymous'} 
             className="w-full h-full object-contain"
             style={{ pointerEvents: 'auto', zIndex: 10, position: 'relative' }}
             onPlay={() => {setPlayState('Playing');sendVideoEvent('play');}} 
-            onPause={() => {setPlayState('Paused');sendVideoEvent('pause');}}
+            onPause={() => {setPlayState('Paused');sendVideoEvent('pause');if(tvPlayback)publishProgress(videoRef.current?.currentTime,videoRef.current?.duration,true);}}
             onWaiting={()=>setPlayState('Buffering')}
             onPlaying={()=>setPlayState('Playing')}
             onEnded={()=>{setPlayState('Finished');publishProgress(videoRef.current?.duration,videoRef.current?.duration,true);onNextEpisode?.();}}
-            onLoadedMetadata={()=>{const v=videoRef.current;if(v&&Number.isFinite(v.duration)&&v.duration>0){const p=Number(syncSettings.progress||0);if(Number.isFinite(initialResumeSeconds)&&initialResumeSeconds>0&&initialResumeSeconds<v.duration-1)v.currentTime=initialResumeSeconds;else if(p>0&&p<95&&v.currentTime<1)v.currentTime=v.duration*p/100;publishProgress(v.currentTime,v.duration);}}} 
+            onLoadedMetadata={()=>{if(tvPlayback)tvCaptionApply.current?.();const v=videoRef.current;if(v&&Number.isFinite(v.duration)&&v.duration>0){const p=Number(syncSettings.progress||0);if(Number.isFinite(initialResumeSeconds)&&initialResumeSeconds>0&&initialResumeSeconds<v.duration-1)v.currentTime=initialResumeSeconds;else if(p>0&&p<95&&v.currentTime<1)v.currentTime=v.duration*p/100;publishProgress(v.currentTime,v.duration);}}} 
             onSeeked={() => sendVideoEvent('seek')}
             onTimeUpdate={() => {
               if (videoRef.current) publishProgress(videoRef.current.currentTime,videoRef.current.duration);
@@ -1465,7 +1484,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
             }}
           >
             {orderedSubtitles(nativeSource?.subtitles).map((sub, i, all) => (
-              <track key={i} kind="subtitles" src={sub.url} srcLang={sub.lang} label={sub.language} default={i===arabicSubtitleIndex(all)} />
+              <track key={i} kind="subtitles" src={sub.url} srcLang={sub.lang} label={sub.language} default={tvPlayback?tvCC==='ar'&&i===arabicSubtitleIndex(all):i===arabicSubtitleIndex(all)} />
             ))}
           </video>
         ) : directOnly ? (
@@ -1512,6 +1531,10 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
         )}
       </div>
 
+      {tvPlayback&&isNative&&!tvFullscreen&&<div data-tv-chrome="true" dir="rtl" className="shrink-0 bg-[#101014] border-t border-white/10 px-5 py-3 text-white">
+        <div className="flex items-center gap-4"><span className="text-sm whitespace-nowrap">{formatTime(Math.floor(mediaInfo.time))} / {formatTime(Math.floor(mediaInfo.duration))}</span><input aria-label="موضع المشاهدة" type="range" min="0" max={Math.max(1,Math.floor(mediaInfo.duration))} value={Math.floor(mediaInfo.time)} onChange={e=>{if(videoRef.current&&mediaInfo.duration>0)videoRef.current.currentTime=Number(e.target.value);}} className="flex-1 accent-purple-500"/></div>
+        <div className="flex flex-wrap items-center gap-2 mt-2"><button onClick={tvToggle} className="bg-purple-600 rounded-xl px-5 py-2 font-bold">{playState==='Playing'?'❚❚ إيقاف مؤقت':'▶ تشغيل'}</button><button className="bg-white/10 rounded-xl px-4 py-2" onClick={()=>tvSeek(-10)}>− 10 ث</button><button className="bg-white/10 rounded-xl px-4 py-2" onClick={()=>tvSeek(10)}>+ 10 ث</button><button className="bg-white/10 rounded-xl px-4 py-2" onClick={()=>setShowPlaybackHelp(true)}>CC · {tvCC==='ar'?'عربي':tvCC==='en'?'English':'إيقاف'}</button>{onNextEpisode&&<button className="bg-white/10 rounded-xl px-4 py-2" onClick={onNextEpisode}>الحلقة التالية ›</button>}<button className="bg-white/10 rounded-xl px-4 py-2" onClick={()=>setTvFullscreen(true)}>ملء الشاشة</button></div>
+      </div>}
       {mode==='couples'&&<footer className="shrink-0 bg-[#101014] border-t border-white/10 px-3 py-2 flex items-center gap-2" style={{paddingBottom:'max(8px, env(safe-area-inset-bottom))'}}>
         <span className="text-[10px] text-gray-400 shrink-0">♥ Together{myCoords&&partnerCoords?' · '+calculateDistance(myCoords.lat,myCoords.lon,partnerCoords.lat,partnerCoords.lon)+' km':''}</span>
         <div className="flex gap-1 ml-auto overflow-x-auto">{habibtiEmojis.filter(Boolean).map(emoji=><button key={emoji} onClick={()=>sendEmoji(emoji)} className="shrink-0 text-lg w-8 h-8 rounded-full hover:bg-white/10 active:scale-95" aria-label={'Send '+emoji}>{emoji}</button>)}</div>
