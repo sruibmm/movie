@@ -1,4 +1,4 @@
-name: AlooYTV reference link provenance and public metadata audit
+name: AlooYTV public watch entry validation
 on:
   push:
     branches: [dailymotion-diagnosis]
@@ -14,28 +14,35 @@ jobs:
           import urllib.request, urllib.parse, re, json
           from html.parser import HTMLParser
           class P(HTMLParser):
-            def __init__(self):super().__init__();self.a=None;self.links=[];self.title='';self.in_title=False
+            def __init__(self):super().__init__();self.a=None;self.links=[];self.title='';self.in_title=False;self.count={};self.words=[]
             def handle_starttag(self,t,attrs):
-              d=dict(attrs)
+              self.count[t]=self.count.get(t,0)+1;d=dict(attrs)
               if t=='a':self.a=[d.get('href',''),'']
               if t=='title':self.in_title=True
             def handle_data(self,d):
               if self.a is not None:self.a[1]+=d
               if self.in_title:self.title+=d
+              self.words.append(d)
             def handle_endtag(self,t):
               if t=='a' and self.a is not None:self.links.append(self.a);self.a=None
               if t=='title':self.in_title=False
-          def get(u):
-            with urllib.request.urlopen(urllib.request.Request(u,headers={'User-Agent':'Mozilla/5.0'}),timeout=12) as r:
+          class NoRedirect(urllib.request.HTTPRedirectHandler):
+            def redirect_request(self,*args,**kwargs):return None
+          def get(u,redirect=True):
+            req=urllib.request.Request(u,headers={'User-Agent':'Mozilla/5.0'})
+            opener=urllib.request.build_opener() if redirect else urllib.request.build_opener(NoRedirect())
+            with opener.open(req,timeout=12) as r:
               p=P();p.feed(r.read(1500000).decode('utf8','replace'));return r,p
-          for path in ['','/official-links','/en/terms','/en/disclaimer','/en/contact-us','/series']:
+          r,p=get('https://aloooytv.com')
+          urls=sorted(set(urllib.parse.urljoin(r.url,h) for h,l in p.links if 'شاهد الآن' in l and urllib.parse.urlsplit(urllib.parse.urljoin(r.url,h)).hostname=='aloooytv.com'))
+          print('ENTRY_COUNT',len(urls),flush=True)
+          for u in urls[:4]:
             try:
-              r,p=get('https://aloooytv.com'+path)
-              out={'page':path,'status':r.status,'title':p.title.strip(),'watchLinks':[]}
-              for href,label in p.links:
-                label=' '.join(label.split())
-                if re.search(r'شاهد الآن|المشاهدة الآن|watch now|tv2tv|الرابط الرسمي|مشاهدة مباشرة',label,re.I):
-                  u=urllib.parse.urlsplit(urllib.parse.urljoin(r.url,href));out['watchLinks'].append({'label':label[:100],'host':u.hostname,'sameSite':u.hostname=='aloooytv.com','scheme':u.scheme,'pathCategory':'root' if u.path in ('','/') else 'non-root'})
-              print('META '+json.dumps(out,ensure_ascii=False),flush=True)
-            except Exception as e: print('META '+json.dumps({'page':path,'error':str(e)}),flush=True)
+              r,p=get(u,False)
+              text=' '.join(p.words)
+              print('ENTRY '+json.dumps({'status':r.status,'sameHost':urllib.parse.urlsplit(r.url).hostname=='aloooytv.com','title':p.title.strip(),'video':p.count.get('video',0),'iframe':p.count.get('iframe',0),'links':len(p.links),'searchForms':p.count.get('form',0),'mentionsEpisodes':bool(re.search('الحلقة|الحلقات',text)),'externalLinkCount':sum(urllib.parse.urlsplit(urllib.parse.urljoin(r.url,h)).hostname not in ('aloooytv.com',None) for h,l in p.links),'xFrame':r.headers.get('X-Frame-Options')},ensure_ascii=False),flush=True)
+            except urllib.error.HTTPError as e:
+              loc=e.headers.get('Location','')
+              print('ENTRY '+json.dumps({'status':e.code,'redirect':bool(loc),'redirectSameHost':urllib.parse.urlsplit(urllib.parse.urljoin(u,loc)).hostname=='aloooytv.com' if loc else None,'redirectScheme':urllib.parse.urlsplit(urllib.parse.urljoin(u,loc)).scheme if loc else None}),flush=True)
+            except Exception as e:print('ENTRY '+json.dumps({'error':type(e).__name__}),flush=True)
           PY
