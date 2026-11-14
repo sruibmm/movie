@@ -1,3 +1,4 @@
+import {configureMediaHosts} from './private-media-policy.js';
 import {recoveryRequest} from './private-recovery.js';
 import cinema from './index.js';
 import sync,{SourceSync} from './source-sync.js';
@@ -21,6 +22,7 @@ async function privateRead(env,route,request,owner){
  if(Date.now()<quotaUntil)return fallback(route,request,owner,'storage-quota-or-limit');
  try{
   const r=await stub(env).fetch('https://internal'+route+new URL(request.url).search,{method:request.method});
+  if(r.status===502&&(route==='/private-preview'||route==='/private-episode')){const data=await r.json().catch(()=>null);return fail(typeof data?.error==='string'?data.error.slice(0,240):'source-unavailable',502);}
   if(r.status>=500){
    const m=await r.text(),reason=recoveryError(m);
    if(reason==='storage-quota-or-limit'){quotaUntil=Date.now()+60000;return fallback(route,request,owner,reason);}
@@ -39,6 +41,7 @@ export default {
  async fetch(request,env){
   const u=new URL(request.url);
   if(u.pathname.startsWith('/api/private-catalog/')){
+   try{configureMediaHosts(env.PRIVATE_MEDIA_HOSTS);}catch{return fail('invalid-media-host-config',503);}
    if(!env.PRIVATE_CATALOG_KEY||env.PRIVATE_CATALOG_KEY.length<32)return fail('private-catalog-not-configured',503);
    const owner=await authorize(request,env.PRIVATE_CATALOG_KEY);
    const token=(request.headers.get('Authorization')||'').slice(7);
