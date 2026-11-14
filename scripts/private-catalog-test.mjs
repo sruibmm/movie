@@ -14,3 +14,12 @@ assert.equal(movie.licensedSource.rights.nativeMp4,true);
 assert.equal(isPrivateMedia(movie.licensedSource),true);
 assert.equal(isPrivateMedia({...movie.licensedSource,stream_url:'http://example.com/test'}),false);
 console.log('PRIVATE CATALOG PASS: 30 episodes, merge, idempotency, collisions, safe URLs, native MP4');
+
+import {fullWorkMediaStatus} from '../src/privateCatalog.js';
+const fullWork={id:'private:alooytv:fixture:s1:e1',licensedSource:{expectedDuration:6169.728}};
+assert.equal(fullWorkMediaStatus(fullWork,22.21),'wrong-media');
+assert.equal(fullWorkMediaStatus(fullWork,6169.728),'valid');
+assert.equal(fullWorkMediaStatus(fullWork,120),'wrong-media');
+assert.equal(fullWorkMediaStatus(fullWork,NaN),'pending');
+assert.equal(fullWorkMediaStatus({id:'private:personal:clip'},22.21),'not-applicable');
+console.log('FULL WORK GUARD PASS: reject warning clips, preserve personal clips and full runtime');
