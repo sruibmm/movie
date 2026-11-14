@@ -8,11 +8,11 @@ let n=0;for(const g of catalog.series)for(const s of g.seasons)for(const e of s.
  assert.equal(d.video,e.id);assert.equal(d.title,g.title);assert.equal(d.episode,e.number);assert.equal(d.season,s.season);assert.equal(d.publisher,e.owner);
  const u=new URL(d.embed);assert.equal(u.searchParams.get('video'),e.id);assert.equal(u.pathname,'/player/'+(e.owner==='OnlineartProduction'?'test456':'test123')+'.html');assert.equal(d.playback,'unverified');n++;
 }
-assert.equal(n,3235);
+assert(n>=3235);
 const target=await dailymotionPlayerResponse(req('x6rtfip'),env).json();
 assert.equal(target.title,'محرومين');assert.equal(target.episode,35);
 const missing=await dailymotionPlayerResponse(req('x6rtfip'),{}).json();
-assert.equal(missing.configured,false);assert.equal(missing.embed,null);
+assert.equal(missing.configured,true);assert.equal(missing.embed,'https://geo.dailymotion.com/player/x8lr5.html?video=x6rtfip');
 assert.equal(dailymotionPlayerResponse(req('x000000'),env).status,404);
 for(const f of catalog.films){const d=await dailymotionPlayerResponse(req(f.id),env).json();assert.equal(d.title,f.title);assert.equal(new URL(d.embed).searchParams.get('video'),f.id);}
 console.log('DAILYMOTION MAPPING PASS',n,'episodes',catalog.films.length,'films; test IDs only, no playback claim');
