@@ -1,4 +1,4 @@
-name: Verify live Cinema source-sync rollout
+name: Confirm deployed Cinema source-sync endpoints
 on:
   push:
     branches: [dailymotion-diagnosis]
@@ -13,7 +13,7 @@ jobs:
           python - <<'PY'
           import urllib.request, urllib.error, json
           base='https://movie.o-a-f-a.workers.dev'
-          for p in ['/', '/api/source-sync/status', '/api/source-sync/catalog', '/api/dailymotion-player?video=x6rtfip']:
+          for p in ['/', '/api/source-sync/status', '/api/source-sync/catalog', '/api/source-sync/resolve?work=gaafar-el-omda&season=1&episode=1', '/api/dailymotion-player?video=x6rtfip']:
             try:
               with urllib.request.urlopen(urllib.request.Request(base+p,headers={'User-Agent':'Mozilla/5.0','Cache-Control':'no-cache'}),timeout=12) as r:
                 body=r.read(1000).decode('utf8','replace')
