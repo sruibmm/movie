@@ -8,7 +8,7 @@ assert.equal(await verifyInvitation(invite.token,key,now),true);
 assert.equal(await verifyInvitation(invite.token,'other-secret-abcdefghijklmnopqrstuvwxyz',now),false);
 assert.equal(await verifyInvitation(invite.token,key,invite.expiresAt),false);
 assert.equal(await verifyInvitation(invite.token.replace(/v1\./,'v2.'),key,now),false);
-class Store{constructor(){this.data=new Map()}async get(k){return this.data.get(k)}async put(k,v){this.data.set(k,structuredClone(v))}async transaction(fn){return fn(this)}}
+class Store{constructor(){this.data=new Map()}async get(k){return this.data.get(k)}async put(k,v){if(typeof k==='object'){for(const [key,value] of Object.entries(k))this.data.set(key,structuredClone(value));}else this.data.set(k,structuredClone(v));}async transaction(fn){return fn(this)}}
 const s=new Store(),id='alooytv:test';
 const a=n=>({id:id+':s1:e'+n,title:'Episode '+n,season:1,episode:n,format:'mp4',url:'https://vid4.zvde-dsn-01.site/file/'+n+'.jpg'});
 const doc={version:1,titles:[{id,title:'Test',kind:'tv',assets:[a(1),a(2)]}]};
