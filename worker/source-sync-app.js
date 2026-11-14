@@ -54,7 +54,14 @@ export default {
    if(route==='/private-status'&&!owner&&!invited)return Response.json({engine:'auto-v10',paused:true,public:true},{headers:{'Cache-Control':'private, no-store'}});
    if(route==='/private-sync')return maintenance();
    if(route==='/private-share'){if(Date.now()<quotaUntil)return fail('storage-quota-or-limit',503);if(Number(request.headers.get('Content-Length'))>1000000)return fail('share-too-large',413);const body=await request.text();if(body.length>1000000)return fail('share-too-large',413);try{return await stub(env).fetch('https://internal'+route,{method:'POST',body,headers:{'Content-Type':'application/json'}});}catch(e){const reason=recoveryError(e);if(reason==='storage-quota-or-limit')quotaUntil=Date.now()+60000;return fail(reason,503);}}
-   return privateRead(env,route,request,owner,!owner&&!invited);
+   const response=await privateRead(env,route,request,owner,!owner&&!invited);
+   // Samsung Tizen packaged web app uses a local widget origin. Only the
+   // already-public, anonymous read endpoints receive cross-origin access.
+   if(!token&&!owner&&!invited&&recoverable.has(route)){
+    const headers=new Headers(response.headers);headers.set('Access-Control-Allow-Origin','*');
+    return new Response(response.body,{status:response.status,statusText:response.statusText,headers});
+   }
+   return response;
   }
   return u.pathname.startsWith('/api/source-sync/')?sync.fetch(request,env):cinema.fetch(request,env);
  },
