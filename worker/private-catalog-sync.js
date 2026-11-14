@@ -1,3 +1,4 @@
+import {validMedia} from './private-media-policy.js';
 import {groupKey,groupPrefix,selectGroups,summarizeGroup,queueStatus,rollingPool} from './private-work-queue.js';
 import {VERSION,structural,pickJobs,nextHealth,queueRows,effectiveDue,retryPlan} from './private-turbo-scheduler.js';
 import {buildEpisodeGraph,mediaByEpisode,candidatesFor,graphSignature} from './private-episode-graph.js';
@@ -64,16 +65,10 @@ export function episodes(html,page,{allowPartial=false}={}){
  return list;
 }
 export function mediaLink(html,page){
- const ep=source(page),matches=new Set();
- for(const a of anchors(html,page)){
-  if(a.u.pathname!=='/download_video.php'||!a.u.searchParams.has('video_url'))continue;
-  const ref=source(a.u.searchParams.get('ref')||'/',page);if(!ref||ref.pathname!==ep.pathname||ref.searchParams.get('key')!==ep.searchParams.get('key'))continue;
-  try{const u=new URL(atob(a.u.searchParams.get('video_url')));if(u.protocol==='https:'&&/^vid\d+\.(?:zvde-dsn-01|ujeklsj)\.site$/i.test(u.hostname)&&!u.port&&!u.username&&!u.password&&!u.hash)matches.add(u.href);}catch{}
- }
- if(matches.size!==1)throw Error('missing-or-ambiguous-direct-source');
- return [...matches][0];
+ const ep=source(page),matches=ep?candidatesFor(directGraph(html,page),ep):[];
+ if(matches.length!==1)throw Error('missing-or-ambiguous-direct-source');
+ return matches[0];
 }
-function validMedia(raw){try{const u=new URL(raw);return u.protocol==='https:'&&/^vid\d+\.(?:zvde-dsn-01|ujeklsj)\.site$/i.test(u.hostname)&&!u.port&&!u.username&&!u.password&&!u.hash;}catch{return false;}}
 // Accept only ordinary links exposed by the source, with exact episode refs.
 function decodeMediaValue(raw){
  const v=String(raw||'').trim();if(/^https:\/\//i.test(v))return new URL(v).href;
@@ -126,8 +121,9 @@ async function loadEpisode(page,candidates,fetcher){
  // Only use those links when their ref matches the precise episode key.
  if(candidates?.length){try{return {url:await chooseMedia(candidates,fetcher),html:''};}catch(e){if(String(e.message||e)==='batch-network-budget')throw e;}}
  const html=await getPage(page,fetcher),base=source(page);
- const graph=directGraph(html,page);
- return {html,url:await chooseMedia([...candidatesFor(graph,base),...explicitVideoLinks(html,page)],fetcher)};
+ const graph=directGraph(html,page),urls=[...candidatesFor(graph,base),...explicitVideoLinks(html,page)];
+ if(!urls.length){const e=sourceEvidence(html,page);throw Error('missing-direct-source · links:'+e.downloadLinks+' · exact:'+e.exactRefs+(e.otherHosts.length?' · unsupported-hosts:'+e.otherHosts.join(','):''));}
+ return {html,url:await chooseMedia(urls,fetcher)};
 }
 export async function getPage(url,fetcher){
  const requested=source(url);let r;
@@ -144,7 +140,7 @@ export async function getPage(url,fetcher){
  if(Number(r.headers?.get('Content-Length'))>3000000){await r.body?.cancel().catch(()=>{});throw Error('page-too-large');}
  const body=await r.text();if(body.length>3000000)throw Error('page-too-large');return body;
 }
-export async function probe(url,fetcher=fetch){const r=await fetcher(url,{redirect:'manual',signal:AbortSignal.timeout(8000),headers:{Range:'bytes=0-4095'}});if(r.status>=300&&r.status<400){await r.body?.cancel().catch(()=>{});throw Error('media-redirect-'+r.status);}if(!r.ok||!r.body){await r.body?.cancel().catch(()=>{});throw Error('media-'+r.status);}const reader=r.body.getReader();let bytes=[];try{while(bytes.length<12){const {done,value}=await reader.read();if(done)break;bytes.push(...value.subarray(0,32));}}finally{await reader.cancel().catch(()=>{});}if(bytes.length<12||String.fromCharCode(...bytes.slice(4,8))!=='ftyp')throw Error('not-mp4');}
+export async function probe(url,fetcher=fetch){if(!validMedia(url))throw Error('unsupported-media-host');const r=await fetcher(url,{redirect:'manual',signal:AbortSignal.timeout(8000),headers:{Range:'bytes=0-4095'}});if(r.status>=300&&r.status<400){await r.body?.cancel().catch(()=>{});throw Error('media-redirect-'+r.status);}if(!r.ok||!r.body){await r.body?.cancel().catch(()=>{});throw Error('media-'+r.status);}const reader=r.body.getReader();let bytes=[];try{while(bytes.length<12){const {done,value}=await reader.read();if(done)break;bytes.push(...value.subarray(0,32));}}finally{await reader.cancel().catch(()=>{});}if(bytes.length<12||String.fromCharCode(...bytes.slice(4,8))!=='ftyp')throw Error('not-mp4');}
 const jobKey=j=>P+'q:'+({episode:'0',work:'1',index:'2'}[j.type])+':'+(j.type==='episode'?j.id+':'+j.gen+':'+String(j.n).padStart(4,'0'):j.url);
 async function enqueue(s,j,now,force=false){if(j.type==='work'&&j.title&&j.title.length>2&&!/^(?:watch|عرض|مشاهدة|تحميل|play)$/i.test(j.title)){const k=P+'discovered:'+j.id,old=await s.get(k)||{};await s.put(k,{...old,id:j.id,title:old.title||j.title,kind:old.kind||j.kind||'unknown',poster:old.poster||j.poster||null,sourcePage:j.url,discovered:true,count:old.count??null});}const key=jobKey(j);const existing=await s.get(key);if(existing){if(j.type==='work'&&(!existing.kind&&j.kind||!existing.poster&&j.poster))await s.put(key,{...existing,kind:existing.kind||j.kind,poster:existing.poster||j.poster});return;}if(!force&&Number(await s.get(P+'seen:'+key))>now-DAY)return;await s.put(key,{...j,tries:0,after:0,revision:REVISION});}
 // Process an entire category page in a few storage operations.
@@ -442,7 +438,10 @@ export async function previewWork(s,id,fetcher=fetch,now=Date.now()){
 export async function resolveEpisode(s,id,season,episode,fetcher=fetch,now=Date.now()){
  if(!Number.isSafeInteger(season)||season<1||!Number.isSafeInteger(episode)||episode<1)throw Error('invalid-episode');
  const key=P+'ondemand:'+id+':'+season+':'+episode;
- const cached=await s.get(key);if(cached&&now-cached.verifiedAt<3600000)return cached;
+ const cached=await s.get(key);const exact=a=>a?.id===id+':s'+season+':e'+episode&&a.season===season&&a.episode===episode&&a.format==='mp4'&&validMedia(a.url);
+ if(exact(cached)&&now-cached.verifiedAt<3600000)return cached;
+ // Use the published work first. Its verified asset is already stored and exactly identified.
+ if(typeof s.list==='function'){const w=await s.get(wk(id));if(w?.gen){const rows=await s.list({prefix:epPrefix(id,w.gen),limit:1000});const a=[...rows.values()].find(v=>exact(v)&&Number.isFinite(v.verifiedAt));if(a)return a;}}
  const p=await lookupPreview(s,id,fetcher,now),slot=p.slots.find(x=>x.season===season&&x.episode===episode);if(!slot)throw Error('episode-not-listed');
  const saved=await s.get(mediaKey(id,source(slot.page).searchParams.get('key')||''));const {html,url}=await loadEpisode(slot.page,saved&&now-(saved.seenAt||saved.at)<DAY?saved.urls:slot.candidates,fetcher);if(html)await harvestLinks(s,id,slot.page,html,now);
  const m=html?metadata(html,slot.page):{},a={id:id+':s'+season+':e'+episode,title:p.kind==='tv'?'الحلقة '+episode:p.title,season,episode,format:'mp4',url,sourcePage:slot.page,thumbnail:m.thumbnail&&m.thumbnail!==p.poster?m.thumbnail:null,story:m.story&&m.story!==p.story?m.story:'',verifiedAt:now};
@@ -453,7 +452,7 @@ export async function privateRequest(request,s){
  const u=new URL(request.url);
  if(u.pathname==='/private-sync'&&request.method==='POST')return json(await crawl(s));
  if(u.pathname==='/private-status')return json(await s.get(P+'status')||{at:null,processed:0,failed:0});
- if(u.pathname==='/private-preview'||u.pathname==='/private-episode'){const id=u.searchParams.get('id')||'';if(!/^alooytv:[a-z0-9-]+$/i.test(id))return json({error:'invalid-work'},400);try{return json(u.pathname==='/private-preview'?await previewWork(s,id):await resolveEpisode(s,id,Number(u.searchParams.get('season')),Number(u.searchParams.get('episode'))));}catch(e){return json({error:String(e.message||e).slice(0,160)},502);}}
+ if(u.pathname==='/private-preview'||u.pathname==='/private-episode'){const id=u.searchParams.get('id')||'';if(!/^alooytv:[a-z0-9-]+$/i.test(id))return json({error:'invalid-work'},400);try{return json(u.pathname==='/private-preview'?await previewWork(s,id):await resolveEpisode(s,id,Number(u.searchParams.get('season')),Number(u.searchParams.get('episode'))));}catch(e){const m=String(e.message||e);if(/rows read|rows written|free tier|daily limit|quota|spending cap|spending limit/i.test(m))throw e;return json({error:m.slice(0,240)},502);}}
  if(u.pathname==='/private-work'){
   const id=u.searchParams.get('id')||'';if(!/^alooytv:[a-z0-9-]+$/i.test(id))return json({error:'invalid-work'},400);
   const w=await s.get(wk(id));if(!w)return json({error:'not-found'},404);
