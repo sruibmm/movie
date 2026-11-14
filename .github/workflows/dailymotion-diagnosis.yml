@@ -1,4 +1,4 @@
-name: AlooYTV public reference site suitability audit
+name: AlooYTV reference link provenance and public metadata audit
 on:
   push:
     branches: [dailymotion-diagnosis]
@@ -9,26 +9,33 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
-      - name: Check public reference pages, headers and structured catalogue evidence
-        run: |
+      - run: |
           python - <<'PY'
-          import urllib.request, urllib.error, urllib.parse, json, re, concurrent.futures
+          import urllib.request, urllib.parse, re, json
           from html.parser import HTMLParser
-          base='https://aloooytv.com'
           class P(HTMLParser):
-            def __init__(self):super().__init__();self.count={};self.links=[];self.types=[];self.scripts=0
-            def handle_starttag(self,t,a):
-              self.count[t]=self.count.get(t,0)+1;d=dict(a)
-              if t=='a' and d.get('href'):self.links.append(d['href'])
-              if t=='script' and d.get('type')=='application/ld+json':self.scripts+=1
-          def audit(path):
+            def __init__(self):super().__init__();self.a=None;self.links=[];self.title='';self.in_title=False
+            def handle_starttag(self,t,attrs):
+              d=dict(attrs)
+              if t=='a':self.a=[d.get('href',''),'']
+              if t=='title':self.in_title=True
+            def handle_data(self,d):
+              if self.a is not None:self.a[1]+=d
+              if self.in_title:self.title+=d
+            def handle_endtag(self,t):
+              if t=='a' and self.a is not None:self.links.append(self.a);self.a=None
+              if t=='title':self.in_title=False
+          def get(u):
+            with urllib.request.urlopen(urllib.request.Request(u,headers={'User-Agent':'Mozilla/5.0'}),timeout=12) as r:
+              p=P();p.feed(r.read(1500000).decode('utf8','replace'));return r,p
+          for path in ['','/official-links','/en/terms','/en/disclaimer','/en/contact-us','/series']:
             try:
-              req=urllib.request.Request(base+path,headers={'User-Agent':'Mozilla/5.0'})
-              with urllib.request.urlopen(req,timeout=12) as r:
-                body=r.read(2000000).decode('utf8','replace');p=P();p.feed(body)
-                hosts=sorted(set(urllib.parse.urlsplit(urllib.parse.urljoin(base,x)).hostname or '' for x in p.links))
-                out={'path':path,'status':r.status,'finalHost':urllib.parse.urlsplit(r.url).hostname,'bytes':len(body),'videoTags':p.count.get('video',0),'iframes':p.count.get('iframe',0),'links':len(p.links),'externalHosts':[x for x in hosts if x not in ('aloooytv.com','www.aloooytv.com','')],'jsonLd':p.scripts,'videoObject':bool(re.search(r'"@type"\s*:\s*"VideoObject"',body)),'csp':bool(r.headers.get('Content-Security-Policy')),'xFrame':r.headers.get('X-Frame-Options')}
-            except Exception as e:out={'path':path,'error':str(e)[:200]}
-            print('AUDIT '+json.dumps(out,ensure_ascii=False),flush=True)
-          with concurrent.futures.ThreadPoolExecutor(max_workers=5) as ex:list(ex.map(audit,['/','/official-links','/series','/ramadan-series','/editorial-policy','/disclaimer','/terms','/contact-us']))
+              r,p=get('https://aloooytv.com'+path)
+              out={'page':path,'status':r.status,'title':p.title.strip(),'watchLinks':[]}
+              for href,label in p.links:
+                label=' '.join(label.split())
+                if re.search(r'شاهد الآن|المشاهدة الآن|watch now|tv2tv|الرابط الرسمي|مشاهدة مباشرة',label,re.I):
+                  u=urllib.parse.urlsplit(urllib.parse.urljoin(r.url,href));out['watchLinks'].append({'label':label[:100],'host':u.hostname,'sameSite':u.hostname=='aloooytv.com','scheme':u.scheme,'pathCategory':'root' if u.path in ('','/') else 'non-root'})
+              print('META '+json.dumps(out,ensure_ascii=False),flush=True)
+            except Exception as e: print('META '+json.dumps({'page':path,'error':str(e)}),flush=True)
           PY
