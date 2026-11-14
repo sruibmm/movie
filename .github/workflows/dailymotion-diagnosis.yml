@@ -1,36 +1,25 @@
-name: Audit independent Arabic video sources
+name: Dubai Plus public frame compatibility check
 on:
   push:
     branches: [dailymotion-diagnosis]
 permissions:
   contents: read
 jobs:
-  inspect:
+  check:
     runs-on: ubuntu-latest
-    timeout-minutes: 3
+    timeout-minutes: 2
     steps:
-      - name: Verify public Vimeo embeds and Arabic platform headers
+      - name: Check standard HTTP frame policies
         run: |
           python - <<'PY'
-          import json,urllib.request,urllib.error,urllib.parse,concurrent.futures
-          urls={'jenin':'https://vimeo.com/499672067','roots':'https://vimeo.com/306371213','kofia':'https://vimeo.com/780695653'}
-          def get(url):
-            req=urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0','Referer':'https://movie.o-a-f-a.workers.dev/'})
-            try:r=urllib.request.urlopen(req,timeout=15)
-            except urllib.error.HTTPError as e:r=e
-            return r.status,r.url,r.headers,r.read(1000000).decode('utf8','replace')
-          def probe(kv):
-            key,url=kv
-            try:
-              s,u,h,b=get('https://vimeo.com/api/oembed.json?'+urllib.parse.urlencode({'url':url}))
-              d=json.loads(b) if s==200 else {}
-              print('VIMEO',key,s,json.dumps({k:d.get(k) for k in ['title','author_name','duration','html']},ensure_ascii=False))
-              if d.get('html'):
-                import re,html
-                m=re.search(r'src="([^"]+)"',d['html'])
-                if m:
-                  s,u,h,b=get(html.unescape(m.group(1)))
-                  print('PLAYER',key,s,u.split('?')[0],h.get('X-Frame-Options'),h.get('Content-Security-Policy','')[:150])
-            except Exception as e: print('ERROR',key,str(e))
-          with concurrent.futures.ThreadPoolExecutor(max_workers=3) as p:list(p.map(probe,urls.items()))
+          import urllib.request, urllib.error, urllib.parse
+          urls=['https://www.dubaiplus.net/web/','https://www.dubaiplus.net/web/ar-AE/s/series/694469160205_'+urllib.parse.quote('جعفر-العمدة')]
+          for u in urls:
+              req=urllib.request.Request(u,method='HEAD',headers={'User-Agent':'Mozilla/5.0'})
+              try:r=urllib.request.urlopen(req,timeout=10)
+              except urllib.error.HTTPError as e:r=e
+              except Exception as e:print('ERROR',str(e));continue
+              print('HTTP',r.status,r.url)
+              for k in ['X-Frame-Options','Content-Security-Policy','Content-Security-Policy-Report-Only']:
+                  print(k,r.headers.get(k))
           PY
