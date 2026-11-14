@@ -8,7 +8,7 @@ let html=fs.readFileSync(path.join(target,'index.html'),'utf8');
 html=html.replace(/<head>/,'<head><script src="./poster-cache.js"></script><script src="./licensed-cache.js"></script><script src="./tizen-shell.js"></script>').replace(/href="\/(cinema\.css|tv-layout\.css)"/g,'href="./$1"').replace(/src="\/tv-navigation\.js"/g,'src="./tv-navigation.js"').replace(/<script>\s*if \('serviceWorker'[\s\S]*?<\/script>/,'<script>window.open=function(){return null;};</script>');
 fs.writeFileSync(path.join(target,'index.html'),html);
 fs.writeFileSync(path.join(target,'config.xml'),`<?xml version="1.0" encoding="UTF-8"?>
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets" id="https://cinema.tv/app" version="1.1.0" viewmodes="maximized">
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets" id="https://cinema.tv/app" version="1.2.0" viewmodes="maximized">
 <tizen:application id="CineTV2026.CinemaTV" package="CineTV2026" required_version="6.0"/>
 <content src="index.html"/><name>Cinema TV</name><icon src="icon.png"/>
 <tizen:profile name="tv-samsung"/><tizen:privilege name="http://tizen.org/privilege/internet"/><tizen:privilege name="http://tizen.org/privilege/tv.inputdevice"/>
