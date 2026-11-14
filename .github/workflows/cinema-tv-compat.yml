@@ -17,5 +17,6 @@ jobs:
           node-version: '22'
       - run: npm ci --no-audit --no-fund
       - run: node scripts/tv-preferences-test.mjs
+      - run: node scripts/arabic-discovery-test.mjs
       - run: node --check public/tv-navigation.js
       - run: npx vite build --target chrome94
