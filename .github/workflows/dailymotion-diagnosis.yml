@@ -1,51 +1,60 @@
-name: Audit expanded Arabic playback sources
+name: Verify mobile Dailymotion automatic recovery
 on:
   push:
     branches: [dailymotion-diagnosis]
 permissions:
   contents: read
 jobs:
-  audit:
+  test:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 6
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: e31a69e14f6e2710287d2fe43b0205483fffc918
-      - name: Verify all saved video metadata and representative iframe endpoints
+          ref: fa2cc8184537543657a41678a096e078c40f8711
+      - name: Install and build
         run: |
-          python - <<'PY'
-          import json, urllib.request, urllib.parse, urllib.error, concurrent.futures
-          c=json.load(open('src/arabicBulkCatalog.json'))
-          episodes=[e for g in c['series'] for s in g['seasons'] for e in s['episodes']]
-          records=episodes+c['films']
-          def get(url):
-              req=urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0','Referer':'https://movie.o-a-f-a.workers.dev/'})
-              try: r=urllib.request.urlopen(req,timeout=15)
-              except urllib.error.HTTPError as e: r=e
-              return r.status,r.read(1000000)
-          def batch(rows):
-              try:
-                  status,b=get('https://api.dailymotion.com/videos?'+urllib.parse.urlencode({'ids':','.join(x['id'] for x in rows),'fields':'id,allow_embed,geoblocking,duration,owner.username','limit':100}))
-                  if status!=200:return [],status
-                  return json.loads(b).get('list',[]),status
-              except Exception as e:return [],str(e)
-          def kw(v):
-              a=[str(x).lower() for x in (v.get('geoblocking') or [])]
-              return not a or (a[0]=='deny' and 'kw' not in a) or (a[0]=='allow' and (len(a)==1 or 'kw' in a))
-          with concurrent.futures.ThreadPoolExecutor(max_workers=8) as pool:
-              results=list(pool.map(batch,[records[i:i+50] for i in range(0,len(records),50)]))
-          found={v['id']:v for rows,status in results for v in rows}
-          bad=[x['id'] for x in records if x['id'] not in found or not found[x['id']].get('allow_embed') or not kw(found[x['id']]) or found[x['id']].get('owner.username')!=x['owner']]
-          print('CATALOG_AUDIT',json.dumps({'series':len(c['series']),'episodes':len(episodes),'films':len(c['films']),'metadata_found':len(found),'metadata_eligible':len(records)-len(bad),'problems':bad[:50],'batch_statuses':list(set(str(s) for _,s in results))}))
-          samples=[g['seasons'][0]['episodes'][0]['id'] for g in c['series']]+[f['id'] for f in c['films']]
-          def embed(x):
-              try:
-                  status,b=get('https://geo.dailymotion.com/player/x8lr5.html?video='+x)
-                  return x,status,b'Dailymotion Player Embed' in b
-              except Exception as e:return x,str(e),False
-          with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:
-              checks=list(pool.map(embed,samples))
-          fail=[x for x in checks if x[1]!=200 or not x[2]]
-          print('EMBED_AUDIT',json.dumps({'sampled':len(checks),'loaded':len(checks)-len(fail),'failures':fail[:25]}))
-          PY
+          npm ci
+          npm install --no-save playwright
+          npx playwright install chromium
+      - name: Test actual React player
+        run: |
+          cat > dm-check.html <<'HTML'
+          <html><head><meta name="viewport" content="width=device-width,initial-scale=1"></head><body style="margin:0"><div id="root" style="height:100dvh;width:100vw"></div><script type="module" src="/dm-check.jsx"></script></body></html>
+          HTML
+          cat > dm-check.jsx <<'JS'
+          import React from 'react';
+          import {createRoot} from 'react-dom/client';
+          import Player from './src/DailymotionQualityPlayer.jsx';
+          import './src/index.css';
+          createRoot(document.getElementById('root')).render(<Player title="المشاغبون فى الجيش" src="https://geo.dailymotion.com/player/x8lr5.html?video=xay1vlq"/>);
+          JS
+          # Use the app's CSS entry when available; otherwise supply equivalent layout rules.
+          if [ ! -f src/index.css ]; then
+            sed -i '/import .*src\/index.css/d' dm-check.jsx
+            sed -i 's|</head>|<style>.w-full{width:100%}.h-full{height:100%}.relative{position:relative}.absolute{position:absolute}.inset-0{inset:0}.flex{display:flex}.items-center{align-items:center}.justify-center{justify-content:center}.overflow-hidden{overflow:hidden}.bg-black{background:black}</style></head>|' dm-check.html
+          fi
+          npm run dev -- --host 127.0.0.1 > /tmp/vite.log 2>&1 &
+          cat > check.cjs <<'JS'
+          const {chromium,devices}=require('playwright');
+          (async()=>{
+            const b=await chromium.launch({headless:true,args:['--autoplay-policy=no-user-gesture-required']});
+            const p=await b.newPage({...devices['iPhone 13']});
+            await p.addInitScript(()=>{window.dailymotion={events:{VIDEO_PLAYING:'playing'},createPlayer:async(id,opts)=>{window.testOpts=opts;return {on(){},getState:async()=>({videoId:'xay1vlq',videoTime:0,videoQualitiesList:['380','720'],videoQuality:'Auto'}),setQuality:async(q)=>{window.requested=q},destroy(){}}}}});
+            await p.goto('http://127.0.0.1:5173/dm-check.html');
+            await p.waitForFunction(()=>window.requested==='720',{timeout:15000});
+            console.log('QUALITY_REQUEST',await p.evaluate(()=>({quality:window.requested,autoplay:window.testOpts.params.autoplay})));
+            const box=await p.locator('[id^=dm-]').boundingBox();if(!box||box.height<100)throw Error('Collapsed host '+JSON.stringify(box));
+            console.log('MOBILE_HOST',JSON.stringify(box));
+            await p.waitForSelector('[data-dm-mode=iframe] iframe',{timeout:15000});
+            console.log('AUTO_RECOVERY',await p.locator('[data-dm-mode=iframe] iframe').getAttribute('src'));
+            await p.close();
+            const real=await b.newPage({...devices['iPhone 13']});
+            await real.goto('http://127.0.0.1:5173/dm-check.html');
+            await real.waitForTimeout(12000);
+            console.log('REAL_MODE',await real.locator('[data-dm-mode]').getAttribute('data-dm-mode'));
+            for(const f of real.frames()){if(f.url().includes('dailymotion.com')){console.log('REAL_FRAME',f.url().split('?')[0],(await f.locator('body').innerText().catch(()=>'' )).slice(0,300));console.log('REAL_VIDEO',await f.locator('video').evaluateAll(vs=>vs.map(v=>({time:v.currentTime,duration:v.duration,width:v.videoWidth,height:v.videoHeight,paused:v.paused}))).catch(()=>[]));}}
+            await b.close();
+          })().catch(e=>{console.error(e);process.exit(1)});
+          JS
+          node check.cjs
