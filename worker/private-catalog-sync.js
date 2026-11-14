@@ -113,7 +113,7 @@ function pageGraph(html,page,m){
 async function chooseMedia(candidates,fetcher){
  const urls=[...new Set(candidates||[])].filter(validMedia).slice(0,3);
  if(!urls.length)throw Error('missing-direct-source');
- const errors=[];for(const url of urls){try{await probe(url,fetcher);return url;}catch(e){if(String(e.message||e)==='batch-network-budget')throw e;errors.push(String(e.message||e));}}
+ const errors=[];for(const url of urls){try{return await probe(url,fetcher);}catch(e){if(String(e.message||e)==='batch-network-budget')throw e;errors.push(String(e.message||e));}}
  throw Error('direct-sources-unavailable: '+errors.join('; ').slice(0,120));
 }
 async function loadEpisode(page,candidates,fetcher){
@@ -140,7 +140,28 @@ export async function getPage(url,fetcher){
  if(Number(r.headers?.get('Content-Length'))>3000000){await r.body?.cancel().catch(()=>{});throw Error('page-too-large');}
  const body=await r.text();if(body.length>3000000)throw Error('page-too-large');return body;
 }
-export async function probe(url,fetcher=fetch){if(!validMedia(url))throw Error('unsupported-media-host');const r=await fetcher(url,{redirect:'manual',signal:AbortSignal.timeout(8000),headers:{Range:'bytes=0-4095'}});if(r.status>=300&&r.status<400){await r.body?.cancel().catch(()=>{});throw Error('media-redirect-'+r.status);}if(!r.ok||!r.body){await r.body?.cancel().catch(()=>{});throw Error('media-'+r.status);}const reader=r.body.getReader();let bytes=[];try{while(bytes.length<12){const {done,value}=await reader.read();if(done)break;bytes.push(...value.subarray(0,32));}}finally{await reader.cancel().catch(()=>{});}if(bytes.length<12||String.fromCharCode(...bytes.slice(4,8))!=='ftyp')throw Error('not-mp4');}
+export async function probe(url,fetcher=fetch){
+ if(!validMedia(url))throw Error('unsupported-media-host');
+ const seen=new Set(),signal=AbortSignal.timeout(12000);let current=new URL(url).href;
+ for(let hop=0;hop<=4;hop++){
+  if(seen.has(current))throw Error('media-redirect-loop');seen.add(current);
+  const r=await fetcher(current,{redirect:'manual',signal,headers:{Range:'bytes=0-4095'}});
+  if([301,302,303,307,308].includes(r.status)){
+   const location=r.headers?.get('Location');await r.body?.cancel().catch(()=>{});
+   if(!location)throw Error('media-redirect-'+r.status+': missing-location');
+   let target;try{target=new URL(location,current);}catch{throw Error('media-redirect-'+r.status+': invalid-location');}
+   if(!validMedia(target.href))throw Error('media-redirect-'+r.status+': unapproved-host '+target.hostname);
+   if(hop===4)throw Error('media-redirect-limit');
+   current=target.href;continue;
+  }
+  if(!r.ok||!r.body){await r.body?.cancel().catch(()=>{});throw Error('media-'+r.status);}
+  const reader=r.body.getReader();let bytes=[];
+  try{while(bytes.length<12){const {done,value}=await reader.read();if(done)break;bytes.push(...value.subarray(0,32));}}finally{await reader.cancel().catch(()=>{});}
+  if(bytes.length<12||String.fromCharCode(...bytes.slice(4,8))!=='ftyp')throw Error('not-mp4');
+  return current;
+ }
+ throw Error('media-redirect-limit');
+}
 const jobKey=j=>P+'q:'+({episode:'0',work:'1',index:'2'}[j.type])+':'+(j.type==='episode'?j.id+':'+j.gen+':'+String(j.n).padStart(4,'0'):j.url);
 async function enqueue(s,j,now,force=false){if(j.type==='work'&&j.title&&j.title.length>2&&!/^(?:watch|عرض|مشاهدة|تحميل|play)$/i.test(j.title)){const k=P+'discovered:'+j.id,old=await s.get(k)||{};await s.put(k,{...old,id:j.id,title:old.title||j.title,kind:old.kind||j.kind||'unknown',poster:old.poster||j.poster||null,sourcePage:j.url,discovered:true,count:old.count??null});}const key=jobKey(j);const existing=await s.get(key);if(existing){if(j.type==='work'&&(!existing.kind&&j.kind||!existing.poster&&j.poster))await s.put(key,{...existing,kind:existing.kind||j.kind,poster:existing.poster||j.poster});return;}if(!force&&Number(await s.get(P+'seen:'+key))>now-DAY)return;await s.put(key,{...j,tries:0,after:0,revision:REVISION});}
 // Process an entire category page in a few storage operations.
