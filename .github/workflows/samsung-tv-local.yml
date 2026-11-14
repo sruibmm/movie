@@ -1,5 +1,13 @@
 name: Samsung TV local package
 on:
+  push:
+    branches: [cloudflare-ready]
+    paths:
+      - 'src/**'
+      - 'public/**'
+      - 'scripts/package-samsung-local.mjs'
+      - '.github/workflows/samsung-tv-local.yml'
+  workflow_dispatch:
   pull_request:
     branches: [cloudflare-ready]
     paths:
