@@ -63,7 +63,7 @@ export async function rollingPool(items,{concurrency=6,canLaunch=()=>true,prepar
  fill();
  while(active.size){
   const result=await Promise.race(active.values());active.delete(result.token);
-  await commit(result.item,result);completed++;fill();
+  await commit(result.item,result,item=>items.splice(cursor,0,item));completed++;fill();
  }
  return {completed,maxActive};
 }
