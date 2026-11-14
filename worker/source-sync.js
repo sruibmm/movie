@@ -1,4 +1,5 @@
-import {privateRequest} from './private-catalog-sync.js';
+import {privateRequest,crawl} from './private-catalog-sync.js';
+import {PrivateRunner} from './private-catalog-runner.js';
 import {reviewSourceSnapshot} from '../src/sourceSyncGate.js';
 import {eligibleAsset,approvedDelivery} from '../src/licensedCatalog.js';
 
@@ -90,10 +91,11 @@ export async function listSyncedTitles(storage,config,now=Date.now()){
  return [...result.values()];
 }
 export class SourceSync{
- constructor(state,env){this.storage=state.storage;this.env=env;this.running=null;}
+ constructor(state,env){this.storage=state.storage;this.env=env;this.running=null;this.privateRunner=new PrivateRunner(this.storage,crawl);}
+ async alarm(){if(typeof this.env.PRIVATE_CATALOG_KEY==='string'&&this.env.PRIVATE_CATALOG_KEY.length>=32)await this.privateRunner.alarm();}
  async fetch(request){
   const u=new URL(request.url);
-  if(u.pathname.startsWith('/private-')){if(u.pathname==='/private-sync'&&request.method==='POST'){if(!this.privateRunning)this.privateRunning=privateRequest(request,this.storage).then(r=>r.json()).finally(()=>{this.privateRunning=null;});return Response.json(await this.privateRunning,{headers:{'Cache-Control':'private, no-store'}});}return privateRequest(request,this.storage);}
+  if(u.pathname.startsWith('/private-')){const headers={'Cache-Control':'private, no-store','Vary':'Authorization'};if(u.pathname==='/private-sync'&&request.method==='POST')return Response.json(await this.privateRunner.kick(),{status:202,headers});if(u.pathname==='/private-status')return Response.json(await this.privateRunner.status(),{headers});return privateRequest(request,this.storage);}
   let config;try{config=policies(this.env);}catch{return Response.json({error:'invalid-configuration'},{status:503});}
   if(u.pathname==='/sync'&&request.method==='POST'){
    if(!this.running)this.running=(async()=>{const results=[];for(const p of config)results.push(await synchronize(this.storage,p));await this.storage.put('lastRun',{at:Date.now(),results});return results;})().finally(()=>{this.running=null;});
