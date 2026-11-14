@@ -6,7 +6,7 @@ import {searchCards} from './private-fast-index.js';
 const ORIGIN='https://af.alooytv16.com',TTL=300000;
 const json=(x,status=200)=>Response.json(x,{status,headers:{'Cache-Control':'private, no-store','Vary':'Authorization'}});
 const memo=new Map();
-const storage={async get(k){return memo.get(k);},async put(k,v){if(typeof k==='object'){for(const [key,value] of Object.entries(k))await this.put(key,value);return;}memo.delete(k);memo.set(k,v);while(memo.size>1200)memo.delete(memo.keys().next().value);},async delete(k){for(const key of Array.isArray(k)?k:[k])memo.delete(key);}};
+const storage={async get(k){return Array.isArray(k)?new Map(k.filter(key=>memo.has(key)).map(key=>[key,memo.get(key)])):memo.get(k);},async put(k,v){if(typeof k==='object'){for(const [key,value] of Object.entries(k))await this.put(key,value);return;}memo.delete(k);memo.set(k,v);while(memo.size>1200)memo.delete(memo.keys().next().value);},async delete(k){for(const key of Array.isArray(k)?k:[k])memo.delete(key);}};
 let catalog=null,loading=null,pauseUntil=0;
 function bounded(fetcher,now){let n=0;return async(...args)=>{if(++n>12)throw Error('recovery-request-budget');if(pauseUntil>now)throw Error('source-rate-limited');const r=await fetcher(...args);if(r.status===429){pauseUntil=now+Math.max(60000,Math.min(1800000,(Number(r.headers?.get('Retry-After'))||120)*1000));}return r;};}
 function cards(links){return links.filter(x=>x.type==='work'&&x.title&&x.title.length>2&&!/^(?:watch|عرض|مشاهدة|تحميل|play)$/i.test(x.title)).map(j=>({id:j.id,title:j.title,kind:j.kind||'unknown',poster:j.poster||null,year:j.year||null,region:j.region||null,ramadan:!!j.ramadan,sourcePage:j.url,discovered:true,count:null,recovery:true,genres:[]}));}
@@ -40,7 +40,7 @@ export async function recoveryRequest(route,request,fetcher=fetch,now=Date.now()
   if(route==='/private-preview'||route==='/private-episode'||route==='/private-work'){
    const id=q.get('id')||'';if(!/^alooytv:[a-z0-9-]{1,80}$/i.test(id))return json({error:'invalid-work'},400);
    // Use only a known source identity or a strictly constrained watch pathname.
-   if(!await storage.get('pc:discovered:'+id))await storage.put('pc:discovered:'+id,{id,sourcePage:ORIGIN+'/watch/'+id.slice(8)+'.html',kind:''});
+   if(!await storage.get('pc:discovered:'+id))await storage.put('pc:discovered:'+id,catalog?.rows.find(t=>t.id===id)||{id,sourcePage:ORIGIN+'/watch/'+id.slice(8)+'.html',kind:''});
    const f=bounded(fetcher,now);
    if(route==='/private-episode')return json(await resolveEpisode(storage,id,Number(q.get('season')),Number(q.get('episode')),f,now));
    const preview=await previewWork(storage,id,f,now);
