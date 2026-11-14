@@ -15,6 +15,7 @@ import {embedwaveUrl,cinesrcUrl} from './arabicDiscovery.js'
 import {ARABIC_BACKENDS,arabicSourceIds,backendUrl,nextArabicSource} from './arabicSources.js'
 import PublisherFallback from './PublisherFallback.jsx'
 import {languageCode,originalAudioIndex,arabicSubtitleIndex,orderedSubtitles} from './mediaLanguages.js'
+import {metadataFetch} from './tvMetadata.js'
 import {TV_CC_KEY,readTvCC,applyTvCC,seekTarget} from './tvPreferences.js'
 import Peer from 'peerjs'
 import { ACTIVE_SERVER_IDS, normalizeServerId, nextServerId, pickProtectedSource } from './sourceMaintenance.js'
@@ -329,6 +330,7 @@ function App() {
   const [catalogPage,setCatalogPage]=useState(1);
   const [catalogPages,setCatalogPages]=useState(1);
   const [catalogError,setCatalogError]=useState('');
+  const [catalogRetry,setCatalogRetry]=useState(0);
   const [searchDraft,setSearchDraft]=useState('');
   const switchLibrary=(arabic)=>{setArabicLibrary(arabic);setSearch('');setSearchDraft('');setCatalogPage(1);};
   const submitSearch=(e)=>{e.preventDefault();setCatalogPage(1);setSearch(searchDraft.trim());};
@@ -519,7 +521,7 @@ function App() {
     }
     const url='https://api.themoviedb.org/3/'+(search?'search/movie':'discover/movie')+'?'+params;
     setLoading(true);setCatalogError('');
-    fetch(url,{...fetchOptions,signal:controller.signal})
+    metadataFetch(url,{...fetchOptions,signal:controller.signal})
       .then(res=>{if(!res.ok)throw Error('Catalog unavailable');return res.json();})
       .then(data=>{if(controller.signal.aborted)return;
         setMovies((data.results||[]).filter(m=>m.poster_path&&(!arabicLibrary||m.original_language==='ar')));
@@ -527,7 +529,7 @@ function App() {
       })
       .catch(err=>{if(!controller.signal.aborted){setCatalogError('Could not load movies. Please retry.');setMovies([]);setLoading(false);}});
     return()=>controller.abort();
-  },[search,role,arabicLibrary,catalogPage]);
+  },[search,role,arabicLibrary,catalogPage,catalogRetry]);
 
   const toggleRoomReady = () => {
     const newStatus = !roomReady;
@@ -848,15 +850,16 @@ function App() {
 
   if (mode === 'single' && role === 'admin') {
     return (
-      <div className="min-h-screen bg-[#050505] text-white p-4 md:p-8 font-sans selection:bg-purple-500" dir="ltr">
-        <header className="mb-8 md:mb-14 flex flex-col gap-6 border-b border-white/5 pb-6">
-          <div>
+      <div className={"min-h-screen bg-[#050505] text-white p-4 md:p-8 font-sans selection:bg-purple-500"+(tvMode?" tv-home":"")} dir="ltr">
+        <header className={"mb-8 md:mb-14 flex flex-col gap-6 border-b border-white/5 pb-6"+(tvMode?" tv-home-header":"")}>
+          <div className={tvMode?"tv-brand":""}>
             <h1 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 italic">
               {tvMode?'🎬 Cinema TV':'🎬 Solo Mode'}
             </h1>
             <p className="text-gray-500 text-sm mt-1">{tvMode?'Your cinema on the big screen':'Your personal cinema'}</p>
           </div>
           <div className="flex flex-wrap gap-2">
+            {tvMode&&<button onClick={()=>setShowHistory(true)} className="px-4 py-2 rounded-full bg-white/10 font-bold">▶ متابعة المشاهدة</button>}
             <button onClick={()=>switchLibrary(false)} aria-pressed={!arabicLibrary} className={`px-4 py-2 rounded-full text-sm font-bold ${!arabicLibrary?'bg-purple-600':'bg-white/5 text-gray-300'}`}>World Cinema</button>
             <button onClick={()=>switchLibrary(true)} aria-pressed={arabicLibrary} className={`px-4 py-2 rounded-full text-sm font-bold ${arabicLibrary?'bg-purple-600':'bg-white/5 text-gray-300'}`}>السينما العربية</button>
           </div>
@@ -872,15 +875,15 @@ function App() {
           <LicensedLibrary query={search} onPlay={startArabicEpisode}/>
           <ArabicDiscovery query={search} existing={[]} options={fetchOptions} onMovie={setActiveMovie} onEpisode={startArabicEpisode}/>
         </> : <>
-        {catalogError&&<p className="text-red-300 mb-4 text-sm">{catalogError}</p>}
+        {catalogError&&<div className="tv-notice text-red-300 mb-4 text-sm" role="status"><p>{tvMode?"تعذر تحميل مكتبة الأفلام. اضغط إعادة المحاولة.":catalogError}</p><button onClick={()=>setCatalogRetry(n=>n+1)}>↻ {tvMode?"إعادة المحاولة":"Retry"}</button></div>}
         {!loading&&!movies.length&&!catalogError&&<p className="text-gray-400 mb-4">{arabicLibrary?'لا توجد نتائج في هذه الصفحة. جرّب اسم الفيلم أو الصفحة التالية.':'No matching movies.'}</p>}
         <div className="flex items-center justify-between mb-4 text-sm text-gray-400"><span>{arabicLibrary?'أفلام عربية':'Movies'} · {catalogPage}/{catalogPages}</span><div className="flex gap-2"><button disabled={catalogPage<=1||loading} onClick={()=>setCatalogPage(p=>p-1)} className="bg-white/5 rounded-lg px-3 py-2 disabled:opacity-30">‹</button><button disabled={catalogPage>=catalogPages||loading} onClick={()=>setCatalogPage(p=>p+1)} className="bg-white/5 rounded-lg px-3 py-2 disabled:opacity-30">›</button></div></div>
         {loading ? (
           <div className="flex justify-center mt-32"><div className="w-12 h-12 border-2 border-purple-500 border-t-transparent rounded-full animate-spin"></div></div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
+          <div className={"grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6"+(tvMode?" tv-poster-grid":"")}>
             {movies.map(m => (
-              <div key={m.id} role="button" tabIndex={0} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();setActiveMovie(m);}}} onClick={() => setActiveMovie(m)} className="group cursor-pointer">
+              <div key={m.id} role="button" tabIndex={0} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();setActiveMovie(m);}}} onClick={() => setActiveMovie(m)} className={"group cursor-pointer"+(tvMode?" tv-poster-card":"")}>
                 <div className="relative aspect-[2/3] rounded-2xl overflow-hidden border border-white/5 group-hover:border-purple-500/50 transition-all bg-zinc-900 shadow-lg">
                   <img loading={tvMode?"lazy":undefined} decoding={tvMode?"async":undefined} src={`https://image.tmdb.org/t/p/w500${m.poster_path}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt={m.title} />
                 </div>
@@ -902,7 +905,7 @@ function MovieDetail({ movie, onBack, onStartParty }) {
   const historyItem = getFromHistory(movie.id);
   
   useEffect(() => {
-    fetch(`https://api.themoviedb.org/3/movie/${movie.id}?language=en-US`, fetchOptions)
+    metadataFetch(`https://api.themoviedb.org/3/movie/${movie.id}?language=en-US`, fetchOptions)
       .then(res => res.json()).then(data => setDetails(data));
   }, [movie.id]);
 
