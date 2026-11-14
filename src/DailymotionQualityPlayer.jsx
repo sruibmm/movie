@@ -17,25 +17,31 @@ export default function DailymotionQualityPlayer({src,title}){
  const ref=useRef(null);
  useEffect(()=>{
   if(fallback)return;
-  let dead=false,player=null,timer,interval,selected=false;
+  let dead=false,player=null,timer,interval,stopTimer,busy=false,lastBest=null,attempts=0;
   const url=new URL(src),pid=url.pathname.split('/').pop().replace('.html',''),video=url.searchParams.get('video');
   function fail(){if(!dead)setFallback(true);}
   timer=setTimeout(fail,15000);
   async function choose(){
-   if(dead||selected||!player)return;
-   try{const state=await player.getState();if(dead||selected||state.videoId!==video)return;
+   if(dead||busy||!player)return;
+   busy=true;
+   try{
+    let state=await player.getState();if(dead||state.videoId!==video)return;
     const best=highestQuality(state.videoQualitiesList);if(!best)return;
-    selected=true;await player.setQuality(best);if(!dead)setQuality(best+'p');clearInterval(interval);
-   }catch{selected=false;}
+    if(best!==lastBest){lastBest=best;attempts=0;}
+    const actual=String(state.videoQuality||'');
+    if(actual!==best&&attempts<2){attempts++;await player.setQuality(best);if(dead)return;state=await player.getState();}
+    const confirmed=String(state.videoQuality||'');
+    if(!dead)setQuality(confirmed===best?best+'p':'متاح حتى '+best+'p');
+   }catch{}finally{busy=false;}
   }
   loadLibrary(pid).then(async dm=>{
    if(dead)return;
    const p=await dm.createPlayer(id,{player:pid,video});if(dead){p.destroy?.();return;}
    player=p;ref.current=p;clearTimeout(timer);
    for(const event of ['VIDEO_QUALITIESREADY','VIDEO_START','PLAYER_CRITICALPATHREADY']){const ev=dm.events?.[event];if(ev)player.on(ev,choose);}
-   interval=setInterval(choose,800);choose();
+   interval=setInterval(choose,1800);stopTimer=setTimeout(()=>clearInterval(interval),30000);choose();
   }).catch(fail);
-  return()=>{dead=true;clearTimeout(timer);clearInterval(interval);try{player?.destroy?.();}catch{}ref.current=null;};
+  return()=>{dead=true;clearTimeout(timer);clearInterval(interval);clearTimeout(stopTimer);try{player?.destroy?.();}catch{}ref.current=null;};
  },[src,id,fallback]);
  if(fallback)return <iframe title={title} src={src} className="w-full h-full border-0" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; web-share" allowFullScreen referrerPolicy="strict-origin-when-cross-origin"/>;
  return <div className="w-full h-full relative flex items-center justify-center"><div id={id} className="w-full max-h-full"/>{quality&&<span className="absolute top-2 left-2 bg-black/70 rounded px-2 py-1 text-xs pointer-events-none">{quality}</span>}<button type="button" onClick={()=>setFallback(true)} className="absolute bottom-2 left-2 bg-black/70 rounded px-2 py-1 text-xs">المشغّل الاحتياطي</button></div>;
