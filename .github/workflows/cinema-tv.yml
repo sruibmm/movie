@@ -23,9 +23,19 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
-      - name: Install Android SDK
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          packages: 'platforms;android-35 build-tools;35.0.0'
+      - name: Verify SDK installation
         run: |
-          sdkmanager 'platforms;android-35' 'build-tools;35.0.0'
+          test -f "$ANDROID_HOME/platforms/android-35/android.jar"
+          test -x "$ANDROID_HOME/build-tools/35.0.0/aapt2"
+      - name: Preserve development signing key
+        uses: actions/cache@v4
+        with:
+          path: android-tv/build/cinema-tv.keystore
+          key: cinema-tv-development-signing-v1
       - name: Build and verify APK
         run: bash android-tv/build.sh
       - uses: actions/upload-artifact@v4
