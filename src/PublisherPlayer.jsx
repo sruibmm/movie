@@ -1,6 +1,7 @@
 import React,{useEffect,useState} from 'react';
 import DailymotionQualityPlayer from './DailymotionQualityPlayer.jsx';
 import {approvedPublisherUrl} from './arabicSiteCatalog.js';
+import DailymotionPlayer from './DailymotionPlayer.jsx';
 import {verifiedYoutubeAlternative} from './publisherAvailability.js';
 export default function PublisherPlayer({movie,mode,onBack}){
  const [revision,setRevision]=useState(0);

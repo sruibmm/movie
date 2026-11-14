@@ -1,5 +1,9 @@
 import assert from 'node:assert/strict';
 import catalog from '../src/arabicBulkCatalog.json' with {type:'json'};
+import {highestQuality} from '../src/dailymotionPlayer.js';
+assert.equal(highestQuality(['auto','480','1080','720']),'1080');
+assert.equal(highestQuality(['2160','1440','720']),'2160');
+assert.equal(highestQuality([]),null);
 import {dailymotionPlayerResponse} from '../worker/dailymotion-player.js';
 const req=id=>new Request('https://movie.o-a-f-a.workers.dev/api/dailymotion-player?video='+id);
 const env={DAILYMOTION_PLAYER_ID:'test123',DAILYMOTION_PUBLISHER_PLAYERS:'{"OnlineartProduction":"test456"}'};
