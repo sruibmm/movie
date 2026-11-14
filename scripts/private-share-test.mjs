@@ -1,0 +1,20 @@
+import assert from 'node:assert/strict';
+import {createInvitation,verifyInvitation} from '../worker/private-invite.js';
+import {shareLocalCatalog} from '../worker/private-share.js';
+const key='owner-only-secret-abcdefghijklmnopqrstuvwxyz';
+const now=Date.now();
+const invite=await createInvitation(key,now);
+assert.equal(await verifyInvitation(invite.token,key,now),true);
+assert.equal(await verifyInvitation(invite.token,'other-secret-abcdefghijklmnopqrstuvwxyz',now),false);
+assert.equal(await verifyInvitation(invite.token,key,invite.expiresAt),false);
+assert.equal(await verifyInvitation(invite.token.replace(/v1\./,'v2.'),key,now),false);
+class Store{constructor(){this.data=new Map()}async get(k){return this.data.get(k)}async put(k,v){this.data.set(k,structuredClone(v))}async transaction(fn){return fn(this)}}
+const s=new Store(),id='alooytv:test';
+const a=n=>({id:id+':s1:e'+n,title:'Episode '+n,season:1,episode:n,format:'mp4',url:'https://vid4.zvde-dsn-01.site/file/'+n+'.jpg'});
+const doc={version:1,titles:[{id,title:'Test',kind:'tv',assets:[a(1),a(2)]}]};
+assert.deepEqual(await shareLocalCatalog(s,doc,now),{added:1,accepted:1});
+assert.equal((await s.get('pc:work:'+id)).availableCount,2);
+assert.equal((await s.get('pc:e:'+id+':import-'+now+':0001')).verification,'personal-import');
+assert.deepEqual(await shareLocalCatalog(s,doc,now+1),{added:0,accepted:1});
+await assert.rejects(()=>shareLocalCatalog(s,{version:1,titles:[{...doc.titles[0],assets:[{...a(1),url:'https://example.com/1.mp4'}]}]},now),/unsupported-shared-media/);
+console.log('PRIVATE SHARE PASS: signed invitations, expiry, owner isolation, non-destructive shared catalog import');
