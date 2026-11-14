@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {recoveryRequest} from '../worker/private-recovery.js';
 const origin='https://af.alooytv16.com',work=origin+'/watch/recoveryfixture.html',id='alooytv:recoveryfixture';
-const video='https://vid4.zvde-dsn-01.site/file/fixture.jpg';
+const video='https://vid4.ujeklsj.site/fixture/01.mp4';
 const now=Date.now();let hits=0,media=0;
 const fake=async(raw,opts)=>{
  hits++;assert.equal(opts.redirect,'manual');const url=String(raw);
