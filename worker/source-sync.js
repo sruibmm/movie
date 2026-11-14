@@ -62,11 +62,31 @@ export async function resolveCandidates(storage,config,request,now=Date.now()){
     try{validUrl(a.url,p.hosts);}catch{continue;}
     const o=record.observations[a.id];
     if(!o||o.url!==a.url||o.played!==true||!Number.isFinite(o.height)||o.height<720||!Number.isFinite(o.checkedAt)||o.checkedAt>now||now-o.checkedAt>(p.maxAgeMs??86400000))continue;
-    options.push({id,provider:p.provider,url:a.url,format:a.format,height:o.height,duration:o.duration,checkedAt:o.checkedAt});
+    options.push({id,provider:p.provider,url:a.url,format:a.format,height:o.height,duration:o.duration,checkedAt:o.checkedAt,rights:a.rights});
    }
   }
  }
  return options.sort((a,b)=>b.height-a.height||b.checkedAt-a.checkedAt||a.id.localeCompare(b.id));
+}
+// Public catalogue contains only canonical IDs and episode metadata, never unreviewed URLs.
+export async function listSyncedTitles(storage,config,now=Date.now()){
+ const result=new Map();
+ for(const p of config){
+  const record=await storage.get('source:'+p.provider);if(!record)continue;
+  for(const t of record.snapshot.titles){
+   if(!Object.hasOwn(p.crosswalk,t.id))continue;
+   const work=p.crosswalk[t.id];
+   if(typeof work!=='string'||!work||work.length>160||result.has(work))continue;
+   const assets=t.assets.filter(a=>{
+    const o=record.observations[a.id];
+    if(!eligibleAsset(a,now,p.region??'KW')||a.rights.provider!==p.provider||a.rights.reference!==p.grantReference||!o||o.url!==a.url||o.played!==true||!Number.isFinite(o.height)||o.height<720||!Number.isFinite(o.checkedAt)||o.checkedAt>now||now-o.checkedAt>(p.maxAgeMs??86400000))return false;
+    try{validUrl(a.url,p.hosts);return true;}catch{return false;}
+   });
+   if(!assets.length||assets.length!==t.assets.length)continue;
+   result.set(work,{work,title:t.title,kind:t.kind,year:t.year??null,episodes:assets.map(a=>({season:t.kind==='tv'?a.season:null,episode:t.kind==='tv'?a.episode:null}))});
+  }
+ }
+ return [...result.values()];
 }
 export class SourceSync{
  constructor(state,env){this.storage=state.storage;this.env=env;this.running=null;}
@@ -78,6 +98,7 @@ export class SourceSync{
    return Response.json({results:await this.running});
   }
   if(u.pathname==='/status')return Response.json({configured:config.length,lastRun:await this.storage.get('lastRun')??null});
+  if(u.pathname==='/catalog')return Response.json({titles:await listSyncedTitles(this.storage,config)},{headers:{'Cache-Control':'no-store'}});
   if(u.pathname==='/resolve'){
    const n=k=>u.searchParams.has(k)?Number(u.searchParams.get(k)):null;
    const candidates=await resolveCandidates(this.storage,config,{work:u.searchParams.get('work'),season:n('season'),episode:n('episode'),exclude:u.searchParams.getAll('exclude').slice(0,20)});
@@ -89,7 +110,7 @@ export class SourceSync{
 export default {
  async fetch(request,env){
   const u=new URL(request.url);
-  if(request.method!=='GET'||!['/api/source-sync/status','/api/source-sync/resolve'].includes(u.pathname))return new Response('Not found',{status:404});
+  if(request.method!=='GET'||!['/api/source-sync/status','/api/source-sync/resolve','/api/source-sync/catalog'].includes(u.pathname))return new Response('Not found',{status:404});
   const stub=env.SOURCE_SYNC.get(env.SOURCE_SYNC.idFromName('catalogue'));
   return stub.fetch('https://internal'+u.pathname.replace('/api/source-sync','')+u.search);
  },

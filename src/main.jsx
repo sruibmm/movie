@@ -6,6 +6,8 @@ import PublisherPlayer from './PublisherPlayer.jsx'
 import {attachArabicSiteEpisode,allowArabicPlayback,approvedPublisherUrl} from './arabicSiteCatalog.js'
 import {attachPublisherEpisode} from './publisherSeries.js'
 import LicensedLibrary from './LicensedLibrary.jsx'
+import SyncedLibrary from './SyncedLibrary.jsx'
+import SyncedPlayback from './SyncedPlayback.jsx'
 import ArabicDiscovery,{OfficialAvailability} from './ArabicDiscovery.jsx'
 import {embedwaveUrl} from './arabicDiscovery.js'
 import {ARABIC_BACKENDS,arabicSourceIds,backendUrl,nextArabicSource} from './arabicSources.js'
@@ -53,7 +55,7 @@ const saveToHistory = (movie, progress, settings) => {
       movieId: movie.id,
       title: movie.title,
       poster: movie.poster_path,
-      licensedSource:movie.licensedSource,licensedPoster:movie.licensedPoster,publisherSource:movie.publisherSource,
+      licensedSource:movie.licensedSource,licensedPoster:movie.licensedPoster,publisherSource:movie.publisherSource,sourceSync:movie.sourceSync,
       progress: progress,
       settings: settings,
       lastWatched: Date.now(),
@@ -548,7 +550,7 @@ function App() {
   };
 
   const startArabicEpisode=(input)=>{
-    const movie=attachPublisherFilm(attachPublisherEpisode(attachArabicSiteEpisode(input)));
+    const movie=input.sourceSync?input:attachPublisherFilm(attachPublisherEpisode(attachArabicSiteEpisode(input)));
     if(mode==='couples'&&!conn?.open){alert('Connect Renad first, then start the episode.');return;}
     const settings={...syncSettings,fallbackServer:10,progress:getFromHistory(movie.id)?.progress||0};
     setSyncSettings(settings);setRoomMovie(movie);
@@ -567,7 +569,7 @@ function App() {
             id: item.movieId,
             title: item.title,
             poster_path: item.poster,
-            licensedSource:item.licensedSource,licensedPoster:item.licensedPoster,publisherSource:item.publisherSource,
+            licensedSource:item.licensedSource,licensedPoster:item.licensedPoster,publisherSource:item.publisherSource,sourceSync:item.sourceSync,
             isArabic: item.isArabic,
             original_language: item.original_language,
             media_type:item.media_type,tmdbId:item.tmdbId,season:item.season,episode:item.episode,seriesTitle:item.seriesTitle,runtime:item.runtime,release_date:item.release_date,original_title:item.original_title
@@ -629,6 +631,12 @@ function App() {
     );
   }
 
+  if(roomMovie?.sourceSync){
+    return <SyncedPlayback key={roomMovie.id} movie={roomMovie} PlayerComponent={Player}
+      role={role} mode={mode} myCoords={myCoords} partnerCoords={partnerCoords}
+      syncSettings={syncSettings} onServerChange={syncServerChange} onSandboxToggle={toggleSandbox} onProgressUpdate={updateProgress}
+      onBack={()=>{if(role==='admin'&&conn?.open)conn.send({type:'end_party'});saveToHistory(roomMovie,syncSettings.progress,syncSettings);setRoomMovie(null);setActiveMovie(null);}}/>;
+  }
   const resolvedRoomMovie=roomMovie?attachPublisherFilm(attachPublisherEpisode(attachArabicSiteEpisode(roomMovie))):null;
   if (resolvedRoomMovie?.publisherSource&&(resolvedRoomMovie.publisherSource.provider==='dailymotion'||approvedPublisherUrl(resolvedRoomMovie.publisherSource))) {
     return <PublisherPlayer key={resolvedRoomMovie.id} movie={resolvedRoomMovie} mode={mode} onBack={()=>{if(role==='admin'&&conn?.open)conn.send({type:'end_party'});saveToHistory(roomMovie,syncSettings.progress,syncSettings);setRoomMovie(null);setActiveMovie(null);}}/>;
@@ -792,6 +800,7 @@ function App() {
         </header>
 
         {arabicLibrary ? <>
+          <SyncedLibrary query={search} onPlay={startArabicEpisode}/>
           <LicensedLibrary query={search} onPlay={startArabicEpisode}/>
           <ArabicDiscovery query={search} existing={[]} options={fetchOptions} onMovie={setActiveMovie} onEpisode={startArabicEpisode}/>
         </> : <>
@@ -842,6 +851,7 @@ function App() {
         </header>
 
         {arabicLibrary ? <>
+          <SyncedLibrary query={search} onPlay={startArabicEpisode}/>
           <LicensedLibrary query={search} onPlay={startArabicEpisode}/>
           <ArabicDiscovery query={search} existing={[]} options={fetchOptions} onMovie={setActiveMovie} onEpisode={startArabicEpisode}/>
         </> : <>
@@ -949,7 +959,7 @@ function writeAdMemory(movieId, observations) {
 }
 
 
-function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onServerChange, onSandboxToggle, onProgressUpdate, onBack }) {
+function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onServerChange, onSandboxToggle, onProgressUpdate, onBack, onNativeFailure, initialResumeSeconds }) {
   const videoRef = useRef(null);
   const iframeRef = useRef(null);
   const containerRef = useRef(null);
@@ -1254,7 +1264,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     if(!nativeSource || !video) return;
     setNativeError('');setQuality(-1);setLevels([]);setPlayState('Preparing');
     const url=nativeSource.stream_url;
-    if(movie.licensedSource&&(!Number.isFinite(Date.parse(movie.licensedSource.rights?.expires))||Date.parse(movie.licensedSource.rights.expires)<=Date.now())){setNativeError('Playback authorization expired.');return;}
+    if(movie.licensedSource&&(!Number.isFinite(Date.parse(movie.licensedSource.rights?.expires))||Date.parse(movie.licensedSource.rights.expires)<=Date.now())){if(onNativeFailure)onNativeFailure({time:0,duration:0});else setNativeError('Playback authorization expired.');return;}
     const desired=languageCode(movie.original_language);
     let hls, selectedAudio=false,selectedSub=false;
     setLanguageStatus({audio:desired?'Looking for original audio':'Original language unknown',subs:'Looking for Arabic subtitles'});
@@ -1266,11 +1276,24 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     video.addEventListener('loadedmetadata',applyNative);
     video.textTracks?.addEventListener('addtrack',applyNative);
     video.audioTracks?.addEventListener('addtrack',applyNative);
+    let failed=false,deadline;
+    const clearDeadline=()=>clearTimeout(deadline);
     const fail=()=> {
+      if(failed)return;failed=true;clearDeadline();
+      if(onNativeFailure){onNativeFailure({time:video.currentTime,duration:video.duration});return;}
       if(ownedSource||movie.licensedSource) setNativeError('This video could not be loaded. Check its URL, permissions and CORS.');
       else setExtractionStatus('failed');
     };
+    const armDeadline=()=>{if(!onNativeFailure)return;clearDeadline();deadline=setTimeout(fail,20000);};
+    const onStall=()=>{if(!video.paused)armDeadline();};
+    const onCanPlay=()=>{clearDeadline();if(movie.sourceSync&&video.videoHeight>0&&video.videoHeight<720)fail();};
     video.addEventListener('error',fail);
+    video.addEventListener('canplay',onCanPlay);
+    video.addEventListener('playing',clearDeadline);
+    video.addEventListener('waiting',onStall);
+    video.addEventListener('stalled',onStall);
+    video.addEventListener('pause',clearDeadline);
+    armDeadline();
     const isMp4=nativeSource.type==='mp4'||/\.mp4(?:[?#]|$)/i.test(url);
     if(isMp4 || video.canPlayType('application/vnd.apple.mpegurl')) video.src=url;
     else if(Hls.isSupported()) {
@@ -1280,13 +1303,13 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
         if(!selectedAudio&&hls.audioTracks.length){const i=originalAudioIndex(hls.audioTracks,desired);if(i>=0){hls.audioTrack=i;selectedAudio=true;setLanguageStatus(v=>({...v,audio:'Original language selected'}));}}
         if(!selectedSub&&hls.subtitleTracks.length){const i=arabicSubtitleIndex(hls.subtitleTracks);if(i>=0){hls.subtitleTrack=i;hls.subtitleDisplay=true;selectedSub=true;setLanguageStatus(v=>({...v,subs:'Arabic selected'}));}}
       };
-      hls.on(Hls.Events.MANIFEST_PARSED,()=>{setLevels(hls.levels.map((l,i)=>({id:i,height:l.height||0,bitrate:l.bitrate||0})));applyHls();});
+      hls.on(Hls.Events.MANIFEST_PARSED,()=>{const all=hls.levels.map((l,i)=>({id:i,height:l.height||0,bitrate:l.bitrate||0}));const usable=movie.sourceSync?all.filter(l=>l.height>=720):all;setLevels(usable);if(movie.sourceSync){if(!usable.length){fail();return;}const best=usable.reduce((a,b)=>b.height>a.height?b:a);hls.currentLevel=best.id;setQuality(best.id);}applyHls();});
       hls.on(Hls.Events.AUDIO_TRACKS_UPDATED,applyHls);
       hls.on(Hls.Events.SUBTITLE_TRACKS_UPDATED,applyHls);
       hls.loadSource(url);hls.attachMedia(video);
       hls.on(Hls.Events.ERROR,(_event,data)=>{if(data.fatal)fail();});
     } else fail();
-    return()=>{video.removeEventListener('error',fail);video.removeEventListener('loadedmetadata',applyNative);video.textTracks?.removeEventListener('addtrack',applyNative);video.audioTracks?.removeEventListener('addtrack',applyNative);hls?.destroy();hlsRef.current=null;video.pause();video.removeAttribute('src');video.load();};
+    return()=>{clearDeadline();video.removeEventListener('error',fail);video.removeEventListener('canplay',onCanPlay);video.removeEventListener('playing',clearDeadline);video.removeEventListener('waiting',onStall);video.removeEventListener('stalled',onStall);video.removeEventListener('pause',clearDeadline);video.removeEventListener('loadedmetadata',applyNative);video.textTracks?.removeEventListener('addtrack',applyNative);video.audioTracks?.removeEventListener('addtrack',applyNative);hls?.destroy();hlsRef.current=null;video.pause();video.removeAttribute('src');video.load();};
   }, [nativeSource,ownedSource,movie.original_language]);
 
   const restoreProtection=()=>{
@@ -1355,7 +1378,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
           <button onClick={onBack} aria-label="Back to library" className="w-10 h-10 shrink-0 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-2xl">‹</button>
           <div className="flex-1 min-w-0">
             <p className="truncate font-semibold text-sm md:text-base leading-tight">{movie.title}</p>
-            <p className="text-[10px] text-gray-400 mt-0.5 truncate">{isNative?'Direct player':publisherSource?'Official publisher · ads possible':currentServer===10?'Cinesrc · Protected':(fallbackNodes[currentServer]?.name||'Player')+' · Protected'}</p>
+            <p className="text-[10px] text-gray-400 mt-0.5 truncate">{isNative?(movie.sourceSync?'Cinema Direct · '+(movie.licensedSource?.rights?.provider||''):'Direct player'):publisherSource?'Official publisher · ads possible':currentServer===10?'Cinesrc · Protected':(fallbackNodes[currentServer]?.name||'Player')+' · Protected'}</p>
           </div>
           <button onClick={()=>{setShowPlaybackHelp(v=>!v);setShowServerList(false);}} aria-label="Playback options" aria-expanded={showPlaybackHelp} className="w-10 h-10 shrink-0 rounded-full bg-white/5 hover:bg-white/10 text-xl flex items-center justify-center">⋯</button>
         </div>
@@ -1374,8 +1397,8 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
             {!isNative&&currentServer===10&&<p className="text-xs text-gray-400">Cinesrc is the default. Audio and Arabic subtitles are controlled by the embedded player.</p>}
             <div className="flex justify-between items-center gap-3"><span className="text-sm text-gray-300">Navigation protection</span><span className="text-xs text-green-300">Always on</span></div>
             {isNative&&<p className="text-xs text-gray-400">{playState}{mediaInfo.duration>0?' · '+formatTime(Math.floor(mediaInfo.time))+' / '+formatTime(Math.floor(mediaInfo.duration)):''}<br/>Audio: {languageStatus.audio} · CC: {languageStatus.subs}</p>}
-            {isNative&&levels.length>1&&<div className="flex justify-between items-center"><label htmlFor="cinema-quality" className="text-sm text-gray-300">Quality</label><select id="cinema-quality" value={quality} onChange={e=>{const v=Number(e.target.value);setQuality(v);if(hlsRef.current)hlsRef.current.currentLevel=v;}} className="bg-zinc-800 rounded-lg px-2 py-2 text-xs"><option value={-1}>Auto</option>{levels.map(l=><option key={l.id} value={l.id}>{l.height?l.height+'p':Math.round(l.bitrate/1000)+' kbps'}</option>)}</select></div>}
-            <button onClick={()=>{setPublisherSource(null);setDirectOnly(v=>!v);}} aria-pressed={directOnly} className="w-full flex items-center justify-between gap-3 text-sm text-left"><span>Direct-only mode</span><span className={`rounded-full w-10 h-6 p-1 transition-colors ${directOnly?'bg-purple-600':'bg-zinc-600'}`}><span className={`block w-4 h-4 rounded-full bg-white transition-transform ${directOnly?'translate-x-4':''}`}/></span></button>
+            {isNative&&levels.length>1&&<div className="flex justify-between items-center"><label htmlFor="cinema-quality" className="text-sm text-gray-300">Quality</label><select id="cinema-quality" value={quality} onChange={e=>{const v=Number(e.target.value);setQuality(v);if(hlsRef.current)hlsRef.current.currentLevel=v;}} className="bg-zinc-800 rounded-lg px-2 py-2 text-xs">{!movie.sourceSync&&<option value={-1}>Auto</option>}{levels.map(l=><option key={l.id} value={l.id}>{l.height?l.height+'p':Math.round(l.bitrate/1000)+' kbps'}</option>)}</select></div>}
+            <button disabled={Boolean(movie.sourceSync)} onClick={()=>{setPublisherSource(null);setDirectOnly(v=>!v);}} aria-pressed={directOnly} className="w-full flex items-center justify-between gap-3 text-sm text-left"><span>Direct-only mode</span><span className={`rounded-full w-10 h-6 p-1 transition-colors ${directOnly?'bg-purple-600':'bg-zinc-600'}`}><span className={`block w-4 h-4 rounded-full bg-white transition-transform ${directOnly?'translate-x-4':''}`}/></span></button>
           </div>
           {!arabic&&!isNative&&!directOnly&&<div className="mt-4 space-y-2">
             {<button onClick={()=>setShowServerList(v=>!v)} aria-expanded={showServerList} className="w-full flex items-center justify-between rounded-xl bg-white/5 px-4 py-3 text-sm"><span>Change server</span><span className="text-gray-400">{showServerList?'⌃':'›'}</span></button>}
@@ -1389,13 +1412,13 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
           </div>}
           {blockedAdCount>0&&<p className="mt-3 text-xs text-green-300">Topcontent blocked: {blockedAdCount}</p>}
           {adNotice&&<p role="status" className="mt-3 text-xs text-gray-300">{adNotice}</p>}
-          <details className="mt-4 text-xs text-gray-400"><summary className="cursor-pointer py-2">Advanced options</summary><p className="mt-2">Direct-only mode prevents external player pages. Use a licensed or owned HTTPS MP4/HLS source.</p>
+          {!movie.sourceSync&&<details className="mt-4 text-xs text-gray-400"><summary className="cursor-pointer py-2">Advanced options</summary><p className="mt-2">Direct-only mode prevents external player pages. Use a licensed or owned HTTPS MP4/HLS source.</p>
             <div className="flex gap-2 mt-3"><input type="url" value={ownedUrl} onChange={e=>setOwnedUrl(e.target.value)} placeholder="https://…/video.mp4" className="min-w-0 flex-1 bg-black rounded-lg px-2 py-2 text-white"/><button onClick={openOwned} className="bg-purple-600 px-3 rounded-lg">Play</button></div>
             {ownedError&&<p className="text-red-300 mt-2">{ownedError}</p>}
             {ownedSource&&<button onClick={()=>{setOwnedSource(null);setNativeError('');setShowPlaybackHelp(false);}} className="mt-3 underline">Return to original source</button>}
             <button onClick={()=>{restoreProtection();setShowPlaybackHelp(false);}} className="mt-3 block underline">Reset protected player</button>
             <a href={`https://www.themoviedb.org/${isTV?'tv':'movie'}/${movie.tmdbId||movie.id}/watch`} target="_blank" rel="noopener noreferrer" className="block mt-3 underline">Official streaming options</a>
-          </details>
+          </details>}
           {arabic&&!movie.licensedSource&&<PublisherFallback movie={movie} onSelect={v=>{setPublisherSource(v);setDirectOnly(false);setExhausted(false);setShowPlaybackHelp(false);setFrameRevision(x=>x+1);}}/>}
           {!movie.licensedSource&&(movie.isArabic||isTV)&&<OfficialAvailability movie={movie} options={fetchOptions}/>}
           <button onClick={()=>setShowPlaybackHelp(false)} className="mt-5 w-full bg-purple-600 rounded-xl py-3 font-semibold text-sm">Done</button>
@@ -1418,7 +1441,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
             onWaiting={()=>setPlayState('Buffering')}
             onPlaying={()=>setPlayState('Playing')}
             onEnded={()=>{setPlayState('Finished');publishProgress(videoRef.current?.duration,videoRef.current?.duration,true);}}
-            onLoadedMetadata={()=>{const v=videoRef.current;if(v&&Number.isFinite(v.duration)&&v.duration>0){const p=Number(syncSettings.progress||0);if(p>0&&p<95&&v.currentTime<1)v.currentTime=v.duration*p/100;publishProgress(v.currentTime,v.duration);}}} 
+            onLoadedMetadata={()=>{const v=videoRef.current;if(v&&Number.isFinite(v.duration)&&v.duration>0){const p=Number(syncSettings.progress||0);if(Number.isFinite(initialResumeSeconds)&&initialResumeSeconds>0&&initialResumeSeconds<v.duration-1)v.currentTime=initialResumeSeconds;else if(p>0&&p<95&&v.currentTime<1)v.currentTime=v.duration*p/100;publishProgress(v.currentTime,v.duration);}}} 
             onSeeked={() => sendVideoEvent('seek')}
             onTimeUpdate={() => {
               if (videoRef.current) publishProgress(videoRef.current.currentTime,videoRef.current.duration);

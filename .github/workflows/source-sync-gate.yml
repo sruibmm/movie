@@ -7,6 +7,7 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -14,3 +15,6 @@ jobs:
           node-version: '22'
       - run: node scripts/source-sync-gate-test.mjs
       - run: node scripts/source-sync-runtime-test.mjs
+      - run: node scripts/synced-playback-model-test.mjs
+      - run: npm ci
+      - run: npm run build:cloudflare

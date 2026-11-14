@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {synchronize,resolveCandidates,readFeed,policies} from '../worker/source-sync.js';
+import {synchronize,resolveCandidates,readFeed,policies,listSyncedTitles} from '../worker/source-sync.js';
 const now=Date.parse('2026-11-14T12:00:00Z');
 const map=new Map();const storage={get:async k=>map.get(k),put:async(k,v)=>map.set(k,v),transaction:async f=>f(storage)};
 function fixture(provider,revision=1,height=1080){
@@ -22,6 +22,7 @@ assert.equal((await storage.get('source:primary')).observations['a0-1'].checkedA
 const tampered=fixture('primary');tampered.snapshot.titles[0].title='Changed without revision';
 assert.equal((await synchronize(storage,a.policy,tampered.fetcher,now)).reason,'same-revision-content-changed');
 assert.equal((await synchronize(storage,a.policy,a.fetcher,now)).reason,'evidence-regression');
+const listed=await listSyncedTitles(storage,[a.policy,b.policy],now);assert.equal(listed.length,1);assert.deepEqual(listed[0].episodes,[{season:1,episode:1},{season:1,episode:2}]);assert(!JSON.stringify(listed).includes('.m3u8'));assert.equal((await listSyncedTitles(storage,[a.policy,b.policy],now+100000000)).length,0);
 const req={work:'work:gaafar',season:1,episode:2};
 const options=await resolveCandidates(storage,[a.policy,b.policy],req,now);assert.deepEqual(options.map(x=>x.id),['primary:a0-2','backup:a0-2']);
 assert.equal((await resolveCandidates(storage,[a.policy,b.policy],{...req,exclude:['primary:a0-2']},now))[0].id,'backup:a0-2');
