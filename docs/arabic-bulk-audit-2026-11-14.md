@@ -1,0 +1,8 @@
+# Arabic bulk source audit — 2026-11-14
+Release rule: at least 100 distinct complete Arabic series and full films, no YouTube, generic video-host aggregator, missing episode or unverified embed. Keep existing library intact.
+- Arjoani episode samples: YouTube iframe; excluded.
+- Broadcaster scan: 106 candidate series / 3355 episodes / 3 films after grouping sequels. An independent metadata pass on the captured 103-title snapshot verified 98 series / 3034 episodes / 2 films. Five titles were excluded (remake, title collisions, metadata/normalization, and a non-series). Three long snapshot records were not captured completely.
+- Actual public Dailymotion embed and legacy redirects returned HTTP 403 for tested episodes and film. Dailymotion docs require a valid Player ID as of its 2026 migration. The metadata geoblocking ["allow"] means unrestricted; this alone does not establish playback.
+- Audit branch: cinema-source-audit, candidate catalog in 04e9d3a and independent check in fbc3954. No bulk titles have been promoted to the main Arabic library.
+- Previously indexed 34 Dailymotion episodes remain as staged references; the UI and player do not advertise them as playable without a configured Player ID. User-owned or publisher-authorized VITE_DAILYMOTION_PLAYER_ID is needed for the supported embed URL. No use of internal site/demo Player IDs, no bypass of regional restrictions, no direct stream extraction.
+- No change to World Cinema, YouTube library or existing media history. A build or metadata pass is not evidence of actual playback. Do not promote this batch until a 100+ complete series and film count, actual embedding, and user requirements all pass.

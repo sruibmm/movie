@@ -168,11 +168,17 @@ export const ARABIC_SITE_SERIES=[
   }
 ];
 const norm=s=>normalizeArabic(s).replace(/\s+/g,'').trim();
+export const DM_PLAYER_ID=String(import.meta.env?.VITE_DAILYMOTION_PLAYER_ID||'').trim();
+export const DM_PLAYER_CONFIGURED=/^x[a-z0-9]{1,20}$/i.test(DM_PLAYER_ID);
+export function dailymotionEmbed(id,playerId=DM_PLAYER_ID){
+ if(!/^x[a-z0-9]{5,12}$/i.test(id||'')||!/^x[a-z0-9]{1,20}$/i.test(playerId||''))return null;
+ return 'https://geo.dailymotion.com/player/'+playerId+'.html?video='+id;
+}
 export const ARABIC_SITE_EPISODES=ARABIC_SITE_SERIES.reduce((n,g)=>n+g.episodes.length,0);
 export function findArabicSiteSeries(movie){const names=[movie.seriesTitle,movie.title,movie.name,movie.original_name].filter(Boolean).map(norm);const year=String(movie.first_air_date||movie.release_date||'').slice(0,4);const found=ARABIC_SITE_SERIES.filter(g=>names.includes(norm(g.title))&&(!year||year===g.year));return found.length===1?found[0]:null;}
-export function arabicSiteEpisode(g,number){const e=g?.episodes.find(x=>x.number===Number(number));if(!e||!/^x[a-z0-9]{5,12}$/.test(e.id))return null;return {id:e.id,provider:'dailymotion',title:g.title+' · الحلقة '+e.number,publisher:g.channel,embed:'https://geo.dailymotion.com/player.html?video='+e.id,source:'https://www.dailymotion.com/video/'+e.id,adsPossible:true};}
+export function arabicSiteEpisode(g,number){const e=g?.episodes.find(x=>x.number===Number(number));if(!e||!/^x[a-z0-9]{5,12}$/.test(e.id))return null;return {id:e.id,provider:'dailymotion',title:g.title+' · الحلقة '+e.number,publisher:g.channel,embed:dailymotionEmbed(e.id),source:'https://www.dailymotion.com/video/'+e.id,adsPossible:true};}
 export function siteEpisodeMovie(g,e){const source=arabicSiteEpisode(g,e.number);if(!source)throw Error('Invalid publisher episode');return {id:'dailymotion:'+e.id,title:source.title,seriesTitle:g.title,media_type:'tv',season:1,episode:e.number,release_date:g.year+'-01-01',isArabic:true,original_language:'ar',publisherSource:source};}
-export function attachArabicSiteEpisode(movie){if(movie.publisherSource||movie.media_type!=='tv'||Number(movie.season)!==1)return movie;const source=arabicSiteEpisode(findArabicSiteSeries(movie),movie.episode);return source?{...movie,publisherSource:source}:movie;}
+export function attachArabicSiteEpisode(movie){if(!DM_PLAYER_CONFIGURED||movie.publisherSource||movie.media_type!=='tv'||Number(movie.season)!==1)return movie;const source=arabicSiteEpisode(findArabicSiteSeries(movie),movie.episode);return source?{...movie,publisherSource:source}:movie;}
 export function isArabicMovie(movie){return !!(movie?.isArabic||movie?.original_language==='ar');}
-export function approvedPublisherUrl(s){if(s?.provider==='dailymotion')return /^x[a-z0-9]{5,12}$/.test(s.id||'')?'https://geo.dailymotion.com/player.html?video='+s.id:null;if(s?.playlist&&/^PL[-_A-Za-z0-9]{10,80}$/.test(s.id||''))return 'https://www.youtube-nocookie.com/embed/videoseries?list='+s.id+'&playsinline=1&rel=0&autoplay=1';if(/^[-_A-Za-z0-9]{11}$/.test(s?.id||''))return 'https://www.youtube-nocookie.com/embed/'+s.id+'?playsinline=1&rel=0&autoplay=1';return null;}
+export function approvedPublisherUrl(s,playerId=DM_PLAYER_ID){if(s?.provider==='dailymotion')return dailymotionEmbed(s.id,playerId);if(s?.playlist&&/^PL[-_A-Za-z0-9]{10,80}$/.test(s.id||''))return 'https://www.youtube-nocookie.com/embed/videoseries?list='+s.id+'&playsinline=1&rel=0&autoplay=1';if(/^[-_A-Za-z0-9]{11}$/.test(s?.id||''))return 'https://www.youtube-nocookie.com/embed/'+s.id+'?playsinline=1&rel=0&autoplay=1';return null;}
 export function allowArabicPlayback(movie){return !isArabicMovie(movie)||!!(movie.licensedSource||approvedPublisherUrl(movie.publisherSource));}
