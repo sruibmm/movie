@@ -11,3 +11,16 @@ console.log('PASS canonical movie identity, exact episode, candidate ordering an
 const opaque={...a,id:'opaque',url:'https://media.example.com/delivery/asset123',rights:{...rights,nativeMp4:true}};
 assert.deepEqual(filterCandidates({candidates:[opaque,{...opaque,id:'unapproved',rights}]},now).map(x=>x.id),['opaque']);
 console.log('PASS provider-declared opaque MP4 delivery');
+
+import {exactSyncedAlternative,verifiedSyncedAlternative} from '../src/privatePlaybackFallback.js';
+const work={id:'alooytv:fixture',title:'Synthetic',kind:'tv',year:'2026'},slot={season:1,episode:2};
+assert.equal(exactSyncedAlternative(work,slot,[t]).sourceSync.episode,2);
+assert.equal(exactSyncedAlternative(work,{season:2,episode:2},[t]),null);
+assert.equal(exactSyncedAlternative({...work,year:'2025'},slot,[t]),null);
+assert.equal(exactSyncedAlternative(work,slot,[t,{...t,work:'ambiguous'}]),null);
+const current=Date.now(),asset={...a,checkedAt:current,rights:{...rights,expires:new Date(current+86400000).toISOString()}};
+const mock=async url=>Response.json(url.includes('/catalog')?{titles:[t]}:{candidates:[asset]});
+assert.equal((await verifiedSyncedAlternative(work,slot,mock)).sourceSync.episode,2);
+const empty=async url=>Response.json(url.includes('/catalog')?{titles:[t]}:{candidates:[]});
+assert.equal(await verifiedSyncedAlternative(work,slot,empty),null);
+console.log('PASS exact approved fallback, no wrong year, season, ambiguous identity or empty source');
