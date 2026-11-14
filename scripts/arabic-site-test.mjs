@@ -15,3 +15,13 @@ assert.equal(approvedPublisherUrl({provider:'licensed-embed',id:movie.id,embed:g
 const episode={id:'fixture-episode',media_type:'tv',season:1,episode:2};
 assert.equal(approvedEmbed(episode,[{...grant,movieId:episode.id,kind:'tv',season:1,episode:1}]),null);
 console.log('APPROVED EMBED PASS: exact title/episode, authorization expiry, origin, native priority and empty default');
+
+import {approvedPrivateSlot} from '../src/approvedEmbedCatalog.js';
+const work={id:'fixture',title:'Film',kind:'movie',year:2024,poster:'https://example.com/poster.jpg'},slot={id:'fixture:movie'};
+const privateGrant={...grant,movieId:'private:'+slot.id};
+assert.equal(approvedPrivateSlot(work,slot),null);
+const embedded=approvedPrivateSlot(work,slot,[privateGrant]);
+assert.equal(embedded.id,'private:'+slot.id);assert.equal(embedded.licensedPoster,work.poster);assert.equal(embedded.publisherSource.embed,privateGrant.embed);
+assert.equal(approvedPrivateSlot(work,{id:'other'},[privateGrant]),null);
+assert.equal(approvedPrivateSlot({...work,kind:'tv'},{...slot,season:1,episode:2},[{...privateGrant,kind:'tv',season:1,episode:1}]),null);
+console.log('PRIVATE SLOT EMBED PASS: preserve movie identity, exact episode, no unapproved source');
