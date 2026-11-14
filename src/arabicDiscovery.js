@@ -5,6 +5,23 @@ export function mergeArabic(rows,existing=[]){const used=new Set(existing.map(x=
 export function episodeMovie(show,season,episode){if(!Number.isInteger(show.id)||!Number.isInteger(season)||season<1||!Number.isInteger(episode.episode_number)||episode.episode_number<1)throw Error('Invalid episode');return {id:'tv:'+show.id+':'+season+':'+episode.episode_number,tmdbId:show.id,media_type:'tv',season,episode:episode.episode_number,title:(show.name||show.title)+' · S'+season+' E'+episode.episode_number,seriesTitle:show.name||show.title,runtime:episode.runtime,release_date:show.first_air_date||show.release_date,poster_path:show.poster_path,original_language:show.original_language,isArabic:show.original_language==='ar'};}
 export function embedwaveUrl(movie){if(movie.media_type==='tv'){if(!Number.isInteger(movie.tmdbId)||!Number.isInteger(movie.season)||!Number.isInteger(movie.episode)||movie.season<1||movie.episode<1)throw Error('Invalid TV route');return 'https://embedwave.cc/embed/tv/'+movie.tmdbId+'/'+movie.season+'/'+movie.episode+'?server=cinesrc';}return 'https://embedwave.cc/embed/movie/'+encodeURIComponent(movie.id)+'?server=cinesrc';}
 
+// CineSrc public player UI reads subtitles and subtitlelang from its own URL.
+// EmbedWave's wrapper only forwards its supported parameters, so use the same
+// CineSrc player directly when a caption preference is requested.
+export function cinesrcUrl(movie,language='ar'){
+ const tv=movie.media_type==='tv',id=String(tv?movie.tmdbId:movie.id);
+ if(!/^\d+$/.test(id))return null;
+ const q=new URLSearchParams();
+ if(tv){
+  if(!Number.isInteger(movie.season)||!Number.isInteger(movie.episode)||movie.season<1||movie.episode<1)return null;
+  q.set('s',String(movie.season));q.set('e',String(movie.episode));q.set('color','#FF1493');q.set('autonext','true');
+ }
+ q.set('autoplay','true');
+ q.set('subtitles',language==='off'?'off':'auto');
+ if(language!=='off')q.set('subtitlelang',language==='en'?'English':'Arabic');
+ return 'https://cinesrc.st/embed/'+(tv?'tv':'movie')+'/'+id+'?'+q.toString();
+}
+
 export const ARABIC_GENRES=Object.freeze([{id:'',label:'كل الأنواع'},{id:'18',label:'دراما'},{id:'35',label:'كوميديا'},{id:'10751',label:'عائلي'},{id:'80',label:'جريمة'},{id:'9648',label:'غموض'},{id:'99',label:'وثائقي'}]);
 export const ARABIC_SORTS=Object.freeze(['popular','newest','top']);
 export function arabicCatalogJobs({query='',kind='all',genre='',sort='popular',page=1}={}){
