@@ -99,7 +99,7 @@ async function loadEpisode(page,candidates,fetcher){
  if(candidates?.length){try{return {url:await chooseMedia(candidates,fetcher),html:''};}catch{}}
  const html=await getPage(page,fetcher),base=source(page);
  const graph=mediaByEpisode(anchors(html,page),base,{source,allowedMedia:validMedia,decode:x=>new URL(atob(x)).href});
- return {html,url:await chooseMedia(candidatesFor(graph,base),fetcher)};
+ return {html,url:await chooseMedia([...candidatesFor(graph,base),...explicitVideoLinks(html,page)],fetcher)};
 }
 async function getPage(url,fetcher){let r;for(let hop=0;hop<4;hop++){r=await fetcher(url,{redirect:'manual',signal:AbortSignal.timeout(8000),headers:{accept:'text/html'}});if(![301,302,303,307,308].includes(r.status))break;const next=source(r.headers.get('Location'),url);if(!next)throw Error('unapproved-redirect');url=next.href;}if(!r.ok)throw Error('page-'+r.status);const body=await r.text();if(body.length>3000000)throw Error('page-too-large');return body;}
 export async function probe(url,fetcher=fetch){const r=await fetcher(url,{redirect:'manual',signal:AbortSignal.timeout(8000),headers:{Range:'bytes=0-4095'}});if(r.status>=300&&r.status<400){await r.body?.cancel().catch(()=>{});throw Error('media-redirect-'+r.status);}if(!r.ok||!r.body){await r.body?.cancel().catch(()=>{});throw Error('media-'+r.status);}const reader=r.body.getReader();let bytes=[];try{while(bytes.length<12){const {done,value}=await reader.read();if(done)break;bytes.push(...value.subarray(0,32));}}finally{await reader.cancel().catch(()=>{});}if(bytes.length<12||String.fromCharCode(...bytes.slice(4,8))!=='ftyp')throw Error('not-mp4');}
@@ -134,9 +134,29 @@ async function publish(s,d){
 }
 const mediaKey=(id,key)=>P+'links:'+id+':'+encodeURIComponent(key);
 const healthKey=id=>P+'health:'+id;
+// Standard video markup is accepted only when the page explicitly identifies this episode.
+export function explicitVideoLinks(html,page){
+ const base=source(page);if(!base)return [];
+ const same=raw=>{const u=source(raw,page);return !!u&&u.pathname===base.pathname&&(u.searchParams.get('key')||'')===(base.searchParams.get('key')||'');};
+ const canonical=[...html.matchAll(/<link\b[^>]*>/gi)].find(m=>attr(m[0],'rel').toLowerCase()==='canonical');
+ const declared=meta(html,'og:url')||attr(canonical?.[0]||'','href');
+ const out=new Set();
+ const add=raw=>{const url=image(raw,page);if(url&&validMedia(url))out.add(url);};
+ for(const ld of schema(html)){
+  if(!types(ld).includes('VideoObject'))continue;
+  const identity=value(ld.mainEntityOfPage)||value(ld.url)||ld['@id'];
+  if(identity&&same(identity))add(value(ld.contentUrl));
+ }
+ if(declared&&same(declared)){
+  const videos=[...html.matchAll(/<video\b([^>]*)>([\s\S]*?)<\/video\s*>/gi)];
+  if(videos.length===1){add(attr(videos[0][1],'src'));for(const m of videos[0][2].matchAll(/<source\b[^>]*>/gi))add(attr(m[0],'src'));}
+ }
+ return [...out].slice(0,3);
+}
 async function harvestLinks(s,id,page,html,now){
  const base=source(page);if(!base)return new Map();
  const graph=mediaByEpisode(anchors(html,page),base,{source,allowedMedia:validMedia,decode:x=>new URL(atob(x)).href});
+ const explicit=explicitVideoLinks(html,page);if(explicit.length){const key=base.searchParams.get('key')||'';const set=graph.get(key)||new Set();explicit.forEach(u=>set.add(u));graph.set(key,set);}
  const entries=[...graph].slice(0,1000).map(([key,urls])=>[mediaKey(id,key),{urls:[...urls].slice(0,3),at:now}]);
  if(entries.length)await putMany(s,entries);
  return graph;
@@ -254,7 +274,9 @@ export async function crawl(s,fetcher=fetch,now=Date.now(),budget=48){
  const [workMap,draftMap]=await Promise.all([queueRows(s,P+'work:'),queueRows(s,P+'draft:')]);
  const works=workMap,drafts=draftMap;
  const pendingHealthRows=await getMany(s,[...new Set([...pending.values()].filter(j=>j.type==='episode'&&j.phase!=='verify').map(j=>healthKey(j.id)))]);
- const due=j=>effectiveDue(j,pendingHealthRows.get(healthKey(j.id)),now);
+ const pendingLinkKeys=[...pending.values()].flatMap(j=>{const u=source(j.url);return u&&j.type==='episode'&&j.phase!=='verify'?[mediaKey(j.id,u.searchParams.get('key')||'')]:[];});
+ const freshLinks=await getMany(s,pendingLinkKeys);
+ const due=j=>{const u=source(j.url);const v=u&&j.type==='episode'&&j.phase!=='verify'?freshLinks.get(mediaKey(j.id,u.searchParams.get('key')||'')):null;return effectiveDue(j,pendingHealthRows.get(healthKey(j.id)),now,!!(v?.urls?.length&&now-v.at<DAY&&v.at>(j.deferredAt||j.after||0)));};
  const readyCount=[...pending.values()].filter(j=>due(j)<=now).length;
  const nextRetry=[...pending.values()].filter(j=>due(j)>now).reduce((m,j)=>Math.min(m,due(j)),Infinity);
  const stages={index:0,work:0,extract:0,verify:0};const delayed={structural:0,transient:0,cooldown:0};
