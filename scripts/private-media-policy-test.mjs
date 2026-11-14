@@ -35,4 +35,31 @@ configureMediaHosts(undefined);assert.equal(validMedia(v3),false);
 const freshId='alooytv:unknownfixture',freshWork='https://af.alooytv16.com/watch/unknownfixture.html';
 const bad=await recoveryRequest('/private-episode',new Request('https://cinema.test/private-episode?id='+freshId+'&season=1&episode=1'),async url=>{if(String(url)===freshWork)return new Response('<h1>Unknown fixture</h1><script type="application/ld+json">{"@type":"TVSeries","name":"Unknown fixture"}</script><a href="?key=e1">Ep#1</a>');if(String(url)===freshWork+'?key=e1')return new Response('<a href="/download_video.php?ref='+encodeURIComponent('/watch/unknownfixture.html?key=e1')+'&amp;video_url='+encodeURIComponent(btoa(v3))+'">Download</a>');throw Error('unexpected-fetch');},now);
 assert.equal(bad.status,502);assert.match((await bad.json()).error,/unsupported-hosts:media\.publisher-demo\.com/);
+
+// Verify approved 302 chains, including a relative hop, and reject unknown targets.
+const initial='https://vid4.ujeklsj.site/test/initial.mp4',middle='https://vid5.ujeklsj.site/test/step.mp4',final='https://vid5.ujeklsj.site/test/final.mp4';
+let redirects=[];
+const bytes=()=>new Response(Uint8Array.from([0,0,0,24,102,116,121,112,105,115,111,109,0,0,0,0]),{status:206});
+assert.equal(await probe(initial,async(url,opts)=>{
+ redirects.push(url);assert.equal(opts.redirect,'manual');assert.equal(opts.headers.Range,'bytes=0-4095');
+ if(url===initial)return new Response(null,{status:302,headers:{Location:middle}});
+ if(url===middle)return new Response(null,{status:307,headers:{Location:'final.mp4'}});
+ if(url===final)return bytes();throw Error('unexpected-fetch');
+}),final);
+assert.deepEqual(redirects,[initial,middle,final]);
+let unsafeHits=0;await assert.rejects(()=>probe(initial,async()=>{unsafeHits++;return new Response(null,{status:302,headers:{Location:'https://example.com/video.mp4'}});}),/unapproved-host example\.com/);assert.equal(unsafeHits,1);
+await assert.rejects(()=>probe(initial,async()=>new Response(null,{status:302,headers:{Location:initial}})),/media-redirect-loop/);
+await assert.rejects(()=>probe(initial,async()=>new Response(null,{status:302})),/missing-location/);
+await assert.rejects(()=>probe(initial,async()=>new Response('<html>Not a video</html>')),/not-mp4/);
+let hops=0;await assert.rejects(()=>probe(initial,async()=>new Response(null,{status:302,headers:{Location:'https://vid4.ujeklsj.site/test/hop'+(++hops)}})),/media-redirect-limit/);assert.equal(hops,5);
+const redirectId='alooytv:redirectfixture',redirectWork='https://af.alooytv16.com/watch/redirectfixture.html';
+const response=await recoveryRequest('/private-episode',new Request('https://cinema.test/private-episode?id='+redirectId+'&season=1&episode=1'),async raw=>{
+ const url=String(raw);
+ if(url===redirectWork)return new Response('<h1>Redirect fixture</h1><script type="application/ld+json">{"@type":"TVSeries","name":"Redirect fixture"}</script><a href="?key=e1">Ep#1</a>');
+ if(url===redirectWork+'?key=e1')return new Response('<a href="/download_video.php?ref='+encodeURIComponent('/watch/redirectfixture.html?key=e1')+'&amp;video_url='+encodeURIComponent(btoa(initial))+'">Download</a>');
+ if(url===initial)return new Response(null,{status:302,headers:{Location:final}});
+ if(url===final)return bytes();throw Error('unexpected-fetch');
+},now);
+assert.equal(response.status,200);assert.equal((await response.json()).url,final);
+
 console.log('GLOBAL MEDIA POLICY PASS: exact identities, known and operator-approved hosts, saved assets, stateless playback and diagnostic rejection');
