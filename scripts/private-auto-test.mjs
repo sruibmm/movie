@@ -69,4 +69,16 @@ await crawl(separate,multiFetch,now+4000);
 const mw=await (await privateRequest(new Request('https://internal/private-work?id=alooytv:gztyqowfz11u'),separate)).json();
 assert.equal(mw.partial,true);assert.equal(mw.count,5);assert.equal(mw.assets.length,2);assert.equal(mw.assets[1].season,2);
 
+// Redirects must never silently bind a different episode to the requested slot.
+const redirectStore=new Storage();await crawl(redirectStore,fake,now);
+await assert.rejects(()=>resolveEpisode(redirectStore,'alooytv:gztyqowfz11u',1,1,async raw=>{
+ const url=String(raw);if(url===episode(1))return new Response(null,{status:302,headers:{Location:episode(2)}});
+ return fake(url,{redirect:'manual'});
+},now),/source-identity-redirect-mismatch/);
+// Source rate limiting pauses the whole background crawler, not only one job.
+const limited=new Storage();let rateHits=0;
+const rateFetch=async()=>{rateHits++;return new Response(null,{status:429,headers:{'Retry-After':'120'}});};
+const paused=await crawl(limited,rateFetch,now);assert.equal(paused.ready,0);assert.equal(paused.sourcePausedUntil,now+120000);
+const oldHits=rateHits;const waiting=await crawl(limited,rateFetch,now+1000);
+assert.equal(rateHits,oldHits);assert.equal(waiting.nextRetry,now+120000);
 console.log('PRIVATE AUTO PASS: metadata, discovery, exact episode mapping, complete publication, private listing, authentication, TMDB enrichment');
