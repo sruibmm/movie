@@ -5,7 +5,6 @@ import UnifiedArabicLibrary from './UnifiedArabicLibrary.jsx'
 import ArabicDiscovery,{OfficialAvailability} from './ArabicDiscovery.jsx'
 import {embedwaveUrl} from './arabicDiscovery.js'
 import {ARABIC_BACKENDS,arabicSourceIds,backendUrl,nextArabicSource} from './arabicSources.js'
-import PublisherFallback from './PublisherFallback.jsx'
 import {publisherEmbed} from './watanLookup.js'
 import YouTubePublisherPlayer from './YouTubePublisherPlayer.jsx'
 import {languageCode,originalAudioIndex,arabicSubtitleIndex,orderedSubtitles} from './mediaLanguages.js'
@@ -1323,7 +1322,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
       if(cache.watan===null)cache.watan=await lookup('/api/watan-links');
       if(c.signal.aborted)return;
       let choice=cache.watan.find(v=>/^[A-Za-z0-9_-]{11}$/.test(v.id||'')&&!publisherTried.current.has(v.id));
-      if(!choice){if(cache.other===null)cache.other=await lookup('/api/arabic-sources');if(c.signal.aborted)return;choice=cache.other.find(v=>/^[A-Za-z0-9_-]{11}$/.test(v.id||'')&&!publisherTried.current.has(v.id));}
+      if(!choice){if(cache.other===null)cache.other=await lookup('/api/verified-publisher');if(c.signal.aborted)return;choice=cache.other.find(v=>/^[A-Za-z0-9_-]{11}$/.test(v.id||'')&&!publisherTried.current.has(v.id));}
       if(choice){apply(choice);return;}
       const next=movie.watanOnly?null:nextArabicSource(sourceIds,known,currentPublisher?-1:currentServer);
       if(next!==null){handleServerChange(next);setAdNotice('');return;}
@@ -1414,7 +1413,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
             <button onClick={()=>{restoreProtection();setShowPlaybackHelp(false);}} className="mt-3 block underline">Reset protected player</button>
             {!movie.watanOnly&&<a href={`https://www.themoviedb.org/${isTV?'tv':'movie'}/${movie.tmdbId||movie.id}/watch`} target="_blank" rel="noopener noreferrer" className="block mt-3 underline">Official streaming options</a>}
           </details>
-          {arabic&&!movie.watanOnly&&<PublisherFallback movie={movie} onSelect={v=>{setPublisherSource(publisherEmbed(v));setDirectOnly(false);setExhausted(false);setShowPlaybackHelp(false);setFrameRevision(x=>x+1);}}/>}
+          
           {!movie.watanOnly&&(movie.isArabic||isTV)&&<OfficialAvailability movie={movie} options={fetchOptions}/>}
           <button onClick={()=>setShowPlaybackHelp(false)} className="mt-5 w-full bg-purple-600 rounded-xl py-3 font-semibold text-sm">Done</button>
         </section>
