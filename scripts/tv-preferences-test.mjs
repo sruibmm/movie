@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import {readTvCC,captionIndex,applyTvCC,seekTarget,TV_CC_KEY} from '../src/tvPreferences.js';
+assert.equal(readTvCC({getItem:()=>null}),'ar');
+assert.equal(readTvCC({getItem:k=>k===TV_CC_KEY?'off':null}),'off');
+assert.equal(readTvCC({getItem:()=>{throw Error('disabled')}}),'ar');
+const tracks=[{language:'en',kind:'subtitles',mode:'disabled'},{language:'ar',label:'Arabic forced',kind:'subtitles',mode:'disabled'},{language:'ara',kind:'captions',mode:'disabled'}];
+assert.equal(captionIndex(tracks,'ar'),2);assert.equal(captionIndex(tracks,'en'),0);
+assert.equal(applyTvCC({textTracks:tracks},null,'ar').status,'selected');
+assert.deepEqual(tracks.map(t=>t.mode),['disabled','disabled','showing']);
+assert.equal(applyTvCC({textTracks:tracks},null,'off').status,'off');
+assert.deepEqual(tracks.map(t=>t.mode),['disabled','disabled','disabled']);
+assert.equal(applyTvCC({textTracks:[tracks[0]]},null,'ar').status,'missing');
+const h={subtitleTracks:[{lang:'en'},{lang:'ar'}],subtitleTrack:-1,subtitleDisplay:false};
+assert.equal(applyTvCC({textTracks:[]},h,'ar').engine,'hls');assert.equal(h.subtitleTrack,1);assert.equal(h.subtitleDisplay,true);
+assert.equal(applyTvCC({textTracks:[]},h,'off').status,'off');assert.equal(h.subtitleTrack,-1);assert.equal(h.subtitleDisplay,false);
+assert.equal(seekTarget(5,100,-10),0);assert.equal(seekTarget(95,100,10),100);assert.equal(seekTarget(5,NaN,10),null);
+console.log('TV PREFERENCES PASS: 19 assertions');
