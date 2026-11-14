@@ -1425,6 +1425,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
             <p className="truncate font-semibold text-sm md:text-base leading-tight">{movie.title}</p>
             <p className="text-[10px] text-gray-400 mt-0.5 truncate">{isNative?(movie.sourceSync?'Cinema Direct · '+(movie.licensedSource?.rights?.provider||''):'Direct player'):publisherSource?'Official publisher · ads possible':currentServer===10?'Cinesrc · Protected':(fallbackNodes[currentServer]?.name||'Player')+' · Protected'}</p>
           </div>
+          {tvPlayback&&!isNative&&!directOnly&&!exhausted&&<button onClick={()=>iframeRef.current?.focus()} className="bg-white/10 rounded-lg px-4 py-2 text-sm" aria-label="Focus video player">▶ Player</button>}
           <button onClick={()=>{setShowPlaybackHelp(v=>!v);setShowServerList(false);}} aria-label="Playback options" aria-expanded={showPlaybackHelp} className="w-10 h-10 shrink-0 rounded-full bg-white/5 hover:bg-white/10 text-xl flex items-center justify-center">⋯</button>
         </div>
       </header>
