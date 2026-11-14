@@ -7,7 +7,7 @@
  function art(el){if(!el||el.tagName!=='IMG')return;var src=el.getAttribute('src')||'';if(artwork[src]&&el.getAttribute('data-tv-art-failed')!==src){el.setAttribute('data-tv-art-original',src);el.src=artwork[src];}}
  document.addEventListener('error',function(e){var el=e.target;if(el&&el.tagName==='IMG'&&el.hasAttribute('data-tv-art-original')){var original=el.getAttribute('data-tv-art-original');el.removeAttribute('data-tv-art-original');el.setAttribute('data-tv-art-failed',original);if(original!==el.src){e.stopImmediatePropagation();el.src=original;}}},true);
  document.addEventListener('DOMContentLoaded',function(){var root=document.getElementById('root');if(root)new MutationObserver(function(records){records.forEach(function(record){if(record.type==='attributes')art(record.target);else Array.from(record.addedNodes).forEach(function(node){if(node.nodeType!==1)return;art(node);if(node.querySelectorAll)node.querySelectorAll('img').forEach(art);});});}).observe(root,{childList:true,subtree:true,attributes:true,attributeFilter:['src']});});
- var publicRead=/^\/api\/(?:private-catalog\/(?:list|work|preview|episode|status)|source-sync\/catalog|tv-metadata\/|dailymotion-player)/;
+ var publicRead=/^\/api\/(?:private-catalog\/(?:list|work|preview|episode|status)|source-sync\/(?:catalog|resolve)|tv-metadata\/|dailymotion-player)/;
  window.fetch=function(input,init){
   var url=typeof input==='string'?input:input&&input.url||String(input);
   var path=url.charAt(0)==='/'?url:null;
