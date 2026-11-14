@@ -5,6 +5,9 @@ export function arabicSourceIds(isTV,legacy){return isTV?[...ARABIC_BACKENDS]:[.
 export function backendUrl(movie,id){const u=new URL(embedwaveUrl(movie));const name=backendName(id);if(!name)throw Error('Unknown backend');u.searchParams.set('server',name);return u.href;}
 export function nextArabicSource(ids,memory,current){return ids.filter(i=>i!==current&&!['ad','blocked'].includes(memory[i]?.status)).sort((a,b)=>Number(memory[b]?.status==='clean')-Number(memory[a]?.status==='clean'))[0]??null;}
 export const PUBLISHERS=[
+ {id:'UC39t9YJ_RzgKmmAkq19lhYw',name:'روتانا سينما',url:'https://www.youtube.com/@rotanacinema'},
+ {handle:'moviesimedia',name:'IMedia Movies',url:'https://www.youtube.com/@moviesimedia'},
+ {handle:'imediasharqi',name:'IMedia شرقي',url:'https://www.youtube.com/@imediasharqi'},
  {id:'UCSVSS5aSyHh7ChJlICx_Gkg',name:'السبكي للإنتاج الفني',url:'https://www.youtube.com/@sobkyproductions'},
  {id:'UCog_OCIsfABgX_e9OPZaeoQ',name:'السبكي للإنتاج السينمائي',url:'https://www.youtube.com/@elsobkyforfilm'},
  {id:'UCrIy5XTmRPwZPOlilXDWacA',name:'ماسبيرو دراما',url:'https://www.youtube.com/@MasperoDrama'},
