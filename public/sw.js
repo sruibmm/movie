@@ -14,8 +14,11 @@ const AD_DOMAINS = [
   'perfectaudience.', 'retargeter.', 'connexity.', 'nanigans.'
 ];
 
+self.addEventListener('install',()=>self.skipWaiting());
+self.addEventListener('activate',event=>event.waitUntil(self.clients.claim()));
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
+  if(url.origin===self.location.origin)return;
   
   // Block ad domains
   if (AD_DOMAINS.some(domain => url.hostname.includes(domain))) {
@@ -39,7 +42,7 @@ self.addEventListener('fetch', (event) => {
   
   // Normal fetch
   event.respondWith(fetch(event.request).catch(() => {
-    return new Response(null, { status: 200 });
+    return new Response(null, { status: 503 });
   }));
 });
 
