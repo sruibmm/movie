@@ -39,7 +39,7 @@ function kindHint(u,label=''){const s=(u.pathname+' '+label).toLowerCase();retur
 export function indexLinks(html,page,kind=''){
  const out=new Map();
  for(const a of anchors(html,page)){const u=a.u;
-  if(workPath(u)){u.search='';const id=workId(u);const img=a.html.match(/<img\b[^>]*>/i)?.[0]||'';const poster=image(attr(img,'data-src')||attr(img,'src'),page);const title=clean(attr(img,'alt')||attr(img,'title')||attr(a.html.match(/<[^>]+>/)?.[0]||'','title')||a.label).slice(0,300);const info=categoryInfo(page);const previous=out.get('w:'+id);if(!previous||title.length>previous.title.length||poster&&!previous.poster)out.set('w:'+id,{type:'work',url:u.href,id,kind:kindHint(u,a.label)||kind,poster,title,...info,categories:[new URL(page).pathname]});}
+  if(workPath(u)){u.search='';const id=workId(u);const img=a.html.match(/<img\b[^>]*>/i)?.[0]||'';const poster=image(attr(img,'data-src')||attr(img,'data-original')||attr(img,'data-lazy-src')||attr(img,'src'),page);const title=clean(attr(img,'alt')||attr(img,'title')||attr(a.html.match(/<[^>]+>/)?.[0]||'','title')||a.label).slice(0,300);const info=categoryInfo(page);const previous=out.get('w:'+id);if(!previous||title.length>previous.title.length||poster&&!previous.poster)out.set('w:'+id,{type:'work',url:u.href,id,kind:kindHint(u,a.label)||kind,poster,title,...info,year:title.match(/\b(?:19|20)\d{2}\b/)?.[0]||info.year,categories:[new URL(page).pathname]});}
   else if(/^\/genre\/[a-z0-9_-]+(?:\.html|\/(?:page\/)?\d+(?:\.html)?)?$/i.test(u.pathname)||/^\/(?:movies|series|tv-series)(?:\/\d+|\.html)?$/i.test(u.pathname)||u.pathname==='/'&&u.searchParams.has('page')){
    // Only actual navigable category/pagination URLs; reject arbitrary query parameters.
    if([...u.searchParams.keys()].some(k=>!['page','p','offset','sort'].includes(k)))continue;
@@ -454,7 +454,7 @@ async function lookupPreview(s,id,fetcher=fetch,now=Date.now()){
  await s.put(P+'preview:'+id,preview);return preview;
 }
 export async function previewWork(s,id,fetcher=fetch,now=Date.now()){
- const p=await lookupPreview(s,id,fetcher,now);const {slots,...meta}=p;return {...meta,slots:slots.map(({season,episode})=>({season,episode}))};
+ const p=await lookupPreview(s,id,fetcher,now);const {slots,...meta}=p;return {...meta,seasonCount:new Set(slots.map(a=>a.season)).size,mappedCount:slots.length,slots:slots.map(({season,episode})=>({season,episode}))};
 }
 export async function resolveEpisode(s,id,season,episode,fetcher=fetch,now=Date.now()){
  if(!Number.isSafeInteger(season)||season<1||!Number.isSafeInteger(episode)||episode<1)throw Error('invalid-episode');
@@ -470,7 +470,8 @@ export async function resolveEpisode(s,id,season,episode,fetcher=fetch,now=Date.
 }
 const json=(x,status=200)=>Response.json(x,{status,headers:{'Cache-Control':'private, no-store','Vary':'Authorization'}});
 export async function privateRequest(request,s){
- const u=new URL(request.url);
+ const u=new URL(request.url),publicRead=u.searchParams.get('_public')==='1';
+ if(publicRead&&['/private-work','/private-preview','/private-episode'].includes(u.pathname)){const id=u.searchParams.get('id')||'';if(/^alooytv:[a-z0-9-]+$/i.test(id)&&(await s.get(wk(id)))?.source==='personal-import')return json({error:'not-found'},404);}
  if(u.pathname==='/private-sync'&&request.method==='POST')return json(await crawl(s));
  if(u.pathname==='/private-status')return json(await s.get(P+'status')||{at:null,processed:0,failed:0});
  if(u.pathname==='/private-preview'||u.pathname==='/private-episode'){const id=u.searchParams.get('id')||'';if(!/^alooytv:[a-z0-9-]+$/i.test(id))return json({error:'invalid-work'},400);try{return json(u.pathname==='/private-preview'?await previewWork(s,id):await resolveEpisode(s,id,Number(u.searchParams.get('season')),Number(u.searchParams.get('episode'))));}catch(e){const m=String(e.message||e);if(/rows read|rows written|free tier|daily limit|quota|spending cap|spending limit/i.test(m))throw e;return json({error:m.slice(0,240)},502);}}
@@ -483,7 +484,9 @@ export async function privateRequest(request,s){
  if(u.pathname==='/private-list'){
   const q=(u.searchParams.get('q')||'').slice(0,200),kind=u.searchParams.get('kind')||'all',region=u.searchParams.get('region')||'all',year=u.searchParams.get('year')||'all',cursor=u.searchParams.get('cursor')||'0';
   if(!/^\d{1,8}$/.test(cursor))return json({error:'invalid-cursor'},400);
-  const rows=await getFastIndex(s),result=searchCards(rows,{q,kind,region,year,ramadan:u.searchParams.get('ramadan')==='1',offset:Number(cursor)});
+  const all=await getFastIndex(s),rows=publicRead?all.filter(t=>t.source!=='personal-import'):all,result=searchCards(rows,{q,kind,region,year,ramadan:u.searchParams.get('ramadan')==='1',offset:Number(cursor)});
+  const previews=await getMany(s,result.titles.map(t=>P+'preview:'+t.id));
+  result.titles=result.titles.map(t=>{const v=previews.get(P+'preview:'+t.id);return v?{...t,poster:t.poster||v.poster,banner:t.banner||v.banner,story:t.story||v.story,year:t.year||v.year,kind:t.kind==='unknown'?v.kind:t.kind,count:t.count??v.count,seasonCount:new Set((v.slots||[]).map(x=>x.season)).size}:t;});
   return json({...result,facets:{regions:[...new Set(rows.map(t=>t.region).filter(Boolean))].sort(),years:[...new Set(rows.map(t=>t.year).filter(Boolean))].sort((a,b)=>Number(b)-Number(a))}});
  }
 
