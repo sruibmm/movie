@@ -1,3 +1,4 @@
+import {metadataFetch} from './tvMetadata.js';
 import React,{useEffect,useState} from 'react';
 import PublisherLibrary from './PublisherLibrary.jsx';
 import DubaiPlusLibrary from './DubaiPlusLibrary.jsx';
@@ -10,7 +11,7 @@ import {matchPublisherFilm} from './officialCatalog.js';
 import {matchPublisherSeries,publisherEpisode} from './publisherSeries.js';
 import {mergeArabic,episodeMovie,ARABIC_GENRES,arabicCatalogJobs,arabicCatalogPage,arabicCatalogPageCount} from './arabicDiscovery.js';
 const base='https://api.themoviedb.org/3/';
-async function tmdb(path,params,options,signal){const r=await fetch(base+path+'?'+new URLSearchParams(params),{...options,signal});if(!r.ok)throw Error('Catalogue unavailable');return r.json();}
+async function tmdb(path,params,options,signal){const r=await metadataFetch(base+path+'?'+new URLSearchParams(params),{...options,signal});if(!r.ok)throw Error('Catalogue unavailable');return r.json();}
 export function OfficialAvailability({movie,options}){
  const [state,setState]=useState({loading:true,providers:[],link:null});
  useEffect(()=>{const c=new AbortController();setState({loading:true,providers:[],link:null});const type=movie.media_type==='tv'?'tv':'movie',id=movie.tmdbId||movie.id;tmdb(type+'/'+id+'/watch/providers',{},options,c.signal).then(d=>{if(c.signal.aborted)return;const kw=d.results?.KW;const providers=[...(kw?.flatrate||[]),...(kw?.free||[]),...(kw?.ads||[]),...(kw?.rent||[]),...(kw?.buy||[])];setState({loading:false,providers:[...new Map(providers.map(p=>[p.provider_id,p])).values()],link:kw?.link||null});}).catch(()=>{if(!c.signal.aborted)setState({loading:false,providers:[],link:null,error:true});});return()=>c.abort();},[movie.id,movie.tmdbId,movie.media_type,options]);
