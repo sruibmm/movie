@@ -12,7 +12,8 @@ export class PrivateRunner{
  async kick(){
   if(this.running)return this.status();
   const now=this.clock(),old=await this.s.get(STATUS)||{},alarm=await this.s.getAlarm();
-  if(alarm===null||alarm>now+1000)await this.s.setAlarm(now+1000);
+  if(alarm!==null)return this.status();
+  await this.s.setAlarm(now+1000);
   await this.s.put(STATUS,{...old,engine:ENGINE,state:'queued',requestedAt:now});
   return this.status();
  }
