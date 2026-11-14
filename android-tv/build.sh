@@ -9,7 +9,7 @@ test -f "$PLATFORM"
 mkdir -p build/classes build/dex build/gen
 "$BT/aapt2" compile --dir res -o build/resources.zip
 "$BT/aapt2" link -I "$PLATFORM" --manifest AndroidManifest.xml --java build/gen -o build/unsigned.apk build/resources.zip
-javac -encoding UTF-8 -source 8 -target 8 -bootclasspath "$PLATFORM" -d build/classes $(find src build/gen -name '*.java')
+javac -encoding UTF-8 --release 8 -classpath "$PLATFORM" -d build/classes $(find src build/gen -name '*.java')
 jar cf build/classes.jar -C build/classes .
 "$BT/d8" --lib "$PLATFORM" --min-api 23 --output build/dex build/classes.jar
 (cd build/dex && zip -q ../unsigned.apk classes*.dex)
