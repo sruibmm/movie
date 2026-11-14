@@ -7,7 +7,7 @@ const TOKEN='cinema_private_session';
 const getToken=()=>{try{const invite=new URLSearchParams(location.hash.slice(1)).get('cinema-invite');return invite||sessionStorage.getItem(TOKEN)||''}catch{return ''}};
 const isInvite=t=>t.startsWith('v1.');
 async function api(token,route,params={},method='GET',signal,body){
- const q=new URLSearchParams(params);const r=await fetch('/api/private-catalog/'+route+(q.size?'?'+q:''),{method,headers:{...(token?{Authorization:'Bearer '+token}:{}),...(body?{'Content-Type':'application/json'}:{})},cache:'no-store',signal,...(body?{body:JSON.stringify(body)}:{})});
+ const q=new URLSearchParams(params);const r=await fetch('/api/private-catalog/'+route+(q.toString()?'?'+q:''),{method,headers:{...(token?{Authorization:'Bearer '+token}:{}),...(body?{'Content-Type':'application/json'}:{})},cache:'no-store',signal,...(body?{body:JSON.stringify(body)}:{})});
  if(!r.ok){let detail='';try{const body=await r.json();detail=body.error||body.reason||'';}catch{}throw Error(r.status===401?'مفتاح المكتبة غير صحيح':r.status===503?(detail==='storage-quota-or-limit'?'وصلت قاعدة البيانات إلى حد الاستخدام. المحتوى لم يُحذف من هذا الطلب.':detail==='storage-overloaded-or-timeout'?'قاعدة البيانات مشغولة أو انتهت مهلة الاتصال.':detail==='private-catalog-not-configured'?'المكتبة التلقائية غير مفعّلة على Cloudflare بعد':'المكتبة غير متاحة مؤقتًا؛ البيانات لا تُحذف عند فشل الاتصال.')+(detail?' · '+detail:''):'تعذر الاتصال بالمكتبة (HTTP '+r.status+')'+(detail?' · '+detail:''));}
  return r.json();
 }
