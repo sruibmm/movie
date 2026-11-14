@@ -22,17 +22,20 @@ for(const [key,g] of unknown){if(!g.final||g.final<8)continue;const items=[...g.
 const grouped=new Map();for(const x of result){const k=clean(x.seriesTitle);if(!grouped.has(k))grouped.set(k,[]);grouped.get(k).push(x);}
 const complete=[...grouped].filter(([k,a])=>{const known=rows.filter(x=>x.nb===k);return !known.length||known.every(r=>a.some(x=>x.season===r.season&&clean(x.title)===r.nt));}).flatMap(x=>x[1]);
 
-const canonical=x=>clean(x.seriesTitle||x.title).replace(/(?:\s+(?:الجزء|الموسم)\s*(?:الاول|الثاني|الثالث|الرابع|الخامس|السادس|السابع|الثامن|التاسع|العاشر|\d+))\b/g,'').replace(/\s+/g,' ').trim();
+const sequel=/^(الدبور|الغربال|طاحون الشر)\s*([12])$/;
+const canonical=x=>{let t=clean(x.seriesTitle||x.title);const m=t.match(sequel);if(m)return m[1];return t.replace(/(?:\s+(?:الجزء|الموسم)\s*(?:الاول|الثاني|الثالث|الرابع|الخامس|السادس|السابع|الثامن|التاسع|العاشر|\d+))\b/g,'').replace(/\s+/g,' ').trim();};
 const groups=new Map();
 for(const x of complete){const k=canonical(x);if(!k)continue;if(!groups.has(k))groups.set(k,[]);groups.get(k).push(x)}
 const usedIds=new Set(),verified=[];
 const existingComplete=new Set(['مزاج الخير'].map(clean));
+const multiKnown=new Set(['الدبور','الغربال','طاحون الشر'].map(clean));
+const exclude=['العائدة','الولادة من الخاصرة','ايام اللولو','بهلول اعقل المجانين','بيت جدي','دليلة والزيبق','طوق البنات','العراب','دنيا','شاميات','حديث المرايا','حكايا المرايا','حكايا ياسر العظمة','يوميات فهمان'].map(clean);
 for(const [k,rr] of groups){
- if(existingComplete.has(k))continue;
+ if(existingComplete.has(k)||exclude.some(a=>k===a||k.startsWith(a+' ')))continue;
  const seasons=new Map();
  let reject=false;
  for(const x of rr){const t=clean(x.title),m=t.match(/(?:الجزء|الموسم)\s+(الاول|الثاني|الثالث|الرابع|الخامس|السادس|السابع|الثامن|التاسع|العاشر|\d+)/);
-  const ns=m?({'الاول':1,'الثاني':2,'الثالث':3,'الرابع':4,'الخامس':5,'السادس':6,'السابع':7,'الثامن':8,'التاسع':9,'العاشر':10}[m[1]]||+m[1]):x.season;
+  const sm=t.match(sequel);const ns=sm?+sm[2]:m?({'الاول':1,'الثاني':2,'الثالث':3,'الرابع':4,'الخامس':5,'السادس':6,'السابع':7,'الثامن':8,'التاسع':9,'العاشر':10}[m[1]]||+m[1]):x.season;
   if(!Number.isInteger(ns)||ns<1||seasons.has(ns)){reject=true;break;}
   if(!x.finalMarker||x.episodes.length!==x.expected||x.episodes.some((e,i)=>e.number!==i+1||!e.owner||!e.videoTitle||!e.duration||/\b(?:trailer|teaser|clip)\b|(?:^|\s)(?:اعلان|برومو|ملخص|مقطع|مشهد)(?:\s|$)/i.test(norm(e.videoTitle)))){reject=true;break;}
   const durations=x.episodes.map(e=>e.duration).sort((a,b)=>a-b),median=durations[Math.floor(durations.length/2)];
@@ -43,11 +46,11 @@ for(const [k,rr] of groups){
   seasons.set(ns,{season:ns,title:x.title,expected:x.expected,episodes:x.episodes.map(e=>({number:e.number,id:e.id,duration:e.duration,owner:e.owner}))});
  }
  const ordered=[...seasons.values()].sort((a,b)=>a.season-b.season);
- if(reject||!ordered.length||ordered.some((x,i)=>x.season!==i+1))continue;
+ if(reject||!ordered.length||ordered.some((x,i)=>x.season!==i+1)||multiKnown.has(k)&&ordered.length!==2)continue;
  const ids=ordered.flatMap(x=>x.episodes.map(e=>e.id));
  if(ids.some(id=>usedIds.has(id))||new Set(ids).size!==ids.length)continue;
  ids.forEach(id=>usedIds.add(id));
- verified.push({id:'dm-series:'+k,title:rr[0].seriesTitle||rr[0].title,year:rr[0].year||'',poster:rr[0].poster||null,seasons:ordered});
+ verified.push({id:'dm-series:'+k,title:multiKnown.has(k)?k:(rr[0].seriesTitle||rr[0].title),year:rr[0].year||'',poster:rr[0].poster||null,seasons:ordered});
 }
 verified.sort((a,b)=>a.title.localeCompare(b.title,'ar'));
 const films=[];
@@ -59,4 +62,6 @@ console.log('RELEASE_GATE',JSON.stringify({series:verified.length,seasons:verifi
 if(verified.length<100||films.length<1)throw Error('Release gate: fewer than 100 distinct complete series or no full films. No deployment.');
 for(let i=0;i<verified.length;i+=15)console.log('RELEASE_TITLES',JSON.stringify(verified.slice(i,i+15).map(x=>[x.title,x.seasons.length,x.seasons.reduce((n,s)=>n+s.expected,0)])));
 fs.writeFileSync('src/arabicBulkCatalog.json',JSON.stringify({series:verified,films,auditedAt:new Date().toISOString()},null,2));
+for(const g of verified){for(const season of g.seasons)console.log('SNAPSHOT '+JSON.stringify({id:g.id,title:g.title,year:g.year,poster:g.poster,season:season.season,seasonTitle:season.title,expected:season.expected,episodes:season.episodes.map(e=>[e.number,e.id,e.duration,e.owner])}));}
+console.log('SNAPSHOT_FILMS '+JSON.stringify(films));
 console.log('BULK_CATALOG_READY');
