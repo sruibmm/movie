@@ -12,7 +12,7 @@ export function buildEpisodeGraph(anchors,base,defaultSeason=1,declared=null){
  const slots=new Map(),conflicts=new Set();
  for(const a of anchors){
   const u=a.u;if(!u||u.pathname!==base.pathname||!u.searchParams.get('key'))continue;
-  const identity=episodeIdentity(a.label,defaultSeason);if(!identity)continue;
+  const explicitSeason=int(digits(a.season)),explicitEpisode=int(digits(a.episode));const parsed=episodeIdentity(a.label,explicitSeason||defaultSeason);if(parsed&&explicitEpisode&&parsed.episode!==explicitEpisode||parsed?.explicit&&explicitSeason&&parsed.season!==explicitSeason)continue;const identity=parsed||(explicitSeason&&explicitEpisode?{season:explicitSeason,episode:explicitEpisode,explicit:true}:null);if(!identity)continue;
   const {season,episode}=identity,k=season+':'+episode;
   const current=slots.get(k);
   if(current&&current.page!==u.href){conflicts.add(k);continue;}
