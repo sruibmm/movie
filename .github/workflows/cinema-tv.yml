@@ -1,0 +1,35 @@
+name: Cinema TV APK
+on:
+  push:
+    branches: [cinema-tv]
+    paths:
+      - 'android-tv/**'
+      - '.github/workflows/cinema-tv.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Install Android SDK
+        run: |
+          sdkmanager 'platforms;android-35' 'build-tools;35.0.0'
+      - name: Build and verify APK
+        run: bash android-tv/build.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Cinema-TV-APK
+          path: android-tv/build/Cinema-TV.apk
+      - name: Publish downloadable APK
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view cinema-tv-v1 >/dev/null 2>&1 || gh release create cinema-tv-v1 --target "$GITHUB_SHA" --title "Cinema TV 1.0" --notes "Standalone Android TV viewer. No login or admin key required. Android TV 6.0+." --prerelease
+          gh release upload cinema-tv-v1 android-tv/build/Cinema-TV.apk --clobber
