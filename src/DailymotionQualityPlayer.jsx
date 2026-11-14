@@ -16,6 +16,7 @@ export default function DailymotionQualityPlayer({src,title}){
  const [fallback,setFallback]=useState(false),[quality,setQuality]=useState('');
  const ref=useRef(null);
  useEffect(()=>{
+  if(fallback)return;
   let dead=false,player=null,timer,interval,selected=false;
   const url=new URL(src),pid=url.pathname.split('/').pop().replace('.html',''),video=url.searchParams.get('video');
   function fail(){if(!dead)setFallback(true);}
@@ -35,7 +36,7 @@ export default function DailymotionQualityPlayer({src,title}){
    interval=setInterval(choose,800);choose();
   }).catch(fail);
   return()=>{dead=true;clearTimeout(timer);clearInterval(interval);try{player?.destroy?.();}catch{}ref.current=null;};
- },[src,id]);
+ },[src,id,fallback]);
  if(fallback)return <iframe title={title} src={src} className="w-full h-full border-0" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; web-share" allowFullScreen referrerPolicy="strict-origin-when-cross-origin"/>;
  return <div className="w-full h-full relative flex items-center justify-center"><div id={id} className="w-full max-h-full"/>{quality&&<span className="absolute top-2 left-2 bg-black/70 rounded px-2 py-1 text-xs pointer-events-none">{quality}</span>}<button type="button" onClick={()=>setFallback(true)} className="absolute bottom-2 left-2 bg-black/70 rounded px-2 py-1 text-xs">المشغّل الاحتياطي</button></div>;
 }
