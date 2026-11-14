@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/audit-arabic-sources.mjs && node scripts/source-maintenance-test.mjs && node scripts/media-languages-test.mjs && node scripts/arabic-discovery-test.mjs && node scripts/arabic-sources-test.mjs && node scripts/licensed-catalog-test.mjs && node scripts/publisher-series-test.mjs && node scripts/publisher-films-test.mjs && node scripts/publisher-playlists-test.mjs && node scripts/arabic-site-test.mjs && vite build",
+    "build": "node scripts/verify-bulk-arabic.mjs && node scripts/source-maintenance-test.mjs && node scripts/media-languages-test.mjs && node scripts/arabic-discovery-test.mjs && node scripts/arabic-sources-test.mjs && node scripts/licensed-catalog-test.mjs && node scripts/publisher-series-test.mjs && node scripts/publisher-films-test.mjs && node scripts/publisher-playlists-test.mjs && node scripts/arabic-site-test.mjs && vite build",
     "preview": "vite preview",
     "import:licensed": "node scripts/import-licensed.mjs"
   },
