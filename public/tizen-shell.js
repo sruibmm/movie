@@ -26,6 +26,6 @@
  if(!Object.hasOwn)Object.hasOwn=function(o,k){return Object.prototype.hasOwnProperty.call(o,k);};
  function register(){try{var api=tizen.tvinputdevice;['MediaPlayPause','MediaPlay','MediaPause','MediaRewind','MediaFastForward','MediaStop','ColorF0Red','ColorF1Green','ColorF2Yellow','ColorF3Blue'].forEach(function(k){try{api.registerKey(k);}catch(e){}});}catch(e){}}
  register();
- document.addEventListener('tizenhwkey',function(e){if(e.keyName==='back'){var ev=new Event('keydown',{bubbles:true,cancelable:true});Object.defineProperty(ev,'keyCode',{value:10009});if(!(document.activeElement||document.body).dispatchEvent(ev))e.preventDefault();}});
- window.addEventListener('keydown',function(e){if(e.defaultPrevented)return;if(e.keyCode===10009){try{tizen.application.getCurrentApplication().exit();}catch(x){}}});
+ document.addEventListener('tizenhwkey',function(e){if(e.keyName==='back'&&window.__cinemaTVBack){if(window.__cinemaTVBack())e.preventDefault();}});
+ window.addEventListener('keydown',function(e){if(e.defaultPrevented)return;if(e.keyCode===10009){e.preventDefault();if(window.__cinemaTVBack&&document.activeElement?.tagName==='IFRAME'){try{document.activeElement.blur();}catch(x){}window.__cinemaTVBack();}}});
 })();
