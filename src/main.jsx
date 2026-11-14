@@ -830,7 +830,7 @@ function App() {
             {movies.map(m => (
               <div key={m.id} role="button" tabIndex={0} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();setActiveMovie(m);}}} onClick={() => setActiveMovie(m)} className="group cursor-pointer">
                 <div className="relative aspect-[2/3] rounded-2xl overflow-hidden border border-white/5 group-hover:border-purple-500/50 transition-all bg-zinc-900 shadow-lg">
-                  <img src={`https://image.tmdb.org/t/p/w500${m.poster_path}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt={m.title} />
+                  <img loading={tvMode?"lazy":undefined} decoding={tvMode?"async":undefined} src={`https://image.tmdb.org/t/p/w500${m.poster_path}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt={m.title} />
                 </div>
                 <h3 className="mt-3 text-xs font-bold text-gray-300 text-center truncate group-hover:text-pink-400 transition-colors">{m.title}</h3>
               </div>
@@ -882,7 +882,7 @@ function App() {
             {movies.map(m => (
               <div key={m.id} role="button" tabIndex={0} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();setActiveMovie(m);}}} onClick={() => setActiveMovie(m)} className="group cursor-pointer">
                 <div className="relative aspect-[2/3] rounded-2xl overflow-hidden border border-white/5 group-hover:border-purple-500/50 transition-all bg-zinc-900 shadow-lg">
-                  <img src={`https://image.tmdb.org/t/p/w500${m.poster_path}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt={m.title} />
+                  <img loading={tvMode?"lazy":undefined} decoding={tvMode?"async":undefined} src={`https://image.tmdb.org/t/p/w500${m.poster_path}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt={m.title} />
                 </div>
                 <h3 className="mt-3 text-xs font-bold text-gray-300 text-center truncate group-hover:text-pink-400 transition-colors">{m.title}</h3>
               </div>
@@ -1018,7 +1018,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   const [quality, setQuality] = useState(-1);
   const [languageStatus,setLanguageStatus]=useState({audio:'',subs:''});
   const tvPlayback=new URLSearchParams(location.search).get('tv')==='1';
-  const [tvCC,setTvCC]=useState(()=>readTvCC(localStorage));
+  const [tvCC,setTvCC]=useState(()=>{try{return readTvCC(window.localStorage);}catch{return 'ar';}});
   const tvCCRef=useRef(tvCC),tvCaptionApply=useRef(null);
   const [tvCaptionStatus,setTvCaptionStatus]=useState('waiting');
   useEffect(()=>{tvCCRef.current=tvCC;if(tvPlayback){try{localStorage.setItem(TV_CC_KEY,tvCC);}catch{}tvCaptionApply.current?.();}},[tvCC,tvPlayback]);
@@ -1336,7 +1336,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
       hls.on(Hls.Events.MANIFEST_PARSED,()=>{const all=hls.levels.map((l,i)=>({id:i,height:l.height||0,bitrate:l.bitrate||0}));const usable=movie.sourceSync?all.filter(l=>l.height>=720):all;setLevels(usable);if(movie.sourceSync){if(!usable.length){fail();return;}const best=usable.reduce((a,b)=>b.height>a.height?b:a);hls.currentLevel=best.id;setQuality(best.id);}applyHls();});
       hls.on(Hls.Events.AUDIO_TRACKS_UPDATED,applyHls);
       hls.on(Hls.Events.SUBTITLE_TRACKS_UPDATED,applyHls);
-      if(tvPlayback)hls.on(Hls.Events.SUBTITLE_TRACK_LOADED,()=>setTvCaptionStatus('selected'));
+      if(tvPlayback)hls.on(Hls.Events.SUBTITLE_TRACK_LOADED,applyTv);
       hls.loadSource(url);hls.attachMedia(video);
       hls.on(Hls.Events.ERROR,(_event,data)=>{if(data.fatal)fail();});
     } else fail();
@@ -1427,7 +1427,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
             <div className="flex justify-between items-center gap-3"><span className="text-sm text-gray-300">Source</span><span className="text-sm font-semibold text-purple-300">{isNative?'Direct player':publisherSource?publisherSource.publisher:fallbackNodes[currentServer]?.name||'Player'}</span></div>
             {!isNative&&currentServer===10&&<p className="text-xs text-gray-400">Cinesrc is the default. Audio and Arabic subtitles are controlled by the embedded player.</p>}
             <div className="flex justify-between items-center gap-3"><span className="text-sm text-gray-300">Navigation protection</span><span className="text-xs text-green-300">Always on</span></div>
-            {tvPlayback&&<div className="space-y-2"><label htmlFor="tv-cc">الترجمة · CC</label><select id="tv-cc" value={tvCC} onChange={e=>setTvCC(e.target.value)} className="w-full bg-zinc-800 rounded-lg p-3"><option value="ar">العربية (افتراضي)</option><option value="en">English</option><option value="off">إيقاف الترجمة</option></select><p className="text-sm text-gray-300">{!isNative?'المشغّل الخارجي يتحكم بالترجمة؛ اختر العربية من زر CC داخله.':tvCaptionStatus==='selected'?'تم اختيار مسار الترجمة · '+(tvCC==='ar'?'العربية':'English'):tvCaptionStatus==='off'?'الترجمة متوقفة':tvCaptionStatus==='waiting'?'جاري فحص مسارات الترجمة…':'الترجمة المختارة غير متوفرة في هذا المصدر حالياً.'}</p></div>}
+            {tvPlayback&&<div className="space-y-2"><label htmlFor="tv-cc">الترجمة · CC</label><select id="tv-cc" value={tvCC} onChange={e=>setTvCC(e.target.value)} className="w-full bg-zinc-800 rounded-lg p-3"><option value="ar">العربية (افتراضي)</option><option value="en">English</option><option value="off">إيقاف الترجمة</option></select><p className="text-sm text-gray-300">{!isNative?'المشغّل الخارجي يتحكم بالترجمة؛ اختر العربية من زر CC داخله.':tvCaptionStatus==='selected'?'تم اختيار مسار الترجمة · '+(tvCC==='ar'?'العربية':'English'):tvCaptionStatus==='off'?'الترجمة متوقفة':tvCaptionStatus==='waiting'?'جاري فحص مسارات الترجمة…':tvCaptionStatus==='failed'?'مسار الترجمة موجود لكن تعذر تحميل ملفه.':'الترجمة المختارة غير متوفرة في هذا المصدر حالياً.'}</p></div>}
             {isNative&&<p className="text-xs text-gray-400">{playState}{mediaInfo.duration>0?' · '+formatTime(Math.floor(mediaInfo.time))+' / '+formatTime(Math.floor(mediaInfo.duration)):''}<br/>Audio: {languageStatus.audio} · CC: {tvPlayback?(tvCaptionStatus==='selected'?tvCC:tvCaptionStatus):languageStatus.subs}</p>}
             {isNative&&levels.length>1&&<div className="flex justify-between items-center"><label htmlFor="cinema-quality" className="text-sm text-gray-300">Quality</label><select id="cinema-quality" value={quality} onChange={e=>{const v=Number(e.target.value);setQuality(v);if(hlsRef.current)hlsRef.current.currentLevel=v;}} className="bg-zinc-800 rounded-lg px-2 py-2 text-xs">{!movie.sourceSync&&<option value={-1}>Auto</option>}{levels.map(l=><option key={l.id} value={l.id}>{l.height?l.height+'p':Math.round(l.bitrate/1000)+' kbps'}</option>)}</select></div>}
             <button disabled={Boolean(movie.sourceSync)} onClick={()=>{setPublisherSource(null);setDirectOnly(v=>!v);}} aria-pressed={directOnly} className="w-full flex items-center justify-between gap-3 text-sm text-left"><span>Direct-only mode</span><span className={`rounded-full w-10 h-6 p-1 transition-colors ${directOnly?'bg-purple-600':'bg-zinc-600'}`}><span className={`block w-4 h-4 rounded-full bg-white transition-transform ${directOnly?'translate-x-4':''}`}/></span></button>
@@ -1484,7 +1484,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
             }}
           >
             {orderedSubtitles(nativeSource?.subtitles).map((sub, i, all) => (
-              <track key={i} kind="subtitles" src={sub.url} srcLang={sub.lang} label={sub.language} default={tvPlayback?tvCC==='ar'&&i===arabicSubtitleIndex(all):i===arabicSubtitleIndex(all)} />
+              <track key={i} kind="subtitles" src={sub.url} srcLang={sub.lang} label={sub.language} onError={()=>{if(tvPlayback&&tvCCRef.current===sub.lang)setTvCaptionStatus('failed');}} onLoad={()=>{if(tvPlayback&&tvCCRef.current===sub.lang)setTvCaptionStatus('selected');}} default={tvPlayback?tvCC==='ar'&&i===arabicSubtitleIndex(all):i===arabicSubtitleIndex(all)} />
             ))}
           </video>
         ) : directOnly ? (
