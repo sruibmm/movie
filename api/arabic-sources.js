@@ -1,12 +1,12 @@
 import {PUBLISHERS,matchPublisherVideo} from '../src/arabicSources.js';
 const endpoint='https://www.googleapis.com/youtube/v3/';
 async function yt(path,params,key){const u=new URL(path,endpoint);for(const [k,v] of Object.entries({...params,key}))u.searchParams.set(k,String(v));const c=new AbortController();const timer=setTimeout(()=>c.abort(),5500);try{const r=await fetch(u,{signal:c.signal});if(!r.ok)throw Error('Publisher API '+r.status);return r.json();}finally{clearTimeout(timer);}}
-export default async function handler(req,res){
+export default async function handler(req,res,apiKey){
  if(req.method!=='GET')return res.status(405).json({error:'GET only'});
  const title=String(req.query.title||'').trim().slice(0,120);
  const type=req.query.type==='tv'?'tv':'movie';const season=Number(req.query.season)||1,episode=Number(req.query.episode)||0;
  if(!title||(type==='tv'&&(!Number.isInteger(episode)||episode<1||!Number.isInteger(season)||season<1)))return res.status(400).json({error:'Invalid title or episode'});
- const key=process.env.YOUTUBE_DATA_API_KEY;
+ const key=apiKey ?? process.env.YOUTUBE_DATA_API_KEY;
  if(!key)return res.status(200).json({configured:false,items:[],publishers:PUBLISHERS.map(p=>({name:p.name,url:p.url}))});
  const query={title,type,season,episode,year:Number(req.query.year)||0,runtime:Number(req.query.runtime)||0};
  res.setHeader('Cache-Control','public, max-age=60, s-maxage=3600');
