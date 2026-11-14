@@ -1,4 +1,4 @@
-name: Dubai Plus playback audit with explicit player interaction
+name: Dubai Plus guest network and player diagnostic
 on:
   push:
     branches: [dailymotion-diagnosis]
@@ -7,42 +7,42 @@ permissions:
 jobs:
   audit:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 4
     steps:
       - run: npm install --no-save playwright && npx playwright install chromium
-      - name: Check official guest playback
+      - name: Inspect normal guest playback network and console
         run: |
           cat > audit.cjs <<'JS'
           const {chromium}=require('playwright');
-          const rows=[
-          ['جعفر العمدة','s/series/694469160205_جعفر-العمدة',true],
-          ['تحت الوصاية','s/series/694466600449_تحت-الوصاية',true],
-          ['النار بالنار','s/series/694468136197_النار-بالنار',true],
-          ['مال القبان','s/series/693423144332_مال-القبان',true],
-          ['Blacklight','m/movie/803827752104_Blacklight',false],
-          ['Born a Champion','m/movie/803801640170_Born-a-Champion',false]];
+          const rows=[['جعفر العمدة','s/series/694469160205_جعفر-العمدة',true],['تحت الوصاية','s/series/694466600449_تحت-الوصاية',true],['النار بالنار','s/series/694468136197_النار-بالنار',true],['Blacklight','m/movie/803827752104_Blacklight',false]];
           (async()=>{
-          const b=await chromium.launch({headless:true,args:['--autoplay-policy=no-user-gesture-required']});
-          await Promise.all(rows.map(async([title,path,tv])=>{
-           const p=await b.newPage({viewport:{width:1280,height:800}});
-           const u='https://www.dubaiplus.net/ar-AE/'+path;
-           const result={title,clicked:false};
-           try{
-            await p.goto(u,{waitUntil:'domcontentloaded',timeout:30000});
-            const btn=p.getByRole('button',{name:tv?'الموسم1 الحلقة1':'تشغيل',exact:true}).first();
-            await btn.waitFor({state:'visible',timeout:25000});
-            const cookie=p.getByRole('button',{name:'رفض الكل',exact:true}).filter({visible:true}).first();
-            if(await cookie.count())await cookie.click({timeout:2500}).catch(()=>{});
-            await btn.click({timeout:8000});result.clicked=true;
-            await p.waitForTimeout(7000);
-            const body=await p.locator('body').innerText();
-            result.loginRequired=body.includes('أنشئ حسابًا أو سجّل الدخول للمتابعة')||body.includes('قم بتسجيل الدخول إلى حساب دبي');
-            result.premium=body.includes('محتوى متميز');
-            result.videos=await p.locator('video').evaluateAll(vs=>vs.map(v=>({time:v.currentTime,duration:Number.isFinite(v.duration)?v.duration:null,ready:v.readyState,width:v.videoWidth,height:v.videoHeight})));
-            result.publicPlayback=result.videos.some(v=>v.time>1&&v.duration>600&&v.width>0);
-           }catch(e){result.error=e.message.slice(0,180);}
-           console.log('RESULT '+JSON.stringify(result));await p.close();
-          }));await b.close();
+            const b=await chromium.launch({headless:true});
+            await Promise.all(rows.map(async([title,path,tv])=>{
+              const p=await b.newPage({viewport:{width:1280,height:800}});
+              let phase='before',net=[],consoleCounts={},errors=[];
+              p.on('response',r=>{
+                const req=r.request(),u=new URL(r.url()),ct=r.headers()['content-type']||'';
+                const media=/\.(m3u8|mpd|mp4|m4s|ts)(?:$|\?)/i.test(u.pathname)||/mpegurl|dash\+xml|video\//i.test(ct)||req.resourceType()==='media';
+                net.push({phase,media,type:req.resourceType(),status:r.status(),host:u.hostname,ct:ct.split(';')[0]});
+              });
+              p.on('console',m=>{consoleCounts[m.type()]=(consoleCounts[m.type()]||0)+1;if(m.type()==='error')errors.push(m.text().replace(/https?:\/\/\S+/g,'[url]').slice(0,180));});
+              const snapshot=()=>p.evaluate(()=>({videos:[...document.querySelectorAll('video')].map(v=>({hasSource:!!(v.currentSrc||v.getAttribute('src')),ready:v.readyState,time:v.currentTime,duration:Number.isFinite(v.duration)?v.duration:null,width:v.videoWidth})),iframes:[...document.querySelectorAll('iframe')].map(f=>{try{return new URL(f.src).hostname}catch{return 'blank'}}),scripts:[...document.scripts].filter(s=>s.src).length}));
+              const result={title};
+              try{
+                await p.goto('https://www.dubaiplus.net/ar-AE/'+path,{waitUntil:'domcontentloaded',timeout:30000});
+                const btn=p.getByRole('button',{name:tv?'الموسم1 الحلقة1':'تشغيل',exact:true}).first();
+                await btn.waitFor({state:'visible',timeout:25000});
+                const cookie=p.getByRole('button',{name:'رفض الكل',exact:true}).filter({visible:true}).first();
+                if(await cookie.count())await cookie.click({timeout:2500}).catch(()=>{});
+                result.before=await snapshot();phase='after';await btn.click({timeout:8000});await p.waitForTimeout(8000);
+                result.after=await snapshot();
+                const body=await p.locator('body').innerText();
+                result.login=body.includes('أنشئ حسابًا أو سجّل الدخول للمتابعة')||body.includes('قم بتسجيل الدخول إلى حساب دبي');
+                result.premium=body.includes('محتوى متميز');
+              }catch(e){result.error=e.message.slice(0,200);}
+              result.network={before:net.filter(x=>x.phase==='before').length,after:net.filter(x=>x.phase==='after').length,media:net.filter(x=>x.media),afterStatus:net.filter(x=>x.phase==='after').reduce((a,x)=>(a[x.status]=(a[x.status]||0)+1,a),{})};
+              result.consoleCounts=consoleCounts;result.errors=errors.slice(0,4);console.log('DIAGNOSTIC '+JSON.stringify(result));await p.close();
+            }));await b.close();
           })().catch(e=>{console.error(e);process.exit(1)});
           JS
           node audit.cjs
