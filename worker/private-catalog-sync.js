@@ -90,13 +90,13 @@ function pageGraph(html,page,m){
 async function chooseMedia(candidates,fetcher){
  const urls=[...new Set(candidates||[])].filter(validMedia).slice(0,3);
  if(!urls.length)throw Error('missing-direct-source');
- const errors=[];for(const url of urls){try{await probe(url,fetcher);return url;}catch(e){errors.push(String(e.message||e));}}
+ const errors=[];for(const url of urls){try{await probe(url,fetcher);return url;}catch(e){if(String(e.message||e)==='batch-network-budget')throw e;errors.push(String(e.message||e));}}
  throw Error('direct-sources-unavailable: '+errors.join('; ').slice(0,120));
 }
 async function loadEpisode(page,candidates,fetcher){
  // Some work pages already expose exact media links for multiple episodes.
  // Only use those links when their ref matches the precise episode key.
- if(candidates?.length){try{return {url:await chooseMedia(candidates,fetcher),html:''};}catch{}}
+ if(candidates?.length){try{return {url:await chooseMedia(candidates,fetcher),html:''};}catch(e){if(String(e.message||e)==='batch-network-budget')throw e;}}
  const html=await getPage(page,fetcher),base=source(page);
  const graph=mediaByEpisode(anchors(html,page),base,{source,allowedMedia:validMedia,decode:x=>new URL(atob(x)).href});
  return {html,url:await chooseMedia([...candidatesFor(graph,base),...explicitVideoLinks(html,page)],fetcher)};
@@ -170,8 +170,8 @@ async function prepareJob(j,fetcher,s,now){
   if(cached&&cached.sourcePage===j.url&&now-cached.verifiedAt<3600000)return {asset:cached,html:'',url:cached.url};
   const page=source(j.url),k=page.searchParams.get('key')||'';
   const saved=await s.get(mediaKey(j.id,k));
-  const candidates=saved&&now-saved.at<DAY?saved.urls:j.candidates||[];
-  if(j.phase==='verify'){
+  const candidates=j.refreshLinks?[]:saved&&now-saved.at<DAY?saved.urls:j.candidates||[];
+  if(j.phase==='verify'&&!j.refreshLinks){
    // A resolved link is never mistaken for a verified playable asset.
    const url=await chooseMedia(candidates,fetcher);
    return {url,html:'',details:j.details||{}};
@@ -268,28 +268,29 @@ export async function crawl(s,fetcher=fetch,now=Date.now(),budget=48){
   const link=rawLink&&now-rawLink.at<DAY?rawLink:null;
   const newLink=!!(link?.urls?.length&&now-link.at<DAY&&link.at>(j.deferredAt||j.after||0));
   if(effectiveDue(j,health.get(j.id),now,newLink)>now)return [];
-  return [[key,{...j,url:ORIGIN+u.pathname+u.search,revision:REVISION,rescued:newLink,candidates:link?.urls||j.candidates}]];
+  const direct=j.type==='episode'&&j.phase!=='verify'&&!j.refreshLinks&&(link?.urls?.length||j.candidates?.length);
+  return [[key,{...j,url:ORIGIN+u.pathname+u.search,revision:REVISION,rescued:newLink,phase:direct?'verify':j.phase,candidates:link?.urls||j.candidates}]];
  }));
  const jobs=pickJobs(ready,budget,health,now,draftsById);
  let done=0,failed=0,skipped=stale.length,extracted=0;const start=Date.now();const errors=[];const prior=await s.get(P+'status')||{};const totals={processed:0,failed:0,extracted:0,...prior.totals};
  // Parallelize only network reads; serialize storage commits to avoid races between episodes.
- const parallel=6;
- for(let i=0;i<jobs.length&&Date.now()-start<20000;i+=parallel){
-  const batch=jobs.slice(i,i+parallel),results=await Promise.allSettled(batch.map(([,j])=>prepareJob(j,fetcher,s,now)));
+ const parallel=6;let networkRequests=0;const boundedFetch=(...args)=>{if(networkRequests>=45)throw Error('batch-network-budget');networkRequests++;return fetcher(...args);};
+ for(let i=0;i<jobs.length&&Date.now()-start<20000&&networkRequests<45;i+=parallel){
+  const batch=jobs.slice(i,i+parallel),results=await Promise.allSettled(batch.map(([,j])=>prepareJob(j,boundedFetch,s,now)));
   for(let k=0;k<batch.length;k++){
    const [key,j]=batch[k],r=results[k];
    try{
     if(r.status==='rejected')throw r.reason;
     if(r.value?.extracted){
      const h=nextHealth(health.get(j.id),true,'',now);health.set(j.id,h);await s.put(healthKey(j.id),h);
-     await s.put(key,{...j,phase:'verify',candidates:r.value.candidates,details:r.value.details,tries:0,after:0,revision:REVISION});extracted++;continue;
+     await s.put(key,{...j,phase:'verify',candidates:r.value.candidates,details:r.value.details,refreshLinks:false,tries:0,after:0,revision:REVISION});extracted++;continue;
     }
     await processJob(s,j,fetcher,now,r.value);await s.put(P+'seen:'+key,now);if(j.type==='index')await s.put(P+'seen:'+REVISION+':'+key,now);await s.delete(key);if(r.value?.skip)skipped++;else done++;
    }catch(e){
-    failed++;const reason=String(e.message||e).slice(0,160);errors.push({type:j.type,reason,path:new URL(j.url).pathname,episode:j.episode||j.n,season:j.season});
+    const reason=String(e.message||e).slice(0,160);if(reason==='batch-network-budget')continue;failed++;errors.push({type:j.type,reason,path:new URL(j.url).pathname,episode:j.episode||j.n,season:j.season});
     const tries=j.tries+1;
     if(j.type==='episode'&&j.phase!=='verify'){const h=nextHealth(health.get(j.id),false,reason,now);health.set(j.id,h);await s.put(healthKey(j.id),h);}
-    const plan=retryPlan(reason,tries,now);await s.put(P+'error:'+key,{url:j.url,reason,at:now});await s.put(key,{...j,...plan,deferredAt:now,revision:REVISION});
+    const plan=retryPlan(reason,tries,now);const refresh=j.type==='episode'&&j.phase==='verify'&&tries>=2&&reason.startsWith('direct-sources-unavailable');await s.put(P+'error:'+key,{url:j.url,reason,at:now});await s.put(key,{...j,...plan,...(refresh?{phase:'extract',refreshLinks:true,candidates:[],tries:0}:{}),deferredAt:now,revision:REVISION});
    }
   }
   await s.put(P+'status',{...prior,revision:REVISION,state:'running',at:now,processed:done,failed,skipped,extracted,errors:errors.slice(0,5),totals:{processed:totals.processed+done,failed:totals.failed+failed,extracted:totals.extracted+extracted}});
@@ -309,7 +310,7 @@ export async function crawl(s,fetcher=fetch,now=Date.now(),budget=48){
  totals.processed+=done;totals.failed+=failed;totals.extracted+=extracted;
  const titleIndex=await getFastIndex(s),previewRows=await queueRows(s,P+'preview:');const mappedWorks=new Set([...previewRows.values()].filter(p=>p.slots?.length).map(p=>p.id));for(const w of works.values())mappedWorks.add(w.id);
 
- const result={at:now,revision:REVISION,source:ORIGIN,processed:done,failed,skipped,extracted,queuedSample:pending.size,queueSampleTruncated:false,stages,delayed,ready:readyCount,waiting:pending.size-readyCount,nextRetry:Number.isFinite(nextRetry)?nextRetry:null,published:[...works.values()].filter(w=>!w.partial&&w.source!=='personal-import').length,availableWorks:works.size,publishedEpisodes:[...works.values()].filter(w=>w.source!=='personal-import').reduce((n,w)=>n+(w.availableCount??w.count),0),importedWorks:[...works.values()].filter(w=>w.source==='personal-import').length,importedEpisodes:[...works.values()].filter(w=>w.source==='personal-import').reduce((n,w)=>n+(w.availableCount??w.count),0),discovered:titleIndex.length,mappedWorks:mappedWorks.size,drafts:drafts.size,verifiedDraftEpisodes:[...drafts.values()].reduce((n,d)=>n+d.count-d.remaining,0),totals,errors:errors.length?errors.slice(0,5):[],state:done||extracted?'working':failed?'source-error':pending.size?'retry-wait':'idle'};await s.put(P+'status',result);return result;
+ const result={at:now,revision:REVISION,source:ORIGIN,processed:done,failed,skipped,extracted,networkRequests,queuedSample:pending.size,queueSampleTruncated:false,stages,delayed,ready:readyCount,waiting:pending.size-readyCount,nextRetry:Number.isFinite(nextRetry)?nextRetry:null,published:[...works.values()].filter(w=>!w.partial&&w.source!=='personal-import').length,availableWorks:works.size,publishedEpisodes:[...works.values()].filter(w=>w.source!=='personal-import').reduce((n,w)=>n+(w.availableCount??w.count),0),importedWorks:[...works.values()].filter(w=>w.source==='personal-import').length,importedEpisodes:[...works.values()].filter(w=>w.source==='personal-import').reduce((n,w)=>n+(w.availableCount??w.count),0),discovered:titleIndex.length,mappedWorks:mappedWorks.size,drafts:drafts.size,verifiedDraftEpisodes:[...drafts.values()].reduce((n,d)=>n+d.count-d.remaining,0),totals,errors:errors.length?errors.slice(0,5):[],state:done||extracted?'working':failed?'source-error':pending.size?'retry-wait':'idle'};await s.put(P+'status',result);return result;
 }
 // On-demand catalog lookup uses only known source page identities, never an arbitrary URL.
 // Metadata and the exact episode index are separate from verified playback.
