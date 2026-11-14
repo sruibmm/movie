@@ -1,4 +1,4 @@
-name: Inspect supplied media link metadata
+name: Verify supplied media browser compatibility
 on:
   push:
     branches: [dailymotion-diagnosis]
@@ -7,20 +7,28 @@ permissions:
 jobs:
   audit:
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: 3
     steps:
+      - run: npm install --no-save playwright && npx playwright install chromium
       - run: |
-          python - <<'PY'
-          import urllib.request, urllib.error, json
-          url='https://vid2.zvde-dsn-01.site/file/wp-alooytv/uploads/ramadan2023/Jafar.El.Omda/30.jpg'
-          for method,origin in [('HEAD',None),('GET','https://movie.o-a-f-a.workers.dev')]:
-            try:
-              headers={'User-Agent':'Mozilla/5.0'}
-              if origin:headers.update({'Origin':origin,'Range':'bytes=0-127'})
-              req=urllib.request.Request(url,headers=headers,method=method)
-              with urllib.request.urlopen(req,timeout=15) as r:
-                data=r.read(128) if method=='GET' else b''
-                print('META',json.dumps({'method':method,'status':r.status,'type':r.headers.get('Content-Type'),'length':r.headers.get('Content-Length'),'range':r.headers.get('Content-Range'),'cors':r.headers.get('Access-Control-Allow-Origin'),'mp4Signature':len(data)>8 and data[4:8]==b'ftyp','jpegSignature':data.startswith(b'\xff\xd8\xff')},ensure_ascii=False))
-            except urllib.error.HTTPError as e:print('META',json.dumps({'method':method,'status':e.code,'type':e.headers.get('Content-Type')}))
-            except Exception as e:print('META',json.dumps({'method':method,'error':str(e)[:180]}))
-          PY
+          cat > audit.cjs <<'JS'
+          const {chromium}=require('playwright');
+          (async()=>{
+            const b=await chromium.launch({headless:true,args:['--autoplay-policy=no-user-gesture-required']});
+            const url='https://vid2.zvde-dsn-01.site/file/wp-alooytv/uploads/ramadan2023/Jafar.El.Omda/30.jpg';
+            const origin='https://movie.o-a-f-a.workers.dev';
+            for(const mode of ['anonymous','native']){
+              const p=await b.newPage();const status=[];
+              p.on('response',r=>{if(r.url()===url)status.push(r.status());});
+              await p.route(origin+'/diagnostic-media-test',r=>r.fulfill({contentType:'text/html',body:'<!doctype html><html><body><video controls muted playsinline '+(mode==='anonymous'?'crossorigin="anonymous"':'')+'></video></body></html>'}));
+              await p.goto(origin+'/diagnostic-media-test');
+              await p.locator('video').evaluate((v,u)=>{v.src=u;v.play().catch(()=>{});},url);
+              await p.waitForFunction(()=>{const v=document.querySelector('video');return v.currentTime>0.5||v.error;},{},{timeout:18000}).catch(()=>{});
+              const data=await p.locator('video').evaluate(v=>({ready:v.readyState,time:v.currentTime,duration:Number.isFinite(v.duration)?v.duration:null,width:v.videoWidth,height:v.videoHeight,error:v.error?.code||null,paused:v.paused}));
+              console.log('BROWSER',JSON.stringify({mode,status,data}));
+              await p.close();
+            }
+            await b.close();
+          })().catch(e=>{console.log('AUDIT_ERROR',e.name);process.exit(1)});
+          JS
+          node audit.cjs
