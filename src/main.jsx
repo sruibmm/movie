@@ -865,11 +865,11 @@ function App() {
           </div>
           <div className="flex flex-wrap gap-2">
             {tvMode&&<button data-tv-focus="history" onClick={()=>setShowHistory(true)} className="px-4 py-2 rounded-full bg-white/10 font-bold">▶ متابعة المشاهدة</button>}
-            <button onClick={()=>switchLibrary(false)} aria-pressed={!arabicLibrary} className={`px-4 py-2 rounded-full text-sm font-bold ${!arabicLibrary?'bg-purple-600':'bg-white/5 text-gray-300'}`}>World Cinema</button>
-            <button onClick={()=>switchLibrary(true)} aria-pressed={arabicLibrary} className={`px-4 py-2 rounded-full text-sm font-bold ${arabicLibrary?'bg-purple-600':'bg-white/5 text-gray-300'}`}>السينما العربية</button>
+            <button data-tv-focus="world" onClick={()=>switchLibrary(false)} aria-pressed={!arabicLibrary} className={`px-4 py-2 rounded-full text-sm font-bold ${!arabicLibrary?'bg-purple-600':'bg-white/5 text-gray-300'}`}>World Cinema</button>
+            <button data-tv-focus="arabic" onClick={()=>switchLibrary(true)} aria-pressed={arabicLibrary} className={`px-4 py-2 rounded-full text-sm font-bold ${arabicLibrary?'bg-purple-600':'bg-white/5 text-gray-300'}`}>السينما العربية</button>
           </div>
           <form onSubmit={submitSearch} className="flex gap-2">
-            <input value={searchDraft} onChange={e=>setSearchDraft(e.target.value)} dir={arabicLibrary?'rtl':'auto'} type="search" placeholder={arabicLibrary?'ابحث عن فيلم أو مسلسل عربي...':'Search movies...'} className="min-w-0 flex-1 bg-[#0a0a0a] border border-white/10 rounded-2xl px-4 py-3 focus:ring-2 ring-purple-500/50 outline-none text-base"/>
+            <input data-tv-focus="search" value={searchDraft} onChange={e=>setSearchDraft(e.target.value)} dir={arabicLibrary?'rtl':'auto'} type="search" placeholder={arabicLibrary?'ابحث عن فيلم أو مسلسل عربي...':'Search movies...'} className="min-w-0 flex-1 bg-[#0a0a0a] border border-white/10 rounded-2xl px-4 py-3 focus:ring-2 ring-purple-500/50 outline-none text-base"/>
             <button className="rounded-2xl bg-purple-600 px-4 text-sm font-bold">{arabicLibrary?'بحث':'Search'}</button>
           </form>
         </header>
@@ -890,7 +890,7 @@ function App() {
         ) : (
           <div className={"grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6"+(tvMode?" tv-poster-grid":"")}>
             {movies.map(m => (
-              <div key={m.id} role="button" tabIndex={0} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();setActiveMovie(m);}}} onClick={() => setActiveMovie(m)} className={"group cursor-pointer"+(tvMode?" tv-poster-card":"")}>
+              <div key={m.id} data-tv-focus={"movie:"+m.id} role="button" tabIndex={0} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();setActiveMovie(m);}}} onClick={() => setActiveMovie(m)} className={"group cursor-pointer"+(tvMode?" tv-poster-card":"")}>
                 <div className="relative aspect-[2/3] rounded-2xl overflow-hidden border border-white/5 group-hover:border-purple-500/50 transition-all bg-zinc-900 shadow-lg">
                   <img loading={tvMode?"lazy":undefined} decoding={tvMode?"async":undefined} src={`https://image.tmdb.org/t/p/w500${m.poster_path}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt={m.title} />
                 </div>
