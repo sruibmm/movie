@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import ReactDOM from 'react-dom/client'
 import Hls from 'hls.js'
 import {attachPublisherFilm} from './officialCatalog.js'
+import {attachBulkArabicSource} from './bulkArabicCatalog.js'
 import PublisherPlayer from './PublisherPlayer.jsx'
 import {attachArabicSiteEpisode,allowArabicPlayback,approvedPublisherUrl} from './arabicSiteCatalog.js'
 import {attachPublisherEpisode} from './publisherSeries.js'
@@ -548,7 +549,7 @@ function App() {
   };
 
   const startArabicEpisode=(input)=>{
-    const movie=attachPublisherFilm(attachPublisherEpisode(attachArabicSiteEpisode(input)));
+    const movie=attachPublisherFilm(attachPublisherEpisode(attachArabicSiteEpisode(attachBulkArabicSource(input))));
     if(mode==='couples'&&!conn?.open){alert('Connect Renad first, then start the episode.');return;}
     const settings={...syncSettings,fallbackServer:10,progress:getFromHistory(movie.id)?.progress||0};
     setSyncSettings(settings);setRoomMovie(movie);
@@ -629,7 +630,7 @@ function App() {
     );
   }
 
-  const resolvedRoomMovie=roomMovie?attachPublisherFilm(attachPublisherEpisode(attachArabicSiteEpisode(roomMovie))):null;
+  const resolvedRoomMovie=roomMovie?attachPublisherFilm(attachPublisherEpisode(attachArabicSiteEpisode(attachBulkArabicSource(roomMovie)))):null;
   if (resolvedRoomMovie?.publisherSource&&approvedPublisherUrl(resolvedRoomMovie.publisherSource)) {
     return <PublisherPlayer key={resolvedRoomMovie.id} movie={resolvedRoomMovie} mode={mode} onBack={()=>{if(role==='admin'&&conn?.open)conn.send({type:'end_party'});saveToHistory(roomMovie,syncSettings.progress,syncSettings);setRoomMovie(null);setActiveMovie(null);}}/>;
   }
@@ -714,7 +715,7 @@ function App() {
 
   if (mode === 'couples' && role === 'admin' && activeMovie) {
     return <MovieDetail movie={activeMovie} onBack={() => setActiveMovie(null)} onStartParty={(input) => {
-      const movieFull=attachPublisherFilm(input);
+      const movieFull=attachPublisherFilm(attachBulkArabicSource(input));
       const settings={...syncSettings,fallbackServer:10,progress:getFromHistory(movieFull.id)?.progress||0};
       setSyncSettings(settings);setRoomMovie(movieFull);
       if (conn?.open) {
@@ -818,7 +819,7 @@ function App() {
   }
 
   if (mode === 'single' && activeMovie) {
-    return <MovieDetail movie={activeMovie} onBack={() => setActiveMovie(null)} onStartParty={(input) => {const movieFull=attachPublisherFilm(input);setSyncSettings(prev=>({...prev,fallbackServer:10,progress:getFromHistory(movieFull.id)?.progress||0}));setRoomMovie(movieFull);}} />;
+    return <MovieDetail movie={activeMovie} onBack={() => setActiveMovie(null)} onStartParty={(input) => {const movieFull=attachPublisherFilm(attachBulkArabicSource(input));setSyncSettings(prev=>({...prev,fallbackServer:10,progress:getFromHistory(movieFull.id)?.progress||0}));setRoomMovie(movieFull);}} />;
   }
 
   if (mode === 'single' && role === 'admin') {
