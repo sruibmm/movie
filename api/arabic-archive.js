@@ -1,7 +1,7 @@
 import {ARCHIVE_ORIGIN,ARCHIVE_GENRES,parseArchiveCatalogue,archiveVideoCandidates,validateArchiveVideo} from '../src/arabicArchive.js';
 import {titleKey} from '../src/watanLookup.js';
 async function get(url,json=false){
- const c=new AbortController(),t=setTimeout(()=>c.abort(),6500);
+ const c=new AbortController(),t=setTimeout(()=>c.abort(),12000);
  try{const r=await fetch(url,{signal:c.signal,redirect:'follow',headers:{Accept:json?'application/json':'text/html','User-Agent':'CinemaCatalogueLinkResolver/1.0'}});if(!r.ok)return null;const end=new URL(r.url);if(json?end.hostname!=='www.youtube.com':end.origin!==ARCHIVE_ORIGIN)return null;const b=await r.text();if(b.length>4_000_000)return null;return json?JSON.parse(b):b;}catch{return null;}finally{clearTimeout(t);}
 }
 export default async function handler(req,res){
@@ -17,7 +17,7 @@ export default async function handler(req,res){
   return res.json({source:null,verified:false});
  }
  const q=String(req.query.q||'').trim().slice(0,120);
- const html=await get(ARCHIVE_ORIGIN+'/A4A/news/arabicmovie.php?'+new URLSearchParams({genre,page:String(page)}));if(!html)return res.status(502).json({error:'Catalogue unavailable'});
+ const html=await get(ARCHIVE_ORIGIN+'/A4A/news/arabicmovie.php?'+new URLSearchParams(page===1?{genre}:{genre,page:String(page)}));if(!html)return res.status(502).json({error:'Catalogue unavailable'});
  const data=parseArchiveCatalogue(html,genre);
  if(q)data.items=data.items.filter(x=>titleKey(x.title).includes(titleKey(q)));
  return res.json({...data,genre,page,source:'arabicArchive',partial:false});
