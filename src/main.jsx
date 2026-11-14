@@ -313,16 +313,17 @@ function PasswordModal({ onVerify, onClose }) {
 }
 
 function App() {
-  const [mode, setMode] = useState(null);
+  const directArabic=new URLSearchParams(window.location.search).get('library')==='arabic';
+  const [mode, setMode] = useState(directArabic?'single':null);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
-  const [role, setRole] = useState(null);
+  const [role, setRole] = useState(directArabic?'admin':null);
   const [movies, setMovies] = useState([]);
   const [activeMovie, setActiveMovie] = useState(null);
   const [roomMovie, setRoomMovie] = useState(null);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
-  const [arabicLibrary,setArabicLibrary]=useState(false);
+  const [arabicLibrary,setArabicLibrary]=useState(directArabic);
   const [catalogPage,setCatalogPage]=useState(1);
   const [catalogPages,setCatalogPages]=useState(1);
   const [catalogError,setCatalogError]=useState('');
