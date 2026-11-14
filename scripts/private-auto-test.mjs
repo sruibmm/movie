@@ -39,8 +39,9 @@ const discovered=await (await privateRequest(new Request('https://internal/priva
 const preview=await previewWork(storage,'alooytv:gztyqowfz11u',fake,now);assert.equal(preview.slots.length,2);assert.equal(preview.slots[0].page,undefined);
 const requested=await resolveEpisode(storage,'alooytv:gztyqowfz11u',1,2,fake,now);assert.equal(requested.episode,2);assert.equal(requested.url,mp4.replace('example','2'));
 await assert.rejects(()=>resolveEpisode(storage,'alooytv:gztyqowfz11u',1,3,fake,now),/episode-not-listed/);
-const partial=await crawl(storage,fake,now+60000,1);assert.equal(partial.published,0);assert.equal(partial.availableWorks,1);assert.equal(partial.publishedEpisodes,1);const one=await (await privateRequest(new Request('https://internal/private-work?id=alooytv:gztyqowfz11u'),storage)).json();assert.equal(one.partial,true);assert.equal(one.assets.length,1);
-const progress=await crawl(storage,fake,now+120000);assert.equal(progress.published,1);assert.equal(progress.publishedEpisodes,2);assert.equal(progress.revision,'auto-v7');
+const extracted=await crawl(storage,fake,now+60000,1);assert.equal(extracted.extracted,1);assert.equal(extracted.publishedEpisodes,0);
+const partial=await crawl(storage,fake,now+61000,1);assert.equal(partial.published,0);assert.equal(partial.availableWorks,1);assert.equal(partial.publishedEpisodes,1);const one=await (await privateRequest(new Request('https://internal/private-work?id=alooytv:gztyqowfz11u'),storage)).json();assert.equal(one.partial,true);assert.equal(one.assets.length,1);
+const progress=await crawl(storage,fake,now+120000);assert.equal(progress.published,1);assert.equal(progress.publishedEpisodes,2);assert.equal(progress.revision,'auto-v8');
 const result=await (await privateRequest(new Request('https://internal/private-work?id=alooytv:gztyqowfz11u'),storage)).json();
 assert.equal(result.assets.length,2);assert.equal(result.assets[0].thumbnail,origin+'/still1.jpg');assert.equal(result.assets[1].episode,2);
 const listing=await (await privateRequest(new Request('https://internal/private-list?q=جعفر'),storage)).json();assert.equal(listing.titles.length,1);assert.equal(listing.titles[0].assets,undefined);
@@ -62,6 +63,7 @@ assert.deepEqual(mp.slots,[{season:1,episode:1},{season:2,episode:1}]);assert.eq
 const m2=await resolveEpisode(separate,'alooytv:gztyqowfz11u',2,1,multiFetch,now);
 assert.equal(m2.url,mp4.replace('example','2'));assert.equal(m2.season,2);assert.equal(pageHits,1);assert.equal(probes,1);
 await crawl(separate,multiFetch,now+2000);
+await crawl(separate,multiFetch,now+4000);
 const mw=await (await privateRequest(new Request('https://internal/private-work?id=alooytv:gztyqowfz11u'),separate)).json();
 assert.equal(mw.partial,true);assert.equal(mw.count,5);assert.equal(mw.assets.length,2);assert.equal(mw.assets[1].season,2);
 
