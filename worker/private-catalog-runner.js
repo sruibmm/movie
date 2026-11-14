@@ -1,6 +1,6 @@
 // Durable Object alarm runner: acknowledge immediately, keep a single crawler active,
 // persist status before network I/O, and continue without a browser tab.
-export const ENGINE='auto-v5';
+export const ENGINE='auto-v6';
 const STATUS='pc:status';
 const errorText=e=>String(e?.message||e).slice(0,180);
 export class PrivateRunner{
@@ -27,7 +27,7 @@ export class PrivateRunner{
   await this.s.put(STATUS,{...old,engine:ENGINE,state:'running',startedAt:now});
   try{
    const result=await this.crawl(this.s,undefined,now);
-   const next=result.ready>0?this.clock()+5000:result.nextRetry?Math.max(this.clock()+5000,result.nextRetry):null;
+   const next=result.ready>0?this.clock()+2000:result.nextRetry?Math.max(this.clock()+2000,result.nextRetry):null;
    if(next!==null)await this.s.setAlarm(next);
    const final={...result,engine:ENGINE,startedAt:now,finishedAt:this.clock(),nextRunAt:next};
    await this.s.put(STATUS,final);return final;
