@@ -1,22 +1,64 @@
-name: Validate expanded Cinema catalogue
+name: Dubai Plus public playback release gate
 on:
   push:
     branches: [dailymotion-diagnosis]
 permissions:
   contents: read
 jobs:
-  build:
+  audit:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ea0e4b4cc4024b667715df36a7fd9acecfc9ada1
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - run: npm ci
-      - run: npm run build:cloudflare
-      - name: Verify Dubai Plus catalogue
+      - run: npm install --no-save playwright && npx playwright install chromium
+      - name: Test public official series and film playback without sign-in
         run: |
-          node --input-type=module -e "import {DUBAI_PLUS_TITLES as t} from './src/dubaiPlusCatalog.js'; console.log('DUBAI_DIRECTORY',t.length,new Set(t.map(x=>x.id)).size,t.every(x=>!x.playbackVerified)); if(t.length!==16||new Set(t.map(x=>x.id)).size!==16)process.exit(1)"
+          cat > check.cjs <<'JS'
+          const {chromium}=require('playwright');
+          const rows=[
+            ['جعفر العمدة','s/series/694469160205_جعفر-العمدة'],
+            ['تحت الوصاية','s/series/694466600449_تحت-الوصاية'],
+            ['النار بالنار','s/series/694468136197_النار-بالنار'],
+            ['مال القبان','s/series/693423144332_مال-القبان'],
+            ['ولاد الشمس','s/series/719314984120_ولاد-الشمس'],
+            ['Blacklight','m/movie/803827752104_Blacklight'],
+            ['Born a Champion','m/movie/803801640170_Born-a-Champion'],
+            ['The Comeback Trail','m/movie/803797032151_The-Comeback-Trail']
+          ];
+          (async()=>{
+            const b=await chromium.launch({headless:true,args:['--autoplay-policy=no-user-gesture-required']});
+            const results=[];
+            for(let i=0;i<rows.length;i+=4)await Promise.all(rows.slice(i,i+4).map(async([title,path])=>{
+              const context=await b.newContext({viewport:{width:1280,height:800}});
+              const p=await context.newPage();
+              const url='https://www.dubaiplus.net/ar-AE/'+path;
+              let result={title,url,status:'unverified'};
+              try{
+                await p.goto(url,{waitUntil:'domcontentloaded',timeout:20000});
+                await p.waitForTimeout(4500);
+                const consent=p.getByRole('button',{name:'رفض الكل',exact:true}).filter({visible:true}).first();
+                if(await consent.count())await consent.click({timeout:2000}).catch(()=>{});
+                const before=await p.locator('body').innerText({timeout:5000});
+                result.titleMatch=before.includes(title);
+                const btn=p.getByRole('button',{name:/الموسم\s*1\s*الحلقة\s*1|شاهد الآن|شاهد|تشغيل|Watch Now|Play/i}).filter({visible:true}).first();
+                if(await btn.count()){result.button=(await btn.innerText()).trim();await btn.click({timeout:6000}).catch(e=>result.clickError=e.message.slice(0,130));}
+                else result.status='no visible play button';
+                await p.waitForTimeout(6000);
+                const body=await p.locator('body').innerText({timeout:5000});
+                const login=/أنشئ حسابًا أو سجّل الدخول للمتابعة|قم بتسجيل الدخول إلى حساب دبي|Log in to your Dubai|sign in to continue|create an account or log in/i.test(body);
+                const videos=await p.locator('video').evaluateAll(vs=>vs.map(v=>({time:v.currentTime,duration:Number.isFinite(v.duration)?v.duration:null,width:v.videoWidth,height:v.videoHeight,ready:v.readyState,paused:v.paused})));
+                result.videos=videos;
+                result.loginRequired=login;
+                if(login)result.status='login required';
+                else if(videos.some(v=>v.time>1&&v.duration>600&&v.width>0))result.status='public full-length playback candidate';
+                else if(result.button)result.status='playback not verified';
+                result.text=body.slice(0,400);
+              }catch(e){result.error=e.message.slice(0,180);}
+              console.log('AUDIT_RESULT '+JSON.stringify(result));
+              results.push(result);
+              await context.close();
+            }));
+            console.log('BATCH_GATE '+JSON.stringify({checked:results.length,login:results.filter(x=>x.loginRequired).length,publicCandidates:results.filter(x=>x.status==='public full-length playback candidate').length,requiredCompleteTitles:50,released:false}));
+            await b.close();
+          })().catch(e=>{console.error(e);process.exit(1)});
+          JS
+          node check.cjs
