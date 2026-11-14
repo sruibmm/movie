@@ -1,4 +1,4 @@
-import React,{useEffect,useMemo,useState} from 'react';
+import React,{useEffect,useMemo,useRef,useState} from 'react';
 import {PUBLISHER_FILMS,importedFilm} from './officialCatalog.js';
 import {PUBLISHER_SERIES,importedEpisode} from './publisherSeries.js';
 import {PLAYLIST_SERIES,playlistMovie} from './publisherPlaylists.js';
@@ -42,11 +42,12 @@ function entries(v){
 export default function TvArabicHome({query,options,onMovie,onPlay}){
  const [tab,setTab]=useState(lastTab),[limit,setLimit]=useState(24),[selected,setSelected]=useState(lastRow),[variant,setVariant]=useState(lastVariant),[requested,setRequested]=useState(lastAuto),[season,setSeason]=useState(null),[episodeLimit,setEpisodeLimit]=useState(24),[error,setError]=useState('');
  const [live,setLive]=useState({auto:[],synced:[],licensed:[],next:null,status:'loading',recovery:false}),[refresh,setRefresh]=useState(0),[moreBusy,setMoreBusy]=useState(false);
+ const revision=useRef(0),moreController=useRef(null);
  const [personal]=useState(()=>{try{return validatePrivateCatalog(JSON.parse(localStorage.getItem(PRIVATE_KEY)||'{"version":1,"titles":[]}')).titles;}catch{return [];}});
  const read=(url,signal)=>fetch(url,{signal,cache:'no-store'}).then(r=>{if(!r.ok)throw Error(String(r.status));return r.json();});
  const autoURL=cursor=>'/api/private-catalog/list?'+new URLSearchParams({q:query||'',kind:'all',region:'all',year:'all',ramadan:'0',cursor:cursor||''});
- useEffect(()=>{const c=new AbortController();setLive(x=>({...x,auto:[],next:null,status:'loading'}));setMoreBusy(false);
- Promise.allSettled([read(autoURL(''),c.signal),read('/api/source-sync/catalog',c.signal),read('/licensed-arabic.json',c.signal).then(normalizeLicensedCatalog)]).then(([a,s,l])=>{if(c.signal.aborted)return;setLive({auto:a.status==='fulfilled'&&Array.isArray(a.value.titles)?a.value.titles:[],next:a.status==='fulfilled'?a.value.next:null,recovery:a.status==='fulfilled'&&a.value.recovery===true,synced:s.status==='fulfilled'&&Array.isArray(s.value.titles)?s.value.titles.filter(validSyncedTitle):[],licensed:l.status==='fulfilled'?l.value:[],status:[a,s,l].some(x=>x.status==='rejected')?'partial':'ready'});});return()=>c.abort();
+ useEffect(()=>{const c=new AbortController(),rev=++revision.current,timer=setTimeout(()=>c.abort(),18000);moreController.current?.abort();setLive(x=>({...x,auto:[],next:null,status:'loading'}));setMoreBusy(false);
+ Promise.allSettled([read(autoURL(''),c.signal),read('/api/source-sync/catalog',c.signal),read('/licensed-arabic.json',c.signal).then(normalizeLicensedCatalog)]).then(([a,s,l])=>{if(rev!==revision.current)return;if(c.signal.aborted){setLive(x=>({...x,status:'partial'}));return;}setLive({auto:a.status==='fulfilled'&&Array.isArray(a.value.titles)?a.value.titles:[],next:a.status==='fulfilled'?a.value.next:null,recovery:a.status==='fulfilled'&&a.value.recovery===true,synced:s.status==='fulfilled'&&Array.isArray(s.value.titles)?s.value.titles.filter(validSyncedTitle):[],licensed:l.status==='fulfilled'?l.value:[],status:[a,s,l].some(x=>x.status==='rejected')?'partial':'ready'});});return()=>{clearTimeout(timer);revision.current++;c.abort();};
  },[query,refresh]);
  useEffect(()=>{setLimit(24);},[query,tab]);
  const rows=useMemo(()=>buildUnifiedCatalog({...staticData,auto:live.auto,synced:live.synced,licensed:live.licensed,personal}),[live,personal]);
@@ -61,7 +62,7 @@ export default function TvArabicHome({query,options,onMovie,onPlay}){
  const allEntries=useMemo(()=>variant?entries(variant):[],[variant]);
  const seasons=[...new Set(allEntries.map(e=>e.season).filter(n=>n!==null&&n!==undefined))];
  const shownEntries=allEntries.filter(e=>season===null||e.season===season);
- const more=async()=>{setLimit(n=>n+24);if(!live.next||moreBusy)return;setMoreBusy(true);const key=query;try{const r=await read(autoURL(live.next),AbortSignal.timeout(16000));if(!Array.isArray(r.titles))throw Error();setLive(x=>({...x,auto:[...new Map([...x.auto,...r.titles].map(v=>[v.id,v])).values()],next:r.next,recovery:r.recovery===true}));}catch{setError('تعذر تحميل المزيد من المكتبة المتجددة. جرّب إعادة المحاولة.');}finally{setMoreBusy(false);}};
+ const more=async()=>{setLimit(n=>n+24);if(!live.next||moreBusy)return;setMoreBusy(true);const rev=revision.current,c=new AbortController();moreController.current=c;const timer=setTimeout(()=>c.abort(),16000);try{const r=await read(autoURL(live.next),c.signal);if(rev!==revision.current)return;if(!Array.isArray(r.titles))throw Error();setLive(x=>({...x,auto:[...new Map([...x.auto,...r.titles].map(v=>[v.id,v])).values()],next:r.next,recovery:r.recovery===true}));}catch{if(rev===revision.current)setError('تعذر تحميل المزيد من المكتبة المتجددة. جرّب إعادة المحاولة.');}finally{clearTimeout(timer);if(rev===revision.current)setMoreBusy(false);}};
  const grid=['featured','movie','tv','play'].includes(tab);
  return <div dir="rtl" className="tv-arabic-home"><nav className="flex flex-wrap gap-3 mb-6" aria-label="أقسام السينما العربية">{tabs.map(([id,label])=><button key={id} data-tv-focus={'arabic:tab:'+id} aria-pressed={tab===id} onClick={()=>change(id)} className={'rounded-xl px-5 py-3 font-bold '+(tab===id?'bg-purple-600':'bg-white/10')}>{label}</button>)}</nav>
  {grid&&<section className="tv-arabic-shelf"><h2 className="text-2xl font-black mb-3">{tab==='featured'?'السينما العربية · كل المكتبة':tabs.find(t=>t[0]===tab)?.[1]}</h2><p className="text-sm text-gray-400 mb-4">{shown.length} عنوان ظاهر في الفهرس الحالي · نفس مصادر الموقع</p>{live.status==='loading'&&<p className="text-xs text-gray-400 mb-3">جاري تحديث المكتبة المشتركة…</p>}{(live.status==='partial'||live.recovery)&&<p className="tv-notice">بعض المحتوى المباشر غير متاح حاليًا أو في وضع الاستعادة. المحتوى المحفوظ لم يُحذف. <button onClick={()=>setRefresh(n=>n+1)}>تحديث</button></p>}
