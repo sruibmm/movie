@@ -18,10 +18,11 @@ async function fallback(route,request,owner,reason){
  if(recoverable.has(route))return recoveryRequest(route,request);
  return fail(owner?reason:'catalogue-temporarily-unavailable',503);
 }
-async function privateRead(env,route,request,owner){
+async function privateRead(env,route,request,owner,publicRead=false){
  if(Date.now()<quotaUntil)return fallback(route,request,owner,'storage-quota-or-limit');
  try{
-  const r=await stub(env).fetch('https://internal'+route+new URL(request.url).search,{method:request.method});
+  const internal=new URL('https://internal'+route+new URL(request.url).search);internal.searchParams.delete('_public');if(publicRead)internal.searchParams.set('_public','1');
+  const r=await stub(env).fetch(internal.href,{method:request.method});
   if(r.status===502&&(route==='/private-preview'||route==='/private-episode')){const data=await r.json().catch(()=>null);return fail(typeof data?.error==='string'?data.error.slice(0,240):'source-unavailable',502);}
   if(r.status>=500){
    const m=await r.text(),reason=recoveryError(m);
@@ -42,17 +43,18 @@ export default {
   const u=new URL(request.url);
   if(u.pathname.startsWith('/api/private-catalog/')){
    try{configureMediaHosts(env.PRIVATE_MEDIA_HOSTS);}catch{return fail('invalid-media-host-config',503);}
-   if(!env.PRIVATE_CATALOG_KEY||env.PRIVATE_CATALOG_KEY.length<32)return fail('private-catalog-not-configured',503);
-   const owner=await authorize(request,env.PRIVATE_CATALOG_KEY);
+   const configured=typeof env.PRIVATE_CATALOG_KEY==='string'&&env.PRIVATE_CATALOG_KEY.length>=32;
+   const owner=configured&&await authorize(request,env.PRIVATE_CATALOG_KEY);
    const token=(request.headers.get('Authorization')||'').slice(7);
-   if(!owner&&!await verifyInvitation(token,env.PRIVATE_CATALOG_KEY))return fail('unauthorized',401);
+   const invited=!!(configured&&token&&!owner&&await verifyInvitation(token,env.PRIVATE_CATALOG_KEY));
    if(u.pathname==='/api/private-catalog/invite'){if(!owner||request.method!=='POST')return fail('forbidden',403);return Response.json(await createInvitation(env.PRIVATE_CATALOG_KEY),{headers:{'Cache-Control':'private, no-store'}});}
    const route=privateRoutes[u.pathname],write=route==='/private-sync'||route==='/private-share';
    if(!route||request.method!==(write?'POST':'GET'))return fail('not-found',404);
    if(write&&!owner)return fail('forbidden',403);
+   if(route==='/private-status'&&!owner&&!invited)return Response.json({engine:'auto-v10',paused:true,public:true},{headers:{'Cache-Control':'private, no-store'}});
    if(route==='/private-sync')return maintenance();
    if(route==='/private-share'){if(Date.now()<quotaUntil)return fail('storage-quota-or-limit',503);if(Number(request.headers.get('Content-Length'))>1000000)return fail('share-too-large',413);const body=await request.text();if(body.length>1000000)return fail('share-too-large',413);try{return await stub(env).fetch('https://internal'+route,{method:'POST',body,headers:{'Content-Type':'application/json'}});}catch(e){const reason=recoveryError(e);if(reason==='storage-quota-or-limit')quotaUntil=Date.now()+60000;return fail(reason,503);}}
-   return privateRead(env,route,request,owner);
+   return privateRead(env,route,request,owner,!owner&&!invited);
   }
   return u.pathname.startsWith('/api/source-sync/')?sync.fetch(request,env):cinema.fetch(request,env);
  },
