@@ -70,7 +70,7 @@ export default function AutoLibrary({query='',onPlay,options}){
    onPlay(privateMovie(work,actual));setSelected(null);
   }catch(e){
    const reason=String(e.message||e);
-   const missing=/missing-direct-source|direct-sources?-unavailable|episode-not-listed|media-404|media-redirect-|unsupported-media-host|unsupported-hosts|unapproved-host|not-mp4/i.test(reason);
+   const missing=/missing-direct-source|direct-sources?-unavailable|episode-not-listed|media-404|media-redirect-|unsupported-media-host|unsupported-hosts|unapproved-host|not-mp4|media-warning-clip|media-too-small|media-too-short/i.test(reason);
    const direct=missing?await verifiedSyncedAlternative(work,a):null;
    const alternative=direct||(missing?publisherAlternative(work,a,bulkCatalog):null);
    // Never retry a blocked redirect or substitute a different episode. Only a
