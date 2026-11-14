@@ -10,7 +10,7 @@ import AutoLibrary from './AutoLibrary.jsx'
 import {isPrivateMedia,PRIVATE_KEY,PRIVATE_ACTIVE_KEY,validatePrivateCatalog,privateMovie} from './privateCatalog.js'
 import SyncedLibrary from './SyncedLibrary.jsx'
 import SyncedPlayback from './SyncedPlayback.jsx'
-import TvArabicHome from './TvArabicHome.jsx'
+import TvArabicHome,{resetTvArabicHome} from './TvArabicHome.jsx'
 import ArabicDiscovery,{OfficialAvailability} from './ArabicDiscovery.jsx'
 import {embedwaveUrl,cinesrcUrl} from './arabicDiscovery.js'
 import {ARABIC_BACKENDS,arabicSourceIds,backendUrl,nextArabicSource} from './arabicSources.js'
@@ -335,7 +335,7 @@ function App() {
   const [catalogError,setCatalogError]=useState('');
   const [catalogRetry,setCatalogRetry]=useState(0);
   const [searchDraft,setSearchDraft]=useState('');
-  const switchLibrary=(arabic)=>{setArabicLibrary(arabic);setSearch('');setSearchDraft('');setCatalogPage(1);};
+  const switchLibrary=(arabic)=>{if(tvMode)resetTvArabicHome();setArabicLibrary(arabic);setSearch('');setSearchDraft('');setCatalogPage(1);};
   const submitSearch=(e)=>{e.preventDefault();setCatalogPage(1);setSearch(searchDraft.trim());};
   const [welcomeName, setWelcomeName] = useState('Renad');
   
@@ -1089,16 +1089,16 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   const tvSeek=delta=>{
     const v=videoRef.current;
     if(v){const t=seekTarget(v.currentTime,v.duration,delta);if(t!==null){v.currentTime=t;notifySeek(delta);}return;}
-    if(cineControlled&&cineState.current.ready){const state=cineState.current,t=seekTarget(state.time,state.duration,delta);if(t!==null&&cineCommand(iframeRef.current,'seek',[t])){state.time=t;notifySeek(delta);}}
+    if(cineControlled&&cineState.current.ready){const state=cineState.current,t=seekTarget(state.time,state.duration,delta);if(t!==null&&cineCommand(iframeRef.current,'seek',[t])){state.time=t;notifySeek(delta);return;}}setTvSeekFeedback('المشغّل غير جاهز للتقديم بعد');clearTimeout(seekNoticeTimer.current);seekNoticeTimer.current=setTimeout(()=>setTvSeekFeedback(''),1200);
   };
-  const tvToggle=()=>{const v=videoRef.current;if(v){if(v.paused)v.play().catch(()=>{});else v.pause();return;}if(cineControlled&&cineState.current.ready)cineCommand(iframeRef.current,cineState.current.paused?'play':'pause');};
+  const tvToggle=()=>{const v=videoRef.current;if(v){if(v.paused)v.play().catch(()=>{});else v.pause();return;}if(cineControlled)cineCommand(iframeRef.current,cineState.current.paused?'play':'pause');};
   useEffect(()=>{cineState.current={ready:false,time:0,duration:0,paused:true};tap.current=null;},[movie.id,currentServer,frameRevision,cinesrcWrapper,publisherSource]);
   useEffect(()=>{if(!cineControlled)return;const handler=e=>{if(!cineMessage(iframeRef.current,e))return;const d=e.data,state=cineState.current;
     if(d.type==='cinesrc:ready'){state.ready=true;cineCommand(iframeRef.current,'getCurrentTime');cineCommand(iframeRef.current,'getDuration');cineCommand(iframeRef.current,'getPaused');}
     if(d.type==='cinesrc:response'){if(d.command==='getCurrentTime'&&Number.isFinite(d.result))state.time=d.result;if(d.command==='getDuration'&&Number.isFinite(d.result))state.duration=d.result;if(d.command==='getPaused'&&typeof d.result==='boolean')state.paused=d.result;}
     if(Number.isFinite(d.currentTime))state.time=d.currentTime;if(Number.isFinite(d.duration))state.duration=d.duration;
     if(d.type==='cinesrc:play'){state.ready=true;state.paused=false;setPlayState('Playing');}else if(d.type==='cinesrc:pause'){state.paused=true;setPlayState('Paused');}else if(d.type==='cinesrc:ended'){state.paused=true;setPlayState('Finished');}
-    if(d.type==='cinesrc:timeupdate'){state.ready=true;state.paused=false;setPlayState('Playing');}
+    if(d.type==='cinesrc:timeupdate'){state.ready=true;if(!state.paused)setPlayState('Playing');}
     if(['cinesrc:timeupdate','cinesrc:seeked','cinesrc:pause','cinesrc:ended','cinesrc:response'].includes(d.type))publishProgress(state.time,state.duration,d.type==='cinesrc:pause'||d.type==='cinesrc:ended');
     if(d.type==='cinesrc:close')onBack();
   };window.addEventListener('message',handler);return()=>window.removeEventListener('message',handler);},[cineControlled,movie.id,frameRevision,cinesrcWrapper]);
@@ -1106,6 +1106,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     if(k===10009||k===461||k===27){if(showPlaybackHelp){setShowPlaybackHelp(false);e.preventDefault();e.stopPropagation();return;}if(tvFullscreen){setTvFullscreen(false);e.preventDefault();e.stopPropagation();return;}return;}
     if(k===10221){setShowPlaybackHelp(v=>!v);e.preventDefault();e.stopPropagation();return;}
     if(!tvManaged||showPlaybackHelp||/INPUT|SELECT|TEXTAREA/.test(target?.tagName||''))return;
+    if(k!==37&&k!==39)tap.current=null;
     const surface=target?.closest?.('[data-tv-play-surface]');
     if((k===37||k===39)&&surface){const next=doubleTap(tap.current,k,Date.now(),e.repeat);tap.current=next.last;if(next.delta)tvSeek(next.delta);e.preventDefault();e.stopPropagation();return;}
     if(k===13&&surface){tvToggle();e.preventDefault();e.stopPropagation();return;}
@@ -1466,7 +1467,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
             <p className="truncate font-semibold text-sm md:text-base leading-tight">{movie.title}</p>
             <p className="text-[10px] text-gray-400 mt-0.5 truncate">{isNative?(movie.sourceSync?'Cinema Direct · '+(movie.licensedSource?.rights?.provider||''):'Direct player'):publisherSource?'Official publisher · ads possible':currentServer===10?'Cinesrc · Protected':(fallbackNodes[currentServer]?.name||'Player')+' · Protected'}</p>
           </div>
-          {tvPlayback&&!tvManaged&&!isNative&&!directOnly&&!exhausted&&<button onClick={()=>iframeRef.current?.focus()} className="bg-white/10 rounded-lg px-4 py-2 text-sm" aria-label="Focus video player">▶ Player</button>}
+          {tvPlayback&&!tvManaged&&!isNative&&!directOnly&&!exhausted&&<button onClick={()=>{const f=iframeRef.current;if(f)window.__cinemaTVFocusFrame?.(f);}} className="bg-white/10 rounded-lg px-4 py-2 text-sm" aria-label="Temporary player controls">▶ Player · 12s</button>}
           <button onClick={()=>{setShowPlaybackHelp(v=>!v);setShowServerList(false);}} aria-label="Playback options" aria-expanded={showPlaybackHelp} className="w-10 h-10 shrink-0 rounded-full bg-white/5 hover:bg-white/10 text-xl flex items-center justify-center">⋯</button>
         </div>
       </header>
@@ -1568,7 +1569,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
               src={arabic?undefined:(publisherSource?.embed||fallbackNodes[currentServer]?.url)}
               className="w-full h-full border-0"
               tabIndex={tvPlayback?-1:undefined}
-              data-tv-remote-managed={cineControlled?"true":undefined}
+              data-tv-remote-managed={tvPlayback?"true":undefined}
               sandbox="allow-scripts allow-same-origin allow-presentation"
               allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
               allowFullScreen
