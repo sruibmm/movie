@@ -1,26 +1,13 @@
-name: Verify deployed Cinema episode test
+name: Discover complete Arabic publisher titles
 on:
   push:
     branches: [dailymotion-diagnosis]
 permissions:
   contents: read
 jobs:
-  live:
+  discover:
     runs-on: ubuntu-latest
-    timeout-minutes: 3
+    timeout-minutes: 6
     steps:
-      - name: Check live test page and exact iframe
-        run: |
-          python - <<'PY'
-          import urllib.request,time
-          url='https://movie.o-a-f-a.workers.dev/dm-test.html'
-          for n in range(5):
-              try:
-                  r=urllib.request.urlopen(url,timeout=8)
-                  b=r.read(100000).decode('utf-8','replace')
-                  print('LIVE',r.status,r.url,'TEST_PAGE', 'geo.dailymotion.com/player/x8lr5.html?video=x6rtfip' in b)
-                  if 'geo.dailymotion.com/player/x8lr5.html?video=x6rtfip' in b:break
-              except Exception as e: print('LIVE_ERROR',e)
-              time.sleep(5)
-          else: raise SystemExit('Test page not confirmed on live deployment')
-          PY
+      - uses: actions/checkout@v4
+      - run: python scripts/discover-publisher-additions.py
