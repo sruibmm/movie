@@ -1,47 +1,19 @@
-name: Dubai Plus official TV and device login audit
+name: Verify Cinema playback UI cleanup
 on:
   push:
     branches: [dailymotion-diagnosis]
 permissions:
   contents: read
 jobs:
-  audit:
+  build:
     runs-on: ubuntu-latest
-    timeout-minutes: 4
+    timeout-minutes: 5
     steps:
-      - run: npm install --no-save playwright && npx playwright install chromium
-      - name: Inspect official live channel and help pages
-        run: |
-          cat > audit.cjs <<'JS'
-          const {chromium}=require('playwright');
-          (async()=>{
-            const b=await chromium.launch({headless:true});
-            const urls=['https://www.dubaiplus.net/web/epg','https://www.dubaiplus.net/web/footer/information/faq','https://www.dubaiplus.net/footer/information/faq'];
-            await Promise.all(urls.map(async(url,i)=>{
-              const p=await b.newPage({viewport:{width:1280,height:800}});
-              const media=[];
-              p.on('response',r=>{const ct=r.headers()['content-type']||'';if(/dash\+xml|mpegurl|video\//i.test(ct))media.push({status:r.status(),host:new URL(r.url()).hostname,type:ct.split(';')[0]});});
-              try{
-                await p.goto(url,{waitUntil:'domcontentloaded',timeout:25000});
-                await p.waitForTimeout(7000);
-                let body=await p.locator('body').innerText({timeout:5000});
-                if(i===0){
-                  const consent=p.getByRole('button',{name:/^(Reject All|رفض الكل)$/i}).filter({visible:true}).first();if(await consent.count())await consent.click({timeout:2500}).catch(()=>{});
-                  const candidates=await p.locator('a,button,[role=button]').evaluateAll(es=>es.map(e=>({text:(e.innerText||e.getAttribute('aria-label')||'').trim().slice(0,80),href:e.tagName==='A'?e.getAttribute('href'):null})).filter(x=>/Dubai|دبي|watch|شاهد/i.test(x.text)).slice(0,35));
-                  console.log('LIVE_CONTROLS '+JSON.stringify(candidates));
-                  const play=p.getByRole('link',{name:/Watch Dubai Live|شاهد دبي مباشر/i}).filter({visible:true}).first();
-                  if(await play.count())await play.click({timeout:4000}).catch(()=>{});
-                  else{
-                    const ch=p.getByText('Dubai',{exact:true}).filter({visible:true}).first();
-                    if(await ch.count())await ch.click({timeout:4000}).catch(()=>{});
-                  }
-                  await p.waitForTimeout(6000);
-                  body=await p.locator('body').innerText({timeout:5000}).catch(()=>'');
-                  console.log('LIVE_RESULT '+JSON.stringify({url:p.url(),login:/log in to your Dubai|sign in to continue|أنشئ حسابًا أو سجّل الدخول للمتابعة|قم بتسجيل الدخول إلى حساب دبي/i.test(body),videos:await p.locator('video').evaluateAll(vs=>vs.map(v=>({time:v.currentTime,width:v.videoWidth,ready:v.readyState,paused:v.paused}))),media,text:body.slice(0,800)}));
-                }else console.log('FAQ '+JSON.stringify({url:p.url(),text:body.slice(0,9000)}));
-              }catch(e){console.log('ERROR '+JSON.stringify({url,error:e.message.slice(0,180)}));}
-              await p.close();
-            }));await b.close();
-          })().catch(e=>{console.error(e);process.exit(1)});
-          JS
-          node audit.cjs
+      - uses: actions/checkout@v4
+        with:
+          ref: f35696ee42cda6acfade5c17a24b69665ff9e12a
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci
+      - run: npm run build:cloudflare
