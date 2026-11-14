@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import {verifiedYoutubeAlternative,fullyCoveredByYoutube} from '../src/publisherAvailability.js';
+import catalog from '../src/arabicBulkCatalog.json' with {type:'json'};
+const g=catalog.series.find(g=>g.title==='محرومين');
+assert(g);
+const m={media_type:'tv',seriesTitle:g.title,release_date:'2017-01-01',season:1,episode:35};
+const source=verifiedYoutubeAlternative(m);
+assert(source&&source.provider==='youtube','Expected matching episode 35');
+assert.equal(verifiedYoutubeAlternative({...m,release_date:'1900-01-01'}),null);
+assert.equal(verifiedYoutubeAlternative({...m,episode:999}),null);
+assert(fullyCoveredByYoutube(g));
+console.log('PUBLISHER AVAILABILITY PASS',source.id);

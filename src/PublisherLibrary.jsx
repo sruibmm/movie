@@ -23,7 +23,7 @@ export default function PublisherLibrary({query='',kind='all',sort='popular',sou
  if(sourceFilter==='sites')return <><BulkArabicLibrary query={query} kind={kind} onPlay={onPlay}/>{kind!=='movie'&&<ArabicSiteLibrary query={query} onPlay={onPlay}/>}</>;
  if(!rows.length&&!films.length&&!external.length&&!playlistMatch&&!siteMatch)return null;
  return <div dir="rtl" className="mt-5 mb-7">
- {sourceFilter!=='youtube'&&<BulkArabicLibrary query={query} kind={kind} onPlay={onPlay}/>}{sourceFilter!=='youtube'&&kind!=='movie'&&<ArabicSiteLibrary query={query} onPlay={onPlay}/>}
+ {sourceFilter!=='youtube'&&<BulkArabicLibrary query={query} kind={kind} onPlay={onPlay} hideYoutubeMatches/>}{sourceFilter!=='youtube'&&kind!=='movie'&&<ArabicSiteLibrary query={query} onPlay={onPlay}/>}
  {kind!=='movie'&&<PublisherPlaylists query={query} onPlay={onPlay}/>}
  {!!external.length&&<section className="mb-5 rounded-2xl bg-zinc-900 border border-white/10 p-4"><h3 className="font-bold text-white">مصادر مشاهدة رسمية خارجية</h3>{external.map(x=><div key={x.id} className="mt-3"><p className="font-bold">{x.title} · {x.year} · {x.episodes} حلقة</p><p className="text-xs text-gray-400 mt-1">لا تتوفر نسخة كاملة قابلة للتضمين في مكتبتنا حالياً.</p>{x.providers.map(p=><a key={p.url} href={p.url} target="_blank" rel="noopener noreferrer" className="block text-purple-300 underline text-sm mt-2">{p.name}</a>)}</div>)}</section>}
 
