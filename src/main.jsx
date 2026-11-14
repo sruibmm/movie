@@ -565,6 +565,7 @@ function App() {
     return (
       <HistoryPanel 
         onSelectMovie={(item) => {
+          if(item.sourceSync){setMode('single');setRole('admin');}
           setRoomMovie({
             id: item.movieId,
             title: item.title,

@@ -18,8 +18,8 @@ jobs:
       - run: node scripts/synced-playback-model-test.mjs
       - run: npm ci
       - run: npm run build:cloudflare
-      - run: npm install --no-save --package-lock=false playwright && npx playwright install chromium
-      - run: ffmpeg -hide_banner -loglevel error -f lavfi -i color=c=blue:s=1280x720:r=10:d=70 -c:v libx264 -preset ultrafast -pix_fmt yuv420p -movflags +faststart /tmp/cinema-fixture.mp4
+      - run: npm install --no-save --package-lock=false playwright @ffmpeg-installer/ffmpeg && npx playwright install chromium
+      - run: '"$(node -p "require(\"@ffmpeg-installer/ffmpeg\").path")" -hide_banner -loglevel error -f lavfi -i color=c=blue:s=1280x720:r=10:d=70 -c:v libx264 -preset ultrafast -pix_fmt yuv420p -movflags +faststart /tmp/cinema-fixture.mp4'
       - name: Browser playback and failover (synthetic MP4)
         run: |
           npm run preview -- --host 127.0.0.1 --port 4173 > /tmp/cinema-preview.log 2>&1 &
