@@ -68,12 +68,12 @@ export function mediaLink(html,page){
  for(const a of anchors(html,page)){
   if(a.u.pathname!=='/download_video.php'||!a.u.searchParams.has('video_url'))continue;
   const ref=source(a.u.searchParams.get('ref')||'/',page);if(!ref||ref.pathname!==ep.pathname||ref.searchParams.get('key')!==ep.searchParams.get('key'))continue;
-  try{const u=new URL(atob(a.u.searchParams.get('video_url')));if(u.protocol==='https:'&&/^vid\d+\.zvde-dsn-01\.site$/i.test(u.hostname)&&!u.port&&!u.username&&!u.password&&!u.hash)matches.add(u.href);}catch{}
+  try{const u=new URL(atob(a.u.searchParams.get('video_url')));if(u.protocol==='https:'&&/^vid\d+\.(?:zvde-dsn-01|ujeklsj)\.site$/i.test(u.hostname)&&!u.port&&!u.username&&!u.password&&!u.hash)matches.add(u.href);}catch{}
  }
  if(matches.size!==1)throw Error('missing-or-ambiguous-direct-source');
  return [...matches][0];
 }
-function validMedia(raw){try{const u=new URL(raw);return u.protocol==='https:'&&/^vid\d+\.zvde-dsn-01\.site$/i.test(u.hostname)&&!u.port&&!u.username&&!u.password&&!u.hash;}catch{return false;}}
+function validMedia(raw){try{const u=new URL(raw);return u.protocol==='https:'&&/^vid\d+\.(?:zvde-dsn-01|ujeklsj)\.site$/i.test(u.hostname)&&!u.port&&!u.username&&!u.password&&!u.hash;}catch{return false;}}
 // Accept only ordinary links exposed by the source, with exact episode refs.
 function decodeMediaValue(raw){
  const v=String(raw||'').trim();if(/^https:\/\//i.test(v))return new URL(v).href;
