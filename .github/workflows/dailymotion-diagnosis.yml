@@ -1,4 +1,4 @@
-name: Dubai Plus manifest format diagnostic
+name: Dubai Plus official TV and device login audit
 on:
   push:
     branches: [dailymotion-diagnosis]
@@ -10,31 +10,38 @@ jobs:
     timeout-minutes: 4
     steps:
       - run: npm install --no-save playwright && npx playwright install chromium
-      - name: Classify guest-visible manifest metadata only
+      - name: Inspect official live channel and help pages
         run: |
           cat > audit.cjs <<'JS'
           const {chromium}=require('playwright');
           (async()=>{
             const b=await chromium.launch({headless:true});
-            const p=await b.newPage({viewport:{width:1280,height:800}});
-            const reports=[];const pending=[];
-            p.on('response',r=>{
-              const ct=r.headers()['content-type']||'';
-              if(!/dash\+xml|mpegurl/i.test(ct))return;
-              pending.push((async()=>{try{
-                const body=await r.text();
-                const durations=[...body.matchAll(/mediaPresentationDuration="([^"]+)"/g)].map(m=>m[1]);
-                const heights=[...new Set([...body.matchAll(/\bheight="(\d+)"/g)].map(m=>Number(m[1])))].sort((a,b)=>a-b);
-                reports.push({status:r.status(),host:new URL(r.url()).hostname,type:ct.split(';')[0],isMPD:/<MPD\b/i.test(body),durations,heights,contentProtection:/<ContentProtection\b/i.test(body),widevine:/edef8ba9-79d6-4ace-a3c8-27dcd51d21ed/i.test(body),playready:/9a04f079-9840-4286-ab92-e65be0885f95/i.test(body),encryptedMarkers:/cenc:default_KID|cenc:pssh|urn:mpeg:dash:mp4protection/i.test(body),segmentTemplate:/<SegmentTemplate\b/i.test(body)});
-              }catch(e){reports.push({error:e.message.slice(0,100)});}})());
-            });
-            await p.goto('https://www.dubaiplus.net/ar-AE/s/series/694468136197_'+encodeURIComponent('النار-بالنار'),{waitUntil:'domcontentloaded'});
-            const btn=p.getByRole('button',{name:'الموسم1 الحلقة1',exact:true}).first();await btn.waitFor({state:'visible',timeout:25000});
-            const cookie=p.getByRole('button',{name:'رفض الكل',exact:true}).filter({visible:true}).first();if(await cookie.count())await cookie.click({timeout:2500}).catch(()=>{});
-            await btn.click({timeout:8000});await p.waitForTimeout(10000);await Promise.allSettled(pending);
-            console.log('MANIFEST_CLASSIFICATION '+JSON.stringify(reports));
-            console.log('GUEST_STATE '+JSON.stringify({login:(await p.locator('body').innerText()).includes('أنشئ حسابًا أو سجّل الدخول للمتابعة'),videoCount:await p.locator('video').count()}));
-            await b.close();
+            const urls=['https://www.dubaiplus.net/web/epg','https://www.dubaiplus.net/web/footer/information/faq','https://www.dubaiplus.net/footer/information/faq'];
+            await Promise.all(urls.map(async(url,i)=>{
+              const p=await b.newPage({viewport:{width:1280,height:800}});
+              const media=[];
+              p.on('response',r=>{const ct=r.headers()['content-type']||'';if(/dash\+xml|mpegurl|video\//i.test(ct))media.push({status:r.status(),host:new URL(r.url()).hostname,type:ct.split(';')[0]});});
+              try{
+                await p.goto(url,{waitUntil:'domcontentloaded',timeout:25000});
+                await p.waitForTimeout(7000);
+                let body=await p.locator('body').innerText({timeout:5000});
+                if(i===0){
+                  const consent=p.getByRole('button',{name:/^(Reject All|رفض الكل)$/i}).filter({visible:true}).first();if(await consent.count())await consent.click({timeout:2500}).catch(()=>{});
+                  const candidates=await p.locator('a,button,[role=button]').evaluateAll(es=>es.map(e=>({text:(e.innerText||e.getAttribute('aria-label')||'').trim().slice(0,80),href:e.tagName==='A'?e.getAttribute('href'):null})).filter(x=>/Dubai|دبي|watch|شاهد/i.test(x.text)).slice(0,35));
+                  console.log('LIVE_CONTROLS '+JSON.stringify(candidates));
+                  const play=p.getByRole('link',{name:/Watch Dubai Live|شاهد دبي مباشر/i}).filter({visible:true}).first();
+                  if(await play.count())await play.click({timeout:4000}).catch(()=>{});
+                  else{
+                    const ch=p.getByText('Dubai',{exact:true}).filter({visible:true}).first();
+                    if(await ch.count())await ch.click({timeout:4000}).catch(()=>{});
+                  }
+                  await p.waitForTimeout(6000);
+                  body=await p.locator('body').innerText({timeout:5000}).catch(()=>'');
+                  console.log('LIVE_RESULT '+JSON.stringify({url:p.url(),login:/log in to your Dubai|sign in to continue|أنشئ حسابًا أو سجّل الدخول للمتابعة|قم بتسجيل الدخول إلى حساب دبي/i.test(body),videos:await p.locator('video').evaluateAll(vs=>vs.map(v=>({time:v.currentTime,width:v.videoWidth,ready:v.readyState,paused:v.paused}))),media,text:body.slice(0,800)}));
+                }else console.log('FAQ '+JSON.stringify({url:p.url(),text:body.slice(0,9000)}));
+              }catch(e){console.log('ERROR '+JSON.stringify({url,error:e.message.slice(0,180)}));}
+              await p.close();
+            }));await b.close();
           })().catch(e=>{console.error(e);process.exit(1)});
           JS
           node audit.cjs
