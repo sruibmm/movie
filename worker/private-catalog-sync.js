@@ -104,7 +104,7 @@ async function processJob(s,j,fetcher,now,prepared){
 export async function crawl(s,fetcher=fetch,now=Date.now(),budget=12){
  // A bounded batch with at most three concurrent network checks.
  const last=Number(await s.get(P+'seed')||0),rev=await s.get(P+'revision');
- if(rev!==REVISION){const previous=await s.list({prefix:P+'q:',limit:1000});for(const [key,j] of previous){const u=source(j.url);if(u&&u.origin!==ORIGIN){const next={...j,url:ORIGIN+u.pathname+u.search,tries:0,after:0};await s.put(jobKey(next),next);if(key!==jobKey(next))await s.delete(key);}}await s.put(P+'revision',REVISION);}
+ if(rev!==REVISION){const previous=await s.list({prefix:P+'q:',limit:1000});for(const [key,j] of previous){const u=source(j.url);if(u){const next={...j,url:ORIGIN+u.pathname+u.search,tries:0,after:0};await s.put(jobKey(next),next);if(key!==jobKey(next))await s.delete(key);}}await s.put(P+'revision',REVISION);}
  const seedDue=rev!==REVISION||!last||now-last>=DAY;
  if(seedDue){await enqueue(s,{type:'index',url:ORIGIN+'/',kind:''},now,true);await enqueue(s,{type:'index',url:ORIGIN+'/genre/ramadan-arabi-2026.html',kind:'tv'},now,true);await enqueue(s,{type:'work',url:ORIGIN+'/watch/gztyqowfz11u.html',id:'alooytv:gztyqowfz11u',kind:'tv'},now,true);await s.put(P+'seed',now);}
  // Read each lane independently so an episode backlog cannot starve discovery.
@@ -122,8 +122,8 @@ export async function crawl(s,fetcher=fetch,now=Date.now(),budget=12){
   }
   await s.put(P+'status',{...prior,revision:REVISION,state:'running',at:now,processed:done,failed,errors:errors.slice(0,5),totals:{processed:totals.processed+done,failed:totals.failed+failed}});
  }
- const pending=await s.list({prefix:P+'q:',limit:1000}),works=await s.list({prefix:P+'work:',limit:1000}),drafts=await s.list({prefix:P+'draft:',limit:1000});const readyCount=[...pending.values()].filter(j=>j.after<=now).length;const nextRetry=[...pending.values()].filter(j=>j.after>now).reduce((m,j)=>Math.min(m,j.after),Infinity);totals.processed+=done;totals.failed+=failed;
- const result={at:now,revision:REVISION,source:ORIGIN,processed:done,failed,queuedSample:pending.size,ready:readyCount,waiting:pending.size-readyCount,nextRetry:Number.isFinite(nextRetry)?nextRetry:null,published:works.size,publishedEpisodes:[...works.values()].reduce((n,w)=>n+w.count,0),drafts:drafts.size,verifiedDraftEpisodes:[...drafts.values()].reduce((n,d)=>n+d.count-d.remaining,0),totals,errors:errors.length?errors.slice(0,5):(prior.errors||[]),state:done?'working':failed?'source-error':pending.size?'retry-wait':'idle'};await s.put(P+'status',result);return result;
+ const pendingLanes=await Promise.all(['0','1','2'].map(n=>s.list({prefix:P+'q:'+n+':',limit:1000})));const pending=new Map(pendingLanes.flatMap(m=>[...m]));const works=await s.list({prefix:P+'work:',limit:1000}),drafts=await s.list({prefix:P+'draft:',limit:1000});const readyCount=[...pending.values()].filter(j=>j.after<=now).length;const nextRetry=[...pending.values()].filter(j=>j.after>now).reduce((m,j)=>Math.min(m,j.after),Infinity);totals.processed+=done;totals.failed+=failed;
+ const result={at:now,revision:REVISION,source:ORIGIN,processed:done,failed,queuedSample:pending.size,queueSampleTruncated:pendingLanes.some(m=>m.size===1000),ready:readyCount,waiting:pending.size-readyCount,nextRetry:Number.isFinite(nextRetry)?nextRetry:null,published:works.size,publishedEpisodes:[...works.values()].reduce((n,w)=>n+w.count,0),drafts:drafts.size,verifiedDraftEpisodes:[...drafts.values()].reduce((n,d)=>n+d.count-d.remaining,0),totals,errors:errors.length?errors.slice(0,5):(prior.errors||[]),state:done?'working':failed?'source-error':pending.size?'retry-wait':'idle'};await s.put(P+'status',result);return result;
 }
 const json=(x,status=200)=>Response.json(x,{status,headers:{'Cache-Control':'private, no-store','Vary':'Authorization'}});
 export async function privateRequest(request,s){
