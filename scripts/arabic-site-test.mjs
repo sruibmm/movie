@@ -1,1 +1,17 @@
 import assert from 'node:assert/strict';import {dailymotionEmbedUrl} from '../src/dailymotionPlayer.js';import {ARABIC_SITE_SERIES,ARABIC_SITE_EPISODES,siteEpisodeMovie,findArabicSiteSeries,attachArabicSiteEpisode,allowArabicPlayback,approvedPublisherUrl} from '../src/arabicSiteCatalog.js';assert.equal(ARABIC_SITE_SERIES.length,3);assert.equal(ARABIC_SITE_EPISODES,34);assert.equal(ARABIC_SITE_SERIES[0].episodes.length,30);assert.equal(new Set(ARABIC_SITE_SERIES.flatMap(g=>g.episodes.map(e=>e.id))).size,34);const g=findArabicSiteSeries({title:'مزاج الخير',first_air_date:'2013-01-01'});assert.equal(g.id,'mazag-kheir');assert.equal(approvedPublisherUrl(siteEpisodeMovie(g,g.episodes[0]).publisherSource),'https://geo.dailymotion.com/player/x8lr5.html?video=x83jkug');assert.equal(dailymotionEmbedUrl('x83jkug','example123'),'https://geo.dailymotion.com/player/example123.html?video=x83jkug');assert.equal(dailymotionEmbedUrl('x83jkug',''),null);assert.equal(dailymotionEmbedUrl('x83jkug','../bad'),null);assert.equal(attachArabicSiteEpisode({media_type:'tv',season:1,episode:30,seriesTitle:'مزاج الخير',release_date:'2013-01-01'}).publisherSource.id,'x83knpp');assert.equal(allowArabicPlayback({isArabic:true,id:123}),false);assert.equal(allowArabicPlayback({isArabic:true,publisherSource:{id:'invalid',embed:'https://embedwave.cc'}}),false);assert.equal(allowArabicPlayback({isArabic:true,publisherSource:{id:'3i_taK5yQZo'}}),true);assert.equal(allowArabicPlayback({original_language:'en'}),true);console.log('ARABIC SITE PASS: 3 series, 34 Dailymotion episode references, generic Arabic playback blocked');
+import {approvedEmbed,attachApprovedEmbed} from '../src/approvedEmbedCatalog.js';
+const movie={id:'fixture-film',media_type:'movie',isArabic:true};
+const grant={movieId:movie.id,kind:'movie',publisher:'Fixture publisher',permissionRef:'test-only',expires:'2099-01-01',origin:'https://example.com',embed:'https://example.com/embed/film'};
+assert.equal(approvedEmbed(movie),null);
+assert.equal(approvedEmbed(movie,[grant]).embed,grant.embed);
+assert.equal(approvedEmbed({...movie,id:'wrong'},[grant]),null);
+assert.equal(approvedEmbed(movie,[{...grant,expires:'2000-01-01'}]),null);
+assert.equal(approvedEmbed(movie,[{...grant,embed:'https://other.example/film'}]),null);
+assert.equal(approvedEmbed(movie,[grant,grant]),null);
+assert.equal(approvedEmbed(movie,[{...grant,permissionRef:''}]),null);
+assert.equal(attachApprovedEmbed({...movie,licensedSource:{stream_url:'https://example.com/video.mp4'}},[grant]).publisherSource,undefined);
+assert.equal(attachApprovedEmbed(movie,[grant]).publisherSource.provider,'licensed-embed');
+assert.equal(approvedPublisherUrl({provider:'licensed-embed',id:movie.id,embed:grant.embed},movie),null);
+const episode={id:'fixture-episode',media_type:'tv',season:1,episode:2};
+assert.equal(approvedEmbed(episode,[{...grant,movieId:episode.id,kind:'tv',season:1,episode:1}]),null);
+console.log('APPROVED EMBED PASS: exact title/episode, authorization expiry, origin, native priority and empty default');
