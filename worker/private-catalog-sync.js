@@ -2,7 +2,7 @@
 // No proxy, cookies, access-control bypass, or public playback endpoint.
 const ORIGIN='https://af.alooytv16.com';
 const SOURCE_HOSTS=new Set(['af.alooytv16.com','ae.alooytv16.com','alooytv16.com','e.alooytv16.com']);
-const REVISION='auto-diagnostics-v2';
+const REVISION='auto-v3';
 const P='pc:', DAY=86400000;
 const decode=s=>String(s||'').replace(/&amp;|&#38;/gi,'&').replace(/&quot;/gi,'"').replace(/&#39;|&apos;/gi,"'").replace(/&nbsp;/gi,' ').replace(/&#(\d+);/g,(_,n)=>{try{return String.fromCodePoint(Number(n))}catch{return ''}});
 const clean=s=>decode(String(s||'').replace(/<[^>]*>/g,' ')).replace(/\s+/g,' ').trim();
@@ -68,8 +68,8 @@ export function mediaLink(html,page){
  if(matches.size!==1)throw Error('missing-or-ambiguous-direct-source');
  return [...matches][0];
 }
-async function getPage(url,fetcher){let r;for(let hop=0;hop<4;hop++){r=await fetcher(url,{redirect:'manual',signal:AbortSignal.timeout(12000),headers:{accept:'text/html'}});if(![301,302,303,307,308].includes(r.status))break;const next=source(r.headers.get('Location'),url);if(!next)throw Error('unapproved-redirect');url=next.href;}if(!r.ok)throw Error('page-'+r.status);const body=await r.text();if(body.length>3000000)throw Error('page-too-large');return body;}
-async function probe(url,fetcher){const r=await fetcher(url,{redirect:'error',signal:AbortSignal.timeout(12000),headers:{Range:'bytes=0-4095'}});if(!r.ok||!r.body)throw Error('media-'+r.status);const reader=r.body.getReader();let bytes=[];try{while(bytes.length<12){const {done,value}=await reader.read();if(done)break;bytes.push(...value.subarray(0,32));}}finally{await reader.cancel().catch(()=>{});}if(bytes.length<12||String.fromCharCode(...bytes.slice(4,8))!=='ftyp')throw Error('not-mp4');}
+async function getPage(url,fetcher){let r;for(let hop=0;hop<4;hop++){r=await fetcher(url,{redirect:'manual',signal:AbortSignal.timeout(8000),headers:{accept:'text/html'}});if(![301,302,303,307,308].includes(r.status))break;const next=source(r.headers.get('Location'),url);if(!next)throw Error('unapproved-redirect');url=next.href;}if(!r.ok)throw Error('page-'+r.status);const body=await r.text();if(body.length>3000000)throw Error('page-too-large');return body;}
+async function probe(url,fetcher){const r=await fetcher(url,{redirect:'error',signal:AbortSignal.timeout(8000),headers:{Range:'bytes=0-4095'}});if(!r.ok||!r.body)throw Error('media-'+r.status);const reader=r.body.getReader();let bytes=[];try{while(bytes.length<12){const {done,value}=await reader.read();if(done)break;bytes.push(...value.subarray(0,32));}}finally{await reader.cancel().catch(()=>{});}if(bytes.length<12||String.fromCharCode(...bytes.slice(4,8))!=='ftyp')throw Error('not-mp4');}
 const jobKey=j=>P+'q:'+({episode:'0',work:'1',index:'2'}[j.type])+':'+(j.type==='episode'?j.id+':'+j.gen+':'+String(j.n).padStart(4,'0'):j.url);
 async function enqueue(s,j,now,force=false){const key=jobKey(j);const existing=await s.get(key);if(existing){if(j.type==='work'&&(!existing.kind&&j.kind||!existing.poster&&j.poster))await s.put(key,{...existing,kind:existing.kind||j.kind,poster:existing.poster||j.poster});return;}if(!force&&Number(await s.get(P+'seen:'+key))>now-DAY)return;await s.put(key,{...j,tries:0,after:0});}
 const wk=id=>P+'work:'+id,dk=id=>P+'draft:'+id,epPrefix=(id,gen)=>P+'e:'+id+':'+gen+':';
@@ -79,8 +79,9 @@ async function publish(s,d){
  // Keep the previous generation until the replacement is complete, then remove it.
  if(old&&old.gen!==d.gen){const rows=await s.list({prefix:epPrefix(d.id,old.gen),limit:1000});const keys=[...rows.keys()];for(let i=0;i<keys.length;i+=100)await s.delete(keys.slice(i,i+100));}
 }
-async function processJob(s,j,fetcher,now){
- const html=await getPage(j.url,fetcher);
+async function prepareJob(j,fetcher){const html=await getPage(j.url,fetcher);if(j.type==='episode'){const url=mediaLink(html,j.url);await probe(url,fetcher);return {html,url};}return {html};}
+async function processJob(s,j,fetcher,now,prepared){
+ const {html,url:preparedUrl}=prepared||await prepareJob(j,fetcher);
  if(j.type==='index'){const links=indexLinks(html,j.url,j.kind);if(!links.length)throw Error('empty-index');for(const link of links)await enqueue(s,link,now);return;}
  if(j.type==='work'){
   const m=metadata(html,j.url,j.kind),list=episodes(html,j.url);if(!m.title)throw Error('missing-title');
@@ -95,24 +96,34 @@ async function processJob(s,j,fetcher,now){
  const d=await s.get(dk(j.id));if(!d||d.gen!==j.gen)return;
  const key=epPrefix(j.id,j.gen)+String(j.n).padStart(4,'0');
  if(await s.get(key)){if(d.remaining===0)await publish(s,d);return;}
- const url=mediaLink(html,j.url);await probe(url,fetcher);
+ const url=preparedUrl;
  const m=metadata(html,j.url),asset={id:j.id+':s'+d.season+':e'+j.n,title:d.kind==='tv'?'الحلقة '+j.n:d.title,season:d.season,episode:j.n,format:'mp4',url,sourcePage:j.url,thumbnail:m.thumbnail&&m.thumbnail!==d.poster?m.thumbnail:null,story:m.story!==d.story?m.story:'',verifiedAt:now};
  await s.transaction(async tx=>{const latest=await tx.get(dk(j.id));if(!latest||latest.gen!==j.gen||await tx.get(key))return;await tx.put(key,asset);latest.remaining--;await tx.put(dk(j.id),latest);});
  const latest=await s.get(dk(j.id));if(latest&&latest.gen===j.gen&&latest.remaining===0)await publish(s,latest);
 }
 export async function crawl(s,fetcher=fetch,now=Date.now(),budget=12){
- // One bounded sequential batch; no parallel hammering of the upstream.
+ // A bounded batch with at most three concurrent network checks.
  const last=Number(await s.get(P+'seed')||0),rev=await s.get(P+'revision');
  if(rev!==REVISION){const previous=await s.list({prefix:P+'q:',limit:1000});for(const [key,j] of previous){const u=source(j.url);if(u&&u.origin!==ORIGIN){const next={...j,url:ORIGIN+u.pathname+u.search,tries:0,after:0};await s.put(jobKey(next),next);if(key!==jobKey(next))await s.delete(key);}}await s.put(P+'revision',REVISION);}
  const seedDue=rev!==REVISION||!last||now-last>=DAY;
  if(seedDue){await enqueue(s,{type:'index',url:ORIGIN+'/',kind:''},now,true);await enqueue(s,{type:'index',url:ORIGIN+'/genre/ramadan-arabi-2026.html',kind:'tv'},now,true);await enqueue(s,{type:'work',url:ORIGIN+'/watch/gztyqowfz11u.html',id:'alooytv:gztyqowfz11u',kind:'tv'},now,true);await s.put(P+'seed',now);}
- const rows=await s.list({prefix:P+'q:',limit:1000});let done=0,failed=0;const start=Date.now();const errors=[];const prior=await s.get(P+'status')||{};const totals={...(prior.totals||{processed:0,failed:0})};
- for(const [key,j] of rows){if(done+failed>=budget||Date.now()-start>20000)break;if(j.after>now)continue;
-  try{await processJob(s,j,fetcher,now);await s.put(P+'seen:'+key,now);await s.delete(key);done++;}
-  catch(e){failed++;const reason=String(e.message||e).slice(0,160);errors.push({type:j.type,reason,path:new URL(j.url).pathname});const tries=j.tries+1;if(tries>=4){await s.put(P+'error:'+key,{url:j.url,reason:String(e.message).slice(0,160),at:now});await s.delete(key);}else await s.put(key,{...j,tries,after:now+Math.min(3600000,60000*2**tries)});}
+ // Read each lane independently so an episode backlog cannot starve discovery.
+ const lanes=await Promise.all(['0','1','2'].map(n=>s.list({prefix:P+'q:'+n+':',limit:200})));
+ const ready=lanes.map(rows=>[...rows].filter(([,j])=>j.after<=now));
+ const jobs=[];while(jobs.length<budget&&ready.some(a=>a.length)){for(const lane of [2,1,0,0,0]){if(jobs.length>=budget)break;if(ready[lane].length)jobs.push(ready[lane].shift());}}
+ let done=0,failed=0;const start=Date.now();const errors=[];const prior=await s.get(P+'status')||{};const totals={...(prior.totals||{processed:0,failed:0})};
+ // Parallelize only network reads; serialize storage commits to avoid races between episodes.
+ for(let i=0;i<jobs.length&&Date.now()-start<20000;i+=3){
+  const batch=jobs.slice(i,i+3),results=await Promise.allSettled(batch.map(([,j])=>prepareJob(j,fetcher)));
+  for(let k=0;k<batch.length;k++){
+   const [key,j]=batch[k],r=results[k];
+   try{if(r.status==='rejected')throw r.reason;await processJob(s,j,fetcher,now,r.value);await s.put(P+'seen:'+key,now);await s.delete(key);done++;}
+   catch(e){failed++;const reason=String(e.message||e).slice(0,160);errors.push({type:j.type,reason,path:new URL(j.url).pathname});const tries=j.tries+1;if(tries>=4){await s.put(P+'error:'+key,{url:j.url,reason,at:now});await s.delete(key);}else await s.put(key,{...j,tries,after:now+Math.min(3600000,60000*2**tries)});}
+  }
+  await s.put(P+'status',{...prior,revision:REVISION,state:'running',at:now,processed:done,failed,errors:errors.slice(0,5),totals:{processed:totals.processed+done,failed:totals.failed+failed}});
  }
- const pending=await s.list({prefix:P+'q:',limit:1000}),works=await s.list({prefix:P+'work:',limit:1000}),drafts=await s.list({prefix:P+'draft:',limit:1000});const ready=[...pending.values()].filter(j=>j.after<=now).length;const nextRetry=[...pending.values()].filter(j=>j.after>now).reduce((m,j)=>Math.min(m,j.after),Infinity);totals.processed+=done;totals.failed+=failed;
- const result={at:now,revision:REVISION,source:ORIGIN,processed:done,failed,queuedSample:pending.size,ready,waiting:pending.size-ready,nextRetry:Number.isFinite(nextRetry)?nextRetry:null,published:works.size,publishedEpisodes:[...works.values()].reduce((n,w)=>n+w.count,0),drafts:drafts.size,verifiedDraftEpisodes:[...drafts.values()].reduce((n,d)=>n+d.count-d.remaining,0),totals,errors:errors.length?errors.slice(0,5):(prior.errors||[]),state:done?'working':failed?'source-error':pending.size?'retry-wait':'idle'};await s.put(P+'status',result);return result;
+ const pending=await s.list({prefix:P+'q:',limit:1000}),works=await s.list({prefix:P+'work:',limit:1000}),drafts=await s.list({prefix:P+'draft:',limit:1000});const readyCount=[...pending.values()].filter(j=>j.after<=now).length;const nextRetry=[...pending.values()].filter(j=>j.after>now).reduce((m,j)=>Math.min(m,j.after),Infinity);totals.processed+=done;totals.failed+=failed;
+ const result={at:now,revision:REVISION,source:ORIGIN,processed:done,failed,queuedSample:pending.size,ready:readyCount,waiting:pending.size-readyCount,nextRetry:Number.isFinite(nextRetry)?nextRetry:null,published:works.size,publishedEpisodes:[...works.values()].reduce((n,w)=>n+w.count,0),drafts:drafts.size,verifiedDraftEpisodes:[...drafts.values()].reduce((n,d)=>n+d.count-d.remaining,0),totals,errors:errors.length?errors.slice(0,5):(prior.errors||[]),state:done?'working':failed?'source-error':pending.size?'retry-wait':'idle'};await s.put(P+'status',result);return result;
 }
 const json=(x,status=200)=>Response.json(x,{status,headers:{'Cache-Control':'private, no-store','Vary':'Authorization'}});
 export async function privateRequest(request,s){
