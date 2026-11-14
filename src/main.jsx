@@ -11,7 +11,7 @@ import {isPrivateMedia,PRIVATE_KEY,PRIVATE_ACTIVE_KEY,validatePrivateCatalog,pri
 import SyncedLibrary from './SyncedLibrary.jsx'
 import SyncedPlayback from './SyncedPlayback.jsx'
 import ArabicDiscovery,{OfficialAvailability} from './ArabicDiscovery.jsx'
-import {embedwaveUrl} from './arabicDiscovery.js'
+import {embedwaveUrl,cinesrcUrl} from './arabicDiscovery.js'
 import {ARABIC_BACKENDS,arabicSourceIds,backendUrl,nextArabicSource} from './arabicSources.js'
 import PublisherFallback from './PublisherFallback.jsx'
 import {languageCode,originalAudioIndex,arabicSubtitleIndex,orderedSubtitles} from './mediaLanguages.js'
@@ -987,6 +987,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   const [showControls, setShowControls] = useState(true);
   const [showServerList, setShowServerList] = useState(false);
   const [frameRevision, setFrameRevision] = useState(0);
+  const [cinesrcWrapper,setCinesrcWrapper]=useState(false);
   const [showPlaybackHelp, setShowPlaybackHelp] = useState(false);
   const [localServer, setLocalServer] = useState(null);
   const [adMemory, setAdMemory] = useState(()=>readAdMemory(movie.id));
@@ -1021,7 +1022,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   const [tvCC,setTvCC]=useState(()=>{try{return readTvCC(window.localStorage);}catch{return 'ar';}});
   const tvCCRef=useRef(tvCC),tvCaptionApply=useRef(null);
   const [tvCaptionStatus,setTvCaptionStatus]=useState('waiting');
-  useEffect(()=>{tvCCRef.current=tvCC;if(tvPlayback){try{localStorage.setItem(TV_CC_KEY,tvCC);}catch{}tvCaptionApply.current?.();}},[tvCC,tvPlayback]);
+  useEffect(()=>{tvCCRef.current=tvCC;try{localStorage.setItem(TV_CC_KEY,tvCC);}catch{}if(tvPlayback)tvCaptionApply.current?.();},[tvCC,tvPlayback]);
   const [levels, setLevels] = useState([]);
   const hlsRef = useRef(null);
   const remoteAction = useRef(0);
@@ -1094,7 +1095,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     { name: "MultiMov", health: "Unverified", url: `https://multiembed.mov/directstream.php?video_id=${movie.id}&tmdb=1` },
     { name: "MoviesClub", health: "Domain mismatch in docs", url: `https://moviesapi.club/movie/${movie.id}` },
     { name: "Vidsrc XYZ", health: "Retired", retired: true, url: null },
-    { name: "EmbedWave", health: "Cinesrc default · original audio preferred", url: movie.licensedSource?null:embedwaveUrl(movie) },
+    { name: "CineSrc", health: "Arabic CC preferred · same protected player", url: movie.licensedSource?null:(cinesrcWrapper?embedwaveUrl(movie):cinesrcUrl(movie,tvCC)||embedwaveUrl(movie)) },
     { name:'EmbedWave 4K',health:'Arabic backup · Videasy',url:arabic&&!movie.licensedSource?backendUrl(movie,11):null },
     { name:'EmbedWave Multi HD',health:'Arabic backup · audio may vary',url:arabic&&!movie.licensedSource?backendUrl(movie,12):null }
   ];
@@ -1425,9 +1426,9 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
           </div>
           <div className="rounded-2xl bg-white/5 p-4 space-y-3">
             <div className="flex justify-between items-center gap-3"><span className="text-sm text-gray-300">Source</span><span className="text-sm font-semibold text-purple-300">{isNative?'Direct player':publisherSource?publisherSource.publisher:fallbackNodes[currentServer]?.name||'Player'}</span></div>
-            {!isNative&&currentServer===10&&<p className="text-xs text-gray-400">Cinesrc is the default. Audio and Arabic subtitles are controlled by the embedded player.</p>}
+            {!isNative&&currentServer===10&&!publisherSource&&<div className="space-y-2"><p className="text-xs text-gray-400">{cinesrcWrapper?'EmbedWave compatibility mode · CC selected inside player.':'CineSrc · Arabic CC preferred by default. Existing subtitle choices may be remembered by CineSrc.'}</p><button className="rounded-xl bg-white/10 px-3 py-2 text-sm" onClick={()=>{setCinesrcWrapper(v=>!v);setFrameRevision(v=>v+1);setShowPlaybackHelp(false);}}>{cinesrcWrapper?'Use CineSrc with preferred CC':'Use previous EmbedWave player'}</button></div>}
             <div className="flex justify-between items-center gap-3"><span className="text-sm text-gray-300">Navigation protection</span><span className="text-xs text-green-300">Always on</span></div>
-            {tvPlayback&&<div className="space-y-2"><label htmlFor="tv-cc">الترجمة · CC</label><select id="tv-cc" value={tvCC} onChange={e=>setTvCC(e.target.value)} className="w-full bg-zinc-800 rounded-lg p-3"><option value="ar">العربية (افتراضي)</option><option value="en">English</option><option value="off">إيقاف الترجمة</option></select><p className="text-sm text-gray-300">{!isNative?'المشغّل الخارجي يتحكم بالترجمة؛ اختر العربية من زر CC داخله.':tvCaptionStatus==='selected'?'تم اختيار مسار الترجمة · '+(tvCC==='ar'?'العربية':'English'):tvCaptionStatus==='off'?'الترجمة متوقفة':tvCaptionStatus==='waiting'?'جاري فحص مسارات الترجمة…':tvCaptionStatus==='failed'?'مسار الترجمة موجود لكن تعذر تحميل ملفه.':'الترجمة المختارة غير متوفرة في هذا المصدر حالياً.'}</p></div>}
+            {(tvPlayback||(!isNative&&currentServer===10&&!publisherSource))&&<div className="space-y-2"><label htmlFor="tv-cc">الترجمة · CC</label><select id="tv-cc" value={tvCC} onChange={e=>{setTvCC(e.target.value);if(!isNative&&currentServer===10&&!publisherSource){setCinesrcWrapper(false);setShowPlaybackHelp(false);}}} className="w-full bg-zinc-800 rounded-lg p-3"><option value="ar">العربية (افتراضي)</option><option value="en">English</option><option value="off">إيقاف الترجمة</option></select><p className="text-sm text-gray-300">{!isNative?(currentServer===10&&!cinesrcWrapper&&!publisherSource?'تم إرسال تفضيل الترجمة إلى CineSrc؛ يختار المسار المتوفر عند بدء التشغيل. قد يحتفظ باختيار سابق لهذا العنوان.':'المشغّل الخارجي يتحكم بالترجمة؛ اختر العربية من زر CC داخله.'):tvCaptionStatus==='selected'?'تم اختيار مسار الترجمة · '+(tvCC==='ar'?'العربية':'English'):tvCaptionStatus==='off'?'الترجمة متوقفة':tvCaptionStatus==='waiting'?'جاري فحص مسارات الترجمة…':tvCaptionStatus==='failed'?'مسار الترجمة موجود لكن تعذر تحميل ملفه.':'الترجمة المختارة غير متوفرة في هذا المصدر حالياً.'}</p></div>}
             {isNative&&<p className="text-xs text-gray-400">{playState}{mediaInfo.duration>0?' · '+formatTime(Math.floor(mediaInfo.time))+' / '+formatTime(Math.floor(mediaInfo.duration)):''}<br/>Audio: {languageStatus.audio} · CC: {tvPlayback?(tvCaptionStatus==='selected'?tvCC:tvCaptionStatus):languageStatus.subs}</p>}
             {isNative&&levels.length>1&&<div className="flex justify-between items-center"><label htmlFor="cinema-quality" className="text-sm text-gray-300">Quality</label><select id="cinema-quality" value={quality} onChange={e=>{const v=Number(e.target.value);setQuality(v);if(hlsRef.current)hlsRef.current.currentLevel=v;}} className="bg-zinc-800 rounded-lg px-2 py-2 text-xs">{!movie.sourceSync&&<option value={-1}>Auto</option>}{levels.map(l=><option key={l.id} value={l.id}>{l.height?l.height+'p':Math.round(l.bitrate/1000)+' kbps'}</option>)}</select></div>}
             <button disabled={Boolean(movie.sourceSync)} onClick={()=>{setPublisherSource(null);setDirectOnly(v=>!v);}} aria-pressed={directOnly} className="w-full flex items-center justify-between gap-3 text-sm text-left"><span>Direct-only mode</span><span className={`rounded-full w-10 h-6 p-1 transition-colors ${directOnly?'bg-purple-600':'bg-zinc-600'}`}><span className={`block w-4 h-4 rounded-full bg-white transition-transform ${directOnly?'translate-x-4':''}`}/></span></button>
