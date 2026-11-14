@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import {catalogPath,cachedCatalog,storeCatalog,validCatalog} from '../src/tvCatalogCache.js';
+globalThis.localStorage={getItem:()=>null,setItem:()=>{}};
+const first=catalogPath(),other=catalogPath('Matrix',2);
+globalThis.__TV_META__={[first]:{results:[{id:1,poster_path:'/a.jpg'}],total_pages:10}};
+assert.equal(cachedCatalog(first).results[0].id,1);
+assert.equal(cachedCatalog(other),null);
+storeCatalog(first,{results:[{id:2}],total_pages:5});assert.equal(cachedCatalog(first).results[0].id,2);
+storeCatalog(other,{results:[{id:3}],total_pages:2});assert.equal(cachedCatalog(other).results[0].id,3);
+assert.equal(cachedCatalog(first).results[0].id,2);
+assert.equal(validCatalog({results:null,total_pages:2}),false);
+assert.equal(new URLSearchParams(other.split('?')[1]).get('query'),'Matrix');
+console.log('TV cache tests passed: startup fallback, search isolation, update and validation');
