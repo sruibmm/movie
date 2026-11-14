@@ -1,0 +1,34 @@
+import assert from 'node:assert/strict';
+import {synchronize,resolveCandidates,readFeed,policies} from '../worker/source-sync.js';
+const now=Date.parse('2026-11-14T12:00:00Z');
+const map=new Map();const storage={get:async k=>map.get(k),put:async(k,v)=>map.set(k,v),transaction:async f=>f(storage)};
+function fixture(provider,revision=1,height=1080){
+ const policy={provider,approved:true,grantReference:'TEST-'+provider,hosts:[provider+'.example.com'],feedHosts:[provider+'.example.com'],feedUrl:'https://'+provider+'.example.com/catalog.json',observationsUrl:'https://'+provider+'.example.com/evidence.json',minimumNewTitles:50,crosswalk:{t0:'work:gaafar'}};
+ const rights={provider,reference:policy.grantReference,adFree:true,webPlayback:true,territories:['KW'],expires:'2027-01-01'};
+ const titles=Array.from({length:50},(_,i)=>({id:'t'+i,title:'Synthetic '+i,kind:'tv',year:2026,expectedEpisodes:{1:2},assets:[1,2].map(e=>({id:'a'+i+'-'+e,title:'Episode '+e,season:1,episode:e,format:'hls',url:'https://'+provider+'.example.com/'+i+'/'+e+'.m3u8',rights}))}));
+ const snapshot={version:1,provider,revision,titles};
+ const observations=Object.fromEntries(titles.flatMap(t=>t.assets.map(a=>[a.id,{url:a.url,played:true,height,duration:1800,checkedAt:now-1000}])));
+ const fetcher=async url=>Response.json(url.endsWith('catalog.json')?snapshot:{provider,revision,observations});
+ return {policy,snapshot,observations,fetcher};
+}
+const a=fixture('primary'),b=fixture('backup',1,720);
+assert.equal((await synchronize(storage,a.policy,a.fetcher,now)).status,'updated');
+assert.equal((await synchronize(storage,b.policy,b.fetcher,now)).status,'updated');
+assert.equal((await synchronize(storage,a.policy,a.fetcher,now)).status,'unchanged');
+const req={work:'work:gaafar',season:1,episode:2};
+const options=await resolveCandidates(storage,[a.policy,b.policy],req,now);assert.deepEqual(options.map(x=>x.id),['primary:a0-2','backup:a0-2']);
+assert.equal((await resolveCandidates(storage,[a.policy,b.policy],{...req,exclude:['primary:a0-2']},now))[0].id,'backup:a0-2');
+assert.equal((await resolveCandidates(storage,[a.policy,b.policy],{...req,episode:3},now)).length,0);
+assert.equal((await resolveCandidates(storage,[a.policy,b.policy],{...req,work:'wrong'},now)).length,0);
+assert.equal((await resolveCandidates(storage,[a.policy,b.policy],req,now+90000000)).length,0);
+assert.equal((await synchronize(storage,a.policy,async()=>new Response('bad',{status:503}),now)).status,'retained');
+assert.equal((await resolveCandidates(storage,[a.policy,b.policy],req,now)).length,2);
+const broken=fixture('primary',2);broken.snapshot.titles[0].assets.pop();
+assert.equal((await synchronize(storage,a.policy,broken.fetcher,now)).reason,'incomplete-series');
+assert.equal((await storage.get('source:primary')).snapshot.revision,1);
+const next=fixture('primary',2);assert.equal((await synchronize(storage,a.policy,next.fetcher,now)).revision,2);
+assert.equal((await storage.get('source:primary')).snapshot.revision,2);
+assert.equal(policies({}).length,0);assert.equal(policies({SOURCE_POLICIES:JSON.stringify([a.policy])}).length,1);
+await assert.rejects(()=>readFeed('https://evil.example/a.json',a.policy.feedHosts,async()=>{throw Error('must not fetch');}),/unapproved-feed-url/);
+await assert.rejects(()=>readFeed(a.policy.feedUrl,a.policy.feedHosts,async()=>new Response('{}',{status:200,headers:{'content-type':'text/html'}})),/feed-unavailable/);
+console.log('PASS persistent last-good snapshots, exact episode failover, fresh evidence, approved hosts, atomic update, failed feed and incomplete snapshot retention; synthetic sources only');

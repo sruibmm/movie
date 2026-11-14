@@ -1,4 +1,4 @@
-name: Source sync gate tests
+name: Source sync staging tests
 on:
   push:
     branches: [source-sync-staging]
@@ -13,3 +13,4 @@ jobs:
         with:
           node-version: '22'
       - run: node scripts/source-sync-gate-test.mjs
+      - run: node scripts/source-sync-runtime-test.mjs

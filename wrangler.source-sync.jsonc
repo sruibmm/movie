@@ -1,0 +1,9 @@
+{
+  "name": "movie-source-sync-staging",
+  "main": "worker/source-sync.js",
+  "compatibility_date": "2026-11-14",
+  "triggers": {"crons": ["0 */6 * * *"]},
+  "durable_objects": {"bindings": [{"name": "SOURCE_SYNC", "class_name": "SourceSync"}]},
+  "migrations": [{"tag": "v1", "new_sqlite_classes": ["SourceSync"]}],
+  "vars": {"SOURCE_POLICIES": "[]"}
+}
