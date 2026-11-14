@@ -17,8 +17,8 @@ export function categoryInfo(url,label=''){
  return {year,ramadan,region};
 }
 export function titleCard(row){
- const {id,title,kind,year,poster,banner,story,genres,sourcePage,count,availableCount,partial,source,discovered,region,ramadan,categories}=row;
- return {id,title,kind:kind||'unknown',year:year||null,poster:poster||null,banner:banner||null,story:story||'',genres:genres||[],sourcePage,count:count??null,availableCount:availableCount??null,partial:!!partial,source,discovered:!!discovered,region:region||null,ramadan:!!ramadan,categories:categories||[]};
+ const {id,title,kind,year,poster,banner,story,genres,sourcePage,count,availableCount,seasonCount,partial,source,discovered,region,ramadan,categories}=row;
+ return {id,title,kind:kind||'unknown',year:year||null,poster:poster||null,banner:banner||null,story:story||'',genres:genres||[],sourcePage,count:count??null,availableCount:availableCount??null,seasonCount:seasonCount??null,partial:!!partial,source,discovered:!!discovered,region:region||null,ramadan:!!ramadan,categories:categories||[]};
 }
 export function mergeTitleCards(discovered,published){
  const rows=new Map();
