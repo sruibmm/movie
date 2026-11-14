@@ -1412,7 +1412,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
             {ownedError&&<p className="text-red-300 mt-2">{ownedError}</p>}
             {ownedSource&&<button onClick={()=>{setOwnedSource(null);setNativeError('');setShowPlaybackHelp(false);}} className="mt-3 underline">Return to original source</button>}
             <button onClick={()=>{restoreProtection();setShowPlaybackHelp(false);}} className="mt-3 block underline">Reset protected player</button>
-            <a href={`https://www.themoviedb.org/${isTV?'tv':'movie'}/${movie.tmdbId||movie.id}/watch`} target="_blank" rel="noopener noreferrer" className="block mt-3 underline">Official streaming options</a>
+            {!movie.watanOnly&&<a href={`https://www.themoviedb.org/${isTV?'tv':'movie'}/${movie.tmdbId||movie.id}/watch`} target="_blank" rel="noopener noreferrer" className="block mt-3 underline">Official streaming options</a>}
           </details>
           {arabic&&!movie.watanOnly&&<PublisherFallback movie={movie} onSelect={v=>{setPublisherSource(publisherEmbed(v));setDirectOnly(false);setExhausted(false);setShowPlaybackHelp(false);setFrameRevision(x=>x+1);}}/>}
           {!movie.watanOnly&&(movie.isArabic||isTV)&&<OfficialAvailability movie={movie} options={fetchOptions}/>}
