@@ -9,36 +9,26 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 3
     steps:
-      - name: Inspect public video metadata and official embed endpoints
+      - name: Inspect official returned embed
         run: |
           python - <<'PY'
-          import urllib.request, urllib.error, re, json, concurrent.futures
-          urls={
-              'video_metadata':'https://api.dailymotion.com/video/x6rtfip?fields=id,title,owner,allow_embed,geoblocking',
-              'public_page':'https://www.dailymotion.com/video/x6rtfip',
-              'legacy_embed':'https://www.dailymotion.com/embed/video/x6rtfip',
-              'legacy_player':'https://geo.dailymotion.com/player.html?video=x6rtfip',
-              'oembed':'https://www.dailymotion.com/services/oembed?url=https%3A%2F%2Fwww.dailymotion.com%2Fvideo%2Fx6rtfip'
-          }
-          def probe(item):
-              name,url=item
-              req=urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0','Accept':'*/*'})
-              try:
-                  resp=urllib.request.urlopen(req,timeout=12)
-              except urllib.error.HTTPError as e:
-                  resp=e
-              except Exception as e:
-                  return {'probe':name,'error':str(e)}
-              b=resp.read(500000).decode('utf-8','replace')
-              out={'probe':name,'status':resp.status,'final_url':resp.url}
-              if name in ('video_metadata','oembed'):
-                  out['response']=b[:2500]
-              elif name=='public_page':
-                  out['public_embed_metadata']=[m[:500] for m in re.findall(r'<(?:meta|link)[^>]+(?:og:video|oembed)[^>]*>',b,re.I)][:12]
-              else:
-                  out['body_start']=b[:250]
-              return out
-          with concurrent.futures.ThreadPoolExecutor(max_workers=5) as e:
-              for result in e.map(probe,urls.items()):
-                  print(json.dumps(result,ensure_ascii=False))
+          import urllib.request, urllib.error, json, re, html
+          from urllib.parse import urlencode
+          def fetch(url,referer=None):
+              h={'User-Agent':'Mozilla/5.0','Accept':'*/*'}
+              if referer: h['Referer']=referer
+              try: r=urllib.request.urlopen(urllib.request.Request(url,headers=h),timeout=12)
+              except urllib.error.HTTPError as e: r=e
+              return r.status,r.url,r.read(2000000).decode('utf-8','replace')
+          url='https://www.dailymotion.com/services/oembed?'+urlencode({'url':'https://www.dailymotion.com/video/x6rtfip'})
+          status,final,body=fetch(url)
+          print('OEMBED',status)
+          d=json.loads(body)
+          print('HTML',d.get('html'))
+          m=re.search(r'src=["\x27]([^"\x27]+)',d.get('html',''))
+          if m:
+              src=html.unescape(m.group(1))
+              if src.startswith('https://geo.dailymotion.com/') or src.startswith('https://www.dailymotion.com/'):
+                  status,final,body=fetch(src,'https://movie.o-a-f-a.workers.dev/')
+                  print('RETURNED PLAYER',status,final,body[:200])
           PY
