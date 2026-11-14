@@ -1,36 +1,43 @@
-name: Dubai Plus official play button verification
+name: Index official Dubai Plus catalogue links
 on:
   push:
     branches: [dailymotion-diagnosis]
 permissions:
   contents: read
 jobs:
-  check:
+  index:
     runs-on: ubuntu-latest
-    timeout-minutes: 4
+    timeout-minutes: 3
     steps:
-      - run: npm install --no-save playwright && npx playwright install chromium
-      - name: Test standard free playback
+      - name: Collect public catalogue hyperlinks only
         run: |
-          cat > check.cjs <<'JS'
-          const {chromium}=require('playwright');
-          (async()=>{
-            const b=await chromium.launch({headless:true,args:['--autoplay-policy=no-user-gesture-required']});
-            const p=await b.newPage({viewport:{width:1280,height:800}});
-            const target='https://www.dubaiplus.net/ar-AE/s/series/694469160205_'+encodeURIComponent('جعفر-العمدة');
-            const origin='https://movie.o-a-f-a.workers.dev/__dubai-frame-test';
-            await p.route(origin,r=>r.fulfill({contentType:'text/html',body:'<!doctype html><iframe src="'+target+'" style="width:100%;height:750px" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen></iframe>'}));
-            await p.goto(origin,{waitUntil:'domcontentloaded'});
-            await p.waitForTimeout(5500);
-            const f=p.frames().find(x=>x.url().includes('dubaiplus.net/ar-AE/s/series'));
-            if(!f)throw Error('No frame');
-            const cookies=f.getByRole('button',{name:'رفض الكل',exact:true}).filter({visible:true}).first();
-            if(await cookies.count())await cookies.click({timeout:2500}).catch(()=>{});
-            const play=f.getByRole('button',{name:'الموسم1 الحلقة1',exact:true});
-            await play.click({timeout:8000}).catch(e=>console.log('CLICK_FAIL',e.message.slice(0,300)));
-            await p.waitForTimeout(12000);
-            for(const x of p.frames()){if(!x.url().includes('dubaiplus.net'))continue;console.log('URL',x.url());console.log('TEXT',(await x.locator('body').innerText().catch(()=>'' )).slice(0,1000));console.log('VIDEO',JSON.stringify(await x.locator('video').evaluateAll(vs=>vs.map(v=>({time:v.currentTime,duration:v.duration,ready:v.readyState,paused:v.paused,error:v.error?.message||null}))).catch(()=>[])));}
-            await b.close();
-          })().catch(e=>{console.error(e);process.exit(1)});
-          JS
-          node check.cjs
+          python - <<'PY'
+          import urllib.request, urllib.parse, urllib.error, re, json, concurrent.futures
+          from html.parser import HTMLParser
+          base='https://www.dubaiplus.net'
+          class Parser(HTMLParser):
+            def __init__(self):super().__init__();self.links=[]
+            def handle_starttag(self,tag,attrs):
+              if tag=='a':
+                href=dict(attrs).get('href','')
+                if '/s/series/' in href or '/s/movie/' in href or '/s/movies/' in href:self.links.append(href)
+          def read(path):
+            try:
+              r=urllib.request.urlopen(urllib.request.Request(base+path,headers={'User-Agent':'Mozilla/5.0'}),timeout=15)
+              p=Parser();p.feed(r.read(5000000).decode('utf8','replace'));print('PAGE',path,r.status,len(p.links))
+              return p.links
+            except Exception as e:print('ERROR',path,str(e));return []
+          paths=['/web/?lang=ar-AE']+['/web/series?lang=ar-AE&page='+str(i) for i in range(1,13)]+['/web/movies?lang=ar-AE&page='+str(i) for i in range(1,5)]
+          with concurrent.futures.ThreadPoolExecutor(max_workers=5) as p:rows=list(p.map(read,paths))
+          seen={}
+          for raw in sum(rows,[]):
+            u=urllib.parse.urlsplit(urllib.parse.urljoin(base,raw))
+            if u.hostname!='www.dubaiplus.net':continue
+            m=re.search(r'/s/(series|movie|movies)/(\d+)_([^/]+)',u.path)
+            if not m:continue
+            kind,ident,title=m.groups();title=urllib.parse.unquote(title).replace('-',' ').strip()
+            if not re.search(r'[\u0600-\u06ff]',title):continue
+            seen[ident]={'id':'dubai-'+ident,'title':title,'kind':'tv' if kind=='series' else 'movie','url':urllib.parse.urlunsplit(('https',u.netloc,u.path,'',''))}
+          print('COUNT',len(seen))
+          for x in seen.values():print('TITLE_ROW '+json.dumps(x,ensure_ascii=False))
+          PY
