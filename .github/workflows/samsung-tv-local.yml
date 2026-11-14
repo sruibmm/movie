@@ -22,6 +22,7 @@ jobs:
       - run: node scripts/package-samsung-local.mjs
         env:
           CINEMA_ICON_B64: 'iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAACf0lEQVR42u2dMUoDURRFTfi1RQp3EHQHAfeR0s7O1jqFta2dnaX7CLgDwT1kDRYBCQYE81/mv3vfuZWV0XPmvj/zh5nMri6vL8i4zEGAAAQQBCCAIAABBAEIIAhAAEEAAshx3p4/w39nA+v00A8zYzv6v9zvHm9ogOTBTgPCoAeWoMF9bBrQx8Z8BJ0PetQUanCnAarQQ0rQgM4iXJG73gjKCb1/CjWg0wBt6J0laHCvuwjrQhfeCwL6GAGi3M8EfSIBQB8gAOhjBChyHwg9RgDQ5U9Dy0IPuxJOW4Lk0D0bIATdSoAod20BXx+7n5836+2UH/30fptoDZhyGTiEPjyBGprKkZ4q+9qFaGhA79HQ7yDghkz/FBKCHj6OegVs1tvlalENeqCDSUeQE/QUZ0H7tejvBhSBfnIJWshx/csBR/oUDTi8AlquFkA/rQQxD+lB/+TwlCQCEEAQgIDEeXhdIGC8A1cNSiPI0oHYGuBXBclF2MmB6lmQTRW0T0MNNDhcB0g7MLkQ062C1ZWwogO3rQi5KnjuBQlpcN6Mk3BgvhuavwoltqMzayh0PyCng1o3ZBJWoeIdsVQOit6SzFOFou8Nfbnf0QDo12tAKvS1BCREX0VAWvQl1oDk9J0bkB+9rQAV9J4jSIu+VQPk0PsIEEVvMoKk6Ws3QB29sAAP9JICnNDrrQF+9GUaYIlepgHG9C94ShIBCCAIQAARFBD+ClPpnEyDBiiPIErQz4EGiC/ClKCTwHz4X1CZftgIqukg5L8O/jLPid/mL43+LALsNaT7AgeSYg0gCEAAQQACCAIQQBCAAIIABBAEIIAgAAEEAQggCEAAQQACyFG+AfjW17ieh5wbAAAAAElFTkSuQmCC'
+      - run: node scripts/cache-tv-artwork.mjs
       - run: npx --no-install esbuild src/main.jsx --bundle --platform=browser --format=iife --target=chrome94 --minify --define:process.env.NODE_ENV='"production"' --outfile=samsung-local-dist/cinema-app.js
       - run: |
           python - <<'PY'
