@@ -5,10 +5,10 @@ export function arabicSourceIds(isTV,legacy){return isTV?[...ARABIC_BACKENDS]:[.
 export function backendUrl(movie,id){const u=new URL(embedwaveUrl(movie));const name=backendName(id);if(!name)throw Error('Unknown backend');u.searchParams.set('server',name);return u.href;}
 export function nextArabicSource(ids,memory,current){return ids.filter(i=>i!==current&&!['ad','blocked'].includes(memory[i]?.status)).sort((a,b)=>Number(memory[b]?.status==='clean')-Number(memory[a]?.status==='clean'))[0]??null;}
 export const PUBLISHERS=[
- {handle:'arttvnetwork',name:'ART TV Network',url:'https://www.youtube.com/@arttvnetwork'},
  {id:'UCeObuRp8DAS-ubBtXQRt0zg',name:'أفلام مصر العالمية',url:'https://www.youtube.com/channel/UCeObuRp8DAS-ubBtXQRt0zg'},
  {id:'UCKckQm50S8caMgcUTgtxjqQ',name:'العربية للسينما',url:'https://www.youtube.com/channel/UCKckQm50S8caMgcUTgtxjqQ'},
  {id:'UC39t9YJ_RzgKmmAkq19lhYw',name:'روتانا سينما',url:'https://www.youtube.com/@rotanacinema'},
+ {handle:'arttvnetwork',name:'ART TV Network',url:'https://www.youtube.com/@arttvnetwork'},
  {handle:'moviesimedia',name:'IMedia Movies',url:'https://www.youtube.com/@moviesimedia'},
  {handle:'imediasharqi',name:'IMedia شرقي',url:'https://www.youtube.com/@imediasharqi'},
  {id:'UCSVSS5aSyHh7ChJlICx_Gkg',name:'السبكي للإنتاج الفني',url:'https://www.youtube.com/@sobkyproductions'},
