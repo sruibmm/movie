@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import worker from '../worker/index.js';
+const env={ASSETS:{fetch:async()=>new Response('asset')}};
+const url='https://example.test';
+assert.equal(await (await worker.fetch(new Request(url+'/'),env)).text(),'asset');
+let r=await worker.fetch(new Request(url+'/api/arabic-sources?title=test'),env);
+assert.equal(r.status,200);assert.equal((await r.json()).configured,false);
+assert.equal((await worker.fetch(new Request(url+'/api/arabic-sources'),env)).status,400);
+assert.equal((await worker.fetch(new Request(url+'/api/missing'),env)).status,404);
+console.log('WORKER ROUTES PASS');
