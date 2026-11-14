@@ -313,11 +313,11 @@ function PasswordModal({ onVerify, onClose }) {
 }
 
 function App() {
-  const directArabic=new URLSearchParams(window.location.search).get('library')==='arabic';
-  const [mode, setMode] = useState(directArabic?'single':null);
+  const params=new URLSearchParams(window.location.search),tvMode=params.get('tv')==='1',directArabic=params.get('library')==='arabic';
+  const [mode, setMode] = useState(tvMode||directArabic?'single':null);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
-  const [role, setRole] = useState(directArabic?'admin':null);
+  const [role, setRole] = useState(tvMode||directArabic?'admin':null);
   const [movies, setMovies] = useState([]);
   const [activeMovie, setActiveMovie] = useState(null);
   const [roomMovie, setRoomMovie] = useState(null);
@@ -825,7 +825,7 @@ function App() {
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
             {movies.map(m => (
-              <div key={m.id} onClick={() => setActiveMovie(m)} className="group cursor-pointer">
+              <div key={m.id} role="button" tabIndex={0} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();setActiveMovie(m);}}} onClick={() => setActiveMovie(m)} className="group cursor-pointer">
                 <div className="relative aspect-[2/3] rounded-2xl overflow-hidden border border-white/5 group-hover:border-purple-500/50 transition-all bg-zinc-900 shadow-lg">
                   <img src={`https://image.tmdb.org/t/p/w500${m.poster_path}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt={m.title} />
                 </div>
@@ -849,9 +849,9 @@ function App() {
         <header className="mb-8 md:mb-14 flex flex-col gap-6 border-b border-white/5 pb-6">
           <div>
             <h1 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 italic">
-              🎬 Solo Mode
+              {tvMode?'🎬 Cinema TV':'🎬 Solo Mode'}
             </h1>
-            <p className="text-gray-500 text-sm mt-1">Your personal cinema</p>
+            <p className="text-gray-500 text-sm mt-1">{tvMode?'Your cinema on the big screen':'Your personal cinema'}</p>
           </div>
           <div className="flex flex-wrap gap-2">
             <button onClick={()=>switchLibrary(false)} aria-pressed={!arabicLibrary} className={`px-4 py-2 rounded-full text-sm font-bold ${!arabicLibrary?'bg-purple-600':'bg-white/5 text-gray-300'}`}>World Cinema</button>
