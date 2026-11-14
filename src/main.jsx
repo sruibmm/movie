@@ -6,6 +6,7 @@ import PublisherPlayer from './PublisherPlayer.jsx'
 import {attachArabicSiteEpisode,allowArabicPlayback,approvedPublisherUrl} from './arabicSiteCatalog.js'
 import {attachPublisherEpisode} from './publisherSeries.js'
 import LicensedLibrary from './LicensedLibrary.jsx'
+import {isPrivateMedia} from './privateCatalog.js'
 import SyncedLibrary from './SyncedLibrary.jsx'
 import SyncedPlayback from './SyncedPlayback.jsx'
 import ArabicDiscovery,{OfficialAvailability} from './ArabicDiscovery.jsx'
@@ -550,7 +551,7 @@ function App() {
   };
 
   const startArabicEpisode=(input)=>{
-    const movie=input.sourceSync?input:attachPublisherFilm(attachPublisherEpisode(attachArabicSiteEpisode(input)));
+    const movie=input.sourceSync||isPrivateMedia(input.licensedSource)?input:attachPublisherFilm(attachPublisherEpisode(attachArabicSiteEpisode(input)));
     if(mode==='couples'&&!conn?.open){alert('Connect Renad first, then start the episode.');return;}
     const settings={...syncSettings,fallbackServer:10,progress:getFromHistory(movie.id)?.progress||0};
     setSyncSettings(settings);setRoomMovie(movie);
@@ -1265,7 +1266,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     if(!nativeSource || !video) return;
     setNativeError('');setQuality(-1);setLevels([]);setPlayState('Preparing');
     const url=nativeSource.stream_url;
-    if(movie.licensedSource&&(!Number.isFinite(Date.parse(movie.licensedSource.rights?.expires))||Date.parse(movie.licensedSource.rights.expires)<=Date.now())){if(onNativeFailure)onNativeFailure({time:0,duration:0});else setNativeError('Playback authorization expired.');return;}
+    if(movie.licensedSource&&!isPrivateMedia(movie.licensedSource)&&(!Number.isFinite(Date.parse(movie.licensedSource.rights?.expires))||Date.parse(movie.licensedSource.rights.expires)<=Date.now())){if(onNativeFailure)onNativeFailure({time:0,duration:0});else setNativeError('Playback authorization expired.');return;}
     const desired=languageCode(movie.original_language);
     let hls, selectedAudio=false,selectedSub=false;
     setLanguageStatus({audio:desired?'Looking for original audio':'Original language unknown',subs:'Looking for Arabic subtitles'});
