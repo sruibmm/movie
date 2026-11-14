@@ -2,7 +2,7 @@
 // No proxy, cookies, access-control bypass, or public playback endpoint.
 const ORIGIN='https://af.alooytv16.com';
 const SOURCE_HOSTS=new Set(['af.alooytv16.com','ae.alooytv16.com','alooytv16.com','e.alooytv16.com']);
-const REVISION='auto-v4';
+const REVISION='auto-v5';
 const P='pc:', DAY=86400000;
 const decode=s=>String(s||'').replace(/&amp;|&#38;/gi,'&').replace(/&quot;/gi,'"').replace(/&#39;|&apos;/gi,"'").replace(/&nbsp;/gi,' ').replace(/&#(\d+);/g,(_,n)=>{try{return String.fromCodePoint(Number(n))}catch{return ''}});
 const clean=s=>decode(String(s||'').replace(/<[^>]*>/g,' ')).replace(/\s+/g,' ').trim();
@@ -34,7 +34,7 @@ function kindHint(u,label=''){const s=(u.pathname+' '+label).toLowerCase();retur
 export function indexLinks(html,page,kind=''){
  const out=new Map();
  for(const a of anchors(html,page)){const u=a.u;
-  if(workPath(u)){u.search='';const id=workId(u);const img=a.html.match(/<img\b[^>]*>/i)?.[0]||'';const poster=image(attr(img,'data-src')||attr(img,'src'),page);out.set('w:'+id,{type:'work',url:u.href,id,kind:kind||kindHint(u,a.label),poster});}
+  if(workPath(u)){u.search='';const id=workId(u);const img=a.html.match(/<img\b[^>]*>/i)?.[0]||'';const poster=image(attr(img,'data-src')||attr(img,'src'),page);const title=clean(attr(img,'alt')||a.label).slice(0,300);out.set('w:'+id,{type:'work',url:u.href,id,kind:kindHint(u,a.label)||kind,poster,title});}
   else if(/^\/genre\/[a-z0-9_-]+(?:\.html|\/(?:page\/)?\d+(?:\.html)?)?$/i.test(u.pathname)||/^\/(?:movies|series|tv-series)(?:\/\d+|\.html)?$/i.test(u.pathname)||u.pathname==='/'&&u.searchParams.has('page')){
    // Only actual navigable category/pagination URLs; reject arbitrary query parameters.
    if([...u.searchParams.keys()].some(k=>!['page','p','offset','sort'].includes(k)))continue;
@@ -43,7 +43,7 @@ export function indexLinks(html,page,kind=''){
  }
  return [...out.values()];
 }
-export function episodes(html,page){
+export function episodes(html,page,{allowPartial=false}={}){
  const base=source(page),rows=new Map();
  for(const a of anchors(html,page)){
   if(a.u.pathname!==base.pathname||!a.u.searchParams.get('key'))continue;
@@ -54,8 +54,9 @@ export function episodes(html,page){
  }
  const list=[...rows].sort((a,b)=>a[0]-b[0]);
  if(list.length&&list.some(([n],i)=>n!==i+1))throw Error('incomplete-episode-index');
- const declared=clean(html).match(/(?:عدد الحلقات\s*[:：]?\s*(\d+)|(\d+)\s*حلقة)/);
- if(list.length&&declared&&Number(declared[1]||declared[2])!==list.length)throw Error('declared-count-mismatch');
+ const declared=clean(html).match(/(?:عدد الحلقات|Episodes)\s*[:：]\s*(\d+)/i);const expected=declared?Number(declared[1]):list.length;
+ if(list.length&&declared&&expected!==list.length&&!allowPartial)throw Error('declared-count-mismatch');
+ Object.defineProperty(list,'expected',{value:Math.max(expected,list.length),enumerable:false});
  return list;
 }
 export function mediaLink(html,page){
@@ -71,7 +72,7 @@ export function mediaLink(html,page){
 async function getPage(url,fetcher){let r;for(let hop=0;hop<4;hop++){r=await fetcher(url,{redirect:'manual',signal:AbortSignal.timeout(8000),headers:{accept:'text/html'}});if(![301,302,303,307,308].includes(r.status))break;const next=source(r.headers.get('Location'),url);if(!next)throw Error('unapproved-redirect');url=next.href;}if(!r.ok)throw Error('page-'+r.status);const body=await r.text();if(body.length>3000000)throw Error('page-too-large');return body;}
 export async function probe(url,fetcher=fetch){const r=await fetcher(url,{redirect:'manual',signal:AbortSignal.timeout(8000),headers:{Range:'bytes=0-4095'}});if(r.status>=300&&r.status<400){await r.body?.cancel().catch(()=>{});throw Error('media-redirect-'+r.status);}if(!r.ok||!r.body){await r.body?.cancel().catch(()=>{});throw Error('media-'+r.status);}const reader=r.body.getReader();let bytes=[];try{while(bytes.length<12){const {done,value}=await reader.read();if(done)break;bytes.push(...value.subarray(0,32));}}finally{await reader.cancel().catch(()=>{});}if(bytes.length<12||String.fromCharCode(...bytes.slice(4,8))!=='ftyp')throw Error('not-mp4');}
 const jobKey=j=>P+'q:'+({episode:'0',work:'1',index:'2'}[j.type])+':'+(j.type==='episode'?j.id+':'+j.gen+':'+String(j.n).padStart(4,'0'):j.url);
-async function enqueue(s,j,now,force=false){const key=jobKey(j);const existing=await s.get(key);if(existing){if(j.type==='work'&&(!existing.kind&&j.kind||!existing.poster&&j.poster))await s.put(key,{...existing,kind:existing.kind||j.kind,poster:existing.poster||j.poster});return;}if(!force&&Number(await s.get(P+'seen:'+key))>now-DAY)return;await s.put(key,{...j,tries:0,after:0});}
+async function enqueue(s,j,now,force=false){if(j.type==='work'&&j.title&&j.title.length>2&&!/^(?:watch|عرض|مشاهدة|تحميل|play)$/i.test(j.title)){const k=P+'discovered:'+j.id,old=await s.get(k);await s.put(k,{id:j.id,title:j.title,kind:j.kind||old?.kind||'unknown',poster:j.poster||old?.poster||null,sourcePage:j.url,discovered:true,count:null});}const key=jobKey(j);const existing=await s.get(key);if(existing){if(j.type==='work'&&(!existing.kind&&j.kind||!existing.poster&&j.poster))await s.put(key,{...existing,kind:existing.kind||j.kind,poster:existing.poster||j.poster});return;}if(!force&&Number(await s.get(P+'seen:'+key))>now-DAY)return;await s.put(key,{...j,tries:0,after:0});}
 const wk=id=>P+'work:'+id,dk=id=>P+'draft:'+id,epPrefix=(id,gen)=>P+'e:'+id+':'+gen+':';
 async function publish(s,d){
  const old=await s.get(wk(d.id));if(old&&old.count>d.count)throw Error('refuse-catalog-shrink');
@@ -89,6 +90,7 @@ async function processJob(s,j,fetcher,now,prepared){
   const count=list.length||1,old=await s.get(wk(j.id));if(old&&old.count>count)throw Error('refuse-catalog-shrink');
   const current=await s.get(dk(j.id));if(current&&current.remaining>0&&now-current.gen<DAY&&current.count===count&&current.season===m.season){for(const [n,url] of list.length?list:[[1,j.url]]){const k=epPrefix(j.id,current.gen)+String(n).padStart(4,'0');if(!await s.get(k))await enqueue(s,{type:'episode',url,id:j.id,gen:current.gen,n,kind},now,true);}return;}
   const d={id:j.id,title:m.title,kind,year:m.year,story:m.story,poster:m.poster||j.poster||null,banner:m.banner,genres:m.genres,sourcePage:j.url,count,season:m.season,gen:now,remaining:count};
+  await s.put(P+'discovered:'+j.id,{...d,discovered:true});
   await s.put(dk(j.id),d);
   for(const [n,url] of list.length?list:[[1,j.url]])await enqueue(s,{type:'episode',url,id:j.id,gen:now,n,kind},now,true);
   return;
@@ -104,7 +106,7 @@ async function processJob(s,j,fetcher,now,prepared){
 export async function crawl(s,fetcher=fetch,now=Date.now(),budget=16){
  // A bounded batch with at most four concurrent network checks.
  const last=Number(await s.get(P+'seed')||0),rev=await s.get(P+'revision');
- if(rev!==REVISION){const previous=await s.list({prefix:P+'q:',limit:1000});for(const [key,j] of previous){const u=source(j.url);if(u){const next={...j,url:ORIGIN+u.pathname+u.search,tries:0,after:0};await s.put(jobKey(next),next);if(key!==jobKey(next))await s.delete(key);}}await s.put(P+'revision',REVISION);}
+ if(rev!==REVISION){const oldLanes=await Promise.all(['0','1','2'].map(n=>s.list({prefix:P+'q:'+n+':',limit:1000})));const previous=new Map(oldLanes.flatMap(m=>[...m]));for(const [key,j] of previous){const u=source(j.url);if(u){const next={...j,url:ORIGIN+u.pathname+u.search,tries:0,after:0};await s.put(jobKey(next),next);if(key!==jobKey(next))await s.delete(key);}}await s.put(P+'revision',REVISION);}
  const seedDue=rev!==REVISION||!last||now-last>=DAY;
  if(seedDue){await enqueue(s,{type:'index',url:ORIGIN+'/',kind:''},now,true);await enqueue(s,{type:'index',url:ORIGIN+'/genre/ramadan-arabi-2026.html',kind:'tv'},now,true);await enqueue(s,{type:'work',url:ORIGIN+'/watch/gztyqowfz11u.html',id:'alooytv:gztyqowfz11u',kind:'tv'},now,true);await s.put(P+'seed',now);}
  // Read each lane independently so an episode backlog cannot starve discovery.
@@ -123,13 +125,40 @@ export async function crawl(s,fetcher=fetch,now=Date.now(),budget=16){
   await s.put(P+'status',{...prior,revision:REVISION,state:'running',at:now,processed:done,failed,errors:errors.slice(0,5),totals:{processed:totals.processed+done,failed:totals.failed+failed}});
  }
  const pendingLanes=await Promise.all(['0','1','2'].map(n=>s.list({prefix:P+'q:'+n+':',limit:1000})));const pending=new Map(pendingLanes.flatMap(m=>[...m]));const works=await s.list({prefix:P+'work:',limit:1000}),drafts=await s.list({prefix:P+'draft:',limit:1000});const readyCount=[...pending.values()].filter(j=>j.after<=now).length;const nextRetry=[...pending.values()].filter(j=>j.after>now).reduce((m,j)=>Math.min(m,j.after),Infinity);totals.processed+=done;totals.failed+=failed;
- const result={at:now,revision:REVISION,source:ORIGIN,processed:done,failed,queuedSample:pending.size,queueSampleTruncated:pendingLanes.some(m=>m.size===1000),ready:readyCount,waiting:pending.size-readyCount,nextRetry:Number.isFinite(nextRetry)?nextRetry:null,published:[...works.values()].filter(w=>!w.partial).length,availableWorks:works.size,publishedEpisodes:[...works.values()].reduce((n,w)=>n+(w.availableCount??w.count),0),drafts:drafts.size,verifiedDraftEpisodes:[...drafts.values()].reduce((n,d)=>n+d.count-d.remaining,0),totals,errors:errors.length?errors.slice(0,5):[],state:done?'working':failed?'source-error':pending.size?'retry-wait':'idle'};await s.put(P+'status',result);return result;
+ const result={at:now,revision:REVISION,source:ORIGIN,processed:done,failed,queuedSample:pending.size,queueSampleTruncated:pendingLanes.some(m=>m.size===1000),ready:readyCount,waiting:pending.size-readyCount,nextRetry:Number.isFinite(nextRetry)?nextRetry:null,published:[...works.values()].filter(w=>!w.partial).length,availableWorks:works.size,publishedEpisodes:[...works.values()].reduce((n,w)=>n+(w.availableCount??w.count),0),discovered:(await s.list({prefix:P+'discovered:',limit:1000})).size,drafts:drafts.size,verifiedDraftEpisodes:[...drafts.values()].reduce((n,d)=>n+d.count-d.remaining,0),totals,errors:errors.length?errors.slice(0,5):[],state:done?'working':failed?'source-error':pending.size?'retry-wait':'idle'};await s.put(P+'status',result);return result;
+}
+// On-demand catalog lookup uses only known source page identities, never an arbitrary URL.
+// Metadata and the exact episode index are separate from verified playback.
+async function lookupPreview(s,id,fetcher=fetch,now=Date.now()){
+ const cached=await s.get(P+'preview:'+id);
+ if(cached&&now-cached.checkedAt<10*60000)return cached;
+ const record=await s.get(wk(id))||await s.get(P+'discovered:'+id)||await s.get(dk(id));
+ if(!record)throw Error('unknown-work');
+ const page=source(record.sourcePage);if(!page||!workPath(page)||workId(page)!==id)throw Error('invalid-work-source');
+ const url=ORIGIN+page.pathname;
+ const html=await getPage(url,fetcher),m=metadata(html,url,record.kind),list=episodes(html,url,{allowPartial:true});
+ const kind=list.length?'tv':m.kind;if(!m.title||!['tv','movie','play'].includes(kind)||kind==='tv'&&!list.length)throw Error('unclassified-or-incomplete-work');
+ const preview={id,title:m.title,kind,year:m.year||record.year,story:m.story||record.story,poster:m.poster||record.poster,banner:m.banner||record.banner,genres:m.genres,sourcePage:url,count:list.expected||1,checkedAt:now,slots:(list.length?list:[[1,url]]).map(([episode,page])=>({season:m.season,episode,page}))};
+ await s.put(P+'preview:'+id,preview);return preview;
+}
+export async function previewWork(s,id,fetcher=fetch,now=Date.now()){
+ const p=await lookupPreview(s,id,fetcher,now);const {slots,...meta}=p;return {...meta,slots:slots.map(({season,episode})=>({season,episode}))};
+}
+export async function resolveEpisode(s,id,season,episode,fetcher=fetch,now=Date.now()){
+ if(!Number.isSafeInteger(season)||season<1||!Number.isSafeInteger(episode)||episode<1)throw Error('invalid-episode');
+ const key=P+'ondemand:'+id+':'+season+':'+episode;
+ const cached=await s.get(key);if(cached&&now-cached.verifiedAt<3600000)return cached;
+ const p=await lookupPreview(s,id,fetcher,now),slot=p.slots.find(x=>x.season===season&&x.episode===episode);if(!slot)throw Error('episode-not-listed');
+ const html=await getPage(slot.page,fetcher),url=mediaLink(html,slot.page);await probe(url,fetcher);
+ const m=metadata(html,slot.page),a={id:id+':s'+season+':e'+episode,title:p.kind==='tv'?'الحلقة '+episode:p.title,season,episode,format:'mp4',url,sourcePage:slot.page,thumbnail:m.thumbnail&&m.thumbnail!==p.poster?m.thumbnail:null,story:m.story!==p.story?m.story:'',verifiedAt:now};
+ await s.put(key,a);return a;
 }
 const json=(x,status=200)=>Response.json(x,{status,headers:{'Cache-Control':'private, no-store','Vary':'Authorization'}});
 export async function privateRequest(request,s){
  const u=new URL(request.url);
  if(u.pathname==='/private-sync'&&request.method==='POST')return json(await crawl(s));
  if(u.pathname==='/private-status')return json(await s.get(P+'status')||{at:null,processed:0,failed:0});
+ if(u.pathname==='/private-preview'||u.pathname==='/private-episode'){const id=u.searchParams.get('id')||'';if(!/^alooytv:[a-z0-9-]+$/i.test(id))return json({error:'invalid-work'},400);try{return json(u.pathname==='/private-preview'?await previewWork(s,id):await resolveEpisode(s,id,Number(u.searchParams.get('season')),Number(u.searchParams.get('episode'))));}catch(e){return json({error:String(e.message||e).slice(0,160)},502);}}
  if(u.pathname==='/private-work'){
   const id=u.searchParams.get('id')||'';if(!/^alooytv:[a-z0-9-]+$/i.test(id))return json({error:'invalid-work'},400);
   const w=await s.get(wk(id));if(!w)return json({error:'not-found'},404);
@@ -138,15 +167,16 @@ export async function privateRequest(request,s){
  }
  if(u.pathname==='/private-list'){
   const q=(u.searchParams.get('q')||'').trim().toLowerCase().slice(0,200),kind=u.searchParams.get('kind')||'all',cursor=u.searchParams.get('cursor')||'';
-  if(cursor&&!cursor.startsWith(P+'work:'))return json({error:'invalid-cursor'},400);
+  if(cursor&&!cursor.startsWith(P+'work:')&&!cursor.startsWith(P+'discovered:'))return json({error:'invalid-cursor'},400);
   const normalize=x=>String(x||'').toLowerCase().replace(/[\u064b-\u065f\u0670]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي');
-  const titles=[];let after=cursor,more=true,scanned=0;
+  const titles=[];let after=cursor,more=true,scanned=0,phase=cursor.startsWith(P+'discovered:')?'discovered':'work';
   while(titles.length<40&&scanned<1000&&more){
-   const rows=await s.list({prefix:P+'work:',...(after?{startAfter:after}:{}),limit:100});if(!rows.size){more=false;break;}
-   for(const [key,w] of rows){after=key;scanned++;if((kind==='all'||kind===w.kind)&&(!q||normalize(w.title).includes(normalize(q))))titles.push(w);if(titles.length>=40)break;}
-   if(rows.size<100&&titles.length<40)more=false;
+   const rows=await s.list({prefix:P+phase+':',...(after?{startAfter:after}:{}),limit:100});
+   if(!rows.size){if(phase==='work'){phase='discovered';after='';continue;}more=false;break;}
+   for(const [key,w] of rows){after=key;scanned++;if((kind==='all'||kind===w.kind||w.kind==='unknown')&&(!q||normalize(w.title).includes(normalize(q)))&&(phase==='work'||!await s.get(wk(w.id))))titles.push(w);if(titles.length>=40)break;}
+   if(rows.size<100&&titles.length<40){if(phase==='work'){phase='discovered';after='';}else more=false;}
   }
-  return json({titles,next:more?after:null});
+  return json({titles,next:more?after||P+'discovered:':null});
  }
  return json({error:'not-found'},404);
 }
