@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import ReactDOM from 'react-dom/client'
 import Hls from 'hls.js'
-import WatanLibrary from './WatanLibrary.jsx'
-import PublisherLibrary from './PublisherLibrary.jsx'
+import UnifiedArabicLibrary from './UnifiedArabicLibrary.jsx'
 import ArabicDiscovery,{OfficialAvailability} from './ArabicDiscovery.jsx'
 import {embedwaveUrl} from './arabicDiscovery.js'
 import {ARABIC_BACKENDS,arabicSourceIds,backendUrl,nextArabicSource} from './arabicSources.js'
@@ -780,7 +779,7 @@ function App() {
           </form>
         </header>
 
-        {arabicLibrary&&<><PublisherLibrary query={search} onPlay={startArabicEpisode}/><WatanLibrary query={search} onPlay={startArabicEpisode}/></>}
+        {arabicLibrary&&<UnifiedArabicLibrary query={search} onPlay={startArabicEpisode}/>}
         {catalogError&&<p className="text-red-300 mb-4 text-sm">{catalogError}</p>}
         {!loading&&!movies.length&&!catalogError&&<p className="text-gray-400 mb-4">{arabicLibrary?'لا توجد نتائج في هذه الصفحة. جرّب اسم الفيلم أو الصفحة التالية.':'No matching movies.'}</p>}
         <div className="flex items-center justify-between mb-4 text-sm text-gray-400"><span>{arabicLibrary?'أفلام عربية':'Movies'} · {catalogPage}/{catalogPages}</span><div className="flex gap-2"><button disabled={catalogPage<=1||loading} onClick={()=>setCatalogPage(p=>p-1)} className="bg-white/5 rounded-lg px-3 py-2 disabled:opacity-30">‹</button><button disabled={catalogPage>=catalogPages||loading} onClick={()=>setCatalogPage(p=>p+1)} className="bg-white/5 rounded-lg px-3 py-2 disabled:opacity-30">›</button></div></div>
@@ -827,7 +826,7 @@ function App() {
           </form>
         </header>
 
-        {arabicLibrary&&<><PublisherLibrary query={search} onPlay={startArabicEpisode}/><WatanLibrary query={search} onPlay={startArabicEpisode}/></>}
+        {arabicLibrary&&<UnifiedArabicLibrary query={search} onPlay={startArabicEpisode}/>}
         {catalogError&&<p className="text-red-300 mb-4 text-sm">{catalogError}</p>}
         {!loading&&!movies.length&&!catalogError&&<p className="text-gray-400 mb-4">{arabicLibrary?'لا توجد نتائج في هذه الصفحة. جرّب اسم الفيلم أو الصفحة التالية.':'No matching movies.'}</p>}
         <div className="flex items-center justify-between mb-4 text-sm text-gray-400"><span>{arabicLibrary?'أفلام عربية':'Movies'} · {catalogPage}/{catalogPages}</span><div className="flex gap-2"><button disabled={catalogPage<=1||loading} onClick={()=>setCatalogPage(p=>p-1)} className="bg-white/5 rounded-lg px-3 py-2 disabled:opacity-30">‹</button><button disabled={catalogPage>=catalogPages||loading} onClick={()=>setCatalogPage(p=>p+1)} className="bg-white/5 rounded-lg px-3 py-2 disabled:opacity-30">›</button></div></div>
