@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {normalizeArabic,queryVariants,mergeArabic,episodeMovie,embedwaveUrl,arabicCatalogJobs,arabicCatalogPage,arabicCatalogPageCount} from '../src/arabicDiscovery.js';
+import {normalizeArabic,queryVariants,mergeArabic,episodeMovie,embedwaveUrl,cinesrcUrl,arabicCatalogJobs,arabicCatalogPage,arabicCatalogPageCount} from '../src/arabicDiscovery.js';
 const cases=[
  ['Arabic spelling and Arabic numerals',()=>assert.equal(normalizeArabic('اللِّمبي ٨ جِيغا'),'اللمبي 8 جيغا')],
  ['alternate Arabic spelling',()=>assert.ok(queryVariants('إبن ٨').includes('ابن 8'))],
@@ -36,3 +36,20 @@ assert.equal(OFFICIAL_CATALOG.filter(x=>x.playlist).length,2);
 assert.match(officialEntryEmbed(OFFICIAL_CATALOG.find(x=>x.id==='hag-metwaly')),/videoseries\?list=PL9KkecclNUBTV7wu4vxdM8X0TPVyyFdWt/);
 assert.throws(()=>officialPlaylistEmbed('not-a-playlist'));
 console.log('OFFICIAL LIBRARY PASS: unique IDs, 9 publisher video or playlist entries, safe playlist embedding');
+
+const cineMovie=new URL(cinesrcUrl({id:123}));
+assert.equal(cineMovie.origin,'https://cinesrc.st');
+assert.equal(cineMovie.pathname,'/embed/movie/123');
+assert.equal(cineMovie.searchParams.get('subtitles'),'auto');
+assert.equal(cineMovie.searchParams.get('subtitlelang'),'Arabic');
+const cineEpisode=new URL(cinesrcUrl({media_type:'tv',tmdbId:1396,season:2,episode:5}));
+assert.equal(cineEpisode.pathname,'/embed/tv/1396');
+assert.equal(cineEpisode.searchParams.get('s'),'2');
+assert.equal(cineEpisode.searchParams.get('e'),'5');
+assert.equal(cineEpisode.searchParams.get('subtitlelang'),'Arabic');
+assert.equal(new URL(cinesrcUrl({id:123},'en')).searchParams.get('subtitlelang'),'English');
+assert.equal(new URL(cinesrcUrl({id:123},'off')).searchParams.get('subtitles'),'off');
+assert.equal(new URL(cinesrcUrl({id:123},'off')).searchParams.has('subtitlelang'),false);
+assert.equal(cinesrcUrl({id:'https://bad.test'}),null);
+assert.equal(cinesrcUrl({media_type:'tv',tmdbId:1396,season:2,episode:0}),null);
+console.log('CINESRC CC PASS: 13 URL and preference checks; previous EmbedWave routes retained');
