@@ -1,6 +1,6 @@
 // Durable Object alarm runner: acknowledge immediately, keep a single crawler active,
 // persist status before network I/O, and continue without a browser tab.
-export const ENGINE='auto-v3';
+export const ENGINE='auto-v4';
 const STATUS='pc:status';
 const errorText=e=>String(e?.message||e).slice(0,180);
 export class PrivateRunner{
@@ -12,7 +12,7 @@ export class PrivateRunner{
  async kick(){
   if(this.running)return this.status();
   const now=this.clock(),old=await this.s.get(STATUS)||{},alarm=await this.s.getAlarm();
-  if(alarm!==null)return this.status();
+  if(alarm!==null&&old.engine===ENGINE)return this.status();
   await this.s.setAlarm(now+1000);
   await this.s.put(STATUS,{...old,engine:ENGINE,state:'queued',requestedAt:now});
   return this.status();
@@ -27,7 +27,7 @@ export class PrivateRunner{
   await this.s.put(STATUS,{...old,engine:ENGINE,state:'running',startedAt:now});
   try{
    const result=await this.crawl(this.s,undefined,now);
-   const next=result.ready>0?this.clock()+15000:result.nextRetry?Math.max(this.clock()+15000,result.nextRetry):null;
+   const next=result.ready>0?this.clock()+5000:result.nextRetry?Math.max(this.clock()+5000,result.nextRetry):null;
    if(next!==null)await this.s.setAlarm(next);
    const final={...result,engine:ENGINE,startedAt:now,finishedAt:this.clock(),nextRunAt:next};
    await this.s.put(STATUS,final);return final;
