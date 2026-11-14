@@ -23,7 +23,7 @@ export function metadata(html,page,kind=''){
  const genres=(Array.isArray(ld.genre)?ld.genre:ld.genre?[ld.genre]:[]).map(clean).filter(Boolean).slice(0,15);
  const inferred=types(ld).includes('Movie')?'movie':types(ld).includes('TVSeries')?'tv':kind;
  const thumbnail=image(value(ld.thumbnailUrl)||meta(html,'thumbnailUrl')||meta(html,'og:image'),page);
- const explicitSeason=Number(ld.seasonNumber||ld.partOfSeason?.seasonNumber||title.match(/(?:الموسم|الجزء|ج)\\s*(\\d+)/)?.[1]||title.match(/\\bS(?:eason\\s*)?0?(\\d+)\\b/i)?.[1]||1);
+ const explicitSeason=Number(ld.seasonNumber||ld.partOfSeason?.seasonNumber||title.match(/(?:الموسم|الجزء|ج)\s*(\d+)/)?.[1]||title.match(/\bS(?:eason\s*)?0?(\d+)\b/i)?.[1]||1);
  return {title,story,poster,banner,year,genres,kind:inferred,thumbnail,season:Number.isSafeInteger(explicitSeason)&&explicitSeason>0?explicitSeason:1};
 }
 const workPath=u=>/^\/(?:watch|movie)\/[a-z0-9-]+\.html$/i.test(u.pathname);
@@ -32,7 +32,7 @@ function kindHint(u,label=''){const s=(u.pathname+' '+label).toLowerCase();retur
 export function indexLinks(html,page,kind=''){
  const out=new Map();
  for(const a of anchors(html,page)){const u=a.u;
-  if(workPath(u)){u.search='';const id=workId(u);const img=a.html.match(/<img\\b[^>]*>/i)?.[0]||'';const poster=image(attr(img,'data-src')||attr(img,'src'),page);out.set('w:'+id,{type:'work',url:u.href,id,kind:kind||kindHint(u,a.label),poster});}
+  if(workPath(u)){u.search='';const id=workId(u);const img=a.html.match(/<img\b[^>]*>/i)?.[0]||'';const poster=image(attr(img,'data-src')||attr(img,'src'),page);out.set('w:'+id,{type:'work',url:u.href,id,kind:kind||kindHint(u,a.label),poster});}
   else if(/^\/genre\/[a-z0-9_-]+(?:\.html)?(?:\/\d+)?$/i.test(u.pathname)||/^\/(?:movies|series|tv-series)(?:\/\d+|\.html)?$/i.test(u.pathname)||u.pathname==='/'&&u.searchParams.has('page')){
    // Only actual navigable category/pagination URLs; reject arbitrary query parameters.
    if([...u.searchParams.keys()].some(k=>!['page','p','offset','sort'].includes(k)))continue;
