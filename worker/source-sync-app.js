@@ -41,6 +41,12 @@ const privateRoutes={'/api/private-catalog/list':'/private-list','/api/private-c
 export default {
  async fetch(request,env){
   const u=new URL(request.url);
+  const tvRead=u.pathname.startsWith('/api/tv-metadata/')||u.pathname==='/api/source-sync/catalog'||u.pathname==='/api/dailymotion-player'||u.pathname==='/api/private-catalog/status';
+  const cors=r=>{const h=new Headers(r.headers);h.set('Access-Control-Allow-Origin','*');h.set('Access-Control-Allow-Methods','GET, OPTIONS');h.set('Access-Control-Allow-Headers','Authorization, Content-Type');return new Response(r.body,{status:r.status,statusText:r.statusText,headers:h});};
+  if(tvRead&&request.method==='OPTIONS')return cors(new Response(null,{status:204}));
+  if(request.method==='GET'&&u.pathname.startsWith('/api/tv-metadata/'))return cors(await cinema.fetch(request,env));
+  if(request.method==='GET'&&u.pathname==='/api/source-sync/catalog')return cors(await sync.fetch(request,env));
+  if(request.method==='GET'&&u.pathname==='/api/dailymotion-player')return cors(await cinema.fetch(request,env));
   if(u.pathname.startsWith('/api/private-catalog/')){
    try{configureMediaHosts(env.PRIVATE_MEDIA_HOSTS);}catch{return fail('invalid-media-host-config',503);}
    const configured=typeof env.PRIVATE_CATALOG_KEY==='string'&&env.PRIVATE_CATALOG_KEY.length>=32;
@@ -51,7 +57,7 @@ export default {
    const route=privateRoutes[u.pathname],write=route==='/private-sync'||route==='/private-share';
    if(!route||request.method!==(write?'POST':'GET'))return fail('not-found',404);
    if(write&&!owner)return fail('forbidden',403);
-   if(route==='/private-status'&&!owner&&!invited)return Response.json({engine:'auto-v10',paused:true,public:true},{headers:{'Cache-Control':'private, no-store'}});
+   if(route==='/private-status'&&!owner&&!invited)return cors(Response.json({engine:'auto-v10',paused:true,public:true},{headers:{'Cache-Control':'private, no-store'}}));
    if(route==='/private-sync')return maintenance();
    if(route==='/private-share'){if(Date.now()<quotaUntil)return fail('storage-quota-or-limit',503);if(Number(request.headers.get('Content-Length'))>1000000)return fail('share-too-large',413);const body=await request.text();if(body.length>1000000)return fail('share-too-large',413);try{return await stub(env).fetch('https://internal'+route,{method:'POST',body,headers:{'Content-Type':'application/json'}});}catch(e){const reason=recoveryError(e);if(reason==='storage-quota-or-limit')quotaUntil=Date.now()+60000;return fail(reason,503);}}
    const response=await privateRead(env,route,request,owner,!owner&&!invited);
