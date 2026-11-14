@@ -11,7 +11,7 @@ export function cataloguePages(html,title){const target=titleKey(title);return [
 export function parseWatanPage(html,title,type,episode,season=1){const h=String(html).match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i);if(!h||titleKey(plainText(h[1]))!==titleKey(title))return [];
  // A generic series page cannot safely identify a later season.
  if(type==='tv'&&season>1)return [];
- const found=new Map();for(const a of anchors(html)){const u=urlOf(a.href);if(!u||!['www.youtube.com','youtube.com','youtu.be'].includes(u.hostname))continue;const id=u.hostname==='youtu.be'?u.pathname.slice(1):u.searchParams.get('v');if(!idRE.test(id||''))continue;const label=titleKey(a.label);const ep=label.match(/(?:الحلقه|episode|ep)\s*(\d+)/)?.[1];const prev=found.get(id);found.set(id,{id,label:label||prev?.label||'',episode:ep?Number(ep):prev?.episode||0});}
+ const found=new Map();for(const a of anchors(html)){const u=urlOf(a.href);if(!u||!['www.youtube.com','youtube.com','youtu.be'].includes(u.hostname))continue;const id=u.hostname==='youtu.be'?u.pathname.slice(1):u.searchParams.get('v');if(!idRE.test(id||''))continue;const label=titleKey(a.label);const ep=label.match(/(?:(?:ال)?حلقه|episode|ep)\s*(\d+)/)?.[1];const prev=found.get(id);found.set(id,{id,label:label||prev?.label||'',episode:ep?Number(ep):prev?.episode||0});}
  const rows=[...found.values()];if(type==='tv'){const exact=rows.filter(v=>v.episode===episode);return exact.length?exact.slice(0,3):rows[episode-1]?[rows[episode-1]]:[];}return rows.length===1?rows:rows.filter(v=>v.label.includes(titleKey(title))&&!v.episode).slice(0,3);
 }
 export function verifyWatanVideo(v,meta,query){const title=titleKey(meta?.title);const wanted=titleKey(query.title);if(!wanted||!(' '+title+' ').includes(' '+wanted+' '))return null;
@@ -19,8 +19,8 @@ export function verifyWatanVideo(v,meta,query){const title=titleKey(meta?.title)
  const author=normalizeArabic(meta.author_name);const au=String(meta.author_url||'').toLowerCase();
  // Publisher names/handles must belong to the known rights-holder channels.
  if(!/watanflix|cedars\s*art|cedarsart|وطن فلكس|وطن فليكس|السبكي|ماسبيرو|rotana|روتانا|art نوستالجيا/.test(author)&&!/(?:watanflix|cedarsart|sobkyproductions|masperozaman|masperodrama|rotana)/.test(au))return null;
- if(query.type==='tv'){const ep=title.match(/(?:الحلقه|episode|ep)\s*(\d+)/);if(!ep||Number(ep[1])!==query.episode)return null;const sn=title.match(/(?:الموسم|الجزء|season)\s*(\d+)/);if(query.season>1&&Number(sn?.[1])!==query.season)return null;}
- else{if(/(?:^| )(الحلقه|episode|جزء|part)(?: |$)/.test(title))return null;const after=(' '+title+' ').split(' '+wanted+' ')[1]||'';if(/^(?:\d+|في الجاهليه)(?: |$)/.test(after))return null;}
+ if(query.type==='tv'){const ep=title.match(/(?:(?:ال)?حلقه|episode|ep)\s*(\d+)/);if(!ep||Number(ep[1])!==query.episode)return null;const sn=title.match(/(?:الموسم|الجزء|season)\s*(\d+)/);if(query.season>1&&Number(sn?.[1])!==query.season)return null;}
+ else{if(/(?:^| )((?:ال)?حلقه|episode|جزء|part)(?: |$)/.test(title))return null;const after=(' '+title+' ').split(' '+wanted+' ')[1]||'';if(/^(?:\d+|في الجاهليه)(?: |$)/.test(after))return null;}
  return {id:v.id,title:meta.title,publisher:meta.author_name,source:'watanflix',url:'https://www.youtube.com/watch?v='+v.id,embed:youtubeEmbed(v.id),adsPossible:true};
 }
 export function publisherEmbed(v){return {...v,embed:youtubeEmbed(v.id)};}
