@@ -6,7 +6,7 @@ import PublisherPlayer from './PublisherPlayer.jsx'
 import {attachArabicSiteEpisode,allowArabicPlayback,approvedPublisherUrl} from './arabicSiteCatalog.js'
 import {attachPublisherEpisode} from './publisherSeries.js'
 import LicensedLibrary from './LicensedLibrary.jsx'
-import {isPrivateMedia} from './privateCatalog.js'
+import {isPrivateMedia,PRIVATE_KEY,validatePrivateCatalog,privateMovie} from './privateCatalog.js'
 import SyncedLibrary from './SyncedLibrary.jsx'
 import SyncedPlayback from './SyncedPlayback.jsx'
 import ArabicDiscovery,{OfficialAvailability} from './ArabicDiscovery.jsx'
@@ -639,7 +639,7 @@ function App() {
       syncSettings={syncSettings} onServerChange={syncServerChange} onSandboxToggle={toggleSandbox} onProgressUpdate={updateProgress}
       onBack={()=>{if(role==='admin'&&conn?.open)conn.send({type:'end_party'});saveToHistory(roomMovie,syncSettings.progress,syncSettings);setRoomMovie(null);setActiveMovie(null);}}/>;
   }
-  const resolvedRoomMovie=roomMovie?attachPublisherFilm(attachPublisherEpisode(attachArabicSiteEpisode(roomMovie))):null;
+  const resolvedRoomMovie=roomMovie?(isPrivateMedia(roomMovie.licensedSource)?roomMovie:attachPublisherFilm(attachPublisherEpisode(attachArabicSiteEpisode(roomMovie)))):null;
   if (resolvedRoomMovie?.publisherSource&&(resolvedRoomMovie.publisherSource.provider==='dailymotion'||approvedPublisherUrl(resolvedRoomMovie.publisherSource))) {
     return <PublisherPlayer key={resolvedRoomMovie.id} movie={resolvedRoomMovie} mode={mode} onBack={()=>{if(role==='admin'&&conn?.open)conn.send({type:'end_party'});saveToHistory(roomMovie,syncSettings.progress,syncSettings);setRoomMovie(null);setActiveMovie(null);}}/>;
   }
@@ -647,6 +647,7 @@ function App() {
     return <div dir="rtl" className="min-h-[100dvh] bg-black text-white flex items-center justify-center p-6"><section className="max-w-md rounded-3xl border border-white/10 bg-zinc-900 p-6"><p className="text-purple-300 text-sm">مصادر عربية فقط</p><h2 className="text-xl font-black mt-2">{resolvedRoomMovie.title}</h2><p className="text-sm text-gray-300 mt-3">لا يوجد مصدر ناشر قابل للتضمين لهذا العنوان حالياً. تم إيقاف EmbedWave والسيرفرات المشابهة للمحتوى العربي؛ لن يتم تشغيل مصدر بديل مجهول.</p>{/^\d+$/.test(String(resolvedRoomMovie.tmdbId||resolvedRoomMovie.id))&&<OfficialAvailability movie={resolvedRoomMovie} options={fetchOptions}/>}<button onClick={()=>{if(role==='admin'&&conn?.open)conn.send({type:'end_party'});setRoomMovie(null);setActiveMovie(null);}} className="w-full mt-5 rounded-xl bg-purple-700 py-3 font-bold">رجوع للمكتبة</button></section></div>;
   }
   if (roomMovie) {
+    const nextPrivate=()=>{if(!isPrivateMedia(roomMovie.licensedSource)||mode==='couples'&&role!=='admin')return;try{const doc=validatePrivateCatalog(JSON.parse(localStorage.getItem(PRIVATE_KEY)||'{"version":1,"titles":[]}'));const t=doc.titles.find(t=>t.assets.some(a=>'private:'+a.id===roomMovie.id));if(!t||t.kind!=='tv')return;const i=t.assets.findIndex(a=>'private:'+a.id===roomMovie.id),a=t.assets[i+1];if(!a||a.season!==roomMovie.season||a.episode!==roomMovie.episode+1)return;saveToHistory(roomMovie,100,syncSettings);startArabicEpisode(privateMovie(t,a));}catch{}};
     return (
       <Player 
         key={roomMovie.id}
@@ -659,6 +660,7 @@ function App() {
         onServerChange={syncServerChange}
         onSandboxToggle={toggleSandbox}
         onProgressUpdate={updateProgress}
+        onNextEpisode={isPrivateMedia(roomMovie.licensedSource)?nextPrivate:undefined}
         onBack={() => {
           if (role === 'admin' && conn) conn.send({ type: 'end_party' });
           if (roomMovie) saveToHistory(roomMovie, syncSettings.progress, syncSettings);
@@ -961,7 +963,7 @@ function writeAdMemory(movieId, observations) {
 }
 
 
-function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onServerChange, onSandboxToggle, onProgressUpdate, onBack, onNativeFailure, initialResumeSeconds }) {
+function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onServerChange, onSandboxToggle, onProgressUpdate, onBack, onNativeFailure, initialResumeSeconds, onNextEpisode }) {
   const videoRef = useRef(null);
   const iframeRef = useRef(null);
   const containerRef = useRef(null);
@@ -1442,7 +1444,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
             onPause={() => {setPlayState('Paused');sendVideoEvent('pause');}}
             onWaiting={()=>setPlayState('Buffering')}
             onPlaying={()=>setPlayState('Playing')}
-            onEnded={()=>{setPlayState('Finished');publishProgress(videoRef.current?.duration,videoRef.current?.duration,true);}}
+            onEnded={()=>{setPlayState('Finished');publishProgress(videoRef.current?.duration,videoRef.current?.duration,true);onNextEpisode?.();}}
             onLoadedMetadata={()=>{const v=videoRef.current;if(v&&Number.isFinite(v.duration)&&v.duration>0){const p=Number(syncSettings.progress||0);if(Number.isFinite(initialResumeSeconds)&&initialResumeSeconds>0&&initialResumeSeconds<v.duration-1)v.currentTime=initialResumeSeconds;else if(p>0&&p<95&&v.currentTime<1)v.currentTime=v.duration*p/100;publishProgress(v.currentTime,v.duration);}}} 
             onSeeked={() => sendVideoEvent('seek')}
             onTimeUpdate={() => {
