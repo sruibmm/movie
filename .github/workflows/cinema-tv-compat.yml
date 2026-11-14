@@ -19,4 +19,7 @@ jobs:
       - run: node scripts/tv-preferences-test.mjs
       - run: node scripts/arabic-discovery-test.mjs
       - run: node --check public/tv-navigation.js
+      - run: npm run build:css
       - run: npx vite build --target chrome94
+      - run: test -s dist/cinema.css && grep -q 'grid-cols-6' dist/cinema.css && test -s dist/tv-layout.css && ! grep -q 'cdn.tailwindcss.com' dist/index.html
+      - run: node scripts/tv-metadata-test.mjs
