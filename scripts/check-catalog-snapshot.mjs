@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
+console.log('CLOUDFLARE_SOURCE', JSON.stringify({branch:process.env.CF_PAGES_BRANCH||'local',commit:process.env.CF_PAGES_COMMIT_SHA||'local'}));
 const c=JSON.parse(fs.readFileSync('src/arabicBulkCatalog.json','utf8'));
 assert(c.series.length>=102 && c.films.length>=2,'Incomplete saved catalogue');
 const ids=new Set(),titles=new Set();let episodes=0;
