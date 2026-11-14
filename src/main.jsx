@@ -1,3 +1,4 @@
+import {attachApprovedEmbed} from './approvedEmbedCatalog.js';
 import React, { useState, useEffect, useRef } from 'react'
 import ReactDOM from 'react-dom/client'
 import Hls from 'hls.js'
@@ -645,8 +646,8 @@ function App() {
       syncSettings={syncSettings} onServerChange={syncServerChange} onSandboxToggle={toggleSandbox} onProgressUpdate={updateProgress}
       onBack={()=>{if(role==='admin'&&conn?.open)conn.send({type:'end_party'});saveToHistory(roomMovie,syncSettings.progress,syncSettings);setRoomMovie(null);setActiveMovie(null);}}/>;
   }
-  const resolvedRoomMovie=roomMovie?(isPrivateMedia(roomMovie.licensedSource)?roomMovie:attachPublisherFilm(attachPublisherEpisode(attachArabicSiteEpisode(roomMovie)))):null;
-  if (resolvedRoomMovie?.publisherSource&&(resolvedRoomMovie.publisherSource.provider==='dailymotion'||approvedPublisherUrl(resolvedRoomMovie.publisherSource))) {
+  const resolvedRoomMovie=roomMovie?(isPrivateMedia(roomMovie.licensedSource)?roomMovie:attachApprovedEmbed(attachPublisherFilm(attachPublisherEpisode(attachArabicSiteEpisode(roomMovie))))):null;
+  if (resolvedRoomMovie?.publisherSource&&(resolvedRoomMovie.publisherSource.provider==='dailymotion'||approvedPublisherUrl(resolvedRoomMovie.publisherSource,resolvedRoomMovie))) {
     return <PublisherPlayer key={resolvedRoomMovie.id} movie={resolvedRoomMovie} mode={mode} onBack={()=>{if(role==='admin'&&conn?.open)conn.send({type:'end_party'});saveToHistory(roomMovie,syncSettings.progress,syncSettings);setRoomMovie(null);setActiveMovie(null);}}/>;
   }
   if (resolvedRoomMovie&&!allowArabicPlayback(resolvedRoomMovie)) {
