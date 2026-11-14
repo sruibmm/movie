@@ -17,6 +17,7 @@ import {ARABIC_BACKENDS,arabicSourceIds,backendUrl,nextArabicSource} from './ara
 import PublisherFallback from './PublisherFallback.jsx'
 import {languageCode,originalAudioIndex,arabicSubtitleIndex,orderedSubtitles} from './mediaLanguages.js'
 import {metadataFetch} from './tvMetadata.js'
+import {doubleTap,cineMessage,cineCommand} from './tvRemote.js'
 import {catalogPath,cachedCatalog,storeCatalog,tvEnabled} from './tvCatalogCache.js'
 import {TV_CC_KEY,readTvCC,applyTvCC,seekTarget} from './tvPreferences.js'
 import Peer from 'peerjs'
@@ -1070,10 +1071,41 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   };
   useEffect(() => { setShowPlaybackHelp(false); }, [movie.id, currentServer]);
   const [videoProgress, setVideoProgress] = useState(syncSettings.progress || 0);
-  const tvSeek=delta=>{const v=videoRef.current;if(v){const t=seekTarget(v.currentTime,v.duration,delta);if(t!==null)v.currentTime=t;}};
-  const tvToggle=()=>{const v=videoRef.current;if(v){if(v.paused)v.play().catch(()=>{});else v.pause();}};
   const [tvFullscreen,setTvFullscreen]=useState(false);
-  useEffect(()=>{if(!tvPlayback)return;const key=e=>{if(e.defaultPrevented||/INPUT|SELECT|TEXTAREA/.test(e.target?.tagName||''))return;const k=e.keyCode;if(k===10221){setShowPlaybackHelp(v=>!v);e.preventDefault();return;}if(!isNative)return;if(k===10252){tvToggle();e.preventDefault();}else if(k===415){videoRef.current?.play().catch(()=>{});e.preventDefault();}else if(k===19){videoRef.current?.pause();e.preventDefault();}else if(k===412||k===417){tvSeek(k===412?-10:10);e.preventDefault();}};window.addEventListener('keydown',key);return()=>window.removeEventListener('keydown',key);},[tvPlayback,isNative]);
+  const [tvSeekFeedback,setTvSeekFeedback]=useState('');
+  const cineState=useRef({ready:false,time:0,duration:0,paused:true});
+  const seekNoticeTimer=useRef(null),tap=useRef(null);
+  const cineControlled=tvPlayback&&!isNative&&currentServer===10&&!cinesrcWrapper&&!publisherSource&&!arabic&&!directOnly&&!exhausted;
+  const tvManaged=tvPlayback&&(isNative||cineControlled);
+  const notifySeek=delta=>{setTvSeekFeedback(delta>0?'⏩ +10 ثواني':'⏪ −10 ثواني');clearTimeout(seekNoticeTimer.current);seekNoticeTimer.current=setTimeout(()=>setTvSeekFeedback(''),1200);};
+  const tvSeek=delta=>{
+    const v=videoRef.current;
+    if(v){const t=seekTarget(v.currentTime,v.duration,delta);if(t!==null){v.currentTime=t;notifySeek(delta);}return;}
+    if(cineControlled&&cineState.current.ready){const state=cineState.current,t=seekTarget(state.time,state.duration,delta);if(t!==null&&cineCommand(iframeRef.current,'seek',[t])){state.time=t;notifySeek(delta);}}
+  };
+  const tvToggle=()=>{const v=videoRef.current;if(v){if(v.paused)v.play().catch(()=>{});else v.pause();return;}if(cineControlled&&cineState.current.ready)cineCommand(iframeRef.current,cineState.current.paused?'play':'pause');};
+  useEffect(()=>{cineState.current={ready:false,time:0,duration:0,paused:true};tap.current=null;},[movie.id,currentServer,frameRevision,cinesrcWrapper,publisherSource]);
+  useEffect(()=>{if(!cineControlled)return;const handler=e=>{if(!cineMessage(iframeRef.current,e))return;const d=e.data,state=cineState.current;
+    if(d.type==='cinesrc:ready'){state.ready=true;cineCommand(iframeRef.current,'getCurrentTime');cineCommand(iframeRef.current,'getDuration');cineCommand(iframeRef.current,'getPaused');}
+    if(d.type==='cinesrc:response'){if(d.command==='getCurrentTime'&&Number.isFinite(d.result))state.time=d.result;if(d.command==='getDuration'&&Number.isFinite(d.result))state.duration=d.result;if(d.command==='getPaused'&&typeof d.result==='boolean')state.paused=d.result;}
+    if(Number.isFinite(d.currentTime))state.time=d.currentTime;if(Number.isFinite(d.duration))state.duration=d.duration;
+    if(d.type==='cinesrc:play'){state.ready=true;state.paused=false;setPlayState('Playing');}else if(d.type==='cinesrc:pause'){state.paused=true;setPlayState('Paused');}else if(d.type==='cinesrc:ended'){state.paused=true;setPlayState('Finished');}
+    if(d.type==='cinesrc:timeupdate'){state.ready=true;state.paused=false;setPlayState('Playing');}
+    if(['cinesrc:timeupdate','cinesrc:seeked','cinesrc:pause','cinesrc:ended','cinesrc:response'].includes(d.type))publishProgress(state.time,state.duration,d.type==='cinesrc:pause'||d.type==='cinesrc:ended');
+    if(d.type==='cinesrc:close')onBack();
+  };window.addEventListener('message',handler);return()=>window.removeEventListener('message',handler);},[cineControlled,movie.id,frameRevision,cinesrcWrapper]);
+  useEffect(()=>{if(!tvPlayback)return;const handle=e=>{if(e.defaultPrevented)return;const k=e.keyCode||({ArrowLeft:37,ArrowRight:39,Enter:13}[e.key]||0),target=e.target;
+    if(k===10009||k===461||k===27){if(showPlaybackHelp){setShowPlaybackHelp(false);e.preventDefault();e.stopPropagation();return;}if(tvFullscreen){setTvFullscreen(false);e.preventDefault();e.stopPropagation();return;}return;}
+    if(k===10221){setShowPlaybackHelp(v=>!v);e.preventDefault();e.stopPropagation();return;}
+    if(!tvManaged||showPlaybackHelp||/INPUT|SELECT|TEXTAREA/.test(target?.tagName||''))return;
+    const surface=target?.closest?.('[data-tv-play-surface]');
+    if((k===37||k===39)&&surface){const next=doubleTap(tap.current,k,Date.now(),e.repeat);tap.current=next.last;if(next.delta)tvSeek(next.delta);e.preventDefault();e.stopPropagation();return;}
+    if(k===13&&surface){tvToggle();e.preventDefault();e.stopPropagation();return;}
+    if(k===10252){tvToggle();e.preventDefault();e.stopPropagation();}
+    else if(k===415||k===19){if(isNative){if(k===415)videoRef.current?.play().catch(()=>{});else videoRef.current?.pause();}else cineCommand(iframeRef.current,k===415?'play':'pause');e.preventDefault();e.stopPropagation();}
+    else if(k===412||k===417){tvSeek(k===412?-10:10);e.preventDefault();e.stopPropagation();}
+  };window.addEventListener('keydown',handle,true);return()=>window.removeEventListener('keydown',handle,true);},[tvPlayback,tvManaged,isNative,cineControlled,showPlaybackHelp,tvFullscreen]);
+  useEffect(()=>()=>clearTimeout(seekNoticeTimer.current),[]);
   // VidLink's documented playback events, not iframe onload, establish playback progress.
   useEffect(()=>{
     if(isNative||isTV||currentServer!==0||directOnly||exhausted)return;
