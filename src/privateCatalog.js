@@ -36,8 +36,20 @@ export function mergePrivateCatalog(oldDoc,newDoc){
 }
 export function privateMovie(t,a){
  const safe=validatePrivateCatalog({version:1,titles:[{...t,assets:[a]}]}).titles[0],v=safe.assets[0];
- return {id:'private:'+v.id,title:safe.kind==='tv'?safe.title+' · الحلقة '+v.episode:safe.title,seriesTitle:safe.title,media_type:safe.kind==='tv'?'tv':'movie',season:v.season,episode:v.episode,isArabic:true,original_language:'ar',poster_path:null,licensedPoster:v.thumbnail||safe.poster,banner:safe.banner,overview:v.story||safe.story,release_date:safe.year?safe.year+'-01-01':'',licensedSource:{stream_url:v.url,type:v.format,localOnly:true,rights:{nativeMp4:v.format==='mp4'},subtitles:[]}};
+ return {id:'private:'+v.id,title:safe.kind==='tv'?safe.title+' · الحلقة '+v.episode:safe.title,seriesTitle:safe.title,media_type:safe.kind==='tv'?'tv':'movie',season:v.season,episode:v.episode,isArabic:true,original_language:'ar',poster_path:null,licensedPoster:v.thumbnail||safe.poster,banner:safe.banner,overview:v.story||safe.story,release_date:safe.year?safe.year+'-01-01':'',licensedSource:{stream_url:v.url,type:v.format,localOnly:true,rights:{nativeMp4:v.format==='mp4'},expectedDuration:v.duration,subtitles:[]}};
 }
 export function isPrivateMedia(s){
  try{const u=new URL(s?.stream_url);return s.localOnly===true&&u.protocol==='https:'&&!u.username&&!u.password&&['mp4','hls'].includes(s.type);}catch{return false;}
+}
+
+// Validate the browser's actual media, not just a cached URL or HTTP status.
+// Only full-work catalogue entries are checked; ordinary personal clips retain
+// their original behavior. Unknown duration is not a successful validation.
+export function fullWorkMediaStatus(movie,duration){
+ if(!String(movie?.id||'').startsWith('private:alooytv:'))return 'not-applicable';
+ if(!Number.isFinite(duration)||duration<=0)return 'pending';
+ if(duration<60)return 'wrong-media';
+ const expected=movie.licensedSource?.expectedDuration;
+ if(Number.isFinite(expected)&&expected>=60&&Math.abs(duration-expected)>Math.max(60,expected*0.1))return 'wrong-media';
+ return 'valid';
 }
