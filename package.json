@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/source-maintenance-test.mjs && node scripts/media-languages-test.mjs && node scripts/arabic-discovery-test.mjs && node scripts/arabic-sources-test.mjs && vite build",
-    "preview": "vite preview"
+    "build": "node scripts/source-maintenance-test.mjs && node scripts/media-languages-test.mjs && node scripts/arabic-discovery-test.mjs && node scripts/arabic-sources-test.mjs && node scripts/licensed-catalog-test.mjs && vite build",
+    "preview": "vite preview",
+    "import:licensed": "node scripts/import-licensed.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.103.3",

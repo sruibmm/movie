@@ -1,0 +1,5 @@
+# Cinema Direct — Arabic licensing ingestion
+
+Provider delivery is a version 1 JSON file, not an API key. Each title has id, title, kind (movie/tv/play), optional year/poster/aliases, and assets. Each asset has id, title, url (HTTPS direct .mp4/.m3u8), format (mp4/hls), season and episode for TV, and rights: reference, provider, adFree: true, webPlayback: true, territories including KW or *, expires (ISO date). Provider must authorize delivery and browser playback and enable CORS. Rights fields are declarations, not proof of permission. Do not put private keys or credentialed URLs in this public manifest. Use licensed CDN delivery; private or DRM media needs a separate authenticated delivery integration.
+
+Run npm run import:licensed -- provider-manifest.json, review the output, commit public/licensed-arabic.json. Empty manifest until actual rights and media are supplied. Tests use synthetic example.com assets only. No advertising code, iframe or extraction in this direct playback route. No actual playback guarantee until real media is supplied and tested.

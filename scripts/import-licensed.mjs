@@ -1,0 +1,11 @@
+import fs from 'node:fs/promises';
+import {normalizeLicensedCatalog} from '../src/licensedCatalog.js';
+const file=process.argv[2];
+if(!file)throw Error('Usage: npm run import:licensed -- provider-manifest.json');
+const input=JSON.parse(await fs.readFile(file,'utf8'));
+const titles=normalizeLicensedCatalog(input);
+const declared=input.titles.reduce((n,t)=>n+(Array.isArray(t?.assets)?t.assets.length:0),0);
+const accepted=titles.reduce((n,t)=>n+t.assets.length,0);
+if(accepted!==declared||titles.length!==input.titles.length)throw Error('Import rejected: invalid or duplicate title/assets, rights, territory or URLs');
+await fs.writeFile(new URL('../public/licensed-arabic.json',import.meta.url),JSON.stringify({version:1,titles}));
+console.log('Imported '+titles.length+' titles and '+accepted+' assets');

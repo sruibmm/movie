@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import ReactDOM from 'react-dom/client'
 import Hls from 'hls.js'
 import ArabicClassics from './ArabicClassics.jsx'
+import LicensedLibrary from './LicensedLibrary.jsx'
 import ArabicDiscovery,{OfficialAvailability} from './ArabicDiscovery.jsx'
 import {embedwaveUrl} from './arabicDiscovery.js'
 import {ARABIC_BACKENDS,arabicSourceIds,backendUrl,nextArabicSource} from './arabicSources.js'
@@ -49,6 +50,7 @@ const saveToHistory = (movie, progress, settings) => {
       movieId: movie.id,
       title: movie.title,
       poster: movie.poster_path,
+      licensedSource:movie.licensedSource,licensedPoster:movie.licensedPoster,
       progress: progress,
       settings: settings,
       lastWatched: Date.now(),
@@ -171,7 +173,7 @@ function HistoryPanel({ onSelectMovie, onClose }) {
             >
               <div className="relative aspect-[2/3]">
                 <img 
-                  src={`https://image.tmdb.org/t/p/w500${item.poster}`} 
+                  src={item.licensedPoster||`https://image.tmdb.org/t/p/w500${item.poster}`} 
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform"
                   alt={item.title}
                 />
@@ -561,6 +563,7 @@ function App() {
             id: item.movieId,
             title: item.title,
             poster_path: item.poster,
+            licensedSource:item.licensedSource,licensedPoster:item.licensedPoster,
             isArabic: item.isArabic,
             original_language: item.original_language,
             media_type:item.media_type,tmdbId:item.tmdbId,season:item.season,episode:item.episode,seriesTitle:item.seriesTitle,runtime:item.runtime,release_date:item.release_date,original_title:item.original_title
@@ -777,6 +780,7 @@ function App() {
         </header>
 
         {arabicLibrary ? <>
+          <LicensedLibrary query={search} onPlay={startArabicEpisode}/>
           <ArabicClassics query={search} mode={mode}/>
           <ArabicDiscovery query={search} existing={[]} options={fetchOptions} onMovie={setActiveMovie} onEpisode={startArabicEpisode}/>
         </> : <>
@@ -827,6 +831,7 @@ function App() {
         </header>
 
         {arabicLibrary ? <>
+          <LicensedLibrary query={search} onPlay={startArabicEpisode}/>
           <ArabicClassics query={search} mode={mode}/>
           <ArabicDiscovery query={search} existing={[]} options={fetchOptions} onMovie={setActiveMovie} onEpisode={startArabicEpisode}/>
         </> : <>
@@ -938,7 +943,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   const videoRef = useRef(null);
   const iframeRef = useRef(null);
   const containerRef = useRef(null);
-  const [extractionStatus, setExtractionStatus] = useState('extracting');
+  const [extractionStatus, setExtractionStatus] = useState(movie.licensedSource?'success':'extracting');
   const [streamData, setStreamData] = useState(null);
   const [floatingEmojis, setFloatingEmojis] = useState([]);
   const [togetherTime, setTogetherTime] = useState(0);
@@ -998,7 +1003,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     if(role==='admin'){setLocalServer(null);onServerChange(currentServer);}
     else setLocalServer(currentServer);
   },[requestedServer,currentServer,role]);
-  const nativeSource = ownedSource || (extractionStatus === 'success' ? streamData : null);
+  const nativeSource = movie.licensedSource || ownedSource || (extractionStatus === 'success' ? streamData : null);
   const isNative = Boolean(nativeSource);
   // Security invariant: third-party players never receive top-navigation or popup permissions.
   const frameProtected = true;
@@ -1043,9 +1048,9 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     { name: "MultiMov", health: "Unverified", url: `https://multiembed.mov/directstream.php?video_id=${movie.id}&tmdb=1` },
     { name: "MoviesClub", health: "Domain mismatch in docs", url: `https://moviesapi.club/movie/${movie.id}` },
     { name: "Vidsrc XYZ", health: "Retired", retired: true, url: null },
-    { name: "EmbedWave", health: "Cinesrc default · original audio preferred", url: embedwaveUrl(movie) },
-    { name:'EmbedWave 4K',health:'Arabic backup · Videasy',url:arabic?backendUrl(movie,11):null },
-    { name:'EmbedWave Multi HD',health:'Arabic backup · audio may vary',url:arabic?backendUrl(movie,12):null }
+    { name: "EmbedWave", health: "Cinesrc default · original audio preferred", url: movie.licensedSource?null:embedwaveUrl(movie) },
+    { name:'EmbedWave 4K',health:'Arabic backup · Videasy',url:arabic&&!movie.licensedSource?backendUrl(movie,11):null },
+    { name:'EmbedWave Multi HD',health:'Arabic backup · audio may vary',url:arabic&&!movie.licensedSource?backendUrl(movie,12):null }
   ];
   // Start with a previously reported clean protected source when one exists.
   // Never interpret iframe onload as video playback or a clean result.
@@ -1132,6 +1137,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
       finally{clearTimeout(timer);controller.signal.removeEventListener('abort',stop);}
     };
     const fetchRawStream = async () => {
+      if(movie.licensedSource){setExtractionStatus('success');return;}
       setExtractionStatus('extracting');
       // Arabic movies use the same TMDB-ID based EmbedWave route as world cinema.
       if(isTV||movie.isArabic||movie.original_language==='ar'){setStreamData(null);setExtractionStatus('failed');return;}
@@ -1238,6 +1244,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     if(!nativeSource || !video) return;
     setNativeError('');setQuality(-1);setLevels([]);setPlayState('Preparing');
     const url=nativeSource.stream_url;
+    if(movie.licensedSource&&(!Number.isFinite(Date.parse(movie.licensedSource.rights?.expires))||Date.parse(movie.licensedSource.rights.expires)<=Date.now())){setNativeError('Playback authorization expired.');return;}
     const desired=languageCode(movie.original_language);
     let hls, selectedAudio=false,selectedSub=false;
     setLanguageStatus({audio:desired?'Looking for original audio':'Original language unknown',subs:'Looking for Arabic subtitles'});
@@ -1250,7 +1257,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     video.textTracks?.addEventListener('addtrack',applyNative);
     video.audioTracks?.addEventListener('addtrack',applyNative);
     const fail=()=> {
-      if(ownedSource) setNativeError('This video could not be loaded. Check its URL, permissions and CORS.');
+      if(ownedSource||movie.licensedSource) setNativeError('This video could not be loaded. Check its URL, permissions and CORS.');
       else setExtractionStatus('failed');
     };
     video.addEventListener('error',fail);
@@ -1307,7 +1314,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     setFrameRevision(v=>v+1);
   };
 
-  if (extractionStatus === 'extracting') {
+  if (!movie.licensedSource&&extractionStatus === 'extracting') {
     return (
       <div className="h-screen bg-black flex items-center justify-center">
         <div className="text-center">
@@ -1379,8 +1386,8 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
             <button onClick={()=>{restoreProtection();setShowPlaybackHelp(false);}} className="mt-3 block underline">Reset protected player</button>
             <a href={`https://www.themoviedb.org/${isTV?'tv':'movie'}/${movie.tmdbId||movie.id}/watch`} target="_blank" rel="noopener noreferrer" className="block mt-3 underline">Official streaming options</a>
           </details>
-          {arabic&&<PublisherFallback movie={movie} onSelect={v=>{setPublisherSource(v);setDirectOnly(false);setExhausted(false);setShowPlaybackHelp(false);setFrameRevision(x=>x+1);}}/>}
-          {(movie.isArabic||isTV)&&<OfficialAvailability movie={movie} options={fetchOptions}/>}
+          {arabic&&!movie.licensedSource&&<PublisherFallback movie={movie} onSelect={v=>{setPublisherSource(v);setDirectOnly(false);setExhausted(false);setShowPlaybackHelp(false);setFrameRevision(x=>x+1);}}/>}
+          {!movie.licensedSource&&(movie.isArabic||isTV)&&<OfficialAvailability movie={movie} options={fetchOptions}/>}
           <button onClick={()=>setShowPlaybackHelp(false)} className="mt-5 w-full bg-purple-600 rounded-xl py-3 font-semibold text-sm">Done</button>
         </section>
       </div>}
@@ -1427,7 +1434,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
             <p className="text-sm text-gray-400">We stopped the external player rather than allow unwanted redirects. Retry or choose another protected source.</p>
             <button onClick={()=>{setAdMemory({});writeAdMemory(movie.id,{});restoreProtection();}} className="bg-purple-700 rounded-xl px-4 py-2 text-sm">Retry protected sources</button>
             <button onClick={()=>setShowPlaybackHelp(true)} className="underline text-sm text-gray-300">Playback options</button>
-            {(movie.isArabic||isTV)&&<OfficialAvailability movie={movie} options={fetchOptions}/>}
+            {!movie.licensedSource&&(movie.isArabic||isTV)&&<OfficialAvailability movie={movie} options={fetchOptions}/>}
           </div>
         ) : (
           <div className="relative w-full h-full bg-black flex items-center justify-center">

@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import {normalizeLicensedCatalog,eligibleAsset,licensedMovie} from '../src/licensedCatalog.js';
+const rights={reference:'TEST-ONLY',provider:'test',adFree:true,webPlayback:true,territories:['KW'],expires:'2099-01-01'};
+const make=(n)=>({id:'t'+n,title:'عنوان '+n,kind:'tv',assets:[{id:'a'+n,title:'Episode',season:1,episode:1,format:'hls',url:'https://example.com/video.m3u8',rights}]});
+const doc={version:1,titles:Array.from({length:10000},(_,i)=>make(i))};
+assert.equal(normalizeLicensedCatalog(doc).length,10000);
+assert.equal(normalizeLicensedCatalog({version:1,titles:[make(1),make(1)]}).length,1);
+assert.equal(eligibleAsset({...make(1).assets[0],rights:{...rights,adFree:false}}),false);
+assert.equal(eligibleAsset({...make(1).assets[0],url:'https://example.com/embed'}),false);
+assert.equal(eligibleAsset({...make(1).assets[0],rights:{...rights,territories:['US']}}),false);
+assert.equal(eligibleAsset({...make(1).assets[0],rights:{...rights,expires:'2000-01-01'}}),false);
+assert.equal(licensedMovie(make(1),make(1).assets[0]).licensedSource.type,'hls');
+console.log('LICENSED LIBRARY PASS: 10,000 synthetic titles, deduplication, territorial and expiry checks, direct source mapping');
