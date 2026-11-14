@@ -41,11 +41,11 @@ const privateRoutes={'/api/private-catalog/list':'/private-list','/api/private-c
 export default {
  async fetch(request,env){
   const u=new URL(request.url);
-  const tvRead=u.pathname.startsWith('/api/tv-metadata/')||u.pathname==='/api/source-sync/catalog'||u.pathname==='/api/dailymotion-player'||u.pathname==='/api/private-catalog/status';
+  const tvRead=u.pathname.startsWith('/api/tv-metadata/')||(u.pathname==='/api/source-sync/catalog'||u.pathname==='/api/source-sync/resolve')||u.pathname==='/api/dailymotion-player'||u.pathname==='/api/private-catalog/status';
   const cors=r=>{const h=new Headers(r.headers);h.set('Access-Control-Allow-Origin','*');h.set('Access-Control-Allow-Methods','GET, OPTIONS');h.set('Access-Control-Allow-Headers','Authorization, Content-Type');return new Response(r.body,{status:r.status,statusText:r.statusText,headers:h});};
   if(tvRead&&request.method==='OPTIONS')return cors(new Response(null,{status:204}));
   if(request.method==='GET'&&u.pathname.startsWith('/api/tv-metadata/'))return cors(await cinema.fetch(request,env));
-  if(request.method==='GET'&&u.pathname==='/api/source-sync/catalog')return cors(await sync.fetch(request,env));
+  if(request.method==='GET'&&(u.pathname==='/api/source-sync/catalog'||u.pathname==='/api/source-sync/resolve'))return cors(await sync.fetch(request,env));
   if(request.method==='GET'&&u.pathname==='/api/dailymotion-player')return cors(await cinema.fetch(request,env));
   if(u.pathname.startsWith('/api/private-catalog/')){
    try{configureMediaHosts(env.PRIVATE_MEDIA_HOSTS);}catch{return fail('invalid-media-host-config',503);}
