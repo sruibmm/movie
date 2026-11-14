@@ -777,8 +777,8 @@ function App() {
         </header>
 
         {arabicLibrary ? <>
-          <ArabicDiscovery query={search} existing={[]} options={fetchOptions} onMovie={setActiveMovie} onEpisode={startArabicEpisode}/>
           <ArabicClassics query={search} mode={mode}/>
+          <ArabicDiscovery query={search} existing={[]} options={fetchOptions} onMovie={setActiveMovie} onEpisode={startArabicEpisode}/>
         </> : <>
         {catalogError&&<p className="text-red-300 mb-4 text-sm">{catalogError}</p>}
         {!loading&&!movies.length&&!catalogError&&<p className="text-gray-400 mb-4">{arabicLibrary?'لا توجد نتائج في هذه الصفحة. جرّب اسم الفيلم أو الصفحة التالية.':'No matching movies.'}</p>}
@@ -827,8 +827,8 @@ function App() {
         </header>
 
         {arabicLibrary ? <>
-          <ArabicDiscovery query={search} existing={[]} options={fetchOptions} onMovie={setActiveMovie} onEpisode={startArabicEpisode}/>
           <ArabicClassics query={search} mode={mode}/>
+          <ArabicDiscovery query={search} existing={[]} options={fetchOptions} onMovie={setActiveMovie} onEpisode={startArabicEpisode}/>
         </> : <>
         {catalogError&&<p className="text-red-300 mb-4 text-sm">{catalogError}</p>}
         {!loading&&!movies.length&&!catalogError&&<p className="text-gray-400 mb-4">{arabicLibrary?'لا توجد نتائج في هذه الصفحة. جرّب اسم الفيلم أو الصفحة التالية.':'No matching movies.'}</p>}

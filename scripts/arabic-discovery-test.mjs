@@ -28,3 +28,11 @@ assert.equal(findOfficialTitles({title:'اللمبي',media_type:'tv'}).length,0
 assert.throws(()=>officialEmbed('invalid'));
 assert.match(officialEmbed('M9dM0ZW9AXc'),/^https:\/\/www\.youtube-nocookie\.com\/embed\//);
 console.log('OFFICIAL CATALOG PASS: exact title, year, type, privacy-enhanced embedded player');
+
+import {OFFICIAL_CATALOG,officialPlaylistEmbed,officialEntryEmbed} from '../src/officialCatalog.js';
+assert.equal(new Set(OFFICIAL_CATALOG.map(x=>x.id)).size,OFFICIAL_CATALOG.length);
+assert.equal(OFFICIAL_CATALOG.filter(x=>x.video||x.playlist).length,9);
+assert.equal(OFFICIAL_CATALOG.filter(x=>x.playlist).length,2);
+assert.match(officialEntryEmbed(OFFICIAL_CATALOG.find(x=>x.id==='hag-metwaly')),/videoseries\?list=PL9KkecclNUBTV7wu4vxdM8X0TPVyyFdWt/);
+assert.throws(()=>officialPlaylistEmbed('not-a-playlist'));
+console.log('OFFICIAL LIBRARY PASS: unique IDs, 9 publisher video or playlist entries, safe playlist embedding');
