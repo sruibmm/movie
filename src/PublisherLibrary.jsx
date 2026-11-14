@@ -2,6 +2,7 @@ import React,{useState,useEffect} from 'react';
 import {normalizeArabic} from './arabicDiscovery.js';
 import {PUBLISHER_SERIES,PUBLISHER_EPISODES,importedEpisode} from './publisherSeries.js';
 import {PUBLISHER_FILMS,importedFilm} from './officialCatalog.js';
+import {OFFICIAL_SERIES_LINKS} from './officialSeriesLinks.js';
 export default function PublisherLibrary({query='',kind='all',sort='popular',onPlay}){
  const [selected,setSelected]=useState(null),[seasonIndex,setSeasonIndex]=useState(0),[limit,setLimit]=useState(30),[filmLimit,setFilmLimit]=useState(20);
  useEffect(()=>{setLimit(30);setFilmLimit(20);setSelected(null);},[query,kind,sort]);
@@ -10,8 +11,11 @@ export default function PublisherLibrary({query='',kind='all',sort='popular',onP
  if(sort==='newest')rows=[...rows].sort((a,b)=>String(b.year).localeCompare(String(a.year)));
  const season=selected?.seasons[seasonIndex];
  let films=PUBLISHER_FILMS.filter(x=>(kind==='all'||kind==='movie'&&x.kind!=='مسلسل')&&(!q||normalizeArabic(x.title+' '+(x.aliases||'')).includes(q)));if(sort==='newest')films=[...films].sort((a,b)=>String(b.year||'').localeCompare(String(a.year||'')));
- if(!rows.length&&!films.length)return null;
+ const external=kind!=='movie'&&q?OFFICIAL_SERIES_LINKS.filter(x=>normalizeArabic(x.title+' '+x.aliases).includes(q)):[];
+ if(!rows.length&&!films.length&&!external.length)return null;
  return <div dir="rtl" className="mt-5 mb-7">
+ {!!external.length&&<section className="mb-5 rounded-2xl bg-zinc-900 border border-white/10 p-4"><h3 className="font-bold text-white">مصادر مشاهدة رسمية خارجية</h3>{external.map(x=><div key={x.id} className="mt-3"><p className="font-bold">{x.title} · {x.year} · {x.episodes} حلقة</p><p className="text-xs text-gray-400 mt-1">لا تتوفر نسخة كاملة قابلة للتضمين في مكتبتنا حالياً.</p>{x.providers.map(p=><a key={p.url} href={p.url} target="_blank" rel="noopener noreferrer" className="block text-purple-300 underline text-sm mt-2">{p.name}</a>)}</div>)}</section>}
+
  {!!films.length&&<section className="mb-7"><div className="flex flex-wrap items-center justify-between gap-2"><div><h3 className="text-lg font-black">شاهد الآن · أفلام ومسرحيات</h3><p className="text-xs text-gray-400 mt-1">روابط فيديو مدمجة من القنوات المنشورة على YouTube</p></div><span className="text-xs rounded-full bg-purple-600/20 px-3 py-1 text-purple-200">{films.length} عنوان مطابق</span></div>
  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 mt-4">{films.slice(0,filmLimit).map(x=><button key={x.id} onClick={()=>onPlay(importedFilm(x))} className="group text-right min-w-0"><div className="aspect-[2/3] rounded-2xl overflow-hidden relative bg-zinc-900 border border-white/10 group-hover:border-purple-500">{x.video?<img loading="lazy" src={'https://i.ytimg.com/vi/'+x.video+'/hqdefault.jpg'} alt="" className="w-full h-full object-cover"/>:<div className="h-full grid place-items-center text-3xl">📺</div>}<span className="absolute bottom-2 right-2 bg-black/80 rounded-lg px-2 py-1 text-[10px]">▶ {x.kind}</span></div><p className="mt-2 text-sm font-bold truncate">{x.title}</p><p className="text-xs text-gray-400 truncate">{x.year||x.channel}</p></button>)}</div>
  {films.length>filmLimit&&<button onClick={()=>setFilmLimit(n=>n+20)} className="mt-4 w-full rounded-xl bg-purple-700 py-3 text-sm font-bold">تحميل المزيد من الأفلام ({films.length-filmLimit})</button>}</section>}

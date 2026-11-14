@@ -1,0 +1,1 @@
+export const OFFICIAL_SERIES_LINKS=[{id:'taht-sabe-ard',title:'تحت سابع أرض',year:'2025',episodes:30,aliases:'تيم حسن كاريس بشار تحت سابع ارض',providers:[{name:'شاهد · الحلقة الأولى مجانية حسب صفحة المنصة',url:'https://shahid.mbc.net/ar/series/Taht-Sabe%27-Ard/series-49922933905643'},{name:'قناة الجديد · صفحة المسلسل',url:'https://www.aljadeed.tv/episodes/827/null'}]}];
