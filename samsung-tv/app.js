@@ -1,0 +1,1 @@
+(function(){var f=document.getElementById('cinema');f.addEventListener('load',function(){f.focus();});document.addEventListener('keydown',function(e){if(e.keyCode===10009&&document.activeElement!==f){try{tizen.application.getCurrentApplication().exit();}catch(x){}}});})();
