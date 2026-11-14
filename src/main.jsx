@@ -571,6 +571,14 @@ function App() {
     if(mode==='couples'&&conn?.open)conn.send({type:'start_party',movie,settings});
   };
 
+  useEffect(()=>{if(!tvMode)return;const back=e=>{
+    if(showHistory){setShowHistory(false);e.preventDefault();return;}
+    if(roomMovie){saveToHistory(roomMovie,syncSettings.progress,syncSettings);setRoomMovie(null);e.preventDefault();return;}
+    if(activeMovie){setActiveMovie(null);e.preventDefault();return;}
+    if(search||searchDraft){setSearch('');setSearchDraft('');setCatalogPage(1);e.preventDefault();return;}
+    if(arabicLibrary){switchLibrary(false);e.preventDefault();return;}
+    e.preventDefault();
+  };window.addEventListener('cinema-tv-back',back);return()=>window.removeEventListener('cinema-tv-back',back);},[tvMode,showHistory,roomMovie,activeMovie,search,searchDraft,arabicLibrary,syncSettings]);
   if (showPasswordModal) {
     return <PasswordModal onVerify={handlePasswordVerify} onClose={() => setShowPasswordModal(false)} />;
   }
@@ -684,7 +692,7 @@ function App() {
           if (role === 'admin' && conn) conn.send({ type: 'end_party' });
           if (roomMovie) saveToHistory(roomMovie, syncSettings.progress, syncSettings);
           setRoomMovie(null);
-          setActiveMovie(null);
+          if(!tvMode||!activeMovie)setActiveMovie(null);
         }} 
       />
     );
@@ -1458,7 +1466,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
             <p className="truncate font-semibold text-sm md:text-base leading-tight">{movie.title}</p>
             <p className="text-[10px] text-gray-400 mt-0.5 truncate">{isNative?(movie.sourceSync?'Cinema Direct · '+(movie.licensedSource?.rights?.provider||''):'Direct player'):publisherSource?'Official publisher · ads possible':currentServer===10?'Cinesrc · Protected':(fallbackNodes[currentServer]?.name||'Player')+' · Protected'}</p>
           </div>
-          {tvPlayback&&!isNative&&!directOnly&&!exhausted&&<button onClick={()=>iframeRef.current?.focus()} className="bg-white/10 rounded-lg px-4 py-2 text-sm" aria-label="Focus video player">▶ Player</button>}
+          {tvPlayback&&!tvManaged&&!isNative&&!directOnly&&!exhausted&&<button onClick={()=>iframeRef.current?.focus()} className="bg-white/10 rounded-lg px-4 py-2 text-sm" aria-label="Focus video player">▶ Player</button>}
           <button onClick={()=>{setShowPlaybackHelp(v=>!v);setShowServerList(false);}} aria-label="Playback options" aria-expanded={showPlaybackHelp} className="w-10 h-10 shrink-0 rounded-full bg-white/5 hover:bg-white/10 text-xl flex items-center justify-center">⋯</button>
         </div>
       </header>
@@ -1507,7 +1515,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
 
       {tvPlayback&&tvFullscreen&&<button className="absolute top-3 right-4 z-[201] bg-black/70 rounded-full px-4 py-2 text-white" onClick={()=>setTvFullscreen(false)} aria-label="إظهار أدوات المشاهدة" data-tv-focus="restore-controls">إظهار الأدوات</button>}
       {/* Video Container */}
-      <div className="flex-1 min-h-0 bg-[#050505] relative" style={{ zIndex: 1 }}>
+      <div className="flex-1 min-h-0 bg-[#050505] relative" style={{ zIndex: 1 }} data-tv-play-surface={tvManaged?"true":undefined} data-tv-focus={tvManaged?"playback-surface":undefined} tabIndex={tvManaged?0:undefined} aria-label={tvManaged?"منطقة الفيديو: OK تشغيل أو إيقاف، اضغط السهم مرتين للتقديم أو الترجيع":undefined}>
         {isNative ? (
           <video 
             ref={videoRef} 
@@ -1560,15 +1568,17 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
               src={arabic?undefined:(publisherSource?.embed||fallbackNodes[currentServer]?.url)}
               className="w-full h-full border-0"
               tabIndex={tvPlayback?-1:undefined}
+              data-tv-remote-managed={cineControlled?"true":undefined}
               sandbox="allow-scripts allow-same-origin allow-presentation"
               allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
               allowFullScreen
               referrerPolicy={!publisherSource&&ARABIC_BACKENDS.includes(currentServer)?'no-referrer':'strict-origin-when-cross-origin'}
-              style={{ zIndex: 10, position: 'relative' }}
+              style={{ zIndex: 10, position: 'relative',pointerEvents:cineControlled?'none':undefined }}
             />
           </div>
         )}
 
+        {tvManaged&&tvSeekFeedback&&<div className="tv-seek-feedback" role="status">{tvSeekFeedback}</div>}
         {nativeError && <div className="absolute top-3 left-3 right-3 z-[100] bg-red-950/90 text-white p-3 rounded-xl text-sm">{nativeError}<button onClick={()=>setShowPlaybackHelp(true)} className="underline ml-2">Playback options</button></div>}
         {/* Progress Bar Overlay */}
         {isNative && !tvPlayback && videoProgress > 0 && (
@@ -1581,8 +1591,8 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
         )}
       </div>
 
-      {tvPlayback&&isNative&&!tvFullscreen&&<div data-tv-chrome="true" dir="rtl" className="shrink-0 bg-[#101014] border-t border-white/10 px-5 py-3 text-white">
-        <div className="flex items-center gap-4"><span className="text-sm whitespace-nowrap">{formatTime(Math.floor(mediaInfo.time))} / {formatTime(Math.floor(mediaInfo.duration))}</span><input aria-label="موضع المشاهدة" type="range" min="0" max={Math.max(1,Math.floor(mediaInfo.duration))} value={Math.floor(mediaInfo.time)} onChange={e=>{if(videoRef.current&&mediaInfo.duration>0)videoRef.current.currentTime=Number(e.target.value);}} className="flex-1 accent-purple-500"/></div>
+      {tvManaged&&!tvFullscreen&&<div data-tv-chrome="true" dir="rtl" className="shrink-0 bg-[#101014] border-t border-white/10 px-5 py-3 text-white">
+        <div className="flex items-center gap-4"><span className="text-sm whitespace-nowrap">{formatTime(Math.floor(mediaInfo.time))} / {formatTime(Math.floor(mediaInfo.duration))}</span><input aria-label="موضع المشاهدة" type="range" min="0" max={Math.max(1,Math.floor(mediaInfo.duration))} value={Math.floor(mediaInfo.time)} onChange={e=>{if(videoRef.current&&mediaInfo.duration>0)videoRef.current.currentTime=Number(e.target.value);else if(cineControlled&&cineState.current.ready){const t=Number(e.target.value);cineCommand(iframeRef.current,'seek',[t]);cineState.current.time=t;}}} className="flex-1 accent-purple-500"/></div><p className="text-xs text-gray-400 mt-1">على الفيديو: ← ← ترجيع 10 ث · → → تقديم 10 ث · OK تشغيل / إيقاف</p>
         <div className="flex flex-wrap items-center gap-2 mt-2"><button onClick={tvToggle} className="bg-purple-600 rounded-xl px-5 py-2 font-bold">{playState==='Playing'?'❚❚ إيقاف مؤقت':'▶ تشغيل'}</button><button className="bg-white/10 rounded-xl px-4 py-2" onClick={()=>tvSeek(-10)}>− 10 ث</button><button className="bg-white/10 rounded-xl px-4 py-2" onClick={()=>tvSeek(10)}>+ 10 ث</button><button className="bg-white/10 rounded-xl px-4 py-2" onClick={()=>setShowPlaybackHelp(true)}>CC · {tvCC==='ar'?'عربي':tvCC==='en'?'English':'إيقاف'}</button>{onNextEpisode&&<button className="bg-white/10 rounded-xl px-4 py-2" onClick={onNextEpisode}>الحلقة التالية ›</button>}<button className="bg-white/10 rounded-xl px-4 py-2" onClick={()=>setTvFullscreen(true)}>ملء الشاشة</button></div>
       </div>}
       {mode==='couples'&&<footer className="shrink-0 bg-[#101014] border-t border-white/10 px-3 py-2 flex items-center gap-2" style={{paddingBottom:'max(8px, env(safe-area-inset-bottom))'}}>
