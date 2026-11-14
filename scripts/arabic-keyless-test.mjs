@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import {WATAN_INDEX,PUBLISHER_INDEX,mergeLibrary,filterLibrary,matchIndexedPublishers,publisherSourceFor} from '../src/arabicLibraryIndex.js';
+assert.ok(WATAN_INDEX.length>=600);assert.ok(PUBLISHER_INDEX.length>=60);
+assert.equal(new Set(mergeLibrary().map(v=>v.key)).size,mergeLibrary().length);
+assert.ok(filterLibrary(mergeLibrary(),'series','دهشة').some(v=>v.slug==='دهشة'));
+assert.ok(filterLibrary(mergeLibrary(),'movies','صاحب المقام').some(v=>v.id==='j_8IWLzi4mY'));
+assert.ok(matchIndexedPublishers({title:'اللمبي',type:'movie'}).some(v=>v.id==='M9dM0ZW9AXc'));
+assert.equal(matchIndexedPublishers({title:'اللمبي 8 جيجا',type:'movie'}).some(v=>v.id==='M9dM0ZW9AXc'),false);
+assert.equal(matchIndexedPublishers({title:'دهشة',type:'tv'}).length,0);
+const row=PUBLISHER_INDEX.find(v=>v.id==='M9dM0ZW9AXc');assert.equal(publisherSourceFor(row,{title:row.title,author_name:'wrong',html:'<iframe src="https://www.youtube.com/embed/'+row.id+'"></iframe>'}),null);
+assert.equal(publisherSourceFor(row,{title:row.title,author_name:row.publisher,html:'<iframe src="https://www.youtube.com/embed/'+row.id+'"></iframe>'}).id,row.id);
+console.log('KEYLESS LIBRARY PASS: '+WATAN_INDEX.length+' Watan entries, '+PUBLISHER_INDEX.length+' publisher videos, '+mergeLibrary().length+' deduplicated items; 10 checks');
