@@ -14,3 +14,7 @@ Scanned 21 public catalogue index pages and matched additional numbered episodes
 
 ### Recovery pass
 Retried previously skipped index pages using text extraction with complete episode labels. 37 additional season records and 980 unique videos accepted. Total: 512 season records and 14720 unique videos. Duplicate title/season pairs, reused video IDs and mismatched label/thumbnail counts remain excluded. Kezib Abyad (2025) verified against public publisher first and final episode listings. This is link identity verification, not a guarantee of playback or ad-free use.
+
+
+### Additional publisher playlists
+Three series, 11 public YouTube playlist identifiers: Shabab Al Bomb seasons 5–13, Beit El Salayef and Al Motalaqat. Playlist titles verified on YouTube; full item lists were not returned by public page extraction, so playlist videos are not included in the numbered episode count. Source: Rotana Khalijia and Al Nahar Drama publisher descriptions. In-player playlist navigation is provided.

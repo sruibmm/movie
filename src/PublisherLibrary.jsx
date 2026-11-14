@@ -2,6 +2,8 @@ import React,{useState,useEffect} from 'react';
 import {normalizeArabic} from './arabicDiscovery.js';
 import {PUBLISHER_SERIES,PUBLISHER_EPISODES,importedEpisode} from './publisherSeries.js';
 import {PUBLISHER_FILMS,importedFilm} from './officialCatalog.js';
+import PublisherPlaylists from './PublisherPlaylists.jsx';
+import {PLAYLIST_SERIES} from './publisherPlaylists.js';
 import {OFFICIAL_SERIES_LINKS} from './officialSeriesLinks.js';
 export default function PublisherLibrary({query='',kind='all',sort='popular',onPlay}){
  const [selected,setSelected]=useState(null),[seasonIndex,setSeasonIndex]=useState(0),[limit,setLimit]=useState(30),[filmLimit,setFilmLimit]=useState(20);
@@ -12,8 +14,10 @@ export default function PublisherLibrary({query='',kind='all',sort='popular',onP
  const season=selected?.seasons[seasonIndex];
  let films=PUBLISHER_FILMS.filter(x=>(kind==='all'||kind==='movie'&&x.kind!=='مسلسل')&&(!q||normalizeArabic(x.title+' '+(x.aliases||'')).includes(q)));if(sort==='newest')films=[...films].sort((a,b)=>String(b.year||'').localeCompare(String(a.year||'')));
  const external=kind!=='movie'&&q?OFFICIAL_SERIES_LINKS.filter(x=>normalizeArabic(x.title+' '+x.aliases).includes(q)):[];
- if(!rows.length&&!films.length&&!external.length)return null;
+ const playlistMatch=kind!=='movie'&&PLAYLIST_SERIES.some(g=>!q||normalizeArabic(g.title+' '+g.aliases+' '+g.country).includes(q));
+ if(!rows.length&&!films.length&&!external.length&&!playlistMatch)return null;
  return <div dir="rtl" className="mt-5 mb-7">
+ {kind!=='movie'&&<PublisherPlaylists query={query} onPlay={onPlay}/>}
  {!!external.length&&<section className="mb-5 rounded-2xl bg-zinc-900 border border-white/10 p-4"><h3 className="font-bold text-white">مصادر مشاهدة رسمية خارجية</h3>{external.map(x=><div key={x.id} className="mt-3"><p className="font-bold">{x.title} · {x.year} · {x.episodes} حلقة</p><p className="text-xs text-gray-400 mt-1">لا تتوفر نسخة كاملة قابلة للتضمين في مكتبتنا حالياً.</p>{x.providers.map(p=><a key={p.url} href={p.url} target="_blank" rel="noopener noreferrer" className="block text-purple-300 underline text-sm mt-2">{p.name}</a>)}</div>)}</section>}
 
  {!!films.length&&<section className="mb-7"><div className="flex flex-wrap items-center justify-between gap-2"><div><h3 className="text-lg font-black">شاهد الآن · أفلام ومسرحيات</h3><p className="text-xs text-gray-400 mt-1">روابط فيديو مدمجة من القنوات المنشورة على YouTube</p></div><span className="text-xs rounded-full bg-purple-600/20 px-3 py-1 text-purple-200">{films.length} عنوان مطابق</span></div>
