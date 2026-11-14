@@ -18,7 +18,7 @@ export function verifyWatanVideo(v,meta,query){const title=titleKey(meta?.title)
  if(/(?:^| )(اعلان|برومو|تريلر|ملخص|مشهد|مقطع|trailer|teaser|clip)(?: |$)/.test(title))return null;
  const author=normalizeArabic(meta.author_name);const au=String(meta.author_url||'').toLowerCase();
  // Publisher names/handles must belong to the known rights-holder channels.
- if(!/watanflix|cedars\s*art|cedarsart|وطن فلكس|وطن فليكس|السبكي|ماسبيرو|rotana|روتانا|art نوستالجيا/.test(author)&&!/(?:watanflix|cedarsart|sobkyproductions|masperozaman|masperodrama|rotana)/.test(au))return null;
+ if(!/watanflix|cedars\s*art|cedarsart|وطن فلكس|وطن فليكس|السبكي|ماسبيرو|rotana|روتانا|art نوستالجيا/.test(author)&&!/(?:watanflix|cedarsart|sobkyproductions|masperozaman|masperodrama|rotana|haretshoofplus)/.test(au))return null;
  if(query.type==='tv'){const ep=title.match(/(?:(?:ال)?حلقه|episode|ep)\s*(\d+)/);if(!ep||Number(ep[1])!==query.episode)return null;const sn=title.match(/(?:الموسم|الجزء|season)\s*(\d+)/);if(query.season>1&&Number(sn?.[1])!==query.season)return null;}
  else{if(/(?:^| )((?:ال)?حلقه|episode|جزء|part)(?: |$)/.test(title))return null;const after=(' '+title+' ').split(' '+wanted+' ')[1]||'';if(/^(?:\d+|في الجاهليه)(?: |$)/.test(after))return null;}
  return {id:v.id,title:meta.title,publisher:meta.author_name,source:'watanflix',url:'https://www.youtube.com/watch?v='+v.id,embed:youtubeEmbed(v.id),adsPossible:true};
