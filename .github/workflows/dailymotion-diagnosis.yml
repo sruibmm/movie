@@ -1,4 +1,4 @@
-name: Dubai Plus browser framing check
+name: Dubai Plus official free episode playback
 on:
   push:
     branches: [dailymotion-diagnosis]
@@ -7,29 +7,36 @@ permissions:
 jobs:
   check:
     runs-on: ubuntu-latest
-    timeout-minutes: 4
+    timeout-minutes: 5
     steps:
       - run: npm install --no-save playwright && npx playwright install chromium
-      - name: Test normal public page framing without bypassing controls
+      - name: Test ordinary free episode interaction
         run: |
           cat > check.cjs <<'JS'
           const {chromium}=require('playwright');
           (async()=>{
-            const browser=await chromium.launch({headless:true});
-            const page=await browser.newPage();
+            const browser=await chromium.launch({headless:true,args:['--autoplay-policy=no-user-gesture-required']});
+            const page=await browser.newPage({viewport:{width:1280,height:800}});
             const target='https://www.dubaiplus.net/ar-AE/s/series/694469160205_'+encodeURIComponent('جعفر-العمدة');
             const test='https://movie.o-a-f-a.workers.dev/__dubai-frame-test';
-            page.on('console',m=>{if(/frame|refused|blocked/i.test(m.text()))console.log('CONSOLE',m.text().slice(0,350))});
-            page.on('response',r=>{if(r.request().resourceType()==='document')console.log('DOCUMENT',r.status(),r.url(),JSON.stringify({'x-frame-options':r.headers()['x-frame-options'],'content-security-policy':r.headers()['content-security-policy']}))});
-            await page.route(test,r=>r.fulfill({contentType:'text/html',body:'<!doctype html><iframe title="Dubai Plus" src="'+target+'" width="1000" height="700" allow="autoplay; fullscreen; encrypted-media" allowfullscreen></iframe>'}));
+            page.on('console',m=>{if(/frame|refused|blocked/i.test(m.text()))console.log('CONSOLE',m.text().slice(0,250))});
+            await page.route(test,r=>r.fulfill({contentType:'text/html',body:'<!doctype html><iframe title="Dubai Plus" src="'+target+'" width="1200" height="750" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen></iframe>'}));
             await page.goto(test,{waitUntil:'domcontentloaded'});
             await page.waitForTimeout(7000);
-            for(const f of page.frames()){
-              if(f===page.mainFrame())continue;
-              console.log('FRAME',f.url());
-              console.log('TITLE',await f.title().catch(()=>null));
-              console.log('PUBLIC_TEXT',(await f.locator('body').innerText({timeout:5000}).catch(()=>'' )).slice(0,500));
-            }
+            let f=page.frames().find(x=>x.url().includes('dubaiplus.net/ar-AE/s/series'));
+            if(!f)throw Error('no public frame');
+            console.log('BEFORE', (await f.locator('body').innerText()).slice(0,1600));
+            console.log('BUTTONS',JSON.stringify(await f.locator('button,a,[role=button]').evaluateAll(es=>es.slice(0,80).map(e=>({tag:e.tagName,text:(e.innerText||e.getAttribute('aria-label')||'').trim().slice(0,100),href:e.tagName==='A'?e.getAttribute('href'):null})))));
+            const ep=f.getByText('الحلقة 01',{exact:true}).first();
+            if(await ep.count())await ep.click({timeout:6000}).catch(e=>console.log('CLICK',e.message.slice(0,200)));
+            await page.waitForTimeout(5000);
+            f=page.frames().find(x=>x.url().includes('dubaiplus.net/'));
+            console.log('AFTER_URL',f?.url());
+            console.log('AFTER_TEXT',(await f.locator('body').innerText().catch(()=>'' )).slice(0,2000));
+            const play=f.getByRole('button',{name:/شاهد|تشغيل|watch|play/i}).first();
+            if(await play.count())await play.click({timeout:4000}).catch(e=>console.log('PLAY_CLICK',e.message.slice(0,200)));
+            await page.waitForTimeout(9000);
+            for(const x of page.frames()){if(x.url().includes('dubaiplus.net')){console.log('FINAL_URL',x.url());console.log('FINAL_TEXT',(await x.locator('body').innerText().catch(()=>'' )).slice(0,1000));console.log('VIDEO',JSON.stringify(await x.locator('video').evaluateAll(vs=>vs.map(v=>({time:v.currentTime,duration:v.duration,paused:v.paused,ready:v.readyState,error:v.error?.message||null}))).catch(()=>[])));}}
             await browser.close();
           })().catch(e=>{console.error(e);process.exit(1)});
           JS
