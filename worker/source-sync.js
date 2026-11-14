@@ -93,7 +93,7 @@ export class SourceSync{
  constructor(state,env){this.storage=state.storage;this.env=env;this.running=null;}
  async fetch(request){
   const u=new URL(request.url);
-  if(u.pathname.startsWith('/private-')){if(u.pathname==='/private-sync'&&request.method==='POST'){if(!this.privateRunning)this.privateRunning=privateRequest(request,this.storage).finally(()=>{this.privateRunning=null;});return this.privateRunning;}return privateRequest(request,this.storage);}
+  if(u.pathname.startsWith('/private-')){if(u.pathname==='/private-sync'&&request.method==='POST'){if(!this.privateRunning)this.privateRunning=privateRequest(request,this.storage).then(r=>r.json()).finally(()=>{this.privateRunning=null;});return Response.json(await this.privateRunning,{headers:{'Cache-Control':'private, no-store'}});}return privateRequest(request,this.storage);}
   let config;try{config=policies(this.env);}catch{return Response.json({error:'invalid-configuration'},{status:503});}
   if(u.pathname==='/sync'&&request.method==='POST'){
    if(!this.running)this.running=(async()=>{const results=[];for(const p of config)results.push(await synchronize(this.storage,p));await this.storage.put('lastRun',{at:Date.now(),results});return results;})().finally(()=>{this.running=null;});
