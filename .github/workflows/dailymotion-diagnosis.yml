@@ -1,40 +1,43 @@
-name: Dailymotion public embed diagnosis
+name: Dailymotion playback browser verification
 on:
   push:
     branches: [dailymotion-diagnosis]
 permissions:
   contents: read
 jobs:
-  inspect:
+  browser:
     runs-on: ubuntu-latest
-    timeout-minutes: 3
+    timeout-minutes: 5
     steps:
-      - name: Inspect public page and official documentation sample player
+      - name: Install browser test tooling
         run: |
-          python - <<'PY'
-          import urllib.request, urllib.error, re, json, concurrent.futures
-          urls={
-            'page':'https://www.dailymotion.com/video/x6rtfip',
-            'demo_control':'https://geo.dailymotion.com/player/x8lr5.html?video=x84sh87',
-            'demo_episode':'https://geo.dailymotion.com/player/x8lr5.html?video=x6rtfip',
-            'oembed_demo':'https://www.dailymotion.com/services/oembed?url=https%3A%2F%2Fwww.dailymotion.com%2Fvideo%2Fx6rtfip&player=x8lr5',
-            'publisher_site':'https://watannetwork.com/',
-            'official_broadcaster':'https://www.mtv.com.lb/vod/ar/program/564'
-          }
-          def probe(item):
-              name,url=item
-              try:
-                  r=urllib.request.urlopen(urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0','Referer':'https://movie.o-a-f-a.workers.dev/'}),timeout=15)
-              except urllib.error.HTTPError as e: r=e
-              except Exception as e: return (name,str(e))
-              b=r.read(3000000).decode('utf-8','replace')
-              patterns=re.findall(r'(?:geo\.dailymotion\.com/player/[A-Za-z0-9]+|["\x27](?:playerId|player_id)["\x27]\s*:\s*["\x27][A-Za-z0-9]+)',b)
-              out={'name':name,'status':r.status,'url':r.url,'frame_headers':{k:r.headers.get(k) for k in ('X-Frame-Options','Content-Security-Policy')},'public_player_mentions':list(dict.fromkeys(patterns))[:20]}
-              if name.startswith('demo'): out['body_start']=b[:220]
-              if name=='oembed_demo':
-                  try: out['html']=json.loads(b).get('html')
-                  except: out['body_start']=b[:200]
-              return out
-          with concurrent.futures.ThreadPoolExecutor(max_workers=6) as ex:
-              for result in ex.map(probe,urls.items()): print(json.dumps(result,ensure_ascii=False))
-          PY
+          npm install --no-save playwright
+          npx playwright install chromium
+      - name: Test exact episode in an iframe
+        run: |
+          cat > /tmp/dm-test.cjs <<'JS'
+          const { chromium } = require(process.cwd()+'/node_modules/playwright');
+          (async()=>{
+            const browser=await chromium.launch({headless:true,args:['--autoplay-policy=no-user-gesture-required']});
+            const page=await browser.newPage();
+            page.on('pageerror',e=>console.log('PAGE_ERROR',e.message.slice(0,300)));
+            page.on('response',r=>{if(r.status()>=400 && /dailymotion|dmcdn/.test(r.url())) console.log('HTTP_ERROR',r.status(),r.url().split('?')[0].slice(0,180));});
+            await page.route('https://movie.o-a-f-a.workers.dev/__dm-test',r=>r.fulfill({contentType:'text/html',body:'<!doctype html><html><body><iframe width="900" height="500" src="https://geo.dailymotion.com/player/x8lr5.html?video=x6rtfip" allow="autoplay; fullscreen; picture-in-picture; web-share" allowfullscreen></iframe></body></html>'}));
+            await page.goto('https://movie.o-a-f-a.workers.dev/__dm-test',{waitUntil:'domcontentloaded'});
+            await page.waitForTimeout(6000);
+            const frame=page.frames().find(f=>f.url().includes('geo.dailymotion.com/player/'));
+            if(!frame) throw Error('No iframe');
+            console.log('FRAME_URL',frame.url());
+            console.log('FRAME_TEXT',(await frame.locator('body').innerText()).slice(0,800));
+            const buttons=await frame.getByRole('button').all();
+            console.log('BUTTONS',await Promise.all(buttons.slice(0,15).map(b=>b.getAttribute('aria-label').catch(()=>null))));
+            const play=frame.getByRole('button',{name:/^play$|play video|lecture|تشغيل/i}).first();
+            if(await play.count())await play.click({timeout:3000}).catch(()=>{});
+            else await frame.locator('body').click({position:{x:450,y:250},timeout:3000}).catch(()=>{});
+            await page.waitForTimeout(12000);
+            console.log('VIDEO_STATE',JSON.stringify(await frame.locator('video').evaluateAll(vs=>vs.map(v=>({duration:v.duration,currentTime:v.currentTime,paused:v.paused,readyState:v.readyState,error:v.error?.message||null})))));
+            console.log('FRAME_TEXT_AFTER',(await frame.locator('body').innerText()).slice(0,1200));
+            await browser.close();
+          })().catch(e=>{console.error(e);process.exit(1)});
+          JS
+          node /tmp/dm-test.cjs
