@@ -80,3 +80,19 @@ await assert.rejects(()=>probe(initial,async()=>new Response(clip,{status:206,he
 dv.setUint32(48,6120000);
 assert.equal(await probe(initial,async()=>new Response(clip,{status:206,headers:{'Content-Range':'bytes 0-131/600000000'}})),initial);
 console.log('WARNING MEDIA PASS: known redirect blocked, 1.2MB and 22.21s rejected, 102-minute synthetic file accepted');
+
+// Exact player markup takes priority over a download that redirects to a warning.
+const playerId='alooytv:playerpriorityfixture',playerPage='https://af.alooytv16.com/watch/playerpriorityfixture.html';
+const playerMedia='https://vid5.ujeklsj.site/test/player-priority.mp4';
+let playerProbes=[];
+const playerResult=await recoveryRequest('/private-episode',new Request('https://cinema.test/private-episode?id='+playerId+'&season=1&episode=1'),async raw=>{
+ const url=String(raw);
+ if(url===playerPage)return new Response('<h1>Player priority fixture</h1><script type="application/ld+json">{"@type":"Movie","name":"Player priority fixture"}</script><link rel="canonical" href="'+playerPage+'"><video src="'+playerMedia+'"></video><a href="/download_video.php?ref='+encodeURIComponent('/watch/playerpriorityfixture.html')+'&amp;video_url='+encodeURIComponent(btoa(initial))+'">Download</a>');
+ playerProbes.push(url);
+ if(url===initial)return new Response(null,{status:302,headers:{Location:warning}});
+ if(url===playerMedia)return new Response(clip,{status:206,headers:{'Content-Range':'bytes 0-131/600000000'}});
+ throw Error('unexpected-fetch');
+},now);
+assert.equal(playerResult.status,200);assert.equal((await playerResult.json()).url,playerMedia);
+assert.deepEqual(playerProbes,[playerMedia]);
+console.log('PLAYER PRIORITY PASS: exact declared player before misleading download');
