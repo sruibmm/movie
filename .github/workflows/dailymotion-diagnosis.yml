@@ -1,48 +1,51 @@
-name: Verify Arabic player quality and episode samples
+name: Audit expanded Arabic playback sources
 on:
   push:
     branches: [dailymotion-diagnosis]
 permissions:
   contents: read
 jobs:
-  browser:
+  audit:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - run: npm install --no-save playwright && npx playwright install chromium
-      - name: Verify SDK highest quality and exact video
+      - uses: actions/checkout@v4
+        with:
+          ref: e31a69e14f6e2710287d2fe43b0205483fffc918
+      - name: Verify all saved video metadata and representative iframe endpoints
         run: |
-          cat > /tmp/quality.cjs <<'JS'
-          const {chromium}=require(process.cwd()+'/node_modules/playwright');
-          (async()=>{
-            const b=await chromium.launch({headless:true,args:['--autoplay-policy=no-user-gesture-required']});
-            const videos=['x6rtfip','x6rxpjj','x6rwucz','xay20hq'];
-            await Promise.all(videos.map(async video=>{
-              const p=await b.newPage();
-              const url='https://movie.o-a-f-a.workers.dev/quality-test-'+video;
-              await p.route(url,r=>r.fulfill({contentType:'text/html',body:'<!doctype html><div id="dm"></div><script src="https://geo.dailymotion.com/libs/player/x8lr5.js"></script><script>window.init=dailymotion.createPlayer("dm",{player:"x8lr5",video:"'+video+'"}).then(p=>window.player=p);</script>'}));
-              try{
-                await p.goto(url,{waitUntil:'domcontentloaded'});
-                await p.waitForFunction(()=>window.player,{timeout:20000});
-                const state=await p.evaluate(async()=>{
-                  const p=window.player;
-                  let s;
-                  for(let i=0;i<24;i++){
-                    s=await p.getState();
-                    if(s.videoQualitiesList?.length)break;
-                    await new Promise(r=>setTimeout(r,500));
-                  }
-                  const best=(s.videoQualitiesList||[]).map(String).filter(x=>['240','380','480','720','1080','1440','2160'].includes(x)).sort((a,b)=>+b-+a)[0];
-                  if(best) await p.setQuality(best);
-                  await new Promise(r=>setTimeout(r,2000));
-                  const after=await p.getState();
-                  return {id:after.videoId,duration:after.videoDuration,qualities:s.videoQualitiesList,requested:best,actual:after.videoQuality,allowed:after.playerIsPlaybackAllowed};
-                });
-                console.log('QUALITY_RESULT',video,JSON.stringify(state));
-              }catch(e){console.log('QUALITY_ERROR',video,e.message.slice(0,300));}
-              finally{await p.close();}
-            }));
-            await b.close();
-          })().catch(e=>{console.error(e);process.exit(1)});
-          JS
-          node /tmp/quality.cjs
+          python - <<'PY'
+          import json, urllib.request, urllib.parse, urllib.error, concurrent.futures
+          c=json.load(open('src/arabicBulkCatalog.json'))
+          episodes=[e for g in c['series'] for s in g['seasons'] for e in s['episodes']]
+          records=episodes+c['films']
+          def get(url):
+              req=urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0','Referer':'https://movie.o-a-f-a.workers.dev/'})
+              try: r=urllib.request.urlopen(req,timeout=15)
+              except urllib.error.HTTPError as e: r=e
+              return r.status,r.read(1000000)
+          def batch(rows):
+              try:
+                  status,b=get('https://api.dailymotion.com/videos?'+urllib.parse.urlencode({'ids':','.join(x['id'] for x in rows),'fields':'id,allow_embed,geoblocking,duration,owner.username','limit':100}))
+                  if status!=200:return [],status
+                  return json.loads(b).get('list',[]),status
+              except Exception as e:return [],str(e)
+          def kw(v):
+              a=[str(x).lower() for x in (v.get('geoblocking') or [])]
+              return not a or (a[0]=='deny' and 'kw' not in a) or (a[0]=='allow' and (len(a)==1 or 'kw' in a))
+          with concurrent.futures.ThreadPoolExecutor(max_workers=8) as pool:
+              results=list(pool.map(batch,[records[i:i+50] for i in range(0,len(records),50)]))
+          found={v['id']:v for rows,status in results for v in rows}
+          bad=[x['id'] for x in records if x['id'] not in found or not found[x['id']].get('allow_embed') or not kw(found[x['id']]) or found[x['id']].get('owner.username')!=x['owner']]
+          print('CATALOG_AUDIT',json.dumps({'series':len(c['series']),'episodes':len(episodes),'films':len(c['films']),'metadata_found':len(found),'metadata_eligible':len(records)-len(bad),'problems':bad[:50],'batch_statuses':list(set(str(s) for _,s in results))}))
+          samples=[g['seasons'][0]['episodes'][0]['id'] for g in c['series']]+[f['id'] for f in c['films']]
+          def embed(x):
+              try:
+                  status,b=get('https://geo.dailymotion.com/player/x8lr5.html?video='+x)
+                  return x,status,b'Dailymotion Player Embed' in b
+              except Exception as e:return x,str(e),False
+          with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:
+              checks=list(pool.map(embed,samples))
+          fail=[x for x in checks if x[1]!=200 or not x[2]]
+          print('EMBED_AUDIT',json.dumps({'sampled':len(checks),'loaded':len(checks)-len(fail),'failures':fail[:25]}))
+          PY
