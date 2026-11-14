@@ -18,6 +18,7 @@ jobs:
       - run: npm ci --no-audit --no-fund
       - run: npm run build:css
       - run: npx vite build --base ./ --target chrome94
+      - run: node --check public/tizen-shell.js && node --check public/tv-navigation.js && node scripts/tv-speed-test.mjs && node scripts/tv-remote-test.mjs
       - run: node scripts/tv-preferences-test.mjs && node scripts/arabic-discovery-test.mjs && node scripts/tv-metadata-test.mjs
       - run: node scripts/package-samsung-local.mjs
         env:
@@ -36,6 +37,8 @@ jobs:
           assert pathlib.Path('samsung-local-dist/cinema-app.js').stat().st_size>10000
           assert pathlib.Path('samsung-local-dist/cinema.css').stat().st_size>10000
           PY
+          # Classic bundle is used on Tizen; omit redundant Vite JS output.
+          rm -rf samsung-local-dist/assets
           cd samsung-local-dist
           zip -qr ../CinemaTV-Samsung-Local.zip .
       - uses: actions/upload-artifact@v4

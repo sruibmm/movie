@@ -10,12 +10,15 @@ import AutoLibrary from './AutoLibrary.jsx'
 import {isPrivateMedia,PRIVATE_KEY,PRIVATE_ACTIVE_KEY,validatePrivateCatalog,privateMovie} from './privateCatalog.js'
 import SyncedLibrary from './SyncedLibrary.jsx'
 import SyncedPlayback from './SyncedPlayback.jsx'
+import TvArabicHome,{resetTvArabicHome} from './TvArabicHome.jsx'
 import ArabicDiscovery,{OfficialAvailability} from './ArabicDiscovery.jsx'
 import {embedwaveUrl,cinesrcUrl} from './arabicDiscovery.js'
 import {ARABIC_BACKENDS,arabicSourceIds,backendUrl,nextArabicSource} from './arabicSources.js'
 import PublisherFallback from './PublisherFallback.jsx'
 import {languageCode,originalAudioIndex,arabicSubtitleIndex,orderedSubtitles} from './mediaLanguages.js'
 import {metadataFetch} from './tvMetadata.js'
+import {doubleTap,cineMessage,cineCommand} from './tvRemote.js'
+import {catalogPath,cachedCatalog,storeCatalog,tvEnabled} from './tvCatalogCache.js'
 import {TV_CC_KEY,readTvCC,applyTvCC,seekTarget} from './tvPreferences.js'
 import Peer from 'peerjs'
 import { ACTIVE_SERVER_IDS, normalizeServerId, nextServerId, pickProtectedSource } from './sourceMaintenance.js'
@@ -321,18 +324,18 @@ function App() {
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const [role, setRole] = useState(tvMode||directArabic?'admin':null);
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState(()=>tvMode?(cachedCatalog(catalogPath())?.results||[]).filter(m=>m.poster_path):[]);
   const [activeMovie, setActiveMovie] = useState(null);
   const [roomMovie, setRoomMovie] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(()=>!tvMode||!cachedCatalog(catalogPath()));
   const [search, setSearch] = useState('');
   const [arabicLibrary,setArabicLibrary]=useState(directArabic);
   const [catalogPage,setCatalogPage]=useState(1);
-  const [catalogPages,setCatalogPages]=useState(1);
+  const [catalogPages,setCatalogPages]=useState(()=>tvMode?Math.max(1,Math.min(500,Number(cachedCatalog(catalogPath())?.total_pages)||1)):1);
   const [catalogError,setCatalogError]=useState('');
   const [catalogRetry,setCatalogRetry]=useState(0);
   const [searchDraft,setSearchDraft]=useState('');
-  const switchLibrary=(arabic)=>{setArabicLibrary(arabic);setSearch('');setSearchDraft('');setCatalogPage(1);};
+  const switchLibrary=(arabic)=>{if(tvMode)resetTvArabicHome();setArabicLibrary(arabic);setSearch('');setSearchDraft('');setCatalogPage(1);};
   const submitSearch=(e)=>{e.preventDefault();setCatalogPage(1);setSearch(searchDraft.trim());};
   const [welcomeName, setWelcomeName] = useState('Renad');
   
@@ -519,17 +522,21 @@ function App() {
       if(arabicLibrary)params.set('with_original_language','ar');
       else params.set('vote_count.gte','100');
     }
-    const url='https://api.themoviedb.org/3/'+(search?'search/movie':'discover/movie')+'?'+params;
-    setLoading(true);setCatalogError('');
+    const path=catalogPath(search,catalogPage);
+    const url='https://api.themoviedb.org/3/'+path;
+    const cached=tvMode?cachedCatalog(path):null;
+    if(cached){setMovies(cached.results.filter(m=>m.poster_path));setCatalogPages(Math.max(1,Math.min(500,Number(cached.total_pages)||1)));setLoading(false);}else{setLoading(true);if(tvMode)setMovies([]);}
+    setCatalogError('');
     metadataFetch(url,{...fetchOptions,signal:controller.signal})
       .then(res=>{if(!res.ok)throw Error('Catalog unavailable');return res.json();})
       .then(data=>{if(controller.signal.aborted)return;
+        if(tvMode)storeCatalog(path,data);
         setMovies((data.results||[]).filter(m=>m.poster_path&&(!arabicLibrary||m.original_language==='ar')));
         setCatalogPages(Math.max(1,Math.min(500,Number(data.total_pages)||1)));setLoading(false);
       })
-      .catch(err=>{if(!controller.signal.aborted){setCatalogError('Could not load movies. Please retry.');setMovies([]);setLoading(false);}});
+      .catch(err=>{if(!controller.signal.aborted){if(!cached){setCatalogError('Could not load movies. Please retry.');setMovies([]);}setLoading(false);}});
     return()=>controller.abort();
-  },[search,role,arabicLibrary,catalogPage,catalogRetry]);
+  },[search,role,arabicLibrary,catalogPage,catalogRetry,tvMode]);
 
   const toggleRoomReady = () => {
     const newStatus = !roomReady;
@@ -564,6 +571,14 @@ function App() {
     if(mode==='couples'&&conn?.open)conn.send({type:'start_party',movie,settings});
   };
 
+  useEffect(()=>{if(!tvMode)return;const back=e=>{
+    if(showHistory){setShowHistory(false);e.preventDefault();return;}
+    if(roomMovie){saveToHistory(roomMovie,syncSettings.progress,syncSettings);setRoomMovie(null);e.preventDefault();return;}
+    if(activeMovie){setActiveMovie(null);e.preventDefault();return;}
+    if(search||searchDraft){setSearch('');setSearchDraft('');setCatalogPage(1);e.preventDefault();return;}
+    if(arabicLibrary){switchLibrary(false);e.preventDefault();return;}
+    e.preventDefault();
+  };window.addEventListener('cinema-tv-back',back);return()=>window.removeEventListener('cinema-tv-back',back);},[tvMode,showHistory,roomMovie,activeMovie,search,searchDraft,arabicLibrary,syncSettings]);
   if (showPasswordModal) {
     return <PasswordModal onVerify={handlePasswordVerify} onClose={() => setShowPasswordModal(false)} />;
   }
@@ -677,7 +692,7 @@ function App() {
           if (role === 'admin' && conn) conn.send({ type: 'end_party' });
           if (roomMovie) saveToHistory(roomMovie, syncSettings.progress, syncSettings);
           setRoomMovie(null);
-          setActiveMovie(null);
+          if(!tvMode||!activeMovie)setActiveMovie(null);
         }} 
       />
     );
@@ -807,8 +822,8 @@ function App() {
           
           <div className="flex flex-wrap gap-2">
             {tvMode&&<button onClick={()=>setShowHistory(true)} className="px-4 py-2 rounded-full text-sm font-bold bg-white/10">▶ متابعة المشاهدة</button>}
-            <button onClick={()=>switchLibrary(false)} aria-pressed={!arabicLibrary} className={`px-4 py-2 rounded-full text-sm font-bold ${!arabicLibrary?'bg-purple-600':'bg-white/5 text-gray-300'}`}>World Cinema</button>
-            <button onClick={()=>switchLibrary(true)} aria-pressed={arabicLibrary} className={`px-4 py-2 rounded-full text-sm font-bold ${arabicLibrary?'bg-purple-600':'bg-white/5 text-gray-300'}`}>السينما العربية</button>
+            <button data-tv-focus="world" onClick={()=>switchLibrary(false)} aria-pressed={!arabicLibrary} className={`px-4 py-2 rounded-full text-sm font-bold ${!arabicLibrary?'bg-purple-600':'bg-white/5 text-gray-300'}`}>World Cinema</button>
+            <button data-tv-focus="arabic" onClick={()=>switchLibrary(true)} aria-pressed={arabicLibrary} className={`px-4 py-2 rounded-full text-sm font-bold ${arabicLibrary?'bg-purple-600':'bg-white/5 text-gray-300'}`}>السينما العربية</button>
           </div>
           <form onSubmit={submitSearch} className="flex gap-2">
             <input value={searchDraft} onChange={e=>setSearchDraft(e.target.value)} dir={arabicLibrary?'rtl':'auto'} type="search" placeholder={arabicLibrary?'ابحث عن فيلم أو مسلسل عربي...':'Search movies...'} className="min-w-0 flex-1 bg-[#0a0a0a] border border-white/10 rounded-2xl px-4 py-3 focus:ring-2 ring-purple-500/50 outline-none text-base"/>
@@ -830,7 +845,7 @@ function App() {
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
             {movies.map(m => (
-              <div key={m.id} role="button" tabIndex={0} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();setActiveMovie(m);}}} onClick={() => setActiveMovie(m)} className="group cursor-pointer">
+              <div key={m.id} data-tv-focus={"movie:"+m.id} role="button" tabIndex={0} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();setActiveMovie(m);}}} onClick={() => setActiveMovie(m)} className="group cursor-pointer">
                 <div className="relative aspect-[2/3] rounded-2xl overflow-hidden border border-white/5 group-hover:border-purple-500/50 transition-all bg-zinc-900 shadow-lg">
                   <img loading={tvMode?"lazy":undefined} decoding={tvMode?"async":undefined} src={`https://image.tmdb.org/t/p/w500${m.poster_path}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt={m.title} />
                 </div>
@@ -859,24 +874,24 @@ function App() {
             <p className="text-gray-500 text-sm mt-1">{tvMode?'Your cinema on the big screen':'Your personal cinema'}</p>
           </div>
           <div className="flex flex-wrap gap-2">
-            {tvMode&&<button onClick={()=>setShowHistory(true)} className="px-4 py-2 rounded-full bg-white/10 font-bold">▶ متابعة المشاهدة</button>}
-            <button onClick={()=>switchLibrary(false)} aria-pressed={!arabicLibrary} className={`px-4 py-2 rounded-full text-sm font-bold ${!arabicLibrary?'bg-purple-600':'bg-white/5 text-gray-300'}`}>World Cinema</button>
-            <button onClick={()=>switchLibrary(true)} aria-pressed={arabicLibrary} className={`px-4 py-2 rounded-full text-sm font-bold ${arabicLibrary?'bg-purple-600':'bg-white/5 text-gray-300'}`}>السينما العربية</button>
+            {tvMode&&<button data-tv-focus="history" onClick={()=>setShowHistory(true)} className="px-4 py-2 rounded-full bg-white/10 font-bold">▶ متابعة المشاهدة</button>}
+            <button data-tv-focus="world" onClick={()=>switchLibrary(false)} aria-pressed={!arabicLibrary} className={`px-4 py-2 rounded-full text-sm font-bold ${!arabicLibrary?'bg-purple-600':'bg-white/5 text-gray-300'}`}>World Cinema</button>
+            <button data-tv-focus="arabic" onClick={()=>switchLibrary(true)} aria-pressed={arabicLibrary} className={`px-4 py-2 rounded-full text-sm font-bold ${arabicLibrary?'bg-purple-600':'bg-white/5 text-gray-300'}`}>السينما العربية</button>
           </div>
           <form onSubmit={submitSearch} className="flex gap-2">
-            <input value={searchDraft} onChange={e=>setSearchDraft(e.target.value)} dir={arabicLibrary?'rtl':'auto'} type="search" placeholder={arabicLibrary?'ابحث عن فيلم أو مسلسل عربي...':'Search movies...'} className="min-w-0 flex-1 bg-[#0a0a0a] border border-white/10 rounded-2xl px-4 py-3 focus:ring-2 ring-purple-500/50 outline-none text-base"/>
+            <input data-tv-focus="search" value={searchDraft} onChange={e=>setSearchDraft(e.target.value)} dir={arabicLibrary?'rtl':'auto'} type="search" placeholder={arabicLibrary?'ابحث عن فيلم أو مسلسل عربي...':'Search movies...'} className="min-w-0 flex-1 bg-[#0a0a0a] border border-white/10 rounded-2xl px-4 py-3 focus:ring-2 ring-purple-500/50 outline-none text-base"/>
             <button className="rounded-2xl bg-purple-600 px-4 text-sm font-bold">{arabicLibrary?'بحث':'Search'}</button>
           </form>
         </header>
 
         {tvMode&&<div className="tv-section-intro"><div><span className="tv-kicker">CINEMA · TV</span><h2>{arabicLibrary?'السينما العربية':search?'Search results':'World Cinema'}</h2><p>{arabicLibrary?'أفلام ومسلسلات ومسرحيات — اختر عملاً للمتابعة.':search?'Find your next favourite film.':'Explore your next movie on the big screen.'}</p></div><span className="tv-remote-hint">↑ ↓ ← → · OK · Back</span></div>}
-        {arabicLibrary ? <>
+        {arabicLibrary ? (tvMode?<TvArabicHome query={search} options={fetchOptions} onMovie={setActiveMovie} onPlay={startArabicEpisode}/>:<>
           <SyncedLibrary query={search} onPlay={startArabicEpisode}/>
           <AutoLibrary query={search} onPlay={startArabicEpisode} options={fetchOptions}/>
           <LicensedLibrary query={search} onPlay={startArabicEpisode}/>
           <ArabicDiscovery query={search} existing={[]} options={fetchOptions} onMovie={setActiveMovie} onEpisode={startArabicEpisode}/>
-        </> : <>
-        {tvMode&&!search&&movies.length>0&&<section className="tv-featured" aria-label="Featured movie"><div className="tv-featured-art"><img src={'https://image.tmdb.org/t/p/w500'+movies[0].poster_path} alt={movies[0].title}/></div><div className="tv-featured-info"><span className="tv-kicker">FEATURED · MOVIE</span><h2>{movies[0].title}</h2><p>{movies[0].overview||'Discover the film and start watching.'}</p><button className="tv-featured-play" onClick={()=>setActiveMovie(movies[0])}>▶ Details &amp; watch</button></div></section>}
+        </>) : <>
+        {tvMode&&!search&&movies.length>0&&<section className="tv-featured" aria-label="Featured movie"><div className="tv-featured-art"><img src={'https://image.tmdb.org/t/p/w500'+movies[0].poster_path} alt={movies[0].title}/></div><div className="tv-featured-info"><span className="tv-kicker">FEATURED · MOVIE</span><h2>{movies[0].title}</h2><p>{movies[0].overview||'Discover the film and start watching.'}</p><button className="tv-featured-play" data-tv-focus="featured" onClick={()=>setActiveMovie(movies[0])}>▶ Details &amp; watch</button></div></section>}
         {catalogError&&<div className="tv-notice text-red-300 mb-4 text-sm" role="status"><p>{tvMode?"تعذر تحميل مكتبة الأفلام. اضغط إعادة المحاولة.":catalogError}</p><button onClick={()=>setCatalogRetry(n=>n+1)}>↻ {tvMode?"إعادة المحاولة":"Retry"}</button></div>}
         {!loading&&!movies.length&&!catalogError&&<p className="text-gray-400 mb-4">{arabicLibrary?'لا توجد نتائج في هذه الصفحة. جرّب اسم الفيلم أو الصفحة التالية.':'No matching movies.'}</p>}
         <div className="flex items-center justify-between mb-4 text-sm text-gray-400"><span>{arabicLibrary?'أفلام عربية':'Movies'} · {catalogPage}/{catalogPages}</span><div className="flex gap-2"><button disabled={catalogPage<=1||loading} onClick={()=>setCatalogPage(p=>p-1)} className="bg-white/5 rounded-lg px-3 py-2 disabled:opacity-30">‹</button><button disabled={catalogPage>=catalogPages||loading} onClick={()=>setCatalogPage(p=>p+1)} className="bg-white/5 rounded-lg px-3 py-2 disabled:opacity-30">›</button></div></div>
@@ -885,7 +900,7 @@ function App() {
         ) : (
           <div className={"grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6"+(tvMode?" tv-poster-grid":"")}>
             {movies.map(m => (
-              <div key={m.id} role="button" tabIndex={0} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();setActiveMovie(m);}}} onClick={() => setActiveMovie(m)} className={"group cursor-pointer"+(tvMode?" tv-poster-card":"")}>
+              <div key={m.id} data-tv-focus={"movie:"+m.id} role="button" tabIndex={0} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();setActiveMovie(m);}}} onClick={() => setActiveMovie(m)} className={"group cursor-pointer"+(tvMode?" tv-poster-card":"")}>
                 <div className="relative aspect-[2/3] rounded-2xl overflow-hidden border border-white/5 group-hover:border-purple-500/50 transition-all bg-zinc-900 shadow-lg">
                   <img loading={tvMode?"lazy":undefined} decoding={tvMode?"async":undefined} src={`https://image.tmdb.org/t/p/w500${m.poster_path}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt={m.title} />
                 </div>
@@ -907,17 +922,17 @@ function MovieDetail({ movie, onBack, onStartParty }) {
   const historyItem = getFromHistory(movie.id);
   
   useEffect(() => {
-    metadataFetch(`https://api.themoviedb.org/3/movie/${movie.id}?language=en-US`, fetchOptions)
-      .then(res => res.json()).then(data => setDetails(data));
+    const c=new AbortController();metadataFetch(`https://api.themoviedb.org/3/movie/${movie.id}?language=en-US`, {...fetchOptions,signal:c.signal})
+      .then(res=>res.ok?res.json():null).then(data=>{if(!c.signal.aborted&&data)setDetails(data);}).catch(()=>{});return()=>c.abort();
   }, [movie.id]);
 
   return (
     <div className="min-h-screen w-full bg-black relative flex items-center justify-center p-4 md:p-6 text-left overflow-hidden" dir="ltr">
       <div className="absolute inset-0 z-0">
-        <img src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`} className="w-full h-full object-cover opacity-30 blur-2xl" />
+        <img src={movie.backdrop_path?`https://image.tmdb.org/t/p/${tvEnabled()?'w780':'original'}${movie.backdrop_path}`:undefined} className="w-full h-full object-cover opacity-30 blur-2xl" />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-[#050505]/90 to-transparent"></div>
       </div>
-      <div className="z-10 max-w-6xl w-full grid md:grid-cols-[300px_1fr] gap-8 md:gap-12 items-center">
+      <div className="z-10 max-w-6xl w-full grid md:grid-cols-[300px_1fr] gap-8 md:gap-12 items-center tv-detail">
         <div className="relative hidden md:block">
           <div className="absolute -inset-1 bg-gradient-to-br from-purple-600 to-pink-600 rounded-3xl blur opacity-25"></div>
           <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} className="rounded-3xl border border-white/10 relative shadow-2xl" />
@@ -985,7 +1000,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   const videoRef = useRef(null);
   const iframeRef = useRef(null);
   const containerRef = useRef(null);
-  const [extractionStatus, setExtractionStatus] = useState(movie.licensedSource?'success':'extracting');
+  const [extractionStatus, setExtractionStatus] = useState(movie.licensedSource?'success':tvEnabled()?'failed':'extracting');
   const [streamData, setStreamData] = useState(null);
   const [floatingEmojis, setFloatingEmojis] = useState([]);
   const [togetherTime, setTogetherTime] = useState(0);
@@ -1032,10 +1047,11 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   const hlsRef = useRef(null);
   const remoteAction = useRef(0);
   const progressReportedAt = useRef(0);
+  const progressPaintAt=useRef(0);
   const publishProgress = (time,duration,force=false)=>{
     if(!Number.isFinite(time)||!Number.isFinite(duration)||duration<=0||time<0)return;
     const percent=Math.max(0,Math.min(100,time/duration*100));
-    setMediaInfo({time,duration});setVideoProgress(percent);
+    if(!tvPlayback||force||Date.now()-progressPaintAt.current>=750){progressPaintAt.current=Date.now();setMediaInfo({time,duration});setVideoProgress(percent);}
     if(force||Date.now()-progressReportedAt.current>4000){
       progressReportedAt.current=Date.now();onProgressUpdate(percent);
     }
@@ -1063,10 +1079,42 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   };
   useEffect(() => { setShowPlaybackHelp(false); }, [movie.id, currentServer]);
   const [videoProgress, setVideoProgress] = useState(syncSettings.progress || 0);
-  const tvSeek=delta=>{const v=videoRef.current;if(v){const t=seekTarget(v.currentTime,v.duration,delta);if(t!==null)v.currentTime=t;}};
-  const tvToggle=()=>{const v=videoRef.current;if(v){if(v.paused)v.play().catch(()=>{});else v.pause();}};
   const [tvFullscreen,setTvFullscreen]=useState(false);
-  useEffect(()=>{if(!tvPlayback)return;const key=e=>{if(e.defaultPrevented||/INPUT|SELECT|TEXTAREA/.test(e.target?.tagName||''))return;const k=e.keyCode;if(k===10221){setShowPlaybackHelp(v=>!v);e.preventDefault();return;}if(!isNative)return;if(k===10252){tvToggle();e.preventDefault();}else if(k===415){videoRef.current?.play().catch(()=>{});e.preventDefault();}else if(k===19){videoRef.current?.pause();e.preventDefault();}else if(k===412||k===417){tvSeek(k===412?-10:10);e.preventDefault();}};window.addEventListener('keydown',key);return()=>window.removeEventListener('keydown',key);},[tvPlayback,isNative]);
+  const [tvSeekFeedback,setTvSeekFeedback]=useState('');
+  const cineState=useRef({ready:false,time:0,duration:0,paused:true});
+  const seekNoticeTimer=useRef(null),tap=useRef(null);
+  const cineControlled=tvPlayback&&!isNative&&currentServer===10&&!cinesrcWrapper&&!publisherSource&&!arabic&&!directOnly&&!exhausted;
+  const tvManaged=tvPlayback&&(isNative||cineControlled);
+  const notifySeek=delta=>{setTvSeekFeedback(delta>0?'⏩ +10 ثواني':'⏪ −10 ثواني');clearTimeout(seekNoticeTimer.current);seekNoticeTimer.current=setTimeout(()=>setTvSeekFeedback(''),1200);};
+  const tvSeek=delta=>{
+    const v=videoRef.current;
+    if(v){const t=seekTarget(v.currentTime,v.duration,delta);if(t!==null){v.currentTime=t;notifySeek(delta);}return;}
+    if(cineControlled&&cineState.current.ready){const state=cineState.current,t=seekTarget(state.time,state.duration,delta);if(t!==null&&cineCommand(iframeRef.current,'seek',[t])){state.time=t;notifySeek(delta);return;}}setTvSeekFeedback('المشغّل غير جاهز للتقديم بعد');clearTimeout(seekNoticeTimer.current);seekNoticeTimer.current=setTimeout(()=>setTvSeekFeedback(''),1200);
+  };
+  const tvToggle=()=>{const v=videoRef.current;if(v){if(v.paused)v.play().catch(()=>{});else v.pause();return;}if(cineControlled)cineCommand(iframeRef.current,cineState.current.paused?'play':'pause');};
+  useEffect(()=>{cineState.current={ready:false,time:0,duration:0,paused:true};tap.current=null;},[movie.id,currentServer,frameRevision,cinesrcWrapper,publisherSource]);
+  useEffect(()=>{if(!cineControlled)return;const handler=e=>{if(!cineMessage(iframeRef.current,e))return;const d=e.data,state=cineState.current;
+    if(d.type==='cinesrc:ready'){state.ready=true;cineCommand(iframeRef.current,'getCurrentTime');cineCommand(iframeRef.current,'getDuration');cineCommand(iframeRef.current,'getPaused');}
+    if(d.type==='cinesrc:response'){if(d.command==='getCurrentTime'&&Number.isFinite(d.result))state.time=d.result;if(d.command==='getDuration'&&Number.isFinite(d.result))state.duration=d.result;if(d.command==='getPaused'&&typeof d.result==='boolean')state.paused=d.result;}
+    if(Number.isFinite(d.currentTime))state.time=d.currentTime;if(Number.isFinite(d.duration))state.duration=d.duration;
+    if(d.type==='cinesrc:play'){state.ready=true;state.paused=false;setPlayState('Playing');}else if(d.type==='cinesrc:pause'){state.paused=true;setPlayState('Paused');}else if(d.type==='cinesrc:ended'){state.paused=true;setPlayState('Finished');}
+    if(d.type==='cinesrc:timeupdate'){state.ready=true;if(!state.paused)setPlayState('Playing');}
+    if(['cinesrc:timeupdate','cinesrc:seeked','cinesrc:pause','cinesrc:ended','cinesrc:response'].includes(d.type))publishProgress(state.time,state.duration,d.type==='cinesrc:pause'||d.type==='cinesrc:ended');
+    if(d.type==='cinesrc:close')onBack();
+  };window.addEventListener('message',handler);return()=>window.removeEventListener('message',handler);},[cineControlled,movie.id,frameRevision,cinesrcWrapper]);
+  useEffect(()=>{if(!tvPlayback)return;const handle=e=>{if(e.defaultPrevented)return;const k=e.keyCode||({ArrowLeft:37,ArrowRight:39,Enter:13}[e.key]||0),target=e.target;
+    if(k===10009||k===461||k===27){if(showPlaybackHelp){setShowPlaybackHelp(false);e.preventDefault();e.stopPropagation();return;}if(tvFullscreen){setTvFullscreen(false);e.preventDefault();e.stopPropagation();return;}return;}
+    if(k===10221){setShowPlaybackHelp(v=>!v);e.preventDefault();e.stopPropagation();return;}
+    if(!tvManaged||showPlaybackHelp||/INPUT|SELECT|TEXTAREA/.test(target?.tagName||''))return;
+    if(k!==37&&k!==39)tap.current=null;
+    const surface=target?.closest?.('[data-tv-play-surface]');
+    if((k===37||k===39)&&surface){const next=doubleTap(tap.current,k,Date.now(),e.repeat);tap.current=next.last;if(next.delta)tvSeek(next.delta);e.preventDefault();e.stopPropagation();return;}
+    if(k===13&&surface){tvToggle();e.preventDefault();e.stopPropagation();return;}
+    if(k===10252){tvToggle();e.preventDefault();e.stopPropagation();}
+    else if(k===415||k===19){if(isNative){if(k===415)videoRef.current?.play().catch(()=>{});else videoRef.current?.pause();}else cineCommand(iframeRef.current,k===415?'play':'pause');e.preventDefault();e.stopPropagation();}
+    else if(k===412||k===417){tvSeek(k===412?-10:10);e.preventDefault();e.stopPropagation();}
+  };window.addEventListener('keydown',handle,true);return()=>window.removeEventListener('keydown',handle,true);},[tvPlayback,tvManaged,isNative,cineControlled,showPlaybackHelp,tvFullscreen]);
+  useEffect(()=>()=>clearTimeout(seekNoticeTimer.current),[]);
   // VidLink's documented playback events, not iframe onload, establish playback progress.
   useEffect(()=>{
     if(isNative||isTV||currentServer!==0||directOnly||exhausted)return;
@@ -1190,6 +1238,8 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     };
     const fetchRawStream = async () => {
       if(movie.licensedSource){setExtractionStatus('success');return;}
+      // TV starts the existing protected player immediately instead of waiting for two sequential extraction probes.
+      if(tvEnabled()){setStreamData(null);setExtractionStatus('failed');return;}
       setExtractionStatus('extracting');
       // Arabic movies use the same TMDB-ID based EmbedWave route as world cinema.
       if(isTV||movie.isArabic||movie.original_language==='ar'){setStreamData(null);setExtractionStatus('failed');return;}
@@ -1332,14 +1382,14 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     const isMp4=nativeSource.type==='mp4'||/\.mp4(?:[?#]|$)/i.test(url);
     if(isMp4 || video.canPlayType('application/vnd.apple.mpegurl')) video.src=url;
     else if(Hls.isSupported()) {
-      hls=new Hls({maxBufferLength:30,maxMaxBufferLength:60,enableWorker:true});
+      hls=new Hls(tvPlayback?{maxBufferLength:18,maxMaxBufferLength:30,backBufferLength:15,maxBufferSize:24*1024*1024,enableWorker:true}:{maxBufferLength:30,maxMaxBufferLength:60,enableWorker:true});
       hlsRef.current=hls;
       const applyHls=()=>{
         if(!selectedAudio&&hls.audioTracks.length){const i=originalAudioIndex(hls.audioTracks,desired);if(i>=0){hls.audioTrack=i;selectedAudio=true;setLanguageStatus(v=>({...v,audio:'Original language selected'}));}}
         if(tvPlayback)applyTv();
         else if(!selectedSub&&hls.subtitleTracks.length){const i=arabicSubtitleIndex(hls.subtitleTracks);if(i>=0){hls.subtitleTrack=i;hls.subtitleDisplay=true;selectedSub=true;setLanguageStatus(v=>({...v,subs:'Arabic selected'}));}}
       };
-      hls.on(Hls.Events.MANIFEST_PARSED,()=>{const all=hls.levels.map((l,i)=>({id:i,height:l.height||0,bitrate:l.bitrate||0}));const usable=movie.sourceSync?all.filter(l=>l.height>=720):all;setLevels(usable);if(movie.sourceSync){if(!usable.length){fail();return;}const best=usable.reduce((a,b)=>b.height>a.height?b:a);hls.currentLevel=best.id;setQuality(best.id);}applyHls();});
+      hls.on(Hls.Events.MANIFEST_PARSED,()=>{const all=hls.levels.map((l,i)=>({id:i,height:l.height||0,bitrate:l.bitrate||0}));const usable=movie.sourceSync?all.filter(l=>l.height>=720):all;setLevels(usable);if(movie.sourceSync){if(!usable.length){fail();return;}const preferred=tvPlayback?usable.filter(l=>l.height<=1080):usable;const choices=preferred.length?preferred:usable;const best=choices.reduce((a,b)=>b.height>a.height?b:a);hls.currentLevel=best.id;setQuality(best.id);}applyHls();});
       hls.on(Hls.Events.AUDIO_TRACKS_UPDATED,applyHls);
       hls.on(Hls.Events.SUBTITLE_TRACKS_UPDATED,applyHls);
       if(tvPlayback)hls.on(Hls.Events.SUBTITLE_TRACK_LOADED,applyTv);
@@ -1417,6 +1467,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
             <p className="truncate font-semibold text-sm md:text-base leading-tight">{movie.title}</p>
             <p className="text-[10px] text-gray-400 mt-0.5 truncate">{isNative?(movie.sourceSync?'Cinema Direct · '+(movie.licensedSource?.rights?.provider||''):'Direct player'):publisherSource?'Official publisher · ads possible':currentServer===10?'Cinesrc · Protected':(fallbackNodes[currentServer]?.name||'Player')+' · Protected'}</p>
           </div>
+          {tvPlayback&&!tvManaged&&!isNative&&!directOnly&&!exhausted&&<button onClick={()=>{const f=iframeRef.current;if(f)window.__cinemaTVFocusFrame?.(f);}} className="bg-white/10 rounded-lg px-4 py-2 text-sm" aria-label="Temporary player controls">▶ Player · 12s</button>}
           <button onClick={()=>{setShowPlaybackHelp(v=>!v);setShowServerList(false);}} aria-label="Playback options" aria-expanded={showPlaybackHelp} className="w-10 h-10 shrink-0 rounded-full bg-white/5 hover:bg-white/10 text-xl flex items-center justify-center">⋯</button>
         </div>
       </header>
@@ -1463,13 +1514,14 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
         </section>
       </div>}
 
-      {tvPlayback&&tvFullscreen&&<button className="absolute top-3 right-4 z-[201] bg-black/70 rounded-full px-4 py-2 text-white" onClick={()=>setTvFullscreen(false)} aria-label="إظهار أدوات المشاهدة">إظهار الأدوات</button>}
+      {tvPlayback&&tvFullscreen&&<button className="absolute top-3 right-4 z-[201] bg-black/70 rounded-full px-4 py-2 text-white" onClick={()=>setTvFullscreen(false)} aria-label="إظهار أدوات المشاهدة" data-tv-focus="restore-controls">إظهار الأدوات</button>}
       {/* Video Container */}
-      <div className="flex-1 min-h-0 bg-[#050505] relative" style={{ zIndex: 1 }}>
+      <div className="flex-1 min-h-0 bg-[#050505] relative" style={{ zIndex: 1 }} data-tv-play-surface={tvManaged?"true":undefined} data-tv-focus={tvManaged?"playback-surface":undefined} tabIndex={tvManaged?0:undefined} aria-label={tvManaged?"منطقة الفيديو: OK تشغيل أو إيقاف، اضغط السهم مرتين للتقديم أو الترجيع":undefined}>
         {isNative ? (
           <video 
             ref={videoRef} 
             controls={!tvPlayback}
+            preload="auto"
             autoPlay
             playsInline
             crossOrigin={nativeSource?.type==='mp4'&&nativeSource?.rights?.nativeMp4===true?undefined:'anonymous'} 
@@ -1516,18 +1568,21 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
               title="Movie playback"
               src={arabic?undefined:(publisherSource?.embed||fallbackNodes[currentServer]?.url)}
               className="w-full h-full border-0"
+              tabIndex={tvPlayback?-1:undefined}
+              data-tv-remote-managed={tvPlayback?"true":undefined}
               sandbox="allow-scripts allow-same-origin allow-presentation"
               allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
               allowFullScreen
               referrerPolicy={!publisherSource&&ARABIC_BACKENDS.includes(currentServer)?'no-referrer':'strict-origin-when-cross-origin'}
-              style={{ zIndex: 10, position: 'relative' }}
+              style={{ zIndex: 10, position: 'relative',pointerEvents:cineControlled?'none':undefined }}
             />
           </div>
         )}
 
+        {tvManaged&&tvSeekFeedback&&<div className="tv-seek-feedback" role="status">{tvSeekFeedback}</div>}
         {nativeError && <div className="absolute top-3 left-3 right-3 z-[100] bg-red-950/90 text-white p-3 rounded-xl text-sm">{nativeError}<button onClick={()=>setShowPlaybackHelp(true)} className="underline ml-2">Playback options</button></div>}
         {/* Progress Bar Overlay */}
-        {isNative && videoProgress > 0 && (
+        {isNative && !tvPlayback && videoProgress > 0 && (
           <div className="absolute bottom-20 left-4 right-4 h-1 bg-gray-700 rounded-full overflow-hidden z-[100]">
             <div 
               className="h-full bg-gradient-to-r from-purple-500 to-pink-500 transition-all"
@@ -1537,8 +1592,8 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
         )}
       </div>
 
-      {tvPlayback&&isNative&&!tvFullscreen&&<div data-tv-chrome="true" dir="rtl" className="shrink-0 bg-[#101014] border-t border-white/10 px-5 py-3 text-white">
-        <div className="flex items-center gap-4"><span className="text-sm whitespace-nowrap">{formatTime(Math.floor(mediaInfo.time))} / {formatTime(Math.floor(mediaInfo.duration))}</span><input aria-label="موضع المشاهدة" type="range" min="0" max={Math.max(1,Math.floor(mediaInfo.duration))} value={Math.floor(mediaInfo.time)} onChange={e=>{if(videoRef.current&&mediaInfo.duration>0)videoRef.current.currentTime=Number(e.target.value);}} className="flex-1 accent-purple-500"/></div>
+      {tvManaged&&!tvFullscreen&&<div data-tv-chrome="true" dir="rtl" className="shrink-0 bg-[#101014] border-t border-white/10 px-5 py-3 text-white">
+        <div className="flex items-center gap-4"><span className="text-sm whitespace-nowrap">{formatTime(Math.floor(mediaInfo.time))} / {formatTime(Math.floor(mediaInfo.duration))}</span><input aria-label="موضع المشاهدة" type="range" min="0" max={Math.max(1,Math.floor(mediaInfo.duration))} value={Math.floor(mediaInfo.time)} onChange={e=>{if(videoRef.current&&mediaInfo.duration>0)videoRef.current.currentTime=Number(e.target.value);else if(cineControlled&&cineState.current.ready){const t=Number(e.target.value);cineCommand(iframeRef.current,'seek',[t]);cineState.current.time=t;}}} className="flex-1 accent-purple-500"/></div><p className="text-xs text-gray-400 mt-1">على الفيديو: ← ← ترجيع 10 ث · → → تقديم 10 ث · OK تشغيل / إيقاف</p>
         <div className="flex flex-wrap items-center gap-2 mt-2"><button onClick={tvToggle} className="bg-purple-600 rounded-xl px-5 py-2 font-bold">{playState==='Playing'?'❚❚ إيقاف مؤقت':'▶ تشغيل'}</button><button className="bg-white/10 rounded-xl px-4 py-2" onClick={()=>tvSeek(-10)}>− 10 ث</button><button className="bg-white/10 rounded-xl px-4 py-2" onClick={()=>tvSeek(10)}>+ 10 ث</button><button className="bg-white/10 rounded-xl px-4 py-2" onClick={()=>setShowPlaybackHelp(true)}>CC · {tvCC==='ar'?'عربي':tvCC==='en'?'English':'إيقاف'}</button>{onNextEpisode&&<button className="bg-white/10 rounded-xl px-4 py-2" onClick={onNextEpisode}>الحلقة التالية ›</button>}<button className="bg-white/10 rounded-xl px-4 py-2" onClick={()=>setTvFullscreen(true)}>ملء الشاشة</button></div>
       </div>}
       {mode==='couples'&&<footer className="shrink-0 bg-[#101014] border-t border-white/10 px-3 py-2 flex items-center gap-2" style={{paddingBottom:'max(8px, env(safe-area-inset-bottom))'}}>

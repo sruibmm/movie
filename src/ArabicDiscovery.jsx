@@ -1,3 +1,4 @@
+import {tvEnabled} from './tvCatalogCache.js';
 import {metadataFetch} from './tvMetadata.js';
 import React,{useEffect,useState} from 'react';
 import PublisherLibrary from './PublisherLibrary.jsx';
@@ -27,6 +28,7 @@ export default function ArabicDiscovery({query,existing,options,onMovie,onEpisod
  const [show,setShow]=useState(null),[season,setSeason]=useState(1),[episodes,setEpisodes]=useState([]),[episodeStatus,setEpisodeStatus]=useState(''),[series,setSeries]=useState(null);
  useEffect(()=>{setShow(null);},[key]);
  useEffect(()=>{
+  if(tvEnabled()&&!query)return; // No hidden metadata requests for the initial Arabic library.
   const c=new AbortController();
   setCatalog(prev=>({...prev,key,items:prev.key===key?prev.items:[],pages:prev.key===key?prev.pages:1,loaded:prev.key===key?prev.loaded:0,status:'loading',partial:false}));
   const jobs=arabicCatalogJobs({query,kind,genre,sort,page});

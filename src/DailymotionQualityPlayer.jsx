@@ -11,13 +11,13 @@ function loadLibrary(id){
  });libs.set(id,promise);promise.catch(()=>libs.delete(id));return promise;
 }
 export function highestQuality(list){return (Array.isArray(list)?list:[]).map(String).filter(x=>['240','380','480','720','1080','1440','2160'].includes(x)).sort((a,b)=>Number(b)-Number(a))[0]||null;}
-export default function DailymotionQualityPlayer({src,title}){
+export default function DailymotionQualityPlayer({src,title,onController}){
  const id='dm-'+useId().replace(/[^a-zA-Z0-9_-]/g,'');
  const [fallback,setFallback]=useState(false),[quality,setQuality]=useState(''),[started,setStarted]=useState(false);
  const host=useRef(null);
  const url=new URL(src);url.searchParams.set('autoplay','true');
  useEffect(()=>{
-  if(fallback)return;
+  if(fallback){onController?.(null);return;}
   let dead=false,player=null,watchdog,interval,stopTimer,busy=false,lastBest=null,attempts=0,playing=false,adPlaying=false,lastTime=0;
   const pid=url.pathname.split('/').pop().replace('.html',''),video=url.searchParams.get('video');
   function fail(){if(!dead)setFallback(true);}
@@ -42,19 +42,21 @@ export default function DailymotionQualityPlayer({src,title}){
    if(dead)return;
    const p=await dm.createPlayer(id,{player:pid,video,params:{autoplay:true}});if(dead){p.destroy?.();return;}
    player=p;
+   let paused=false;
+   onController?.({seek:async delta=>{if(dead||adPlaying)return false;const state=await p.getState();const t=Number(state.videoTime),d=Number(state.videoDuration);if(!Number.isFinite(t)||!Number.isFinite(d)||d<=0)return false;await p.seek(Math.max(0,Math.min(d,t+delta)));return true;},toggle:async()=>{if(dead||adPlaying)return false;if(paused)await p.play();else await p.pause();return true;},play:()=>p.play(),pause:()=>p.pause()});
    const on=(name,fn)=>{const event=dm.events?.[name];if(event)p.on(event,fn);};
-   on('VIDEO_PLAYING',markPlaying);on('VIDEO_TIMECHANGE',inspect);
+   on('VIDEO_PLAYING',()=>{paused=false;markPlaying();});on('VIDEO_PAUSE',()=>{paused=true;});on('VIDEO_TIMECHANGE',inspect);
    on('VIDEO_QUALITIESREADY',inspect);on('VIDEO_START',inspect);on('PLAYER_CRITICALPATHREADY',inspect);
    on('PLAYER_ERROR',fail);on('VIDEO_ERROR',fail);
    on('AD_START',()=>{adPlaying=true;});on('AD_END',()=>{adPlaying=false;});
    interval=setInterval(inspect,800);stopTimer=setTimeout(()=>clearInterval(interval),30000);inspect();
   }).catch(fail);
-  return()=>{dead=true;clearTimeout(watchdog);clearInterval(interval);clearTimeout(stopTimer);try{player?.destroy?.();}catch{}};
- },[src,id,fallback]);
+  return()=>{dead=true;onController?.(null);clearTimeout(watchdog);clearInterval(interval);clearTimeout(stopTimer);try{player?.destroy?.();}catch{}};
+ },[src,id,fallback,onController]);
  // Explicit dimensions: the SDK host cannot collapse to zero height on mobile.
  return <div className="w-full h-full min-h-0 relative flex items-center justify-center bg-black" data-dm-mode={fallback?'iframe':'sdk'}>
   <div className="relative w-full overflow-hidden" style={{aspectRatio:'16 / 9',maxHeight:'100%',maxWidth:'calc(100dvh * 16 / 9)'}}>
-   {fallback?<iframe title={title} src={url.toString()} className="absolute inset-0 w-full h-full border-0" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; web-share" allowFullScreen referrerPolicy="strict-origin-when-cross-origin"/>:<div ref={host} id={id} className="absolute inset-0 w-full h-full" style={{width:'100%',height:'100%'}}/>}
+   {fallback?<iframe title={title} tabIndex={onController?-1:undefined} data-tv-remote-managed={onController?'true':undefined} src={url.toString()} className="absolute inset-0 w-full h-full border-0" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; web-share" allowFullScreen referrerPolicy="strict-origin-when-cross-origin"/>:<div ref={host} id={id} className="absolute inset-0 w-full h-full" style={{width:'100%',height:'100%'}}/>}
   </div>
   {!fallback&&!started&&<div className="absolute top-3 right-3 text-xs text-gray-400 pointer-events-none">جاري تشغيل الفيديو…</div>}
   {!fallback&&quality&&<span className="absolute top-3 left-3 bg-black/70 rounded px-2 py-1 text-xs pointer-events-none">{quality}</span>}
