@@ -34,7 +34,7 @@ export function effectiveDue(j,h,now,hasNewLink=false){
 }
 export function orderByCompletion(entries,drafts,health,now){
  return entries.slice().sort((a,b)=>{
-  const score=([,j])=>{const d=drafts.get(j.id);const remaining=d?.remaining??1000;const verified=(d?.count??0)-remaining;return (j.phase==='verify'?2000:0)+(j.candidates?.length?500:0)+(health.get(j.id)?.success?200:0)+(remaining<=5&&verified>0?1000:0)+Math.min(200,Math.max(0,verified)*4)-Math.min(100,remaining);};
+  const score=([,j])=>{const d=drafts.get(j.id);const remaining=d?.remaining??1000;const verified=(d?.count??0)-remaining;return (j.phase==='verify'?2000:0)+(j.rescued?750:0)+(j.candidates?.length?500:0)+(health.get(j.id)?.success?200:0)+(remaining<=5&&verified>0?1000:0)+Math.min(200,Math.max(0,verified)*4)-Math.min(100,remaining);};
   return score(b)-score(a);
  });
 }
