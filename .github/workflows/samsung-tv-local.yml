@@ -18,7 +18,7 @@ jobs:
       - run: npm ci --no-audit --no-fund
       - run: npm run build:css
       - run: npx vite build --base ./ --target chrome94
-      - run: node --check public/tizen-shell.js && node --check public/tv-navigation.js && node scripts/tv-speed-test.mjs && node scripts/tv-remote-test.mjs
+      - run: node --check public/tizen-shell.js && node --check public/tv-navigation.js && node scripts/tv-speed-test.mjs && node scripts/tv-remote-test.mjs && node scripts/tv-youtube-bridge-test.mjs
       - run: node scripts/tv-preferences-test.mjs && node scripts/arabic-discovery-test.mjs && node scripts/tv-metadata-test.mjs
       - run: node scripts/package-samsung-local.mjs
         env:
