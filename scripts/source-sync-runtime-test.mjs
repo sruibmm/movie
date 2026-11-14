@@ -16,12 +16,12 @@ assert.equal((await synchronize(storage,a.policy,a.fetcher,now)).status,'updated
 assert.equal((await synchronize(storage,b.policy,b.fetcher,now)).status,'updated');
 assert.equal((await synchronize(storage,a.policy,a.fetcher,now)).status,'unchanged');
 const renewed=fixture('primary');
-for(const o of Object.values(renewed.observations))o.checkedAt=now+3600000;
-assert.equal((await synchronize(storage,a.policy,renewed.fetcher,now+3600000)).status,'unchanged');
-assert.equal((await storage.get('source:primary')).observations['a0-1'].checkedAt,now+3600000);
+for(const o of Object.values(renewed.observations))o.checkedAt=now-100;
+assert.equal((await synchronize(storage,a.policy,renewed.fetcher,now)).status,'unchanged');
+assert.equal((await storage.get('source:primary')).observations['a0-1'].checkedAt,now-100);
 const tampered=fixture('primary');tampered.snapshot.titles[0].title='Changed without revision';
-assert.equal((await synchronize(storage,a.policy,tampered.fetcher,now+3600000)).reason,'same-revision-content-changed');
-await synchronize(storage,a.policy,a.fetcher,now+3600001);
+assert.equal((await synchronize(storage,a.policy,tampered.fetcher,now)).reason,'same-revision-content-changed');
+assert.equal((await synchronize(storage,a.policy,a.fetcher,now)).reason,'evidence-regression');
 const req={work:'work:gaafar',season:1,episode:2};
 const options=await resolveCandidates(storage,[a.policy,b.policy],req,now);assert.deepEqual(options.map(x=>x.id),['primary:a0-2','backup:a0-2']);
 assert.equal((await resolveCandidates(storage,[a.policy,b.policy],{...req,exclude:['primary:a0-2']},now))[0].id,'backup:a0-2');

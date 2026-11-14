@@ -35,6 +35,7 @@ export async function synchronize(storage,policy,fetcher=fetch,now=Date.now()){
   const same=snapshot.revision===previous?.snapshot.revision;
   // Equal revisions may renew independent evidence, but cannot silently change media.
   if(same&&JSON.stringify(snapshot)!==JSON.stringify(previous.snapshot))throw Error('same-revision-content-changed');
+  if(same&&Object.entries(previous.observations).some(([id,o])=>Number(evidence.observations[id]?.checkedAt)<Number(o.checkedAt)))throw Error('evidence-regression');
   const review=reviewSourceSnapshot(same?null:previous?.snapshot??null,snapshot,same?{...policy,minimumNewTitles:0}:policy,evidence.observations,now);
   if(!review.ok)throw Error(review.reason);
   const record={snapshot:review.snapshot,observations:evidence.observations,checkedAt:now};
