@@ -129,7 +129,21 @@ async function loadEpisode(page,candidates,fetcher){
  const graph=directGraph(html,page);
  return {html,url:await chooseMedia([...candidatesFor(graph,base),...explicitVideoLinks(html,page)],fetcher)};
 }
-async function getPage(url,fetcher){let r;for(let hop=0;hop<4;hop++){r=await fetcher(url,{redirect:'manual',signal:AbortSignal.timeout(8000),headers:{accept:'text/html'}});if(![301,302,303,307,308].includes(r.status))break;const next=source(r.headers.get('Location'),url);if(!next)throw Error('unapproved-redirect');url=next.href;}if(!r.ok)throw Error('page-'+r.status);const body=await r.text();if(body.length>3000000)throw Error('page-too-large');return body;}
+async function getPage(url,fetcher){
+ const requested=source(url);let r;
+ for(let hop=0;hop<4;hop++){
+  r=await fetcher(url,{redirect:'manual',signal:AbortSignal.timeout(8000),headers:{accept:'text/html'}});
+  if(![301,302,303,307,308].includes(r.status))break;
+  const next=source(r.headers.get('Location'),url);await r.body?.cancel().catch(()=>{});
+  if(!next)throw Error('unapproved-redirect');
+  // Never interpret a redirect to a different work or episode as the requested one.
+  if(requested&&workPath(requested)&&(next.pathname!==requested.pathname||requested.searchParams.has('key')&&next.searchParams.get('key')!==requested.searchParams.get('key')))throw Error('source-identity-redirect-mismatch');
+  url=next.href;
+ }
+ if(!r.ok){await r.body?.cancel().catch(()=>{});throw Error('page-'+r.status);}
+ if(Number(r.headers?.get('Content-Length'))>3000000){await r.body?.cancel().catch(()=>{});throw Error('page-too-large');}
+ const body=await r.text();if(body.length>3000000)throw Error('page-too-large');return body;
+}
 export async function probe(url,fetcher=fetch){const r=await fetcher(url,{redirect:'manual',signal:AbortSignal.timeout(8000),headers:{Range:'bytes=0-4095'}});if(r.status>=300&&r.status<400){await r.body?.cancel().catch(()=>{});throw Error('media-redirect-'+r.status);}if(!r.ok||!r.body){await r.body?.cancel().catch(()=>{});throw Error('media-'+r.status);}const reader=r.body.getReader();let bytes=[];try{while(bytes.length<12){const {done,value}=await reader.read();if(done)break;bytes.push(...value.subarray(0,32));}}finally{await reader.cancel().catch(()=>{});}if(bytes.length<12||String.fromCharCode(...bytes.slice(4,8))!=='ftyp')throw Error('not-mp4');}
 const jobKey=j=>P+'q:'+({episode:'0',work:'1',index:'2'}[j.type])+':'+(j.type==='episode'?j.id+':'+j.gen+':'+String(j.n).padStart(4,'0'):j.url);
 async function enqueue(s,j,now,force=false){if(j.type==='work'&&j.title&&j.title.length>2&&!/^(?:watch|عرض|مشاهدة|تحميل|play)$/i.test(j.title)){const k=P+'discovered:'+j.id,old=await s.get(k)||{};await s.put(k,{...old,id:j.id,title:old.title||j.title,kind:old.kind||j.kind||'unknown',poster:old.poster||j.poster||null,sourcePage:j.url,discovered:true,count:old.count??null});}const key=jobKey(j);const existing=await s.get(key);if(existing){if(j.type==='work'&&(!existing.kind&&j.kind||!existing.poster&&j.poster))await s.put(key,{...existing,kind:existing.kind||j.kind,poster:existing.poster||j.poster});return;}if(!force&&Number(await s.get(P+'seen:'+key))>now-DAY)return;await s.put(key,{...j,tries:0,after:0,revision:REVISION});}
@@ -255,7 +269,7 @@ async function processJob(s,j,fetcher,now,prepared){
  const season=j.season||d.season,episode=j.episode||j.n,m=html?metadata(html,j.url):result.details||{};
  const asset=result.asset||{id:j.id+':s'+season+':e'+episode,title:d.kind==='tv'?'الحلقة '+episode:d.title,season,episode,format:'mp4',url:preparedUrl,sourcePage:j.url,thumbnail:m.thumbnail&&m.thumbnail!==d.poster?m.thumbnail:null,story:m.story&&m.story!==d.story?m.story:'',verifiedAt:now};
  await s.transaction(async tx=>{const latest=await tx.get(dk(j.id));if(!latest||latest.gen!==j.gen||await tx.get(key))return;await tx.put(key,asset);latest.remaining--;await tx.put(dk(j.id),latest);});
- const latest=await s.get(dk(j.id));if(latest&&latest.gen===j.gen){if(latest.remaining===0)await publish(s,latest);else{const old=await s.get(wk(j.id));const availableCount=latest.count-latest.remaining;if(!old||old.partial===true&&(old.gen===latest.gen||availableCount>=(old.availableCount||0))){const {remaining,signature,...record}=latest;await s.put(wk(j.id),{...record,count:Math.max(latest.count,latest.expectedCount||0),partial:true,availableCount});invalidateIndex(s);}}}
+ const latest=await s.get(dk(j.id));if(latest&&latest.gen===j.gen){if(latest.remaining===0)await publish(s,latest);else{const old=await s.get(wk(j.id));const availableCount=latest.count-latest.remaining;if(!old||old.partial===true&&(old.gen===latest.gen||availableCount>=(old.availableCount||0))){const {remaining,signature,...record}=latest;if(old&&old.gen!==latest.gen)await s.put(P+'archive:'+j.id+':'+old.gen,old);await s.put(wk(j.id),{...record,count:Math.max(latest.count,latest.expectedCount||0),partial:true,availableCount});invalidateIndex(s);}}}
 }
 // Only load one selected work generation, never all 30,000 episode jobs.
 async function inspectWorkGroup(s,d,health,now){
@@ -278,6 +292,11 @@ async function inspectWorkGroup(s,d,health,now){
    const u=source(d.sourcePage);if(u&&workPath(u)&&workId(u)===d.id)await enqueue(s,{type:'work',url:ORIGIN+u.pathname,id:d.id,kind:d.kind,title:d.title,poster:d.poster},now,true);
   }
  }
+ // Migrate old delay reasons only within this selected work, not the entire queue.
+ const delayed=[...rows].filter(([,j])=>j.after>now&&!j.reason);
+ const oldErrors=await getMany(s,delayed.map(([key])=>P+'error:'+key)),repaired=[];
+ for(const [key,j] of delayed){const old=oldErrors.get(P+'error:'+key);if(!old||!Number.isFinite(old.at))continue;const plan=retryPlan(old.reason,j.tries||1,old.at);const v={...j,reason:old.reason,structural:plan.structural,deferredAt:old.at,after:Math.min(j.after,plan.after)};rows.set(key,v);repaired.push([key,v]);}
+ await putMany(s,repaired);
  const keys=[...rows.values()].flatMap(j=>{const u=source(j.url);return u?[mediaKey(j.id,u.searchParams.get('key')||'')]:[];});
  const saved=await getMany(s,keys),writes=[],ready=[];
  for(const [key,j] of rows){
