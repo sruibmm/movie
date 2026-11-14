@@ -78,7 +78,7 @@ if(process.argv[2]==='--self-test'){
  const link='<a href="/download_video.php?ref='+encodeURIComponent('/watch/test.html?key=abc')+'&amp;video_url='+encodeURIComponent(Buffer.from(media).toString('base64'))+'">Download</a>';
  assert.equal(mediaLink(link,a),media);
  assert.throws(()=>mediaLink(link,a.replace('abc','def')),/identity mismatch/);
- assert.throws(()=>mediaLink(link.replace(Buffer.from(media).toString('base64'),Buffer.from('https://example.com/test.jpg').toString('base64')),a));
+ assert.throws(()=>mediaLink(link.replace(encodeURIComponent(Buffer.from(media).toString('base64')),encodeURIComponent(Buffer.from('https://example.com/test.jpg').toString('base64'))),a),/Unapproved direct media host/);
  console.log('PASS: episode indexing, completeness, exact mapping, and media host validation');
 }else{
  const out=process.argv[2],pages=process.argv.slice(3);
