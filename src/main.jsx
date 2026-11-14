@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import ReactDOM from 'react-dom/client'
 import Hls from 'hls.js'
-import ArabicClassics from './ArabicClassics.jsx'
+import WatanLibrary from './WatanLibrary.jsx'
 import ArabicDiscovery,{OfficialAvailability} from './ArabicDiscovery.jsx'
 import {embedwaveUrl} from './arabicDiscovery.js'
 import {ARABIC_BACKENDS,arabicSourceIds,backendUrl,nextArabicSource} from './arabicSources.js'
@@ -56,7 +56,7 @@ const saveToHistory = (movie, progress, settings) => {
       lastWatched: Date.now(),
       isArabic: movie.isArabic,
       original_language: movie.original_language,
-      media_type: movie.media_type,tmdbId:movie.tmdbId,season:movie.season,episode:movie.episode,seriesTitle:movie.seriesTitle,runtime:movie.runtime,release_date:movie.release_date,original_title:movie.original_title
+      media_type: movie.media_type,tmdbId:movie.tmdbId,season:movie.season,episode:movie.episode,seriesTitle:movie.seriesTitle,runtime:movie.runtime,release_date:movie.release_date,original_title:movie.original_title,watanOnly:movie.watanOnly,watanSlug:movie.watanSlug,watanType:movie.watanType
     };
     
     if (existingIndex >= 0) {
@@ -546,7 +546,7 @@ function App() {
 
   const startArabicEpisode=(movie)=>{
     if(mode==='couples'&&!conn?.open){alert('Connect Renad first, then start the episode.');return;}
-    const settings={...syncSettings,fallbackServer:10,publisherSource:null,progress:getFromHistory(movie.id)?.progress||0};
+    const settings={...syncSettings,fallbackServer:10,publisherSource:movie.publisherSource||null,progress:getFromHistory(movie.id)?.progress||0};
     setSyncSettings(settings);setRoomMovie(movie);
     if(mode==='couples'&&conn?.open)conn.send({type:'start_party',movie,settings});
   };
@@ -565,12 +565,12 @@ function App() {
             poster_path: item.poster,
             isArabic: item.isArabic,
             original_language: item.original_language,
-            media_type:item.media_type,tmdbId:item.tmdbId,season:item.season,episode:item.episode,seriesTitle:item.seriesTitle,runtime:item.runtime,release_date:item.release_date,original_title:item.original_title
+            media_type:item.media_type,tmdbId:item.tmdbId,season:item.season,episode:item.episode,seriesTitle:item.seriesTitle,runtime:item.runtime,release_date:item.release_date,original_title:item.original_title,watanOnly:item.watanOnly,watanSlug:item.watanSlug,watanType:item.watanType
           });
           setSyncSettings(prev => ({
             ...prev,
             fallbackServer: item.settings?.fallbackServer ?? 10,
-            publisherSource:null,
+            publisherSource:item.watanOnly?item.settings?.publisherSource||null:null,
             sandbox: true,
             progress: item.progress || 0
           }));
@@ -779,7 +779,7 @@ function App() {
           </form>
         </header>
 
-        {arabicLibrary&&<ArabicClassics query={search} mode={mode}/>}
+        {arabicLibrary&&<WatanLibrary query={search} onPlay={startArabicEpisode}/>}
         {catalogError&&<p className="text-red-300 mb-4 text-sm">{catalogError}</p>}
         {!loading&&!movies.length&&!catalogError&&<p className="text-gray-400 mb-4">{arabicLibrary?'لا توجد نتائج في هذه الصفحة. جرّب اسم الفيلم أو الصفحة التالية.':'No matching movies.'}</p>}
         <div className="flex items-center justify-between mb-4 text-sm text-gray-400"><span>{arabicLibrary?'أفلام عربية':'Movies'} · {catalogPage}/{catalogPages}</span><div className="flex gap-2"><button disabled={catalogPage<=1||loading} onClick={()=>setCatalogPage(p=>p-1)} className="bg-white/5 rounded-lg px-3 py-2 disabled:opacity-30">‹</button><button disabled={catalogPage>=catalogPages||loading} onClick={()=>setCatalogPage(p=>p+1)} className="bg-white/5 rounded-lg px-3 py-2 disabled:opacity-30">›</button></div></div>
@@ -826,7 +826,7 @@ function App() {
           </form>
         </header>
 
-        {arabicLibrary&&<ArabicClassics query={search} mode={mode}/>}
+        {arabicLibrary&&<WatanLibrary query={search} onPlay={startArabicEpisode}/>}
         {catalogError&&<p className="text-red-300 mb-4 text-sm">{catalogError}</p>}
         {!loading&&!movies.length&&!catalogError&&<p className="text-gray-400 mb-4">{arabicLibrary?'لا توجد نتائج في هذه الصفحة. جرّب اسم الفيلم أو الصفحة التالية.':'No matching movies.'}</p>}
         <div className="flex items-center justify-between mb-4 text-sm text-gray-400"><span>{arabicLibrary?'أفلام عربية':'Movies'} · {catalogPage}/{catalogPages}</span><div className="flex gap-2"><button disabled={catalogPage<=1||loading} onClick={()=>setCatalogPage(p=>p-1)} className="bg-white/5 rounded-lg px-3 py-2 disabled:opacity-30">‹</button><button disabled={catalogPage>=catalogPages||loading} onClick={()=>setCatalogPage(p=>p+1)} className="bg-white/5 rounded-lg px-3 py-2 disabled:opacity-30">›</button></div></div>
@@ -935,7 +935,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   const videoRef = useRef(null);
   const iframeRef = useRef(null);
   const containerRef = useRef(null);
-  const [extractionStatus, setExtractionStatus] = useState('extracting');
+  const [extractionStatus, setExtractionStatus] = useState(movie.watanOnly?'failed':'extracting');
   const [streamData, setStreamData] = useState(null);
   const [floatingEmojis, setFloatingEmojis] = useState([]);
   const [togetherTime, setTogetherTime] = useState(0);
@@ -1056,7 +1056,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   // Start with a previously reported clean protected source when one exists.
   // Never interpret iframe onload as video playback or a clean result.
   useEffect(()=>{
-    if(extractionStatus!=='failed'||(isTV&&!arabic)||preferredInitialized.current) return;
+    if(extractionStatus!=='failed'||movie.watanOnly||publisherSource||(isTV&&!arabic)||preferredInitialized.current) return;
     preferredInitialized.current=true;
     const known=readAdMemory(movie.id);
     const preferred=arabic?nextArabicSource(sourceIds,known,-1):pickProtectedSource(known,fallbackNodes.length);
@@ -1312,7 +1312,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     if(currentPublisher)publisherTried.current.add(currentPublisher.id);
     else known=rememberSource(status);
     const c=new AbortController();lookupController.current?.abort();lookupController.current=c;
-    const q=new URLSearchParams({title:movie.seriesTitle||movie.original_title||movie.title,type:isTV?'tv':'movie',season:String(movie.season||1),episode:String(movie.episode||0),runtime:String(movie.runtime||0),year:String(movie.release_date||'').slice(0,4)});
+    const q=new URLSearchParams({title:movie.seriesTitle||movie.original_title||movie.title,type:movie.watanOnly?movie.watanType:isTV?'tv':'movie',season:String(movie.season||1),episode:String(movie.episode||0),runtime:String(movie.runtime||0),year:String(movie.release_date||'').slice(0,4)});
     const lookup=async(path)=>{try{const res=await fetch(path+'?'+q,{signal:c.signal});if(!res.ok)return [];const data=await res.json();return Array.isArray(data.items)?data.items:[];}catch{return [];}};
     const apply=(v)=>{const source=publisherEmbed(v);publisherTried.current.add(source.id);setOwnedSource(null);setPublisherSource(source);setDirectOnly(false);setExhausted(false);setFrameRevision(x=>x+1);setAdNotice('');};
     try{
@@ -1325,13 +1325,13 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
       let choice=cache.watan.find(v=>/^[A-Za-z0-9_-]{11}$/.test(v.id||'')&&!publisherTried.current.has(v.id));
       if(!choice){if(cache.other===null)cache.other=await lookup('/api/arabic-sources');if(c.signal.aborted)return;choice=cache.other.find(v=>/^[A-Za-z0-9_-]{11}$/.test(v.id||'')&&!publisherTried.current.has(v.id));}
       if(choice){apply(choice);return;}
-      const next=nextArabicSource(sourceIds,known,currentPublisher?-1:currentServer);
+      const next=movie.watanOnly?null:nextArabicSource(sourceIds,known,currentPublisher?-1:currentServer);
       if(next!==null){handleServerChange(next);setAdNotice('');return;}
       setPublisherSource(null);setExhausted(true);setAdNotice('لم نجد مصدراً آخر مطابقاً لهذا العمل.');
     }finally{if(!c.signal.aborted){smartBusy.current=false;setSmartSearching(false);}}
   };
   const handleServerChange = (index) => {
-    if(!sourceIds.includes(index))return;
+    if(movie.watanOnly||!sourceIds.includes(index))return;
     setLocalPublisher(undefined);
     setExhausted(false);
     setOwnedSource(null);
@@ -1397,7 +1397,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
           </div>
           {!isNative&&!directOnly&&<div className="mt-4 space-y-2">
             {<button onClick={()=>setShowServerList(v=>!v)} aria-expanded={showServerList} className="w-full flex items-center justify-between rounded-xl bg-white/5 px-4 py-3 text-sm"><span>Change server</span><span className="text-gray-400">{showServerList?'⌃':'›'}</span></button>}
-            {showServerList&&<div className="grid grid-cols-2 gap-2">{sourceIds.map(i=>{const node=fallbackNodes[i];return <button key={i} onClick={()=>{handleServerChange(i);setShowPlaybackHelp(false);}} className={`text-left rounded-xl px-3 py-3 ${i===currentServer?'bg-purple-600':'bg-white/5'}`}><span className="block text-xs font-semibold">{node.name}</span><span className="block text-[10px] opacity-75 mt-1">{adMemory[i]?.status==='ad'?'Ad reported':adMemory[i]?.status==='blocked'?'Blocked':adMemory[i]?.status==='clean'?'Reported clean':node.health}</span></button>;})}</div>}
+            {showServerList&&!movie.watanOnly&&<div className="grid grid-cols-2 gap-2">{sourceIds.map(i=>{const node=fallbackNodes[i];return <button key={i} onClick={()=>{handleServerChange(i);setShowPlaybackHelp(false);}} className={`text-left rounded-xl px-3 py-3 ${i===currentServer?'bg-purple-600':'bg-white/5'}`}><span className="block text-xs font-semibold">{node.name}</span><span className="block text-[10px] opacity-75 mt-1">{adMemory[i]?.status==='ad'?'Ad reported':adMemory[i]?.status==='blocked'?'Blocked':adMemory[i]?.status==='clean'?'Reported clean':node.health}</span></button>;})}</div>}
             <div className="grid grid-cols-2 gap-2">
               <button onClick={()=>{setExhausted(false);setFrameRevision(v=>v+1);setShowPlaybackHelp(false);}} className="rounded-xl bg-white/5 p-3 text-sm">↻ Reload</button>
               <button onClick={()=>{reportPlaybackIssue('blocked');setShowPlaybackHelp(false);}} className="rounded-xl bg-white/5 p-3 text-sm">Not playing?</button>
@@ -1414,8 +1414,8 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
             <button onClick={()=>{restoreProtection();setShowPlaybackHelp(false);}} className="mt-3 block underline">Reset protected player</button>
             <a href={`https://www.themoviedb.org/${isTV?'tv':'movie'}/${movie.tmdbId||movie.id}/watch`} target="_blank" rel="noopener noreferrer" className="block mt-3 underline">Official streaming options</a>
           </details>
-          {arabic&&<PublisherFallback movie={movie} onSelect={v=>{setPublisherSource(publisherEmbed(v));setDirectOnly(false);setExhausted(false);setShowPlaybackHelp(false);setFrameRevision(x=>x+1);}}/>}
-          {(movie.isArabic||isTV)&&<OfficialAvailability movie={movie} options={fetchOptions}/>}
+          {arabic&&!movie.watanOnly&&<PublisherFallback movie={movie} onSelect={v=>{setPublisherSource(publisherEmbed(v));setDirectOnly(false);setExhausted(false);setShowPlaybackHelp(false);setFrameRevision(x=>x+1);}}/>}
+          {!movie.watanOnly&&(movie.isArabic||isTV)&&<OfficialAvailability movie={movie} options={fetchOptions}/>}
           <button onClick={()=>setShowPlaybackHelp(false)} className="mt-5 w-full bg-purple-600 rounded-xl py-3 font-semibold text-sm">Done</button>
         </section>
       </div>}
@@ -1462,10 +1462,12 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
             <p className="text-sm text-gray-400">We stopped the external player rather than allow unwanted redirects. Retry or choose another protected source.</p>
             <button onClick={()=>{setAdMemory({});writeAdMemory(movie.id,{});publisherTried.current.clear();publisherQueues.current=null;setPublisherSource(null);restoreProtection();}} className="bg-purple-700 rounded-xl px-4 py-2 text-sm">Retry protected sources</button>
             <button onClick={()=>setShowPlaybackHelp(true)} className="underline text-sm text-gray-300">Playback options</button>
-            {(movie.isArabic||isTV)&&<OfficialAvailability movie={movie} options={fetchOptions}/>}
+            {!movie.watanOnly&&(movie.isArabic||isTV)&&<OfficialAvailability movie={movie} options={fetchOptions}/>}
           </div>
         ) : publisherSource ? (
           <YouTubePublisherPlayer key={publisherSource.id+'-'+frameRevision} video={publisherSource} onError={()=>{if(role==='admin'||mode==='single')void smartArabicSwitch('blocked');}} onProgress={(t,d)=>publishProgress(t,d)}/>
+        ) : movie.watanOnly ? (
+          <div className="flex flex-col items-center justify-center text-center p-6 gap-4"><p>المصدر غير متاح حالياً</p><button onClick={()=>smartArabicSwitch('blocked')} className="rounded-xl bg-purple-600 px-4 py-2">إعادة البحث</button></div>
         ) : (
           <div className="relative w-full h-full bg-black flex items-center justify-center">
             <iframe
