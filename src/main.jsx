@@ -1371,7 +1371,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   };
 
   const sendVideoEvent = (action) => {
-    if (!videoRef.current || mode === 'single' || !conn?.open || Date.now()<remoteAction.current) return;
+    if (!mediaIsValid() || !videoRef.current || mode === 'single' || !conn?.open || Date.now()<remoteAction.current) return;
     conn.send({ type: 'video_sync', action, time: videoRef.current.currentTime, sender: role });
   };
 
