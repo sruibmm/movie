@@ -7,6 +7,7 @@ import {embedwaveUrl} from './arabicDiscovery.js'
 import {ARABIC_BACKENDS,arabicSourceIds,backendUrl,nextArabicSource} from './arabicSources.js'
 import PublisherFallback from './PublisherFallback.jsx'
 import {publisherEmbed} from './watanLookup.js'
+import YouTubePublisherPlayer from './YouTubePublisherPlayer.jsx'
 import {languageCode,originalAudioIndex,arabicSubtitleIndex,orderedSubtitles} from './mediaLanguages.js'
 import Peer from 'peerjs'
 import { ACTIVE_SERVER_IDS, normalizeServerId, nextServerId, pickProtectedSource } from './sourceMaintenance.js'
@@ -989,7 +990,8 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   const sourceIds=arabic?arabicSourceIds(isTV,ACTIVE_SERVER_IDS):(isTV?[10]:ACTIVE_SERVER_IDS);
   const currentServer=sourceIds.includes(Number(requestedServer))?Number(requestedServer):sourceIds[0];
   const [localPublisher,setLocalPublisher]=useState(undefined);
-  const publisherSource=arabic?(localPublisher===undefined?syncSettings.publisherSource||null:localPublisher):null;
+  const rawPublisher=arabic?(localPublisher===undefined?syncSettings.publisherSource||null:localPublisher):null;
+  const publisherSource=rawPublisher&&/^[A-Za-z0-9_-]{11}$/.test(rawPublisher.id||'')?publisherEmbed({id:rawPublisher.id,title:String(rawPublisher.title||'').slice(0,250),publisher:String(rawPublisher.publisher||'').slice(0,100),source:rawPublisher.source,adsPossible:true}):null;
   const [smartSearching,setSmartSearching]=useState(false);
   const smartBusy=useRef(false);
   const publisherTried=useRef(new Set());
@@ -1462,13 +1464,15 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
             <button onClick={()=>setShowPlaybackHelp(true)} className="underline text-sm text-gray-300">Playback options</button>
             {(movie.isArabic||isTV)&&<OfficialAvailability movie={movie} options={fetchOptions}/>}
           </div>
+        ) : publisherSource ? (
+          <YouTubePublisherPlayer key={publisherSource.id+'-'+frameRevision} video={publisherSource} onError={()=>{if(role==='admin'||mode==='single')void smartArabicSwitch('blocked');}} onProgress={(t,d)=>publishProgress(t,d)}/>
         ) : (
           <div className="relative w-full h-full bg-black flex items-center justify-center">
             <iframe
               ref={iframeRef}
               key={`${movie.id}-${currentServer}-${publisherSource?.id||''}-${frameRevision}`}
               title="Movie playback"
-              src={publisherSource?.embed?publisherSource.embed+'&origin='+encodeURIComponent(window.location.origin):fallbackNodes[currentServer]?.url}
+              src={fallbackNodes[currentServer]?.url}
               className="w-full h-full border-0"
               sandbox="allow-scripts allow-same-origin allow-presentation"
               allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
