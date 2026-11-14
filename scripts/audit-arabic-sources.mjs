@@ -2,7 +2,7 @@ import {normalizeArabic as norm} from '../src/arabicDiscovery.js';
 import {WATAN_SERIES} from '../src/watanSeries.js';
 import fs from 'node:fs';
 const B='https://api.dailymotion.com/';
-const users=['SyrianaArtproduction','ImediaSeries','goldenlinefortvproduction','clacketmediaproductions','SamaArtInternational','kabandartproduction','EBLATVProduction','alnahareg','CBCDrama'];
+const users=['SyrianaArtproduction','ImediaSeries','goldenlinefortvproduction','clacketmediaproductions','SamaArtInternational','kabandartproduction','EBLATVProduction','alnahareg','CBCDrama','LeenArtProduction','OnlineartProduction','FGForArtProduction','ajprodist','shammedia','OscarProductionDistribution'];
 const get=async p=>{for(let i=0;i<2;i++)try{const r=await fetch(B+p,{signal:AbortSignal.timeout(15000)});if(!r.ok)throw Error('HTTP '+r.status);return await r.json()}catch(e){if(i)throw e;await new Promise(r=>setTimeout(r,300));}};
 const fields='id,title,duration,allow_embed,created_time';
 const clean=s=>norm(s).replace(/^مسلسل\s+/,'').replace(/\bhd\b/g,'').replace(/\s+/g,' ').trim();
@@ -22,5 +22,5 @@ const grouped=new Map();for(const x of result){const k=clean(x.seriesTitle);if(!
 const complete=[...grouped].filter(([k,a])=>{const known=rows.filter(x=>x.nb===k);return !known.length||known.every(r=>a.some(x=>x.season===r.season&&clean(x.title)===r.nt));}).flatMap(x=>x[1]);
 fs.writeFileSync('public/arabic-source-audit.json',JSON.stringify({series:complete},null,2));
 console.log('BULK_RESULT',JSON.stringify({seasonCandidates:result.length,uniqueTitles:grouped.size,completeSeasonRows:complete.length,completeTitles:new Set(complete.map(x=>clean(x.seriesTitle))).size,links:complete.reduce((n,x)=>n+x.episodes.length,0),finalMarkers:complete.filter(x=>x.finalMarker).length,owners:[...owners]}));
-for(const x of complete)console.log('VERIFIED_CANDIDATE',JSON.stringify({title:x.title,season:x.season,expected:x.expected,owner:x.owner,final:x.finalMarker,first:x.episodes[0]?.id,last:x.episodes.at(-1)?.id}));
+console.log('TITLE_SUMMARY',JSON.stringify(complete.map(x=>[x.title,x.season,x.expected,x.owner,x.finalMarker])));
 for(const id of ['x8p3ftp','x8p3ftj','x8p3ftm'])try{const x=await get('video/'+id+'?fields=id,title,duration,allow_embed,owner.username');console.log('FILM',JSON.stringify(x))}catch(e){console.log('FILMERR',id,e.message)}
