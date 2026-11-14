@@ -40,7 +40,7 @@ const preview=await previewWork(storage,'alooytv:gztyqowfz11u',fake,now);assert.
 const requested=await resolveEpisode(storage,'alooytv:gztyqowfz11u',1,2,fake,now);assert.equal(requested.episode,2);assert.equal(requested.url,mp4.replace('example','2'));
 await assert.rejects(()=>resolveEpisode(storage,'alooytv:gztyqowfz11u',1,3,fake,now),/episode-not-listed/);
 const partial=await crawl(storage,fake,now+60000,1);assert.equal(partial.published,0);assert.equal(partial.availableWorks,1);assert.equal(partial.publishedEpisodes,1);const one=await (await privateRequest(new Request('https://internal/private-work?id=alooytv:gztyqowfz11u'),storage)).json();assert.equal(one.partial,true);assert.equal(one.assets.length,1);
-const progress=await crawl(storage,fake,now+120000);assert.equal(progress.published,1);assert.equal(progress.publishedEpisodes,2);assert.equal(progress.revision,'auto-v6');
+const progress=await crawl(storage,fake,now+120000);assert.equal(progress.published,1);assert.equal(progress.publishedEpisodes,2);assert.equal(progress.revision,'auto-v7');
 const result=await (await privateRequest(new Request('https://internal/private-work?id=alooytv:gztyqowfz11u'),storage)).json();
 assert.equal(result.assets.length,2);assert.equal(result.assets[0].thumbnail,origin+'/still1.jpg');assert.equal(result.assets[1].episode,2);
 const listing=await (await privateRequest(new Request('https://internal/private-list?q=جعفر'),storage)).json();assert.equal(listing.titles.length,1);assert.equal(listing.titles[0].assets,undefined);
@@ -51,4 +51,18 @@ assert.equal(matchMetadata({title:'جعفر العمدة',year:2023},[{id:1,name
 assert.equal(matchMetadata({title:'جعفر العمدة'},[{id:1,name:'جعفر العمدة'},{id:2,name:'جعفر العمدة'}]),null);
 const richer=await enrichWork({title:'جعفر العمدة',kind:'tv',year:2023,assets:[{season:1,episode:1}]},{headers:{}},undefined,async url=>Response.json(url.includes('search/')?{results:[{id:1,name:'جعفر العمدة',first_air_date:'2023-01-01'}]}:url.includes('/season/')?{episodes:[{season_number:1,episode_number:1,still_path:'/still.jpg',overview:'قصة الحلقة',runtime:40}]}:{overview:'قصة المسلسل',backdrop_path:'/backdrop.jpg',genres:[{name:'دراما'}]}));
 assert.equal(richer.assets[0].thumbnail,'https://image.tmdb.org/t/p/w500/still.jpg');assert.equal(richer.assets[0].duration,2400);assert.equal(richer.story,'قصة المسلسل');
+
+// The new engine must not reject a whole work due to unrelated count or a conflicting slot.
+const multi=page.replace('<a href="?key=ep1">Ep#1</a><a href="?key=ep2">Ep#2</a>','<a href="?key=ep1">S1 E1</a><a href="?key=ep2">S2 E1</a>')+'<p>عدد الحلقات: 5</p>'+link(1)+link(2);
+const separate=new Storage();let pageHits=0,probes=0;
+const multiFetch=async(url,opts)=>{url=String(url);if(url===work){pageHits++;return new Response(multi);}if(url.startsWith('https://vid4.')){probes++;return new Response(Uint8Array.from([0,0,0,24,102,116,121,112,105,115,111,109,0,0,0,0]),{status:206});}if(url===origin+'/'||url===origin+'/genre/ramadan-arabi-2026.html')return new Response('<a href="'+work+'">مسلسل</a>');throw Error('episode page should not be fetched when exact source is in work page');};
+await crawl(separate,multiFetch,now);
+const mp=await previewWork(separate,'alooytv:gztyqowfz11u',multiFetch,now);
+assert.deepEqual(mp.slots,[{season:1,episode:1},{season:2,episode:1}]);assert.equal(mp.count,5);
+const m2=await resolveEpisode(separate,'alooytv:gztyqowfz11u',2,1,multiFetch,now);
+assert.equal(m2.url,mp4.replace('example','2'));assert.equal(m2.season,2);assert.equal(pageHits,1);assert.equal(probes,1);
+await crawl(separate,multiFetch,now+2000);
+const mw=await (await privateRequest(new Request('https://internal/private-work?id=alooytv:gztyqowfz11u'),separate)).json();
+assert.equal(mw.partial,true);assert.equal(mw.count,5);assert.equal(mw.assets.length,2);assert.equal(mw.assets[1].season,2);
+
 console.log('PRIVATE AUTO PASS: metadata, discovery, exact episode mapping, complete publication, private listing, authentication, TMDB enrichment');
