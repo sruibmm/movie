@@ -5,6 +5,11 @@ on:
     paths:
       - 'android-tv/**'
       - '.github/workflows/cinema-tv.yml'
+  pull_request:
+    branches: [cloudflare-ready]
+    paths:
+      - 'android-tv/**'
+      - '.github/workflows/cinema-tv.yml'
   workflow_dispatch:
 permissions:
   contents: write
@@ -28,6 +33,7 @@ jobs:
           name: Cinema-TV-APK
           path: android-tv/build/Cinema-TV.apk
       - name: Publish downloadable APK
+        if: github.event_name != 'pull_request'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
