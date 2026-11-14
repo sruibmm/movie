@@ -1,4 +1,4 @@
-name: Dubai Plus official free episode playback
+name: Dubai Plus official play button verification
 on:
   push:
     branches: [dailymotion-diagnosis]
@@ -7,37 +7,30 @@ permissions:
 jobs:
   check:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 4
     steps:
       - run: npm install --no-save playwright && npx playwright install chromium
-      - name: Test ordinary free episode interaction
+      - name: Test standard free playback
         run: |
           cat > check.cjs <<'JS'
           const {chromium}=require('playwright');
           (async()=>{
-            const browser=await chromium.launch({headless:true,args:['--autoplay-policy=no-user-gesture-required']});
-            const page=await browser.newPage({viewport:{width:1280,height:800}});
+            const b=await chromium.launch({headless:true,args:['--autoplay-policy=no-user-gesture-required']});
+            const p=await b.newPage({viewport:{width:1280,height:800}});
             const target='https://www.dubaiplus.net/ar-AE/s/series/694469160205_'+encodeURIComponent('جعفر-العمدة');
-            const test='https://movie.o-a-f-a.workers.dev/__dubai-frame-test';
-            page.on('console',m=>{if(/frame|refused|blocked/i.test(m.text()))console.log('CONSOLE',m.text().slice(0,250))});
-            await page.route(test,r=>r.fulfill({contentType:'text/html',body:'<!doctype html><iframe title="Dubai Plus" src="'+target+'" width="1200" height="750" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen></iframe>'}));
-            await page.goto(test,{waitUntil:'domcontentloaded'});
-            await page.waitForTimeout(7000);
-            let f=page.frames().find(x=>x.url().includes('dubaiplus.net/ar-AE/s/series'));
-            if(!f)throw Error('no public frame');
-            console.log('BEFORE', (await f.locator('body').innerText()).slice(0,1600));
-            console.log('BUTTONS',JSON.stringify(await f.locator('button,a,[role=button]').evaluateAll(es=>es.slice(0,80).map(e=>({tag:e.tagName,text:(e.innerText||e.getAttribute('aria-label')||'').trim().slice(0,100),href:e.tagName==='A'?e.getAttribute('href'):null})))));
-            const ep=f.getByText('الحلقة 01',{exact:true}).first();
-            if(await ep.count())await ep.click({timeout:6000}).catch(e=>console.log('CLICK',e.message.slice(0,200)));
-            await page.waitForTimeout(5000);
-            f=page.frames().find(x=>x.url().includes('dubaiplus.net/'));
-            console.log('AFTER_URL',f?.url());
-            console.log('AFTER_TEXT',(await f.locator('body').innerText().catch(()=>'' )).slice(0,2000));
-            const play=f.getByRole('button',{name:/شاهد|تشغيل|watch|play/i}).first();
-            if(await play.count())await play.click({timeout:4000}).catch(e=>console.log('PLAY_CLICK',e.message.slice(0,200)));
-            await page.waitForTimeout(9000);
-            for(const x of page.frames()){if(x.url().includes('dubaiplus.net')){console.log('FINAL_URL',x.url());console.log('FINAL_TEXT',(await x.locator('body').innerText().catch(()=>'' )).slice(0,1000));console.log('VIDEO',JSON.stringify(await x.locator('video').evaluateAll(vs=>vs.map(v=>({time:v.currentTime,duration:v.duration,paused:v.paused,ready:v.readyState,error:v.error?.message||null}))).catch(()=>[])));}}
-            await browser.close();
+            const origin='https://movie.o-a-f-a.workers.dev/__dubai-frame-test';
+            await p.route(origin,r=>r.fulfill({contentType:'text/html',body:'<!doctype html><iframe src="'+target+'" style="width:100%;height:750px" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen></iframe>'}));
+            await p.goto(origin,{waitUntil:'domcontentloaded'});
+            await p.waitForTimeout(5500);
+            const f=p.frames().find(x=>x.url().includes('dubaiplus.net/ar-AE/s/series'));
+            if(!f)throw Error('No frame');
+            const cookies=f.getByRole('button',{name:'رفض الكل',exact:true}).filter({visible:true}).first();
+            if(await cookies.count())await cookies.click({timeout:2500}).catch(()=>{});
+            const play=f.getByRole('button',{name:'الموسم1 الحلقة1',exact:true});
+            await play.click({timeout:8000}).catch(e=>console.log('CLICK_FAIL',e.message.slice(0,300)));
+            await p.waitForTimeout(12000);
+            for(const x of p.frames()){if(!x.url().includes('dubaiplus.net'))continue;console.log('URL',x.url());console.log('TEXT',(await x.locator('body').innerText().catch(()=>'' )).slice(0,1000));console.log('VIDEO',JSON.stringify(await x.locator('video').evaluateAll(vs=>vs.map(v=>({time:v.currentTime,duration:v.duration,ready:v.readyState,paused:v.paused,error:v.error?.message||null}))).catch(()=>[])));}
+            await b.close();
           })().catch(e=>{console.error(e);process.exit(1)});
           JS
           node check.cjs
