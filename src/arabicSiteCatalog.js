@@ -1,3 +1,4 @@
+import {approvedEmbed} from './approvedEmbedCatalog.js';
 import {normalizeArabic} from './arabicDiscovery.js';
 import {dailymotionEmbedUrl} from './dailymotionPlayer.js';
 export const ARABIC_SITE_SERIES=[
@@ -175,5 +176,5 @@ export function arabicSiteEpisode(g,number){const e=g?.episodes.find(x=>x.number
 export function siteEpisodeMovie(g,e){const source=arabicSiteEpisode(g,e.number);if(!source)throw Error('Invalid publisher episode');return {id:'dailymotion:'+e.id,title:source.title,seriesTitle:g.title,media_type:'tv',season:1,episode:e.number,release_date:g.year+'-01-01',isArabic:true,original_language:'ar',publisherSource:source};}
 export function attachArabicSiteEpisode(movie){if(movie.publisherSource||movie.media_type!=='tv'||Number(movie.season)!==1)return movie;const source=arabicSiteEpisode(findArabicSiteSeries(movie),movie.episode);return source?{...movie,publisherSource:source}:movie;}
 export function isArabicMovie(movie){return !!(movie?.isArabic||movie?.original_language==='ar');}
-export function approvedPublisherUrl(s){if(s?.provider==='dailymotion')return dailymotionEmbedUrl(s.id);if(s?.playlist&&/^PL[-_A-Za-z0-9]{10,80}$/.test(s.id||''))return 'https://www.youtube-nocookie.com/embed/videoseries?list='+s.id+'&playsinline=1&rel=0&autoplay=1';if(/^[-_A-Za-z0-9]{11}$/.test(s?.id||''))return 'https://www.youtube-nocookie.com/embed/'+s.id+'?playsinline=1&rel=0&autoplay=1';return null;}
-export function allowArabicPlayback(movie){return !isArabicMovie(movie)||!!(movie.licensedSource||approvedPublisherUrl(movie.publisherSource));}
+export function approvedPublisherUrl(s,movie){if(s?.provider==='licensed-embed'){const approved=approvedEmbed(movie);return approved?.id===s.id?approved.embed:null;}if(s?.provider==='dailymotion')return dailymotionEmbedUrl(s.id);if(s?.playlist&&/^PL[-_A-Za-z0-9]{10,80}$/.test(s.id||''))return 'https://www.youtube-nocookie.com/embed/videoseries?list='+s.id+'&playsinline=1&rel=0&autoplay=1';if(/^[-_A-Za-z0-9]{11}$/.test(s?.id||''))return 'https://www.youtube-nocookie.com/embed/'+s.id+'?playsinline=1&rel=0&autoplay=1';return null;}
+export function allowArabicPlayback(movie){return !isArabicMovie(movie)||!!(movie.licensedSource||approvedPublisherUrl(movie.publisherSource,movie));}
