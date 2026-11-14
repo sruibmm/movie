@@ -227,6 +227,30 @@ export async function crawl(s,fetcher=fetch,now=Date.now(),budget=48){
  if(rev!==REVISION){for(const id of ['asix3ql1l2cf','eo0d9c52j0k8','ewi7bvciic6u','0savdpd5wt7z','06v44abenwn6','b1fofd5a2ccl','mnfdrzi1l8a4','029tbb8b6shb','vrag6g9jmzjm']){const known=await s.get(P+'discovered:alooytv:'+id);if(known&&!await s.get(P+'preview:alooytv:'+id))await enqueue(s,{type:'work',url:ORIGIN+'/watch/'+id+'.html',id:'alooytv:'+id,kind:known.kind,title:known.title,poster:known.poster},now,true);}}if(seedDue){await enqueue(s,{type:'index',url:ORIGIN+'/',kind:''},now,true);await enqueue(s,{type:'index',url:ORIGIN+'/genre/ramadan-arabi-2026.html',kind:'tv'},now,true);await enqueue(s,{type:'work',url:ORIGIN+'/watch/gztyqowfz11u.html',id:'alooytv:gztyqowfz11u',kind:'tv'},now,true);await s.put(P+'seed',now);}
  // Read each lane independently so an episode backlog cannot starve discovery.
  const lanes=await Promise.all(['0','1','2'].map(n=>queueRows(s,P+'q:'+n+':')));
+ // Recover catalogue titles that were discovered before their work job was queued.
+ // Scan the local index, not the external site, and only add truly unmapped titles.
+ if(lanes[1].size<80){
+  const rows=(await getFastIndex(s)).filter(t=>t.discovered&&t.sourcePage);
+  const queued=new Set([...lanes[1].values()].map(j=>j.id));
+  const candidates=rows.filter(t=>!queued.has(t.id)).flatMap(t=>{const u=source(t.sourcePage);return u&&workPath(u)&&workId(u)===t.id?[{type:'work',id:t.id,url:ORIGIN+u.pathname,kind:t.kind,title:t.title,poster:t.poster}]:[];});
+  const keys=candidates.flatMap(j=>[P+'preview:'+j.id,P+'seen:'+jobKey(j),P+'error:'+jobKey(j)]);
+  const known=await getMany(s,keys);
+  const missing=candidates.filter(j=>!known.get(P+'preview:'+j.id)&&!(Number(known.get(P+'seen:'+jobKey(j)))>now-DAY)&&!(Number(known.get(P+'error:'+jobKey(j))?.at)>now-6*3600000)).slice(0,80-lanes[1].size);
+  const entries=missing.map(j=>[jobKey(j),{...j,tries:0,after:0,revision:REVISION}]);
+  await putMany(s,entries);for(const [k,v] of entries)lanes[1].set(k,v);
+ }
+ // Restore reasons for deferred jobs created by v8 without changing their identity.
+ const oldDeferred=lanes.flatMap(rows=>[...rows].filter(([,j])=>j.after>now&&!j.reason));
+ const oldErrors=await getMany(s,oldDeferred.map(([k])=>P+'error:'+k));
+ const migrated=[];
+ for(const rows of lanes)for(const [k,j] of rows){
+  const previous=oldErrors.get(P+'error:'+k);
+  if(!previous)continue;
+  const plan=retryPlan(previous.reason,j.tries||1,previous.at);
+  const v={...j,reason:previous.reason,structural:plan.structural,deferredAt:previous.at,after:Math.min(j.after,plan.after)};
+  rows.set(k,v);migrated.push([k,v]);
+ }
+ await putMany(s,migrated);
  const draftRows=await queueRows(s,P+'draft:');
  const draftsById=new Map([...draftRows.values()].map(d=>[d.id,d]));
  const episodeRows=[...lanes[0]];
@@ -240,7 +264,8 @@ export async function crawl(s,fetcher=fetch,now=Date.now(),budget=48){
  const ready=lanes.map(rows=>[...rows].flatMap(([key,j])=>{
   if(j.type==='episode'&&draftsById.get(j.id)?.gen!==j.gen)return [];
   const u=source(j.url);if(!u)return [];
-  const link=j.type==='episode'&&j.phase!=='verify'?savedLinks.get(mediaKey(j.id,u.searchParams.get('key')||'')):null;
+  const rawLink=j.type==='episode'&&j.phase!=='verify'?savedLinks.get(mediaKey(j.id,u.searchParams.get('key')||'')):null;
+  const link=rawLink&&now-rawLink.at<DAY?rawLink:null;
   const newLink=!!(link?.urls?.length&&now-link.at<DAY&&link.at>(j.deferredAt||j.after||0));
   if(effectiveDue(j,health.get(j.id),now,newLink)>now)return [];
   return [[key,{...j,url:ORIGIN+u.pathname+u.search,revision:REVISION,rescued:newLink,candidates:link?.urls||j.candidates}]];
@@ -262,7 +287,7 @@ export async function crawl(s,fetcher=fetch,now=Date.now(),budget=48){
     await processJob(s,j,fetcher,now,r.value);await s.put(P+'seen:'+key,now);if(j.type==='index')await s.put(P+'seen:'+REVISION+':'+key,now);await s.delete(key);if(r.value?.skip)skipped++;else done++;
    }catch(e){
     failed++;const reason=String(e.message||e).slice(0,160);errors.push({type:j.type,reason,path:new URL(j.url).pathname,episode:j.episode||j.n,season:j.season});
-    const tries=j.tries+1,isStructural=structural(reason);
+    const tries=j.tries+1;
     if(j.type==='episode'&&j.phase!=='verify'){const h=nextHealth(health.get(j.id),false,reason,now);health.set(j.id,h);await s.put(healthKey(j.id),h);}
     const plan=retryPlan(reason,tries,now);await s.put(P+'error:'+key,{url:j.url,reason,at:now});await s.put(key,{...j,...plan,deferredAt:now,revision:REVISION});
    }
@@ -282,8 +307,9 @@ export async function crawl(s,fetcher=fetch,now=Date.now(),budget=48){
  const stages={index:0,work:0,extract:0,verify:0};const delayed={structural:0,transient:0,cooldown:0};
  for(const j of pending.values()){stages[j.type==='episode'?(j.phase==='verify'?'verify':'extract'):j.type]++;if(due(j)>now){if(j.after>now){if(j.structural)delayed.structural++;else delayed.transient++;}else delayed.cooldown++;}}
  totals.processed+=done;totals.failed+=failed;totals.extracted+=extracted;
+ const titleIndex=await getFastIndex(s),previewRows=await queueRows(s,P+'preview:');const mappedWorks=new Set([...previewRows.values()].filter(p=>p.slots?.length).map(p=>p.id));for(const w of works.values())mappedWorks.add(w.id);
 
- const result={at:now,revision:REVISION,source:ORIGIN,processed:done,failed,skipped,extracted,queuedSample:pending.size,queueSampleTruncated:false,stages,delayed,ready:readyCount,waiting:pending.size-readyCount,nextRetry:Number.isFinite(nextRetry)?nextRetry:null,published:[...works.values()].filter(w=>!w.partial&&w.source!=='personal-import').length,availableWorks:works.size,publishedEpisodes:[...works.values()].filter(w=>w.source!=='personal-import').reduce((n,w)=>n+(w.availableCount??w.count),0),importedWorks:[...works.values()].filter(w=>w.source==='personal-import').length,importedEpisodes:[...works.values()].filter(w=>w.source==='personal-import').reduce((n,w)=>n+(w.availableCount??w.count),0),discovered:(await getFastIndex(s)).length,drafts:drafts.size,verifiedDraftEpisodes:[...drafts.values()].reduce((n,d)=>n+d.count-d.remaining,0),totals,errors:errors.length?errors.slice(0,5):[],state:done||extracted?'working':failed?'source-error':pending.size?'retry-wait':'idle'};await s.put(P+'status',result);return result;
+ const result={at:now,revision:REVISION,source:ORIGIN,processed:done,failed,skipped,extracted,queuedSample:pending.size,queueSampleTruncated:false,stages,delayed,ready:readyCount,waiting:pending.size-readyCount,nextRetry:Number.isFinite(nextRetry)?nextRetry:null,published:[...works.values()].filter(w=>!w.partial&&w.source!=='personal-import').length,availableWorks:works.size,publishedEpisodes:[...works.values()].filter(w=>w.source!=='personal-import').reduce((n,w)=>n+(w.availableCount??w.count),0),importedWorks:[...works.values()].filter(w=>w.source==='personal-import').length,importedEpisodes:[...works.values()].filter(w=>w.source==='personal-import').reduce((n,w)=>n+(w.availableCount??w.count),0),discovered:titleIndex.length,mappedWorks:mappedWorks.size,drafts:drafts.size,verifiedDraftEpisodes:[...drafts.values()].reduce((n,d)=>n+d.count-d.remaining,0),totals,errors:errors.length?errors.slice(0,5):[],state:done||extracted?'working':failed?'source-error':pending.size?'retry-wait':'idle'};await s.put(P+'status',result);return result;
 }
 // On-demand catalog lookup uses only known source page identities, never an arbitrary URL.
 // Metadata and the exact episode index are separate from verified playback.
