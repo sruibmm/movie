@@ -8,13 +8,13 @@ export default async function handler(req,res){
  res.setHeader('Cache-Control','public, max-age=60, s-maxage=3600');
  const variants=[slug(title),slug(title.replace(/ة/g,'ه')),slug(title.replace(/ه/g,'ة'))].filter(Boolean);
  const urls=[...new Set(variants)].slice(0,3).map(s=>WATAN_ORIGIN+'/series/'+encodeURIComponent(s));
- const checked=new Set();let items=[],reachable=false;
+ const checked=new Set();let items=[],reachable=false;const diagnostics=[];
  async function tryPages(pages){
-  for(const page of pages){if(checked.has(page))continue;checked.add(page);const html=await get(page);if(!html)continue;reachable=true;const candidates=parseWatanPage(html,title,type,episode,season);
-   for(const candidate of candidates){const o='https://www.youtube.com/oembed?'+new URLSearchParams({url:'https://www.youtube.com/watch?v='+candidate.id,format:'json'});const meta=await get(o,4500,true);const match=verifyWatanVideo(candidate,meta,query);if(match){items.push(match);return;}}
+  for(const page of pages){if(checked.has(page))continue;checked.add(page);const html=await get(page);if(!html)continue;reachable=true;const candidates=parseWatanPage(html,title,type,episode,season);if(req.query.debug==='1')diagnostics.push({page,h1:html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i)?.[1]?.slice(0,180),length:html.length,rawYoutube:html.match(/.{0,40}Ag-fVJvmCic.{0,90}/)?.[0],count:candidates.length,candidates});
+   for(const candidate of candidates){const o='https://www.youtube.com/oembed?'+new URLSearchParams({url:'https://www.youtube.com/watch?v='+candidate.id,format:'json'});const meta=await get(o,4500,true);const match=verifyWatanVideo(candidate,meta,query);if(req.query.debug==='1')diagnostics.push({candidate,meta:meta?{title:meta.title,author_name:meta.author_name,author_url:meta.author_url}:null});if(match){items.push(match);return;}}
   }
  }
  await tryPages(urls);
  if(!items.length){const lists=type==='tv'?['/ar/home','/ar/category/'+encodeURIComponent('مسلسلات')]:['/ar/category/'+encodeURIComponent('الأفلام'),'/ar/category/'+encodeURIComponent('مسرحيات')];const pages=await Promise.all(lists.map(x=>get(WATAN_ORIGIN+x)));await tryPages([...new Set(pages.filter(Boolean).flatMap(p=>cataloguePages(p,title)))].slice(0,3));}
- return res.status(200).json({items,source:'watanflix',reachable,verified:items.length>0});
+ return res.status(200).json({items,source:'watanflix',reachable,verified:items.length>0,...(req.query.debug==='1'?{diagnostics}:{})});
 }
