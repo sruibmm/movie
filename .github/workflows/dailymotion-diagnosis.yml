@@ -1,4 +1,4 @@
-name: Public AlooYTV player compatibility and header audit
+name: Verify live Cinema source-sync rollout
 on:
   push:
     branches: [dailymotion-diagnosis]
@@ -7,43 +7,18 @@ permissions:
 jobs:
   audit:
     runs-on: ubuntu-latest
-    timeout-minutes: 3
+    timeout-minutes: 2
     steps:
-      - run: npm install --no-save playwright && npx playwright install chromium
       - run: |
-          cat > audit.cjs <<'JS'
-          const {chromium}=require('playwright');
-          (async()=>{
-            const b=await chromium.launch({headless:true,args:['--autoplay-policy=no-user-gesture-required']});
-            const p=await b.newPage({viewport:{width:1280,height:800}});
-            const responses=[];
-            p.on('response',r=>{
-              const h=r.headers(),rq=r.request(),kind=rq.resourceType();
-              if(kind==='media'||/mpegurl|dash\+xml|video\//i.test(h['content-type']||'')){
-                responses.push({url:r.url(),status:r.status(),type:h['content-type']||'',acao:h['access-control-allow-origin']||null,corp:h['cross-origin-resource-policy']||null,range:h['accept-ranges']||null,kind});
-              }
-            });
-            await p.goto('https://aloooytv.com/',{waitUntil:'domcontentloaded',timeout:20000});
-            const entry=new URL(await p.locator('a').filter({hasText:'شاهد الآن'}).first().getAttribute('href'),p.url());
-            if(entry.origin!=='https://aloooytv.com')throw Error('unexpected entry');
-            await p.goto(entry.href,{waitUntil:'domcontentloaded',timeout:22000});
-            const search=p.locator('input[type=search],input[placeholder*="بحث"],input[placeholder*="Search" i]').first();
-            await search.fill('جعفر العمدة');await search.press('Enter');
-            const title=p.locator('a').filter({hasText:/جعفر العمدة/}).first();
-            await title.click({timeout:12000});
-            await p.locator('video').first().waitFor({state:'attached',timeout:12000});
-            const v=p.locator('video').first();
-            await v.evaluate(v=>{v.muted=true;v.play().catch(()=>{});});
-            await p.waitForTimeout(7000);
-            const d=await v.evaluate(v=>({src:v.currentSrc,sourceCount:v.querySelectorAll('source').length,configuredCrossOrigin:v.crossOrigin,hasMediaKeys:!!v.mediaKeys,ready:v.readyState,height:v.videoHeight,duration:Number.isFinite(v.duration)?v.duration:null,time:v.currentTime}));
-            const current=d.src;
-            const pageOrigin=new URL(p.url()).origin;
-            const srcOrigin=current?new URL(current).origin:null;
-            const matched=responses.filter(r=>r.url===current);
-            const safe=r=>({status:r.status,type:r.type,acao:r.acao==='*'?'wildcard':r.acao===pageOrigin?'original-page-only':r.acao?'other-origin':null,corp:r.corp,range:r.range,kind:r.kind});
-            delete d.src;
-            console.log('PLAYER',JSON.stringify({pageOriginMatchesMedia:srcOrigin===pageOrigin,sourceProtocol:current?new URL(current).protocol:null,video:d,mediaResponses:matched.map(safe).slice(-8),observedMediaResponses:responses.map(safe).slice(-8)}));
-            await b.close();
-          })().catch(e=>{console.log('AUDIT_ERROR',e.name);process.exit(1)});
-          JS
-          node audit.cjs
+          python - <<'PY'
+          import urllib.request, urllib.error, json
+          base='https://movie.o-a-f-a.workers.dev'
+          for p in ['/', '/api/source-sync/status', '/api/source-sync/catalog', '/api/dailymotion-player?video=x6rtfip']:
+            try:
+              with urllib.request.urlopen(urllib.request.Request(base+p,headers={'User-Agent':'Mozilla/5.0','Cache-Control':'no-cache'}),timeout=12) as r:
+                body=r.read(1000).decode('utf8','replace')
+                print('LIVE '+json.dumps({'path':p,'status':r.status,'type':r.headers.get('Content-Type'),'body':body[:400] if p!='/' else body[:100]}),flush=True)
+            except urllib.error.HTTPError as e:
+              print('LIVE '+json.dumps({'path':p,'status':e.code,'body':e.read(300).decode('utf8','replace')}),flush=True)
+            except Exception as e: print('LIVE '+json.dumps({'path':p,'error':str(e)}),flush=True)
+          PY
