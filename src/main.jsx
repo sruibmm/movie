@@ -316,7 +316,7 @@ function PasswordModal({ onVerify, onClose }) {
 }
 
 function App() {
-  const params=new URLSearchParams(window.location.search),tvMode=params.get('tv')==='1',directArabic=params.get('library')==='arabic';
+  const params=new URLSearchParams(window.location.search),tvMode=window.__CINEMA_TV__===true||params.get('tv')==='1',directArabic=params.get('library')==='arabic';
   const [mode, setMode] = useState(tvMode||directArabic?'single':null);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
@@ -1021,7 +1021,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   const [mediaInfo, setMediaInfo] = useState({time:0,duration:0});
   const [quality, setQuality] = useState(-1);
   const [languageStatus,setLanguageStatus]=useState({audio:'',subs:''});
-  const tvPlayback=new URLSearchParams(location.search).get('tv')==='1';
+  const tvPlayback=window.__CINEMA_TV__===true||new URLSearchParams(location.search).get('tv')==='1';
   const [tvCC,setTvCC]=useState(()=>{try{return readTvCC(window.localStorage);}catch{return 'ar';}});
   const tvCCRef=useRef(tvCC),tvCaptionApply=useRef(null);
   const [tvCaptionStatus,setTvCaptionStatus]=useState('waiting');
