@@ -1,0 +1,39 @@
+name: Cinema Samsung TV source package
+on:
+  pull_request:
+    branches: [cloudflare-ready]
+    paths:
+      - 'samsung-tv/**'
+      - '.github/workflows/cinema-samsung-tv.yml'
+  push:
+    branches: [cinema-samsung-tv]
+    paths:
+      - 'samsung-tv/**'
+      - '.github/workflows/cinema-samsung-tv.yml'
+permissions:
+  contents: read
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate and package Tizen project
+        run: |
+          node --check samsung-tv/app.js
+          python - <<'PY'
+          import xml.etree.ElementTree as E, base64, pathlib, zipfile
+          p=pathlib.Path('samsung-tv')
+          config=E.parse(p/'config.xml').getroot()
+          assert config.attrib['version']=='1.0.0'
+          image=base64.b64decode((p/'icon.png.b64').read_text())
+          assert image.startswith(b'\x89PNG\r\n\x1a\n')
+          (p/'icon.png').write_bytes(image)
+          with zipfile.ZipFile('Cinema-TV-Samsung-Project.zip','w',zipfile.ZIP_DEFLATED) as z:
+              for name in ['config.xml','index.html','app.js','icon.png','README.md']:
+                  z.write(p/name,'Cinema-TV/'+name)
+          print('Tizen source package validated; Samsung signing required.')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Cinema-TV-Samsung-Project
+          path: Cinema-TV-Samsung-Project.zip
