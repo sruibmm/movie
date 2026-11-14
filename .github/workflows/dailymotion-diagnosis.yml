@@ -1,4 +1,4 @@
-name: AlooYTV public watch entry validation
+name: AlooYTV public catalogue and player capability
 on:
   push:
     branches: [dailymotion-diagnosis]
@@ -7,42 +7,26 @@ permissions:
 jobs:
   audit:
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: 4
     steps:
+      - run: npm install --no-save playwright && npx playwright install chromium
       - run: |
-          python - <<'PY'
-          import urllib.request, urllib.parse, re, json
-          from html.parser import HTMLParser
-          class P(HTMLParser):
-            def __init__(self):super().__init__();self.a=None;self.links=[];self.title='';self.in_title=False;self.count={};self.words=[]
-            def handle_starttag(self,t,attrs):
-              self.count[t]=self.count.get(t,0)+1;d=dict(attrs)
-              if t=='a':self.a=[d.get('href',''),'']
-              if t=='title':self.in_title=True
-            def handle_data(self,d):
-              if self.a is not None:self.a[1]+=d
-              if self.in_title:self.title+=d
-              self.words.append(d)
-            def handle_endtag(self,t):
-              if t=='a' and self.a is not None:self.links.append(self.a);self.a=None
-              if t=='title':self.in_title=False
-          class NoRedirect(urllib.request.HTTPRedirectHandler):
-            def redirect_request(self,*args,**kwargs):return None
-          def get(u,redirect=True):
-            req=urllib.request.Request(u,headers={'User-Agent':'Mozilla/5.0'})
-            opener=urllib.request.build_opener() if redirect else urllib.request.build_opener(NoRedirect())
-            with opener.open(req,timeout=12) as r:
-              p=P();p.feed(r.read(1500000).decode('utf8','replace'));return r,p
-          r,p=get('https://aloooytv.com')
-          urls=sorted(set(urllib.parse.urljoin(r.url,h) for h,l in p.links if 'شاهد الآن' in l and urllib.parse.urlsplit(urllib.parse.urljoin(r.url,h)).hostname=='aloooytv.com'))
-          print('ENTRY_COUNT',len(urls),flush=True)
-          for u in urls[:4]:
-            try:
-              r,p=get(u,False)
-              text=' '.join(p.words)
-              print('ENTRY '+json.dumps({'status':r.status,'sameHost':urllib.parse.urlsplit(r.url).hostname=='aloooytv.com','title':p.title.strip(),'video':p.count.get('video',0),'iframe':p.count.get('iframe',0),'links':len(p.links),'searchForms':p.count.get('form',0),'mentionsEpisodes':bool(re.search('الحلقة|الحلقات',text)),'externalLinkCount':sum(urllib.parse.urlsplit(urllib.parse.urljoin(r.url,h)).hostname not in ('aloooytv.com',None) for h,l in p.links),'xFrame':r.headers.get('X-Frame-Options')},ensure_ascii=False),flush=True)
-            except urllib.error.HTTPError as e:
-              loc=e.headers.get('Location','')
-              print('ENTRY '+json.dumps({'status':e.code,'redirect':bool(loc),'redirectSameHost':urllib.parse.urlsplit(urllib.parse.urljoin(u,loc)).hostname=='aloooytv.com' if loc else None,'redirectScheme':urllib.parse.urlsplit(urllib.parse.urljoin(u,loc)).scheme if loc else None}),flush=True)
-            except Exception as e:print('ENTRY '+json.dumps({'error':type(e).__name__}),flush=True)
-          PY
+          cat > audit.cjs <<'JS'
+          const {chromium}=require('playwright');
+          (async()=>{
+            const b=await chromium.launch({headless:true});
+            const p=await b.newPage({viewport:{width:1280,height:800}});
+            await p.goto('https://aloooytv.com/',{waitUntil:'domcontentloaded',timeout:20000});
+            const link=p.locator('a').filter({hasText:'شاهد الآن'}).first();
+            if(!await link.count()){console.log('RESULT no watch entry');return await b.close();}
+            const href=await link.getAttribute('href');
+            const entry=new URL(href,p.url());
+            if(entry.origin!=='https://aloooytv.com'){console.log('RESULT unexpected entry');return await b.close();}
+            const r=await p.goto(entry.href,{waitUntil:'domcontentloaded',timeout:25000}).catch(e=>null);
+            await p.waitForTimeout(3500);
+            const info=await p.evaluate(()=>({title:document.title,headings:[...document.querySelectorAll('h1,h2,h3')].map(x=>x.textContent.trim().slice(0,100)).slice(0,20),links:document.querySelectorAll('a').length,video:document.querySelectorAll('video').length,iframes:document.querySelectorAll('iframe').length,search:[...document.querySelectorAll('input')].filter(x=>x.type==='search'||/بحث|search/i.test(x.placeholder)).length,hasGaafar:document.body.innerText.includes('جعفر العمدة'),hasLogin:/تسجيل الدخول|sign in/i.test(document.body.innerText),hasBlocked:/access denied|blocked|verify you are human/i.test(document.body.innerText),bodySample:document.body.innerText.slice(0,600)}));
+            console.log('RESULT',JSON.stringify({status:r?.status(),host:new URL(p.url()).hostname,info}));
+            await b.close();
+          })().catch(e=>{console.log('RESULT error',e.message.slice(0,200));process.exit(1)});
+          JS
+          node audit.cjs
