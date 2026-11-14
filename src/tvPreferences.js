@@ -11,7 +11,7 @@ export function captionIndex(tracks,pref){
 export function applyTvCC(video,hls,pref){
  const hlsTracks=hls?.subtitleTracks||[],native=Array.from(video?.textTracks||[]),hi=captionIndex(hlsTracks,pref),ni=captionIndex(native,pref);
  // HLS.js owns its manifest tracks; HTML track elements handle sidecar/native tracks.
- if(hlsTracks.length){hls.subtitleTrack=hi;hls.subtitleDisplay=hi>=0;}
+ if(hlsTracks.length){if(hls.subtitleTrack!==hi)hls.subtitleTrack=hi;if(hls.subtitleDisplay!==(hi>=0))hls.subtitleDisplay=hi>=0;}
  if(hi>=0)return {status:'selected',language:pref,engine:'hls'};
  for(let i=0;i<native.length;i++)if(['subtitles','captions'].includes(native[i].kind))native[i].mode=i===ni?'showing':'disabled';
  return {status:pref==='off'?'off':ni>=0?'selected':'missing',language:pref,engine:'native'};
