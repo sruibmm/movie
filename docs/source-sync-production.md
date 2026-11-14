@@ -1,0 +1,3 @@
+# Production source sync rollout
+
+The native synchronized playback, catalogue, fallback and persistent storage implementation is merged into the production branch. The production Cloudflare configuration uses a dedicated SQLite Durable Object and a six-hour schedule. SOURCE_POLICIES is deliberately empty: no AlooYTV catalogue or video is enabled, no external video URL is extracted, and no content is advertised as playable. With no approved providers, the catalog is empty and the existing Cinema library is unchanged. Configure only after a provider grants web playback and supplies a compatible catalogue plus independently measured evidence. Deployment must be confirmed separately from GitHub tests.

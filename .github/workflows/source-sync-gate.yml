@@ -1,7 +1,7 @@
 name: Source sync staging tests
 on:
   push:
-    branches: [source-sync-staging]
+    branches: [source-sync-staging, cloudflare-ready]
 permissions:
   contents: read
 jobs:
