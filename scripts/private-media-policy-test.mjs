@@ -63,3 +63,20 @@ const response=await recoveryRequest('/private-episode',new Request('https://cin
 assert.equal(response.status,200);assert.equal((await response.json()).url,final);
 
 console.log('GLOBAL MEDIA POLICY PASS: exact identities, known and operator-approved hosts, saved assets, stateless playback and diagnostic rejection');
+
+// Regression: a feature URL may redirect to a valid but unrelated warning MP4.
+const warning='https://archive.org/download/aloo-ytv-fake-sites-direct-wide-phone/AlooYTV-fake-sites-direct-wide-phone.mp4';
+configureMediaHosts('["archive.org"]');
+assert.equal(validMedia(warning),false);
+let warningHits=0;
+await assert.rejects(()=>probe(initial,async()=>{warningHits++;return new Response(null,{status:302,headers:{Location:warning}});}),/media-warning-clip/);
+assert.equal(warningHits,1);
+configureMediaHosts(undefined);
+const header=Uint8Array.from([0,0,0,24,102,116,121,112,105,115,111,109,0,0,0,0]);
+await assert.rejects(()=>probe(initial,async()=>new Response(header,{status:206,headers:{'Content-Range':'bytes 0-15/1202253'}})),/media-too-small/);
+assert.equal(await probe(initial,async()=>new Response(header,{status:206,headers:{'Content-Range':'bytes 0-15/600000000','Content-Length':'16'}})),initial);
+const clip=new Uint8Array(132);clip.set(header);const dv=new DataView(clip.buffer);dv.setUint32(24,108);clip.set([109,118,104,100],28);dv.setUint32(44,1000);dv.setUint32(48,22210);
+await assert.rejects(()=>probe(initial,async()=>new Response(clip,{status:206,headers:{'Content-Range':'bytes 0-131/600000000'}})),/media-too-short: 22.21/);
+dv.setUint32(48,6120000);
+assert.equal(await probe(initial,async()=>new Response(clip,{status:206,headers:{'Content-Range':'bytes 0-131/600000000'}})),initial);
+console.log('WARNING MEDIA PASS: known redirect blocked, 1.2MB and 22.21s rejected, 102-minute synthetic file accepted');
