@@ -26,3 +26,17 @@
 .cinema-tv [data-cinema-player] header p{font-size:20px}
 .cinema-tv [data-cinema-player] header p+p{font-size:15px}
 @media(max-width:1000px){.cinema-tv .tv-poster-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}.cinema-tv .tv-home{padding:24px 4vw}.cinema-tv .tv-brand h1{font-size:32px}}
+
+/* Arabic and international libraries share one consistent TV visual system. */
+.cinema-tv .tv-home [class~="grid-cols-2"][class~="md:grid-cols-5"],.cinema-tv .tv-home [class~="grid-cols-2"][class~="lg:grid-cols-5"]{grid-template-columns:repeat(6,minmax(0,1fr));gap:24px}
+.cinema-tv .tv-home button.group,.cinema-tv .tv-home .tv-poster-card{border:2px solid transparent;border-radius:14px;padding:5px;text-align:start;transition:border-color .12s,background .12s}
+.cinema-tv .tv-home button.group:focus,.cinema-tv .tv-home .tv-poster-card:focus{outline:3px solid #e2d3ff!important;border-color:#b690ff;background:#302046}
+.cinema-tv .tv-home button.group p,.cinema-tv .tv-home button.group h3{font-size:18px!important;line-height:1.4}
+.cinema-tv .tv-home button.group [class~="aspect-[2/3]"]{aspect-ratio:2/3;min-height:180px;position:relative;background:linear-gradient(145deg,#3a254f,#151321);border-radius:12px;overflow:hidden}
+.cinema-tv .tv-home button.group img{display:block;width:100%;height:100%;object-fit:cover}
+.cinema-tv .tv-home h2,.cinema-tv .tv-home h3{color:#fff}
+.cinema-tv .tv-home section{margin-bottom:32px}
+.cinema-tv [class~="max-h-[90dvh]"]{max-height:90vh}
+.cinema-tv [role=dialog]{max-width:70vw!important;padding:28px;border-radius:20px}
+.cinema-tv [role=dialog] button{min-height:52px}
+@media(max-width:1000px){.cinema-tv .tv-home [class~="grid-cols-2"][class~="md:grid-cols-5"],.cinema-tv .tv-home [class~="grid-cols-2"][class~="lg:grid-cols-5"]{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}}
