@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';
+import {doubleTap,cineMessage,cineCommand,cineOrigin} from '../src/tvRemote.js';
+import {seekTarget} from '../src/tvPreferences.js';
+let t=doubleTap(null,39,1000);assert.equal(t.delta,0);assert.equal(doubleTap(t.last,39,1250).delta,10);
+t=doubleTap(null,37,1000);assert.equal(doubleTap(t.last,37,1200).delta,-10);
+assert.equal(doubleTap(t.last,37,1600).delta,0);assert.equal(doubleTap(t.last,39,1100).delta,0);
+assert.equal(doubleTap(t.last,37,1100,true).delta,0);
+assert.equal(seekTarget(5,100,-10),0);assert.equal(seekTarget(96,100,10),100);assert.equal(seekTarget(20,100,10),30);
+let message;const win={postMessage:(m,o)=>{message={m,o}}},frame={src:cineOrigin+'/embed/movie/123',contentWindow:win};
+assert.equal(cineCommand(frame,'seek',[30]),true);assert.deepEqual(message,{m:{type:'cinesrc:command',command:'seek',args:[30]},o:cineOrigin});
+assert.equal(cineCommand({...frame,src:'https://example.com/'},'seek',[30]),false);
+assert.equal(cineMessage(frame,{origin:cineOrigin,source:win,data:{type:'cinesrc:timeupdate'}}),true);
+assert.equal(cineMessage(frame,{origin:'https://example.com',source:win,data:{type:'cinesrc:timeupdate'}}),false);
+assert.equal(cineMessage(frame,{origin:cineOrigin,source:{},data:{type:'cinesrc:timeupdate'}}),false);
+console.log('TV remote tests passed: double-tap, repeat suppression, bounds, CineSrc origin validation');
