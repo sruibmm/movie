@@ -1,4 +1,4 @@
-name: Dubai Plus public frame compatibility check
+name: Dubai Plus browser framing check
 on:
   push:
     branches: [dailymotion-diagnosis]
@@ -7,19 +7,30 @@ permissions:
 jobs:
   check:
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: 4
     steps:
-      - name: Check standard HTTP frame policies
+      - run: npm install --no-save playwright && npx playwright install chromium
+      - name: Test normal public page framing without bypassing controls
         run: |
-          python - <<'PY'
-          import urllib.request, urllib.error, urllib.parse
-          urls=['https://www.dubaiplus.net/web/','https://www.dubaiplus.net/web/ar-AE/s/series/694469160205_'+urllib.parse.quote('جعفر-العمدة')]
-          for u in urls:
-              req=urllib.request.Request(u,method='HEAD',headers={'User-Agent':'Mozilla/5.0'})
-              try:r=urllib.request.urlopen(req,timeout=10)
-              except urllib.error.HTTPError as e:r=e
-              except Exception as e:print('ERROR',str(e));continue
-              print('HTTP',r.status,r.url)
-              for k in ['X-Frame-Options','Content-Security-Policy','Content-Security-Policy-Report-Only']:
-                  print(k,r.headers.get(k))
-          PY
+          cat > check.cjs <<'JS'
+          const {chromium}=require('playwright');
+          (async()=>{
+            const browser=await chromium.launch({headless:true});
+            const page=await browser.newPage();
+            const target='https://www.dubaiplus.net/ar-AE/s/series/694469160205_'+encodeURIComponent('جعفر-العمدة');
+            const test='https://movie.o-a-f-a.workers.dev/__dubai-frame-test';
+            page.on('console',m=>{if(/frame|refused|blocked/i.test(m.text()))console.log('CONSOLE',m.text().slice(0,350))});
+            page.on('response',r=>{if(r.request().resourceType()==='document')console.log('DOCUMENT',r.status(),r.url(),JSON.stringify({'x-frame-options':r.headers()['x-frame-options'],'content-security-policy':r.headers()['content-security-policy']}))});
+            await page.route(test,r=>r.fulfill({contentType:'text/html',body:'<!doctype html><iframe title="Dubai Plus" src="'+target+'" width="1000" height="700" allow="autoplay; fullscreen; encrypted-media" allowfullscreen></iframe>'}));
+            await page.goto(test,{waitUntil:'domcontentloaded'});
+            await page.waitForTimeout(7000);
+            for(const f of page.frames()){
+              if(f===page.mainFrame())continue;
+              console.log('FRAME',f.url());
+              console.log('TITLE',await f.title().catch(()=>null));
+              console.log('PUBLIC_TEXT',(await f.locator('body').innerText({timeout:5000}).catch(()=>'' )).slice(0,500));
+            }
+            await browser.close();
+          })().catch(e=>{console.error(e);process.exit(1)});
+          JS
+          node check.cjs
