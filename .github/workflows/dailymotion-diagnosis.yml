@@ -1,4 +1,4 @@
-name: Tabie official public playback evaluation
+name: AlooYTV public reference site suitability audit
 on:
   push:
     branches: [dailymotion-diagnosis]
@@ -7,27 +7,28 @@ permissions:
 jobs:
   audit:
     runs-on: ubuntu-latest
-    timeout-minutes: 4
+    timeout-minutes: 2
     steps:
-      - run: npm install --no-save playwright && npx playwright install chromium
-      - name: Inspect normal playback and quality
+      - name: Check public reference pages, headers and structured catalogue evidence
         run: |
-          cat > audit.cjs <<'JS'
-          const {chromium}=require('playwright');
-          (async()=>{
-            const b=await chromium.launch({headless:true,args:['--autoplay-policy=no-user-gesture-required']});
-            const p=await b.newPage({viewport:{width:1280,height:800}});
-            const media=[];
-            p.on('response',r=>{const ct=r.headers()['content-type']||'';if(/mpegurl|dash\+xml|video\//i.test(ct)||r.request().resourceType()==='media')media.push({status:r.status(),host:new URL(r.url()).hostname,type:ct.split(';')[0]});});
-            await p.goto('https://www.tabie.net/shows/1318',{waitUntil:'domcontentloaded',timeout:25000});
-            await p.waitForTimeout(3000);
-            console.log('TITLE',await p.title());console.log('BEFORE',(await p.locator('body').innerText()).slice(0,1000));
-            console.log('CONTROLS',JSON.stringify(await p.locator('a,button,[role=button]').evaluateAll(es=>es.map(e=>({text:(e.innerText||e.getAttribute('aria-label')||'').trim().slice(0,80),href:e.tagName==='A'?e.getAttribute('href'):null})).filter(x=>x.text&&/تابع|الحلقة 1|تشغيل|مشاهدة|دخول/.test(x.text)).slice(0,30))));
-            const start=p.getByText('تابع الآن',{exact:false}).filter({visible:true}).first();
-            if(await start.count())await start.click({timeout:8000}).catch(e=>console.log('CLICK_ERR',e.message.slice(0,200)));
-            await p.waitForTimeout(10000);
-            console.log('AFTER',JSON.stringify({url:p.url(),title:await p.title(),text:(await p.locator('body').innerText()).slice(0,1200),videos:await p.locator('video').evaluateAll(vs=>vs.map(v=>({time:v.currentTime,duration:Number.isFinite(v.duration)?v.duration:null,width:v.videoWidth,height:v.videoHeight,ready:v.readyState,paused:v.paused,error:v.error?.message||null}))),media:media.slice(0,20),frames:p.frames().map(f=>{try{return new URL(f.url()).hostname}catch{return 'blank'}})}));
-            await b.close();
-          })().catch(e=>{console.error(e);process.exit(1)});
-          JS
-          node audit.cjs
+          python - <<'PY'
+          import urllib.request, urllib.error, urllib.parse, json, re, concurrent.futures
+          from html.parser import HTMLParser
+          base='https://aloooytv.com'
+          class P(HTMLParser):
+            def __init__(self):super().__init__();self.count={};self.links=[];self.types=[];self.scripts=0
+            def handle_starttag(self,t,a):
+              self.count[t]=self.count.get(t,0)+1;d=dict(a)
+              if t=='a' and d.get('href'):self.links.append(d['href'])
+              if t=='script' and d.get('type')=='application/ld+json':self.scripts+=1
+          def audit(path):
+            try:
+              req=urllib.request.Request(base+path,headers={'User-Agent':'Mozilla/5.0'})
+              with urllib.request.urlopen(req,timeout=12) as r:
+                body=r.read(2000000).decode('utf8','replace');p=P();p.feed(body)
+                hosts=sorted(set(urllib.parse.urlsplit(urllib.parse.urljoin(base,x)).hostname or '' for x in p.links))
+                out={'path':path,'status':r.status,'finalHost':urllib.parse.urlsplit(r.url).hostname,'bytes':len(body),'videoTags':p.count.get('video',0),'iframes':p.count.get('iframe',0),'links':len(p.links),'externalHosts':[x for x in hosts if x not in ('aloooytv.com','www.aloooytv.com','')],'jsonLd':p.scripts,'videoObject':bool(re.search(r'"@type"\s*:\s*"VideoObject"',body)),'csp':bool(r.headers.get('Content-Security-Policy')),'xFrame':r.headers.get('X-Frame-Options')}
+            except Exception as e:out={'path':path,'error':str(e)[:200]}
+            print('AUDIT '+json.dumps(out,ensure_ascii=False),flush=True)
+          with concurrent.futures.ThreadPoolExecutor(max_workers=5) as ex:list(ex.map(audit,['/','/official-links','/series','/ramadan-series','/editorial-policy','/disclaimer','/terms','/contact-us']))
+          PY
