@@ -1,4 +1,5 @@
 import React,{useEffect,useState,useRef} from 'react';
+import {enrichWork} from './privateMetadata.js';
 import {PRIVATE_ACTIVE_KEY,validatePrivateCatalog,privateMovie} from './privateCatalog.js';
 const TOKEN='cinema_private_session';
 const getToken=()=>{try{return sessionStorage.getItem(TOKEN)||''}catch{return ''}};
@@ -8,7 +9,7 @@ async function api(token,route,params={},method='GET',signal){
  return r.json();
 }
 function Artwork({src,alt='',className=''}){const [bad,setBad]=useState(false);useEffect(()=>setBad(false),[src]);return src&&!bad?<img src={src} alt={alt} loading="lazy" decoding="async" onError={()=>setBad(true)} className={className}/>:<div className={'bg-zinc-800 grid place-items-center text-zinc-500 '+className} aria-label="لا توجد صورة">🎬</div>}
-export default function AutoLibrary({query='',onPlay}){
+export default function AutoLibrary({query='',onPlay,options}){
  const [token,setToken]=useState(getToken),[draft,setDraft]=useState(''),[rows,setRows]=useState([]),[cursor,setCursor]=useState(null),[kind,setKind]=useState('all'),[error,setError]=useState(''),[busy,setBusy]=useState(false),[selected,setSelected]=useState(null),[stats,setStats]=useState(null),[revision,setRevision]=useState(0),[season,setSeason]=useState('all');
  const seq=useRef(0);
  function connect(e){e.preventDefault();const v=draft.trim();if(v.length<32){setError('المفتاح يجب أن يكون 32 حرفًا على الأقل');return;}sessionStorage.setItem(TOKEN,v);setToken(v);setDraft('');setError('');}
@@ -23,7 +24,7 @@ export default function AutoLibrary({query='',onPlay}){
  useEffect(()=>{if(!token)return;let live=true;const check=()=>api(token,'status').then(s=>{if(live)setStats(s)}).catch(()=>{});check();const t=setInterval(check,30000);return()=>{live=false;clearInterval(t);};},[token]);
  useEffect(()=>{if(!token||rows.length||busy||error)return;const t=setTimeout(()=>setRevision(v=>v+1),30000);return()=>clearTimeout(t);},[token,rows.length,busy,error]);
  async function refresh(){setBusy(true);setError('');try{await api(token,'sync',{},'POST');setStats(await api(token,'status'));setRevision(v=>v+1);}catch(e){setError(e.message);}finally{setBusy(false);}}
- async function open(t){setBusy(true);setError('');try{const x=await api(token,'work',{id:t.id});const full=validatePrivateCatalog({version:1,titles:[x]}).titles[0];setSelected(full);setSeason('all');}catch(e){setError(e.message);}finally{setBusy(false);}}
+ async function open(t){setBusy(true);setError('');try{const x=await api(token,'work',{id:t.id});const full=validatePrivateCatalog({version:1,titles:[x]}).titles[0];setSelected(full);setSeason('all');enrichWork(full,options).then(enriched=>setSelected(current=>current?.id===full.id?enriched:current));}catch(e){setError(e.message);}finally{setBusy(false);}}
  function play(a){try{sessionStorage.setItem(PRIVATE_ACTIVE_KEY,JSON.stringify(selected));onPlay(privateMovie(selected,a));setSelected(null);}catch(e){setError(e.message);}}
  const seasons=selected?[...new Set(selected.assets.map(a=>a.season))]:[];
  return <section dir="rtl" className="rounded-3xl border border-violet-500/30 bg-zinc-950 p-4 md:p-6 mb-6 text-white">
