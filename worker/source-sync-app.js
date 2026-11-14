@@ -5,7 +5,7 @@ import {createInvitation,verifyInvitation} from './private-invite.js';
 export {SourceSync};
 const fail=(error,status)=>Response.json({error},{status,headers:{'Cache-Control':'private, no-store'}});
 const stub=env=>env.SOURCE_SYNC.get(env.SOURCE_SYNC.idFromName('catalogue'));
-const privateRoutes={'/api/private-catalog/list':'/private-list','/api/private-catalog/work':'/private-work','/api/private-catalog/status':'/private-status','/api/private-catalog/sync':'/private-sync','/api/private-catalog/share':'/private-share'};
+const privateRoutes={'/api/private-catalog/list':'/private-list','/api/private-catalog/work':'/private-work','/api/private-catalog/status':'/private-status','/api/private-catalog/sync':'/private-sync','/api/private-catalog/share':'/private-share','/api/private-catalog/preview':'/private-preview','/api/private-catalog/episode':'/private-episode'};
 export default {
  async fetch(request,env){
   const u=new URL(request.url);
