@@ -24,8 +24,8 @@ const idx=indexLinks('<a href="/genre/ramadan-kleeji.html">رمضان</a><a href
 assert.equal(idx.length,2);assert.equal(indexLinks('<a href="/genre/ramadan-arabi-2026/50.html">2</a>',origin+'/')[0].url,origin+'/genre/ramadan-arabi-2026/50.html');assert.equal(idx[1].url,work);assert.equal(idx[1].poster,origin+'/poster.jpg');
 class Storage{
  constructor(){this.data=new Map();}
- async get(k){return this.data.get(k);}
- async put(k,v){this.data.set(k,structuredClone(v));}
+ async get(k){return Array.isArray(k)?new Map(k.filter(x=>this.data.has(x)).map(x=>[x,this.data.get(x)])):this.data.get(k);}
+ async put(k,v){if(typeof k==='object'){for(const [key,value] of Object.entries(k))this.data.set(key,structuredClone(value));}else this.data.set(k,structuredClone(v));}
  async delete(k){for(const x of Array.isArray(k)?k:[k])this.data.delete(x);}
  async list(o){return new Map([...this.data].sort(([a],[b])=>a.localeCompare(b)).filter(([k])=>k.startsWith(o.prefix||'')&&(!o.startAfter||k>o.startAfter)).slice(0,o.limit||1000));}
  async transaction(fn){return fn(this);}
@@ -40,7 +40,7 @@ const preview=await previewWork(storage,'alooytv:gztyqowfz11u',fake,now);assert.
 const requested=await resolveEpisode(storage,'alooytv:gztyqowfz11u',1,2,fake,now);assert.equal(requested.episode,2);assert.equal(requested.url,mp4.replace('example','2'));
 await assert.rejects(()=>resolveEpisode(storage,'alooytv:gztyqowfz11u',1,3,fake,now),/episode-not-listed/);
 const partial=await crawl(storage,fake,now+60000,1);assert.equal(partial.published,0);assert.equal(partial.availableWorks,1);assert.equal(partial.publishedEpisodes,1);const one=await (await privateRequest(new Request('https://internal/private-work?id=alooytv:gztyqowfz11u'),storage)).json();assert.equal(one.partial,true);assert.equal(one.assets.length,1);
-const progress=await crawl(storage,fake,now+120000);assert.equal(progress.published,1);assert.equal(progress.publishedEpisodes,2);assert.equal(progress.revision,'auto-v5');
+const progress=await crawl(storage,fake,now+120000);assert.equal(progress.published,1);assert.equal(progress.publishedEpisodes,2);assert.equal(progress.revision,'auto-v6');
 const result=await (await privateRequest(new Request('https://internal/private-work?id=alooytv:gztyqowfz11u'),storage)).json();
 assert.equal(result.assets.length,2);assert.equal(result.assets[0].thumbnail,origin+'/still1.jpg');assert.equal(result.assets[1].episode,2);
 const listing=await (await privateRequest(new Request('https://internal/private-list?q=جعفر'),storage)).json();assert.equal(listing.titles.length,1);assert.equal(listing.titles[0].assets,undefined);
