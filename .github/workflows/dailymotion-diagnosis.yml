@@ -9,22 +9,32 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 3
     steps:
-      - name: Check public publisher player discovery
+      - name: Inspect public page and official documentation sample player
         run: |
           python - <<'PY'
-          import urllib.request, urllib.error, concurrent.futures
-          urls=[
-            'https://api.dailymotion.com/user/x266vhm?fields=id,username,screenname,website_url',
-            'https://api.dailymotion.com/user/x266vhm/players?fields=id,label,private,embed_html_url',
-            'https://api.dailymotion.com/v2/profiles/x266vhm/players?fields=player_id,visibility,endpoints.iframe_url',
-            'https://partner.api.dailymotion.com/rest/user/x266vhm/players?fields=id,label,private,embed_html_url'
-          ]
-          def probe(url):
+          import urllib.request, urllib.error, re, json, concurrent.futures
+          urls={
+            'page':'https://www.dailymotion.com/video/x6rtfip',
+            'demo_control':'https://geo.dailymotion.com/player/x8lr5.html?video=x84sh87',
+            'demo_episode':'https://geo.dailymotion.com/player/x8lr5.html?video=x6rtfip',
+            'oembed_demo':'https://www.dailymotion.com/services/oembed?url=https%3A%2F%2Fwww.dailymotion.com%2Fvideo%2Fx6rtfip&player=x8lr5',
+            'publisher_site':'https://watannetwork.com/',
+            'official_broadcaster':'https://www.mtv.com.lb/vod/ar/program/564'
+          }
+          def probe(item):
+              name,url=item
               try:
-                  r=urllib.request.urlopen(urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0','Accept':'application/json'}),timeout=10)
+                  r=urllib.request.urlopen(urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0','Referer':'https://movie.o-a-f-a.workers.dev/'}),timeout=15)
               except urllib.error.HTTPError as e: r=e
-              except Exception as e: return (url,str(e))
-              return (url,r.status,r.read(8000).decode('utf-8','replace'))
-          with concurrent.futures.ThreadPoolExecutor(max_workers=4) as e:
-              for result in e.map(probe,urls): print(result)
+              except Exception as e: return (name,str(e))
+              b=r.read(3000000).decode('utf-8','replace')
+              patterns=re.findall(r'(?:geo\.dailymotion\.com/player/[A-Za-z0-9]+|["\x27](?:playerId|player_id)["\x27]\s*:\s*["\x27][A-Za-z0-9]+)',b)
+              out={'name':name,'status':r.status,'url':r.url,'frame_headers':{k:r.headers.get(k) for k in ('X-Frame-Options','Content-Security-Policy')},'public_player_mentions':list(dict.fromkeys(patterns))[:20]}
+              if name.startswith('demo'): out['body_start']=b[:220]
+              if name=='oembed_demo':
+                  try: out['html']=json.loads(b).get('html')
+                  except: out['body_start']=b[:200]
+              return out
+          with concurrent.futures.ThreadPoolExecutor(max_workers=6) as ex:
+              for result in ex.map(probe,urls.items()): print(json.dumps(result,ensure_ascii=False))
           PY
