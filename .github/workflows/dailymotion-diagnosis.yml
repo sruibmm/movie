@@ -1,13 +1,48 @@
-name: Discover complete Arabic publisher titles
+name: Verify Arabic player quality and episode samples
 on:
   push:
     branches: [dailymotion-diagnosis]
 permissions:
   contents: read
 jobs:
-  discover:
+  browser:
     runs-on: ubuntu-latest
-    timeout-minutes: 6
+    timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
-      - run: python scripts/discover-publisher-additions.py
+      - run: npm install --no-save playwright && npx playwright install chromium
+      - name: Verify SDK highest quality and exact video
+        run: |
+          cat > /tmp/quality.cjs <<'JS'
+          const {chromium}=require(process.cwd()+'/node_modules/playwright');
+          (async()=>{
+            const b=await chromium.launch({headless:true,args:['--autoplay-policy=no-user-gesture-required']});
+            const videos=['x6rtfip','x6rxpjj','x6rwucz','xay20hq'];
+            await Promise.all(videos.map(async video=>{
+              const p=await b.newPage();
+              const url='https://movie.o-a-f-a.workers.dev/quality-test-'+video;
+              await p.route(url,r=>r.fulfill({contentType:'text/html',body:'<!doctype html><div id="dm"></div><script src="https://geo.dailymotion.com/libs/player/x8lr5.js"></script><script>window.init=dailymotion.createPlayer("dm",{player:"x8lr5",video:"'+video+'"}).then(p=>window.player=p);</script>'}));
+              try{
+                await p.goto(url,{waitUntil:'domcontentloaded'});
+                await p.waitForFunction(()=>window.player,{timeout:20000});
+                const state=await p.evaluate(async()=>{
+                  const p=window.player;
+                  let s;
+                  for(let i=0;i<24;i++){
+                    s=await p.getState();
+                    if(s.videoQualitiesList?.length)break;
+                    await new Promise(r=>setTimeout(r,500));
+                  }
+                  const best=(s.videoQualitiesList||[]).map(String).filter(x=>['240','380','480','720','1080','1440','2160'].includes(x)).sort((a,b)=>+b-+a)[0];
+                  if(best) await p.setQuality(best);
+                  await new Promise(r=>setTimeout(r,2000));
+                  const after=await p.getState();
+                  return {id:after.videoId,duration:after.videoDuration,qualities:s.videoQualitiesList,requested:best,actual:after.videoQuality,allowed:after.playerIsPlaybackAllowed};
+                });
+                console.log('QUALITY_RESULT',video,JSON.stringify(state));
+              }catch(e){console.log('QUALITY_ERROR',video,e.message.slice(0,300));}
+              finally{await p.close();}
+            }));
+            await b.close();
+          })().catch(e=>{console.error(e);process.exit(1)});
+          JS
+          node /tmp/quality.cjs
