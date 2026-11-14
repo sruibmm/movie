@@ -1,5 +1,6 @@
 import React,{useEffect,useState,useRef} from 'react';
 import {enrichWork} from './privateMetadata.js';
+import {approvedPrivateSlot} from './approvedEmbedCatalog.js';
 import {savedEpisode,publisherAlternative,verifiedSyncedAlternative} from './privatePlaybackFallback.js';
 import bulkCatalog from './arabicBulkCatalog.json';
 import {PRIVATE_KEY,PRIVATE_ACTIVE_KEY,validatePrivateCatalog,privateMovie} from './privateCatalog.js';
@@ -72,12 +73,12 @@ export default function AutoLibrary({query='',onPlay,options}){
    const reason=String(e.message||e);
    const missing=/missing-direct-source|direct-sources?-unavailable|episode-not-listed|media-404|media-redirect-|unsupported-media-host|unsupported-hosts|unapproved-host|not-mp4|media-warning-clip|media-too-small|media-too-short/i.test(reason);
    const direct=missing?await verifiedSyncedAlternative(work,a):null;
-   const alternative=direct||(missing?publisherAlternative(work,a,bulkCatalog):null);
+   const alternative=direct||(missing?publisherAlternative(work,a,bulkCatalog)||approvedPrivateSlot(work,a):null);
    // Never retry a blocked redirect or substitute a different episode. Only a
    // matching publisher entry (same title, year, season and episode) can play.
    if(alternative){onPlay(alternative);setSelected(null);return;}
    setPlayFailure({workId:work.id,title:work.title,season:a.season,episode:a.episode,reason,alternative:null});
-   setError(missing?'هذه الحلقة موجودة في الفهرس، لكن لا يوجد مصدر مشاهدة مباشر صالح ومتاح لها الآن. جرّب حلقة أخرى أو أعد المحاولة لاحقًا.':reason);
+   setError(missing?'هذا '+(work.kind==='tv'?'المسلسل مفهرس، لكن الحلقة المحددة':'الفيلم موجود في الفهرس، لكنه')+' لا يملك مصدر تشغيل مباشر أو تضمين معتمد متاح حاليًا. المكتبة سليمة ولم تُحذف بياناتك.':reason);
   }finally{setPlayingEpisode('');}
  }
  const local=(()=>{try{return validatePrivateCatalog(JSON.parse(localStorage.getItem(PRIVATE_KEY)||'{"version":1,"titles":[]}')).titles}catch{return []}})();
