@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import ReactDOM from 'react-dom/client'
 import Hls from 'hls.js'
-import ArabicClassics from './ArabicClassics.jsx'
+import {attachPublisherFilm} from './officialCatalog.js'
 import PublisherPlayer from './PublisherPlayer.jsx'
 import {attachPublisherEpisode} from './publisherSeries.js'
 import LicensedLibrary from './LicensedLibrary.jsx'
@@ -547,7 +547,7 @@ function App() {
   };
 
   const startArabicEpisode=(input)=>{
-    const movie=attachPublisherEpisode(input);
+    const movie=attachPublisherFilm(attachPublisherEpisode(input));
     if(mode==='couples'&&!conn?.open){alert('Connect Renad first, then start the episode.');return;}
     const settings={...syncSettings,fallbackServer:10,progress:getFromHistory(movie.id)?.progress||0};
     setSyncSettings(settings);setRoomMovie(movie);
@@ -708,7 +708,8 @@ function App() {
   }
 
   if (mode === 'couples' && role === 'admin' && activeMovie) {
-    return <MovieDetail movie={activeMovie} onBack={() => setActiveMovie(null)} onStartParty={(movieFull) => {
+    return <MovieDetail movie={activeMovie} onBack={() => setActiveMovie(null)} onStartParty={(input) => {
+      const movieFull=attachPublisherFilm(input);
       const settings={...syncSettings,fallbackServer:10,progress:getFromHistory(movieFull.id)?.progress||0};
       setSyncSettings(settings);setRoomMovie(movieFull);
       if (conn?.open) {
@@ -787,7 +788,6 @@ function App() {
 
         {arabicLibrary ? <>
           <LicensedLibrary query={search} onPlay={startArabicEpisode}/>
-          <ArabicClassics query={search} mode={mode}/>
           <ArabicDiscovery query={search} existing={[]} options={fetchOptions} onMovie={setActiveMovie} onEpisode={startArabicEpisode}/>
         </> : <>
         {catalogError&&<p className="text-red-300 mb-4 text-sm">{catalogError}</p>}
@@ -813,7 +813,7 @@ function App() {
   }
 
   if (mode === 'single' && activeMovie) {
-    return <MovieDetail movie={activeMovie} onBack={() => setActiveMovie(null)} onStartParty={(movieFull) => {setSyncSettings(prev=>({...prev,fallbackServer:10,progress:getFromHistory(movieFull.id)?.progress||0}));setRoomMovie(movieFull);}} />;
+    return <MovieDetail movie={activeMovie} onBack={() => setActiveMovie(null)} onStartParty={(input) => {const movieFull=attachPublisherFilm(input);setSyncSettings(prev=>({...prev,fallbackServer:10,progress:getFromHistory(movieFull.id)?.progress||0}));setRoomMovie(movieFull);}} />;
   }
 
   if (mode === 'single' && role === 'admin') {
@@ -838,7 +838,6 @@ function App() {
 
         {arabicLibrary ? <>
           <LicensedLibrary query={search} onPlay={startArabicEpisode}/>
-          <ArabicClassics query={search} mode={mode}/>
           <ArabicDiscovery query={search} existing={[]} options={fetchOptions} onMovie={setActiveMovie} onEpisode={startArabicEpisode}/>
         </> : <>
         {catalogError&&<p className="text-red-300 mb-4 text-sm">{catalogError}</p>}

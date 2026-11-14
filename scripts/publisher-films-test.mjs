@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import {IMPORTED_FILMS} from '../src/publisherFilmData.js';
+import {PUBLISHER_FILMS,matchPublisherFilm,findOfficialTitles,attachPublisherFilm,importedFilm} from '../src/officialCatalog.js';
+assert.equal(IMPORTED_FILMS.length,28);
+assert.ok(PUBLISHER_FILMS.length>=35);
+assert.equal(new Set(PUBLISHER_FILMS.map(x=>x.video||x.playlist)).size,PUBLISHER_FILMS.length);
+assert.equal(findOfficialTitles({title:'اكس لارج',release_date:'2011-01-01'})[0].id,'KAlZGGCz7Lk');
+assert.equal(findOfficialTitles({title:'اكس لارج',release_date:'2000-01-01'}).length,0);
+assert.equal(attachPublisherFilm({title:'اللمبي',release_date:'2002-01-01'}).publisherSource.id,'M9dM0ZW9AXc');
+assert.equal(importedFilm(PUBLISHER_FILMS.find(x=>x.playlist)).publisherSource.playlist,true);
+assert.equal(importedFilm(PUBLISHER_FILMS.find(x=>x.title==='اكس لارج')).publisherSource.id,'KAlZGGCz7Lk');
+console.log('PUBLISHER FILMS PASS: '+PUBLISHER_FILMS.length+' distinct playable entries; exact year matching and embedded playback');

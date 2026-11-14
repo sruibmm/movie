@@ -1,4 +1,5 @@
 import {normalizeArabic} from './arabicDiscovery.js';
+import {IMPORTED_FILMS} from './publisherFilmData.js';
 import {matchPublisherSeries,publisherEpisode} from './publisherSeries.js';
 export const OFFICIAL_CATALOG=[
  {"id":"hag-metwaly","title":"عائلة الحاج متولي","year":"2001","kind":"مسلسل","channel":"ماسبيرو دراما","playlist":"PL9KkecclNUBTV7wu4vxdM8X0TPVyyFdWt","aliases":"نور الشريف ماجدة زكي سمية الخشاب الحاج متولي"},
@@ -16,12 +17,28 @@ export const OFFICIAL_CATALOG=[
 ];
 
 export function officialEmbed(id){if(!/^[-_A-Za-z0-9]{11}$/.test(id||''))throw Error('Invalid official video');return 'https://www.youtube-nocookie.com/embed/'+id+'?playsinline=1&rel=0';}
-export function findOfficialTitles(movie){
- if(movie.media_type==='tv'){const g=matchPublisherSeries(movie);const source=g&&publisherEpisode(g,movie.season,movie.episode);return source?[source]:[];}
- const titles=new Set([movie.title,movie.original_title].filter(Boolean).map(normalizeArabic));
- const year=String(movie.release_date||'').slice(0,4);
- return OFFICIAL_CATALOG.filter(x=>x.video&&x.kind==='فيلم'&&titles.has(normalizeArabic(x.title))&&(!year||year===x.year)).map(x=>({id:x.video,title:x.title,publisher:x.channel,embed:officialEmbed(x.video),adsPossible:true}));
-}
-
 export function officialPlaylistEmbed(id){if(!/^PL[-_A-Za-z0-9]{10,80}$/.test(id||''))throw Error('Invalid official playlist');return 'https://www.youtube-nocookie.com/embed/videoseries?list='+encodeURIComponent(id)+'&playsinline=1&rel=0';}
 export function officialEntryEmbed(entry){return entry.playlist?officialPlaylistEmbed(entry.playlist):officialEmbed(entry.video);}
+
+const FIXED_NAMES={'بركة يقابل بركة كامل':'بركة يقابل بركة','الكنز الجزء الثاني كامل':'الكنز الجزء الثاني'};
+const FILM_YEARS={'السلم والثعبان':'2001','اكس لارج':'2011','الساحر':'2001','بركة يقابل بركة':'2016','الكنز الجزء الثاني':'2019','عين شمس':'2008','حد سامع حاجة':'2009','حماتي بتحبني':'2014','كلم ماما':'2003','الحرب العالمية الثالثة':'2014'};
+const imported=IMPORTED_FILMS.map(x=>({...x,title:FIXED_NAMES[x.title]||x.title,year:FILM_YEARS[FIXED_NAMES[x.title]||x.title]||x.year}));
+const seen=new Set(OFFICIAL_CATALOG.filter(x=>x.video).map(x=>x.video));
+export const PUBLISHER_FILMS=[...OFFICIAL_CATALOG.filter(x=>x.video||x.playlist),...imported.filter(x=>{if(seen.has(x.video)||OFFICIAL_CATALOG.some(y=>y.kind===x.kind&&normalizeArabic(y.title)===normalizeArabic(x.title)))return false;seen.add(x.video);return true;})];
+export function matchPublisherFilm(movie){
+ if(movie.media_type==='tv')return null;
+ const names=new Set([movie.title,movie.original_title].filter(Boolean).map(normalizeArabic));
+ const year=String(movie.release_date||'').slice(0,4);
+ const found=PUBLISHER_FILMS.filter(x=>x.video&&x.kind==='فيلم'&&names.has(normalizeArabic(x.title))&&(!year||x.year===year));
+ return found.length===1?found[0]:null;
+}
+export function findOfficialTitles(movie){
+ if(movie.media_type==='tv'){const g=matchPublisherSeries(movie);const source=g&&publisherEpisode(g,movie.season,movie.episode);return source?[source]:[];}
+ const x=matchPublisherFilm(movie);return x?[publisherFilmSource(x)]:[];
+}
+export function publisherFilmSource(x){return {id:x.video||x.playlist,title:x.title,publisher:x.channel,embed:officialEntryEmbed(x),adsPossible:true,playlist:!!x.playlist,source:x.source,duration:x.duration};}
+export function importedFilm(x){
+ const source=publisherFilmSource(x);
+ return {id:'youtube:'+source.id,title:x.title,media_type:'movie',release_date:x.year?x.year+'-01-01':'',isArabic:true,original_language:'ar',licensedPoster:x.video?'https://i.ytimg.com/vi/'+x.video+'/hqdefault.jpg':null,publisherSource:source};
+}
+export function attachPublisherFilm(movie){if(movie.publisherSource||movie.media_type==='tv')return movie;const x=matchPublisherFilm(movie);return x?{...movie,publisherSource:publisherFilmSource(x)}:movie;}

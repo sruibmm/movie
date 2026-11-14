@@ -1,5 +1,6 @@
 import React,{useEffect,useState} from 'react';
 import PublisherLibrary from './PublisherLibrary.jsx';
+import {matchPublisherFilm} from './officialCatalog.js';
 import {matchPublisherSeries,publisherEpisode} from './publisherSeries.js';
 import {mergeArabic,episodeMovie,ARABIC_GENRES,arabicCatalogJobs,arabicCatalogPage,arabicCatalogPageCount} from './arabicDiscovery.js';
 const base='https://api.themoviedb.org/3/';
@@ -33,7 +34,7 @@ export default function ArabicDiscovery({query,existing,options,onMovie,onEpisod
  useEffect(()=>{if(!show)return;const c=new AbortController();setSeries(null);setEpisodes([]);setSeason(1);setEpisodeStatus('loading');tmdb('tv/'+show.id,{language:'ar-SA'},options,c.signal).then(d=>{if(c.signal.aborted)return;setSeries(d);const first=d.seasons?.find(x=>x.season_number>0);setSeason(first?.season_number||1);}).catch(()=>{if(!c.signal.aborted)setEpisodeStatus('error');});return()=>c.abort();},[show,options]);
  useEffect(()=>{if(!show||!series)return;const c=new AbortController();setEpisodeStatus('loading');setEpisodes([]);tmdb('tv/'+show.id+'/season/'+season,{language:'ar-SA'},options,c.signal).then(d=>{if(!c.signal.aborted){setEpisodes(d.episodes||[]);setEpisodeStatus('ready');}}).catch(()=>{if(!c.signal.aborted)setEpisodeStatus('error');});return()=>c.abort();},[show,series,season,options]);
  const current=catalog.key===key?catalog:{items:[],pages:1,loaded:0,status:'loading',partial:false};
- const results=mergeArabic([current.items],existing).filter(m=>m.media_type!=='tv'||!matchPublisherSeries(m)||!!genre||sort==='top');
+ const results=mergeArabic([current.items],existing).filter(m=>!!genre||sort==='top'||(m.media_type==='tv'?!matchPublisherSeries(m):!matchPublisherFilm(m)));
  const changeKind=v=>{setKind(v);setGenre('');};
  const more=()=>setCursor({key,page:current.loaded+1});
  return <section dir="rtl" className="mt-8 mb-8 border-t border-white/10 pt-5">
