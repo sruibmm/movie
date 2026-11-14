@@ -806,7 +806,7 @@ function App() {
 
         {arabicLibrary ? <>
           <SyncedLibrary query={search} onPlay={startArabicEpisode}/>
-          <AutoLibrary query={search} onPlay={startArabicEpisode}/>
+          <AutoLibrary query={search} onPlay={startArabicEpisode} options={fetchOptions}/>
           <LicensedLibrary query={search} onPlay={startArabicEpisode}/>
           <ArabicDiscovery query={search} existing={[]} options={fetchOptions} onMovie={setActiveMovie} onEpisode={startArabicEpisode}/>
         </> : <>
@@ -858,7 +858,7 @@ function App() {
 
         {arabicLibrary ? <>
           <SyncedLibrary query={search} onPlay={startArabicEpisode}/>
-          <AutoLibrary query={search} onPlay={startArabicEpisode}/>
+          <AutoLibrary query={search} onPlay={startArabicEpisode} options={fetchOptions}/>
           <LicensedLibrary query={search} onPlay={startArabicEpisode}/>
           <ArabicDiscovery query={search} existing={[]} options={fetchOptions} onMovie={setActiveMovie} onEpisode={startArabicEpisode}/>
         </> : <>
