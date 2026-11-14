@@ -22,3 +22,14 @@ for url in ['https://embedwave.cc/embed/movie/1084242?server=cinesrc','https://c
   if hits:
    print('UI PREFERENCES',u)
    for x in hits[:45]: print(x[:340].replace('\n',' '))
+
+u='https://embedwave.cc/_next/static/chunks/app/embed/movie/%5BtmdbId%5D/page-3bf169083806eef2.js'
+s=get(u)
+print('WRAPPER',len(s))
+for m in re.finditer(r'cinesrc|searchParams|URLSearchParams|iframe',s,re.I):
+ print(s[max(0,m.start()-150):m.end()+220][:390].replace('\n',' '))
+u='https://cinesrc.st/_next/static/chunks/cfe862e8824345d4.js'
+s=get(u)
+for needle in ['let s=(a||r?.language','preferredSubtitleLanguage:L','s.get("subtitlelang")']:
+ i=s.find(needle)
+ if i>=0: print('MATCHING',s[max(0,i-200):i+2200])
