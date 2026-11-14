@@ -10,3 +10,7 @@ Scanned 21 public catalogue index pages and matched additional numbered episodes
 
 ### Additional catalogue expansion
 183 new season records and 5528 unique video references accepted from two additional scans of the remaining catalogue pages. 475 total season records, 435 normalized grouped titles and 13740 unique video references. Duplicate sources, title/season conflicts and overlapping IDs excluded. Counts are link matches, not individual live-playback verification.
+
+
+### Recovery pass
+Retried previously skipped index pages using text extraction with complete episode labels. 37 additional season records and 980 unique videos accepted. Total: 512 season records and 14720 unique videos. Duplicate title/season pairs, reused video IDs and mismatched label/thumbnail counts remain excluded. Kezib Abyad (2025) verified against public publisher first and final episode listings. This is link identity verification, not a guarantee of playback or ad-free use.
