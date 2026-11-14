@@ -1,6 +1,6 @@
 // A fair scheduler: discover titles, extract links, then verify media independently.
 export const VERSION='auto-v10';
-export const structural=e=>/^(missing-direct-source|unresolved-episode-identities|unclassified-or-incomplete-work|missing-title|empty-index|episode-not-listed|ambiguous-season-or-episode|declared-count-mismatch|incomplete-episode-index)$/.test(String(e));
+export const structural=e=>/^(missing-direct-source|unresolved-episode-identities|unclassified-or-incomplete-work|missing-title|empty-index|episode-not-listed|ambiguous-season-or-episode|declared-count-mismatch|incomplete-episode-index|source-identity-redirect-mismatch)$/.test(String(e));
 export function pickJobs(lanes,budget,health=new Map(),now=Date.now(),drafts=new Map()){
  const [episodes,works,indexes]=lanes;const ordered=orderByCompletion(episodes,drafts,health,now);
  const groups=new Map(),verify=[],extract=[];
