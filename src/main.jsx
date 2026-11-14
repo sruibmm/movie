@@ -495,7 +495,7 @@ function App() {
   }, [mode, connectionStatus]);
 
   useEffect(() => {
-    if(role!=='admin')return;
+    if(role!=='admin'||arabicLibrary)return;
     const controller=new AbortController();
     const lang=arabicLibrary?'ar-SA':'en-US';
     const params=new URLSearchParams({language:lang,page:String(catalogPage),include_adult:'false'});
@@ -771,12 +771,15 @@ function App() {
             <button onClick={()=>switchLibrary(true)} aria-pressed={arabicLibrary} className={`px-4 py-2 rounded-full text-sm font-bold ${arabicLibrary?'bg-purple-600':'bg-white/5 text-gray-300'}`}>السينما العربية</button>
           </div>
           <form onSubmit={submitSearch} className="flex gap-2">
-            <input value={searchDraft} onChange={e=>setSearchDraft(e.target.value)} dir={arabicLibrary?'rtl':'auto'} type="search" placeholder={arabicLibrary?'ابحث عن فيلم عربي...':'Search movies...'} className="min-w-0 flex-1 bg-[#0a0a0a] border border-white/10 rounded-2xl px-4 py-3 focus:ring-2 ring-purple-500/50 outline-none text-base"/>
+            <input value={searchDraft} onChange={e=>setSearchDraft(e.target.value)} dir={arabicLibrary?'rtl':'auto'} type="search" placeholder={arabicLibrary?'ابحث عن فيلم أو مسلسل عربي...':'Search movies...'} className="min-w-0 flex-1 bg-[#0a0a0a] border border-white/10 rounded-2xl px-4 py-3 focus:ring-2 ring-purple-500/50 outline-none text-base"/>
             <button className="rounded-2xl bg-purple-600 px-4 text-sm font-bold">{arabicLibrary?'بحث':'Search'}</button>
           </form>
         </header>
 
-        {arabicLibrary&&<ArabicClassics query={search} mode={mode}/>}
+        {arabicLibrary ? <>
+          <ArabicDiscovery query={search} existing={[]} options={fetchOptions} onMovie={setActiveMovie} onEpisode={startArabicEpisode}/>
+          <ArabicClassics query={search} mode={mode}/>
+        </> : <>
         {catalogError&&<p className="text-red-300 mb-4 text-sm">{catalogError}</p>}
         {!loading&&!movies.length&&!catalogError&&<p className="text-gray-400 mb-4">{arabicLibrary?'لا توجد نتائج في هذه الصفحة. جرّب اسم الفيلم أو الصفحة التالية.':'No matching movies.'}</p>}
         <div className="flex items-center justify-between mb-4 text-sm text-gray-400"><span>{arabicLibrary?'أفلام عربية':'Movies'} · {catalogPage}/{catalogPages}</span><div className="flex gap-2"><button disabled={catalogPage<=1||loading} onClick={()=>setCatalogPage(p=>p-1)} className="bg-white/5 rounded-lg px-3 py-2 disabled:opacity-30">‹</button><button disabled={catalogPage>=catalogPages||loading} onClick={()=>setCatalogPage(p=>p+1)} className="bg-white/5 rounded-lg px-3 py-2 disabled:opacity-30">›</button></div></div>
@@ -794,7 +797,7 @@ function App() {
             ))}
           </div>
         )}
-        {arabicLibrary&&<ArabicDiscovery query={search} existing={movies} options={fetchOptions} onMovie={setActiveMovie} onEpisode={startArabicEpisode}/>}
+        </>}
       </div>
     );
   }
@@ -818,12 +821,15 @@ function App() {
             <button onClick={()=>switchLibrary(true)} aria-pressed={arabicLibrary} className={`px-4 py-2 rounded-full text-sm font-bold ${arabicLibrary?'bg-purple-600':'bg-white/5 text-gray-300'}`}>السينما العربية</button>
           </div>
           <form onSubmit={submitSearch} className="flex gap-2">
-            <input value={searchDraft} onChange={e=>setSearchDraft(e.target.value)} dir={arabicLibrary?'rtl':'auto'} type="search" placeholder={arabicLibrary?'ابحث عن فيلم عربي...':'Search movies...'} className="min-w-0 flex-1 bg-[#0a0a0a] border border-white/10 rounded-2xl px-4 py-3 focus:ring-2 ring-purple-500/50 outline-none text-base"/>
+            <input value={searchDraft} onChange={e=>setSearchDraft(e.target.value)} dir={arabicLibrary?'rtl':'auto'} type="search" placeholder={arabicLibrary?'ابحث عن فيلم أو مسلسل عربي...':'Search movies...'} className="min-w-0 flex-1 bg-[#0a0a0a] border border-white/10 rounded-2xl px-4 py-3 focus:ring-2 ring-purple-500/50 outline-none text-base"/>
             <button className="rounded-2xl bg-purple-600 px-4 text-sm font-bold">{arabicLibrary?'بحث':'Search'}</button>
           </form>
         </header>
 
-        {arabicLibrary&&<ArabicClassics query={search} mode={mode}/>}
+        {arabicLibrary ? <>
+          <ArabicDiscovery query={search} existing={[]} options={fetchOptions} onMovie={setActiveMovie} onEpisode={startArabicEpisode}/>
+          <ArabicClassics query={search} mode={mode}/>
+        </> : <>
         {catalogError&&<p className="text-red-300 mb-4 text-sm">{catalogError}</p>}
         {!loading&&!movies.length&&!catalogError&&<p className="text-gray-400 mb-4">{arabicLibrary?'لا توجد نتائج في هذه الصفحة. جرّب اسم الفيلم أو الصفحة التالية.':'No matching movies.'}</p>}
         <div className="flex items-center justify-between mb-4 text-sm text-gray-400"><span>{arabicLibrary?'أفلام عربية':'Movies'} · {catalogPage}/{catalogPages}</span><div className="flex gap-2"><button disabled={catalogPage<=1||loading} onClick={()=>setCatalogPage(p=>p-1)} className="bg-white/5 rounded-lg px-3 py-2 disabled:opacity-30">‹</button><button disabled={catalogPage>=catalogPages||loading} onClick={()=>setCatalogPage(p=>p+1)} className="bg-white/5 rounded-lg px-3 py-2 disabled:opacity-30">›</button></div></div>
@@ -841,7 +847,7 @@ function App() {
             ))}
           </div>
         )}
-        {arabicLibrary&&<ArabicDiscovery query={search} existing={movies} options={fetchOptions} onMovie={setActiveMovie} onEpisode={startArabicEpisode}/>}
+        </>}
       </div>
     );
   }

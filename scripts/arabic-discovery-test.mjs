@@ -20,3 +20,11 @@ const other={id:12,media_type:'tv',original_language:'ar',name:'مسلسل'};
 assert.deepEqual(arabicCatalogPage([first],[first,other]).map(x=>x.media_type),['movie','tv']);
 assert.equal(arabicCatalogPage([first],[other],[other]).length,1);
 console.log('ARABIC CATALOG PASS: filters, query variants, pages, typed deduplication');
+
+import {findOfficialTitles,officialEmbed} from '../src/officialCatalog.js';
+assert.equal(findOfficialTitles({title:'اللمبي',release_date:'2002-01-01'})[0]?.id,'M9dM0ZW9AXc');
+assert.equal(findOfficialTitles({title:'اللمبي',release_date:'2010-01-01'}).length,0);
+assert.equal(findOfficialTitles({title:'اللمبي',media_type:'tv'}).length,0);
+assert.throws(()=>officialEmbed('invalid'));
+assert.match(officialEmbed('M9dM0ZW9AXc'),/^https:\/\/www\.youtube-nocookie\.com\/embed\//);
+console.log('OFFICIAL CATALOG PASS: exact title, year, type, privacy-enhanced embedded player');
