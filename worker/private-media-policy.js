@@ -36,8 +36,9 @@ export function mp4HeaderDuration(bytes){
   if(b[i]!==109||b[i+1]!==118||b[i+2]!==104||b[i+3]!==100)continue;
   const start=i-4,size=v.getUint32(start),version=b[i+4];
   if(size<28||start+size>b.length)continue;
-  const scaleAt=i+(version===0?16:version===1?24:0);
-  if(!scaleAt||scaleAt+(version===1?12:8)>start+size)continue;
+  if(version!==0&&version!==1)continue;
+  const scaleAt=i+(version===0?16:24);
+  if(scaleAt+(version===1?12:8)>start+size)continue;
   const scale=v.getUint32(scaleAt),duration=version===0?v.getUint32(scaleAt+4):v.getUint32(scaleAt+4)*4294967296+v.getUint32(scaleAt+8);
   if(scale&&duration>0&&Number.isSafeInteger(duration))return duration/scale;
  }
