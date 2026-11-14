@@ -101,7 +101,8 @@ function pageGraph(html,page,m){
  const declared=plain.match(/(?:عدد الحلقات|Episodes)\s*[:：]\s*(\d+)/i)?.[1];
  const g=buildEpisodeGraph(links,base,m.season,declared);
  const kind=g.slots.length||g.conflicts.length?'tv':['tv','movie','play'].includes(m.kind)?m.kind:kindHint(base,m.title);
- const media=directGraph(html,page);
+ const media=directGraph(html,page),explicit=explicitVideoLinks(html,page);
+ if(explicit.length){const key=base.searchParams.get('key')||'';media.set(key,new Set([...explicit,...(media.get(key)||[])]));}
  if(!g.slots.length&&!g.conflicts.length&&['movie','play'].includes(kind)){
   // A single explicitly identified film source can have a key; do not invent one.
   const keys=[...media.keys()];if(keys.length===1){const u=new URL(page);if(keys[0])u.searchParams.set('key',keys[0]);g.slots=[{season:1,episode:1,page:u.href}];g.expected=1;}
