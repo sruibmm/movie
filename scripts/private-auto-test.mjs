@@ -31,7 +31,7 @@ const storage=new Storage();
 const fake=async url=>{url=String(url);if(url===work)return new Response(page);if(url===episode(1))return new Response('<meta property="og:image" content="/still1.jpg">'+link(1));if(url===episode(2))return new Response(link(2));if(url.startsWith('https://vid4.'))return new Response(Uint8Array.from([0,0,0,24,102,116,121,112,105,115,111,109,0,0,0,0]),{status:206});if(url===origin+'/'||url===origin+'/genre/ramadan-arabi-2026.html')return new Response('<a href="'+work+'">مسلسل</a>');return new Response('',{status:404});};
 await crawl(storage,fake,now);
 assert.equal((await storage.get('pc:work:alooytv:gztyqowfz11u')),undefined,'must not publish partial series');
-const progress=await crawl(storage,fake,now+120000);assert.equal(progress.published,1);assert.equal(progress.publishedEpisodes,2);assert.equal(progress.revision,'auto-diagnostics-v2');
+const progress=await crawl(storage,fake,now+120000);assert.equal(progress.published,1);assert.equal(progress.publishedEpisodes,2);assert.equal(progress.revision,'auto-v3');
 const result=await (await privateRequest(new Request('https://internal/private-work?id=alooytv:gztyqowfz11u'),storage)).json();
 assert.equal(result.assets.length,2);assert.equal(result.assets[0].thumbnail,origin+'/still1.jpg');assert.equal(result.assets[1].episode,2);
 const listing=await (await privateRequest(new Request('https://internal/private-list?q=جعفر'),storage)).json();assert.equal(listing.titles.length,1);assert.equal(listing.titles[0].assets,undefined);
