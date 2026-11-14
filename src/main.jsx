@@ -6,6 +6,7 @@ import ArabicDiscovery,{OfficialAvailability} from './ArabicDiscovery.jsx'
 import {embedwaveUrl} from './arabicDiscovery.js'
 import {ARABIC_BACKENDS,arabicSourceIds,backendUrl,nextArabicSource} from './arabicSources.js'
 import PublisherFallback from './PublisherFallback.jsx'
+import {publisherEmbed} from './watanLookup.js'
 import {languageCode,originalAudioIndex,arabicSubtitleIndex,orderedSubtitles} from './mediaLanguages.js'
 import Peer from 'peerjs'
 import { ACTIVE_SERVER_IDS, normalizeServerId, nextServerId, pickProtectedSource } from './sourceMaintenance.js'
@@ -465,7 +466,7 @@ function App() {
         setActiveMovie(null); 
         break;
       case 'server_change': 
-        setSyncSettings(prev => ({ ...prev, fallbackServer: data.fallbackServer })); 
+        setSyncSettings(prev => ({ ...prev, fallbackServer: data.fallbackServer,publisherSource:data.publisherSource&&/^[A-Za-z0-9_-]{11}$/.test(data.publisherSource.id||'')?publisherEmbed({id:data.publisherSource.id,title:String(data.publisherSource.title||'').slice(0,250),publisher:String(data.publisherSource.publisher||'').slice(0,100),source:data.publisherSource.source==='watanflix'?'watanflix':'publisher',adsPossible:true}):null })); 
         break;
       case 'sandbox_toggle':
         setSyncSettings(prev => ({ ...prev, sandbox: data.sandbox }));
@@ -529,9 +530,9 @@ function App() {
     if (conn?.open) conn.send({ type: 'sandbox_toggle', sandbox: newSandbox });
   };
 
-  const syncServerChange = (serverIndex) => {
-    setSyncSettings(prev => ({ ...prev, fallbackServer: serverIndex }));
-    if (conn?.open) conn.send({ type: 'server_change', fallbackServer: serverIndex });
+  const syncServerChange = (serverIndex,publisherSource=null) => {
+    setSyncSettings(prev => ({ ...prev, fallbackServer: serverIndex,publisherSource }));
+    if (conn?.open) conn.send({ type: 'server_change', fallbackServer: serverIndex,publisherSource });
   };
 
   const updateProgress = (progress) => {
@@ -544,7 +545,7 @@ function App() {
 
   const startArabicEpisode=(movie)=>{
     if(mode==='couples'&&!conn?.open){alert('Connect Renad first, then start the episode.');return;}
-    const settings={...syncSettings,fallbackServer:10,progress:getFromHistory(movie.id)?.progress||0};
+    const settings={...syncSettings,fallbackServer:10,publisherSource:null,progress:getFromHistory(movie.id)?.progress||0};
     setSyncSettings(settings);setRoomMovie(movie);
     if(mode==='couples'&&conn?.open)conn.send({type:'start_party',movie,settings});
   };
@@ -568,6 +569,7 @@ function App() {
           setSyncSettings(prev => ({
             ...prev,
             fallbackServer: item.settings?.fallbackServer ?? 10,
+            publisherSource:null,
             sandbox: true,
             progress: item.progress || 0
           }));
@@ -700,7 +702,7 @@ function App() {
 
   if (mode === 'couples' && role === 'admin' && activeMovie) {
     return <MovieDetail movie={activeMovie} onBack={() => setActiveMovie(null)} onStartParty={(movieFull) => {
-      const settings={...syncSettings,fallbackServer:10,progress:getFromHistory(movieFull.id)?.progress||0};
+      const settings={...syncSettings,fallbackServer:10,publisherSource:null,progress:getFromHistory(movieFull.id)?.progress||0};
       setSyncSettings(settings);setRoomMovie(movieFull);
       if (conn?.open) {
         conn.send({ 
@@ -800,7 +802,7 @@ function App() {
   }
 
   if (mode === 'single' && activeMovie) {
-    return <MovieDetail movie={activeMovie} onBack={() => setActiveMovie(null)} onStartParty={(movieFull) => {setSyncSettings(prev=>({...prev,fallbackServer:10,progress:getFromHistory(movieFull.id)?.progress||0}));setRoomMovie(movieFull);}} />;
+    return <MovieDetail movie={activeMovie} onBack={() => setActiveMovie(null)} onStartParty={(movieFull) => {setSyncSettings(prev=>({...prev,fallbackServer:10,publisherSource:null,progress:getFromHistory(movieFull.id)?.progress||0}));setRoomMovie(movieFull);}} />;
   }
 
   if (mode === 'single' && role === 'admin') {
@@ -986,7 +988,15 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   const arabic=movie.isArabic||movie.original_language==='ar';
   const sourceIds=arabic?arabicSourceIds(isTV,ACTIVE_SERVER_IDS):(isTV?[10]:ACTIVE_SERVER_IDS);
   const currentServer=sourceIds.includes(Number(requestedServer))?Number(requestedServer):sourceIds[0];
-  const [publisherSource,setPublisherSource]=useState(null);
+  const [localPublisher,setLocalPublisher]=useState(undefined);
+  const publisherSource=arabic?(localPublisher===undefined?syncSettings.publisherSource||null:localPublisher):null;
+  const [smartSearching,setSmartSearching]=useState(false);
+  const smartBusy=useRef(false);
+  const publisherTried=useRef(new Set());
+  const publisherQueues=useRef(null);
+  const lookupController=useRef(null);
+  useEffect(()=>()=>lookupController.current?.abort(),[]);
+  const setPublisherSource=(value)=>{if(role==='admin'){setLocalPublisher(undefined);onServerChange(currentServer,value);}else setLocalPublisher(value);};
   useEffect(()=>{
     if(Number(requestedServer)===currentServer)return;
     if(role==='admin'){setLocalServer(null);onServerChange(currentServer);}
@@ -1058,6 +1068,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     }
   },[extractionStatus,movie.id,movie.isArabic]);
   const reportPlaybackIssue = (status) => {
+    if(arabic){void smartArabicSwitch(status);return;}
     if(publisherSource){setPublisherSource(null);setExhausted(false);setFrameRevision(v=>v+1);setShowPlaybackHelp(false);return;}
     const next=rememberSource(status);
     setShowPlaybackHelp(false);
@@ -1290,13 +1301,40 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     conn.send({ type: 'video_sync', action, time: videoRef.current.currentTime, sender: role });
   };
 
+  // Only the Arabic path uses this resolver. No browser add-ons, proxy video or new tabs.
+  const smartArabicSwitch=async(status='blocked')=>{
+    if(smartBusy.current)return;
+    smartBusy.current=true;setSmartSearching(true);setShowPlaybackHelp(false);
+    const currentPublisher=publisherSource;
+    let known=readAdMemory(movie.id);
+    if(currentPublisher)publisherTried.current.add(currentPublisher.id);
+    else known=rememberSource(status);
+    const c=new AbortController();lookupController.current?.abort();lookupController.current=c;
+    const q=new URLSearchParams({title:movie.seriesTitle||movie.original_title||movie.title,type:isTV?'tv':'movie',season:String(movie.season||1),episode:String(movie.episode||0),runtime:String(movie.runtime||0),year:String(movie.release_date||'').slice(0,4)});
+    const lookup=async(path)=>{try{const res=await fetch(path+'?'+q,{signal:c.signal});if(!res.ok)return [];const data=await res.json();return Array.isArray(data.items)?data.items:[];}catch{return [];}};
+    const apply=(v)=>{const source=publisherEmbed(v);publisherTried.current.add(source.id);setOwnedSource(null);setPublisherSource(source);setDirectOnly(false);setExhausted(false);setFrameRevision(x=>x+1);setAdNotice('');};
+    try{
+      // The existing player gets the first attempt. On a reported failure, look for
+      // the Arabic catalogue and then other publishers before legacy sources.
+      if(!publisherQueues.current)publisherQueues.current={watan:null,other:null};
+      const cache=publisherQueues.current;
+      if(cache.watan===null)cache.watan=await lookup('/api/watan-links');
+      if(c.signal.aborted)return;
+      let choice=cache.watan.find(v=>/^[A-Za-z0-9_-]{11}$/.test(v.id||'')&&!publisherTried.current.has(v.id));
+      if(!choice){if(cache.other===null)cache.other=await lookup('/api/arabic-sources');if(c.signal.aborted)return;choice=cache.other.find(v=>/^[A-Za-z0-9_-]{11}$/.test(v.id||'')&&!publisherTried.current.has(v.id));}
+      if(choice){apply(choice);return;}
+      const next=nextArabicSource(sourceIds,known,currentPublisher?-1:currentServer);
+      if(next!==null){handleServerChange(next);setAdNotice('');return;}
+      setPublisherSource(null);setExhausted(true);setAdNotice('لم نجد مصدراً آخر مطابقاً لهذا العمل.');
+    }finally{if(!c.signal.aborted){smartBusy.current=false;setSmartSearching(false);}}
+  };
   const handleServerChange = (index) => {
     if(!sourceIds.includes(index))return;
-    setPublisherSource(null);
+    setLocalPublisher(undefined);
     setExhausted(false);
     setOwnedSource(null);
-    if (role === 'admin') { setLocalServer(null); onServerChange(index); }
-    else setLocalServer(index);
+    if (role === 'admin') { setLocalServer(null); onServerChange(index,null); }
+    else {setLocalServer(index);setLocalPublisher(null);}
     setShowServerList(false);
     setFrameRevision(v=>v+1);
   };
@@ -1334,6 +1372,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
             <p className="truncate font-semibold text-sm md:text-base leading-tight">{movie.title}</p>
             <p className="text-[10px] text-gray-400 mt-0.5 truncate">{isNative?'Direct player':publisherSource?'Official publisher · ads possible':currentServer===10?'Cinesrc · Protected':(fallbackNodes[currentServer]?.name||'Player')+' · Protected'}</p>
           </div>
+          {arabic&&!isNative&&!directOnly&&<button disabled={smartSearching} onClick={()=>smartArabicSwitch('blocked')} aria-label="Find another source" className="shrink-0 rounded-full bg-purple-600/20 text-purple-200 px-3 h-10 text-xs font-semibold disabled:opacity-50">{smartSearching?'جاري البحث…':'جرّب مصدر آخر'}</button>}
           <button onClick={()=>{setShowPlaybackHelp(v=>!v);setShowServerList(false);}} aria-label="Playback options" aria-expanded={showPlaybackHelp} className="w-10 h-10 shrink-0 rounded-full bg-white/5 hover:bg-white/10 text-xl flex items-center justify-center">⋯</button>
         </div>
       </header>
@@ -1373,7 +1412,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
             <button onClick={()=>{restoreProtection();setShowPlaybackHelp(false);}} className="mt-3 block underline">Reset protected player</button>
             <a href={`https://www.themoviedb.org/${isTV?'tv':'movie'}/${movie.tmdbId||movie.id}/watch`} target="_blank" rel="noopener noreferrer" className="block mt-3 underline">Official streaming options</a>
           </details>
-          {arabic&&<PublisherFallback movie={movie} onSelect={v=>{setPublisherSource(v);setDirectOnly(false);setExhausted(false);setShowPlaybackHelp(false);setFrameRevision(x=>x+1);}}/>}
+          {arabic&&<PublisherFallback movie={movie} onSelect={v=>{setPublisherSource(publisherEmbed(v));setDirectOnly(false);setExhausted(false);setShowPlaybackHelp(false);setFrameRevision(x=>x+1);}}/>}
           {(movie.isArabic||isTV)&&<OfficialAvailability movie={movie} options={fetchOptions}/>}
           <button onClick={()=>setShowPlaybackHelp(false)} className="mt-5 w-full bg-purple-600 rounded-xl py-3 font-semibold text-sm">Done</button>
         </section>
@@ -1419,7 +1458,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
           <div className="h-full flex flex-col items-center justify-center text-center p-6 text-white gap-3">
             <p className="font-bold">{isTV?'Episode source unavailable':'Protected sources exhausted'}</p>
             <p className="text-sm text-gray-400">We stopped the external player rather than allow unwanted redirects. Retry or choose another protected source.</p>
-            <button onClick={()=>{setAdMemory({});writeAdMemory(movie.id,{});restoreProtection();}} className="bg-purple-700 rounded-xl px-4 py-2 text-sm">Retry protected sources</button>
+            <button onClick={()=>{setAdMemory({});writeAdMemory(movie.id,{});publisherTried.current.clear();publisherQueues.current=null;setPublisherSource(null);restoreProtection();}} className="bg-purple-700 rounded-xl px-4 py-2 text-sm">Retry protected sources</button>
             <button onClick={()=>setShowPlaybackHelp(true)} className="underline text-sm text-gray-300">Playback options</button>
             {(movie.isArabic||isTV)&&<OfficialAvailability movie={movie} options={fetchOptions}/>}
           </div>
@@ -1429,7 +1468,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
               ref={iframeRef}
               key={`${movie.id}-${currentServer}-${publisherSource?.id||''}-${frameRevision}`}
               title="Movie playback"
-              src={publisherSource?.embed||fallbackNodes[currentServer]?.url}
+              src={publisherSource?.embed?publisherSource.embed+'&origin='+encodeURIComponent(window.location.origin):fallbackNodes[currentServer]?.url}
               className="w-full h-full border-0"
               sandbox="allow-scripts allow-same-origin allow-presentation"
               allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
