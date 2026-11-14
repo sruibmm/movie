@@ -33,7 +33,7 @@ export async function recoveryRequest(route,request,fetcher=fetch,now=Date.now()
  try{
   if(route==='/private-list'){
    const cursor=q.get('cursor')||'0';if(!/^\d{1,8}$/.test(cursor))return json({error:'invalid-cursor'},400);
-   const rows=await loadCatalog(fetcher,now);
+   const rows=(await loadCatalog(fetcher,now)).map(t=>{const v=memo.get('pc:preview:'+t.id);return v?{...t,kind:v.kind,poster:v.poster||t.poster,banner:v.banner||t.banner,story:v.story||t.story,year:v.year||t.year,count:v.count,seasonCount:new Set(v.slots.map(x=>x.season)).size}:t;});
    const result=searchCards(rows,{q:(q.get('q')||'').slice(0,200),kind:q.get('kind')||'all',region:q.get('region')||'all',year:q.get('year')||'all',ramadan:q.get('ramadan')==='1',offset:Number(cursor)});
    return json({...result,recovery:true,partialCatalog:true,facets:{regions:[...new Set(rows.map(t=>t.region).filter(Boolean))].sort(),years:[...new Set(rows.map(t=>t.year).filter(Boolean))].sort((a,b)=>Number(b)-Number(a))}});
   }
