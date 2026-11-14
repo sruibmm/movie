@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import {validatePrivateCatalog,mergePrivateCatalog,privateMovie,isPrivateMedia} from '../src/privateCatalog.js';
+const asset=(n,id='a'+n)=>({id,title:'Episode '+n,season:1,episode:n,format:'mp4',url:'https://example.com/'+n+'.jpg'});
+const doc=(...assets)=>({version:1,titles:[{id:'test',title:'Test series',kind:'tv',assets}]});
+const full=doc(...Array.from({length:30},(_,i)=>asset(i+1)));
+assert.equal(validatePrivateCatalog(full).titles[0].assets.length,30);
+assert.equal(mergePrivateCatalog(doc(asset(1)),doc(asset(2))).titles[0].assets.length,2);
+assert.deepEqual(mergePrivateCatalog(full,full),validatePrivateCatalog(full));
+assert.throws(()=>mergePrivateCatalog(doc(asset(1)),doc(asset(1,'different'))));
+assert.throws(()=>mergePrivateCatalog(doc(asset(1)),doc(asset(2,'a1'))));
+assert.throws(()=>validatePrivateCatalog(doc({...asset(1),url:'javascript:alert(1)'})));
+const movie=privateMovie(full.titles[0],full.titles[0].assets[0]);
+assert.equal(movie.licensedSource.rights.nativeMp4,true);
+assert.equal(isPrivateMedia(movie.licensedSource),true);
+assert.equal(isPrivateMedia({...movie.licensedSource,stream_url:'http://example.com/test'}),false);
+console.log('PRIVATE CATALOG PASS: 30 episodes, merge, idempotency, collisions, safe URLs, native MP4');
