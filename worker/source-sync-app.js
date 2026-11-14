@@ -1,3 +1,4 @@
+import {recoveryRequest} from './private-recovery.js';
 import cinema from './index.js';
 import sync,{SourceSync} from './source-sync.js';
 import {authorize} from './private-catalog-sync.js';
@@ -8,7 +9,31 @@ const stub=env=>env.SOURCE_SYNC.get(env.SOURCE_SYNC.idFromName('catalogue'));
 // Recovery does not touch storage for synchronization requests or cron events.
 const maintenance=()=>Response.json({engine:'auto-v10',state:'maintenance',paused:true,message:'Catalogue recovery; stored content retained.'},{status:202,headers:{'Cache-Control':'private, no-store'}});
 function recoveryError(e){const m=String(e?.message||e||'');if(/rows read|rows written|free tier|daily limit|quota|spending cap|spending limit/i.test(m))return 'storage-quota-or-limit';if(/overload|too many|storage operation|timeout/i.test(m))return 'storage-overloaded-or-timeout';if(/reset|code was updated/i.test(m))return 'storage-restarting';return 'catalogue-storage-unavailable';}
-async function privateRead(env,route,request,owner){try{const r=await stub(env).fetch('https://internal'+route+new URL(request.url).search,{method:request.method});if(r.status>=500){const m=await r.text();const reason=recoveryError(m);return fail(owner?reason:'catalogue-temporarily-unavailable',503);}return r;}catch(e){console.error('Private catalogue recovery',route,String(e?.message||e).slice(0,350));return fail(owner?recoveryError(e):'catalogue-temporarily-unavailable',503);}}
+let quotaUntil=0;
+const recoverable=new Set(['/private-list','/private-preview','/private-work','/private-episode']);
+const recoveryStatus=()=>Response.json({engine:'auto-v10',state:'maintenance',paused:true,recovery:true,storageUnavailable:true,message:'Stored library unavailable; live source recovery active.'},{headers:{'Cache-Control':'private, no-store','Vary':'Authorization'}});
+async function fallback(route,request,owner,reason){
+ if(route==='/private-status')return recoveryStatus();
+ if(recoverable.has(route))return recoveryRequest(route,request);
+ return fail(owner?reason:'catalogue-temporarily-unavailable',503);
+}
+async function privateRead(env,route,request,owner){
+ if(Date.now()<quotaUntil)return fallback(route,request,owner,'storage-quota-or-limit');
+ try{
+  const r=await stub(env).fetch('https://internal'+route+new URL(request.url).search,{method:request.method});
+  if(r.status>=500){
+   const m=await r.text(),reason=recoveryError(m);
+   if(reason==='storage-quota-or-limit'){quotaUntil=Date.now()+60000;return fallback(route,request,owner,reason);}
+   return fail(owner?reason:'catalogue-temporarily-unavailable',503);
+  }
+  return r;
+ }catch(e){
+  console.error('Private catalogue recovery',route,String(e?.message||e).slice(0,350));
+  const reason=recoveryError(e);if(reason==='storage-quota-or-limit'){quotaUntil=Date.now()+60000;return fallback(route,request,owner,reason);}
+  return fail(owner?reason:'catalogue-temporarily-unavailable',503);
+ }
+}
+
 const privateRoutes={'/api/private-catalog/list':'/private-list','/api/private-catalog/work':'/private-work','/api/private-catalog/status':'/private-status','/api/private-catalog/sync':'/private-sync','/api/private-catalog/share':'/private-share','/api/private-catalog/preview':'/private-preview','/api/private-catalog/episode':'/private-episode'};
 export default {
  async fetch(request,env){
@@ -23,7 +48,7 @@ export default {
    if(!route||request.method!==(write?'POST':'GET'))return fail('not-found',404);
    if(write&&!owner)return fail('forbidden',403);
    if(route==='/private-sync')return maintenance();
-   if(route==='/private-share'){if(Number(request.headers.get('Content-Length'))>1000000)return fail('share-too-large',413);const body=await request.text();if(body.length>1000000)return fail('share-too-large',413);return stub(env).fetch('https://internal'+route,{method:'POST',body,headers:{'Content-Type':'application/json'}});}
+   if(route==='/private-share'){if(Date.now()<quotaUntil)return fail('storage-quota-or-limit',503);if(Number(request.headers.get('Content-Length'))>1000000)return fail('share-too-large',413);const body=await request.text();if(body.length>1000000)return fail('share-too-large',413);try{return await stub(env).fetch('https://internal'+route,{method:'POST',body,headers:{'Content-Type':'application/json'}});}catch(e){const reason=recoveryError(e);if(reason==='storage-quota-or-limit')quotaUntil=Date.now()+60000;return fail(reason,503);}}
    return privateRead(env,route,request,owner);
   }
   return u.pathname.startsWith('/api/source-sync/')?sync.fetch(request,env):cinema.fetch(request,env);
