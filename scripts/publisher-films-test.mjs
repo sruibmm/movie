@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict';
 import {IMPORTED_FILMS} from '../src/publisherFilmData.js';
 import {PUBLISHER_FILMS,matchPublisherFilm,findOfficialTitles,attachPublisherFilm,importedFilm} from '../src/officialCatalog.js';
-assert.equal(IMPORTED_FILMS.length,28);
-assert.ok(PUBLISHER_FILMS.length>=35);
+assert.equal(IMPORTED_FILMS.length,105);
+assert.ok(IMPORTED_FILMS.every(x=>/^[-_A-Za-z0-9]{11}$/.test(x.video)&&x.source.startsWith('https://assyrian4all.net/')));
+assert.ok(PUBLISHER_FILMS.length>=100);
 assert.equal(new Set(PUBLISHER_FILMS.map(x=>x.video||x.playlist)).size,PUBLISHER_FILMS.length);
 assert.equal(findOfficialTitles({title:'اكس لارج',release_date:'2011-01-01'})[0].id,'KAlZGGCz7Lk');
 assert.equal(findOfficialTitles({title:'اكس لارج',release_date:'2000-01-01'}).length,0);
