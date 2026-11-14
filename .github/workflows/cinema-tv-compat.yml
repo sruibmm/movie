@@ -1,0 +1,21 @@
+name: Cinema TV compatibility
+on:
+  pull_request:
+    branches: [cloudflare-ready]
+    paths:
+      - 'src/**'
+      - 'public/tv-navigation.js'
+      - 'scripts/tv-preferences-test.mjs'
+      - '.github/workflows/cinema-tv-compat.yml'
+jobs:
+  tv:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --no-audit --no-fund
+      - run: node scripts/tv-preferences-test.mjs
+      - run: node --check public/tv-navigation.js
+      - run: npx vite build --target chrome94
