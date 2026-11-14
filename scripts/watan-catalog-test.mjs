@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import {parseCatalogue,parseWork,makeWatanMovie,validSlug} from '../src/watanCatalog.js';
+const catalogue='<a href="/ar/series/دهشة"><img alt="دهشة"></a><a href="/ar/series/دهشة">دهشة</a><a href="/ar/series/شام-الخير"><img alt="شام الخير"></a><a href="/ar/category/مسلسلات?page=20">20</a>';
+assert.equal(parseCatalogue(catalogue,'series').items.length,2);
+assert.equal(parseCatalogue(catalogue,'series').pages,20);
+assert.equal(parseCatalogue(catalogue,'series').items[0].title,'دهشة');
+assert.equal(validSlug('../x'),false);
+const html='<h1>دهشة</h1><a href="https://www.youtube.com/watch?v=Ag-fVJvmCic">شاهد الان</a><a href="https://www.youtube.com/watch?v=Ag-fVJvmCic">حلقة 1</a><a href="https://www.youtube.com/watch?v=u1xyIGYv4Uk">حلقة 2</a>';
+const work=parseWork(html,'دهشة','series');assert.equal(work.episodes,2);assert.equal(work.type,'tv');
+const m=makeWatanMovie(work,2,{id:'u1xyIGYv4Uk'});assert.equal(m.id,'watan:دهشة:2');assert.equal(m.watanOnly,true);assert.equal(m.publisherSource.id,'u1xyIGYv4Uk');
+console.log('WATAN CATALOG PASS: 9 category, pagination, work identity and internal playback checks');
