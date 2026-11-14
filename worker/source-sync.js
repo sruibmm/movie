@@ -32,12 +32,14 @@ export async function synchronize(storage,policy,fetcher=fetch,now=Date.now()){
  try{
   const [snapshot,evidence]=await Promise.all([readFeed(policy.feedUrl,policy.feedHosts,fetcher),readFeed(policy.observationsUrl,policy.feedHosts,fetcher)]);
   if(evidence.provider!==policy.provider||evidence.revision!==snapshot.revision||!evidence.observations||typeof evidence.observations!=='object')throw Error('evidence-mismatch');
-  if(snapshot.revision===previous?.snapshot.revision)return {provider:policy.provider,status:'unchanged',revision:snapshot.revision};
-  const review=reviewSourceSnapshot(previous?.snapshot??null,snapshot,policy,evidence.observations,now);
+  const same=snapshot.revision===previous?.snapshot.revision;
+  // Equal revisions may renew independent evidence, but cannot silently change media.
+  if(same&&JSON.stringify(snapshot)!==JSON.stringify(previous.snapshot))throw Error('same-revision-content-changed');
+  const review=reviewSourceSnapshot(same?null:previous?.snapshot??null,snapshot,same?{...policy,minimumNewTitles:0}:policy,evidence.observations,now);
   if(!review.ok)throw Error(review.reason);
   const record={snapshot:review.snapshot,observations:evidence.observations,checkedAt:now};
-  await storage.transaction(async tx=>{const current=await tx.get(key);if(current&&current.snapshot.revision>=snapshot.revision)throw Error('concurrent-stale-revision');await tx.put(key,record);});
-  return {provider:policy.provider,status:'updated',revision:snapshot.revision,titles:review.titles,assets:review.assets};
+  await storage.transaction(async tx=>{const current=await tx.get(key);if(current&&(current.snapshot.revision>snapshot.revision||(!same&&current.snapshot.revision===snapshot.revision)||(same&&current.checkedAt>now)))throw Error('concurrent-stale-revision');await tx.put(key,record);});
+  return {provider:policy.provider,status:same?'unchanged':'updated',revision:snapshot.revision,titles:review.titles,assets:review.assets};
  }catch(e){return {provider:policy.provider,status:'retained',revision:previous?.snapshot.revision??null,reason:String(e.message||e).slice(0,120)};}
 }
 // Cross-provider identity is an explicitly reviewed, canonical work ID mapping.
