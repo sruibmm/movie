@@ -630,7 +630,7 @@ function App() {
   }
 
   const resolvedRoomMovie=roomMovie?attachPublisherFilm(attachPublisherEpisode(attachArabicSiteEpisode(roomMovie))):null;
-  if (resolvedRoomMovie?.publisherSource&&approvedPublisherUrl(resolvedRoomMovie.publisherSource)) {
+  if (resolvedRoomMovie?.publisherSource&&(resolvedRoomMovie.publisherSource.provider==='dailymotion'||approvedPublisherUrl(resolvedRoomMovie.publisherSource))) {
     return <PublisherPlayer key={resolvedRoomMovie.id} movie={resolvedRoomMovie} mode={mode} onBack={()=>{if(role==='admin'&&conn?.open)conn.send({type:'end_party'});saveToHistory(roomMovie,syncSettings.progress,syncSettings);setRoomMovie(null);setActiveMovie(null);}}/>;
   }
   if (resolvedRoomMovie&&!allowArabicPlayback(resolvedRoomMovie)) {

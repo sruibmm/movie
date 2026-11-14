@@ -1,0 +1,2 @@
+# Dailymotion integration
+Dailymotion now requires a valid Player ID in every supported iframe URL. Set VITE_DAILYMOTION_PLAYER_ID in Cloudflare Workers build variables to an ID obtained from Dailymotion Studio or an authorized publisher embed configuration. This is a public identifier, not an API key. Rebuild after setting it. Without it, the catalog stays indexed and matching YouTube alternatives remain available. A valid player does not guarantee availability on our domain; verify playback and publisher permission. Do not use demo IDs or bypass access restrictions.
