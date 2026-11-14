@@ -42,3 +42,32 @@
 @media(max-width:1000px){.cinema-tv .tv-home [class~="grid-cols-2"][class~="md:grid-cols-5"],.cinema-tv .tv-home [class~="grid-cols-2"][class~="lg:grid-cols-5"]{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}}
 
 .cinema-tv .tv-section-intro{display:flex;justify-content:space-between;align-items:end;margin:6px 0 24px;gap:20px}.cinema-tv .tv-section-intro h2{font-size:32px;font-weight:800;margin:5px 0;color:white}.cinema-tv .tv-section-intro p{color:#bbb5c9;font-size:18px}.cinema-tv .tv-kicker{color:#b993f9;font-size:13px;letter-spacing:2px;font-weight:800}.cinema-tv .tv-remote-hint{color:#a29aaf;font-size:16px;white-space:nowrap}.cinema-tv .tv-featured{position:relative;display:flex;align-items:center;gap:32px;background:linear-gradient(115deg,#25163d,#12101b 65%);border:1px solid #ffffff18;border-radius:24px;overflow:hidden;padding:28px 36px;min-height:250px}.cinema-tv .tv-featured-art{width:150px;flex:none}.cinema-tv .tv-featured-art img{display:block;width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:12px;background:#312543}.cinema-tv .tv-featured-info{max-width:900px;min-width:0}.cinema-tv .tv-featured-info h2{font-size:36px;line-height:1.15;font-weight:900;margin:10px 0}.cinema-tv .tv-featured-info p{color:#d1ccdc;font-size:18px;line-height:1.55;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}.cinema-tv .tv-featured-play{background:#a78bfa;color:#171023;font-weight:800;border-radius:12px;padding:12px 22px;margin-top:20px;font-size:18px}.cinema-tv .tv-home [class~="grid-cols-2"]>button{color:#f4f0ff}.cinema-tv .tv-home [class~="grid-cols-2"]>button:focus{background:#2c2042}.cinema-tv img{color:#d7c9eb;background-color:#211b2d}
+
+/* Performance pass: same visual identity, denser use of the screen. */
+.cinema-tv .tv-home{padding:24px 3.2vw 36px}
+.cinema-tv .tv-home-header{gap:14px;margin-bottom:18px;padding-bottom:16px}
+.cinema-tv .tv-brand h1{font-size:36px}
+.cinema-tv .tv-home-header form{max-width:none;flex:1 1 100%}
+.cinema-tv .tv-section-intro{margin:4px 0 14px}
+.cinema-tv .tv-section-intro h2{font-size:28px}
+.cinema-tv .tv-featured{min-height:190px;padding:18px 26px;gap:24px;margin-bottom:18px!important}
+.cinema-tv .tv-featured-art{width:112px}
+.cinema-tv .tv-featured-info{max-width:none;flex:1}
+.cinema-tv .tv-featured-info h2{font-size:31px}
+.cinema-tv .tv-featured-info p{-webkit-line-clamp:2}
+.cinema-tv .tv-featured-play{margin-top:12px;padding:10px 18px}
+.cinema-tv .tv-poster-grid,.cinema-tv .tv-home [class~="grid-cols-2"][class~="md:grid-cols-5"],.cinema-tv .tv-home [class~="grid-cols-2"][class~="lg:grid-cols-5"]{gap:18px}
+.cinema-tv .tv-home button.group,.cinema-tv .tv-home .tv-poster-card{transition:none;box-shadow:none}
+.cinema-tv .tv-home img{transition:none!important;transform:none!important}
+.cinema-tv .tv-home .shadow-lg,.cinema-tv .tv-home .shadow-xl{box-shadow:none}
+.cinema-tv .tv-home .animate-pulse{animation:none}
+.cinema-tv .tv-detail{max-width:92vw;grid-template-columns:minmax(180px,280px) minmax(0,1fr);gap:32px}
+.cinema-tv .tv-detail img{max-height:72vh;object-fit:contain;width:100%}
+.cinema-tv .blur-2xl{filter:none}
+.cinema-tv .backdrop-blur-sm{backdrop-filter:none}
+.cinema-tv [role=dialog][class~="fixed"]{max-width:none!important;padding:0;border-radius:0}
+.cinema-tv [role=dialog][class~="fixed"]>section{max-width:86vw;max-height:90vh}
+.cinema-tv [role=dialog]:not([class~="fixed"]){max-width:86vw!important}
+.cinema-tv [data-cinema-player] header>div{height:56px}
+@media(min-width:1400px){.cinema-tv .tv-poster-grid,.cinema-tv .tv-home [class~="grid-cols-2"][class~="md:grid-cols-5"],.cinema-tv .tv-home [class~="grid-cols-2"][class~="lg:grid-cols-5"]{grid-template-columns:repeat(7,minmax(0,1fr))}}
+@media(max-width:1000px){.cinema-tv .tv-detail{grid-template-columns:minmax(120px,200px) minmax(0,1fr)}}
