@@ -1,4 +1,4 @@
-import {validMedia} from './private-media-policy.js';
+import {validMedia,isWarningMedia,mediaTotalBytes,mp4HeaderDuration} from './private-media-policy.js';
 import {groupKey,groupPrefix,selectGroups,summarizeGroup,queueStatus,rollingPool} from './private-work-queue.js';
 import {VERSION,structural,pickJobs,nextHealth,queueRows,effectiveDue,retryPlan} from './private-turbo-scheduler.js';
 import {buildEpisodeGraph,mediaByEpisode,candidatesFor,graphSignature} from './private-episode-graph.js';
@@ -141,6 +141,7 @@ export async function getPage(url,fetcher){
  const body=await r.text();if(body.length>3000000)throw Error('page-too-large');return body;
 }
 export async function probe(url,fetcher=fetch){
+ if(isWarningMedia(url))throw Error('media-warning-clip');
  if(!validMedia(url))throw Error('unsupported-media-host');
  const seen=new Set(),signal=AbortSignal.timeout(12000);let current=new URL(url).href;
  for(let hop=0;hop<=4;hop++){
@@ -150,14 +151,21 @@ export async function probe(url,fetcher=fetch){
    const location=r.headers?.get('Location');await r.body?.cancel().catch(()=>{});
    if(!location)throw Error('media-redirect-'+r.status+': missing-location');
    let target;try{target=new URL(location,current);}catch{throw Error('media-redirect-'+r.status+': invalid-location');}
+   if(isWarningMedia(target.href))throw Error('media-warning-clip');
    if(!validMedia(target.href))throw Error('media-redirect-'+r.status+': unapproved-host '+target.hostname);
    if(hop===4)throw Error('media-redirect-limit');
    current=target.href;continue;
   }
   if(!r.ok||!r.body){await r.body?.cancel().catch(()=>{});throw Error('media-'+r.status);}
+  const total=mediaTotalBytes(r);
+  // Reject obvious teaser/warning-sized files, not an arbitrary 500 MB
+  // requirement: legitimate compressed episodes can be much smaller.
+  if(total!==null&&total<2000000){await r.body.cancel().catch(()=>{});throw Error('media-too-small: '+total);}
   const reader=r.body.getReader();let bytes=[];
-  try{while(bytes.length<12){const {done,value}=await reader.read();if(done)break;bytes.push(...value.subarray(0,32));}}finally{await reader.cancel().catch(()=>{});}
+  try{while(bytes.length<4096){const {done,value}=await reader.read();if(done)break;bytes.push(...value.subarray(0,4096-bytes.length));}}finally{await reader.cancel().catch(()=>{});}
   if(bytes.length<12||String.fromCharCode(...bytes.slice(4,8))!=='ftyp')throw Error('not-mp4');
+  const duration=mp4HeaderDuration(bytes);
+  if(duration!==null&&duration<60)throw Error('media-too-short: '+duration);
   return current;
  }
  throw Error('media-redirect-limit');
