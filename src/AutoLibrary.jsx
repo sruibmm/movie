@@ -69,10 +69,14 @@ export default function AutoLibrary({query='',onPlay,options}){
    try{sessionStorage.setItem(PRIVATE_ACTIVE_KEY,JSON.stringify({...work,assets,slots:work.assets.map(v=>({season:v.season,episode:v.episode}))}));}catch{}
    onPlay(privateMovie(work,actual));setSelected(null);
   }catch(e){
-   const reason=String(e.message||e),missing=/missing-direct-source|direct-sources-unavailable|episode-not-listed|media-404/i.test(reason);
+   const reason=String(e.message||e);
+   const missing=/missing-direct-source|direct-sources?-unavailable|episode-not-listed|media-404|media-redirect-|unsupported-media-host|unsupported-hosts|unapproved-host|not-mp4/i.test(reason);
    const alternative=missing?publisherAlternative(work,a,bulkCatalog):null;
-   setPlayFailure({workId:work.id,title:work.title,season:a.season,episode:a.episode,reason,alternative});
-   setError(missing?'رابط هذه الحلقة المباشر غير متاح من المصدر حاليًا.':reason);
+   // Never retry a blocked redirect or substitute a different episode. Only a
+   // matching publisher entry (same title, year, season and episode) can play.
+   if(alternative){onPlay(alternative);setSelected(null);return;}
+   setPlayFailure({workId:work.id,title:work.title,season:a.season,episode:a.episode,reason,alternative:null});
+   setError(missing?'هذه الحلقة موجودة في الفهرس، لكن لا يوجد مصدر مشاهدة مباشر صالح ومتاح لها الآن. جرّب حلقة أخرى أو أعد المحاولة لاحقًا.':reason);
   }finally{setPlayingEpisode('');}
  }
  const local=(()=>{try{return validatePrivateCatalog(JSON.parse(localStorage.getItem(PRIVATE_KEY)||'{"version":1,"titles":[]}')).titles}catch{return []}})();
