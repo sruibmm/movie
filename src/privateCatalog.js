@@ -1,5 +1,8 @@
 // Browser-only personal sources; never fetched from or written to a shared catalog.
 export const PRIVATE_KEY='cinema_private_catalog_v1';
+export const PRIVATE_ACTIVE_KEY='cinema_auto_active_work';
+const art=v=>{try{const u=new URL(v);return u.protocol==='https:'&&!u.username&&!u.password?u.href:null}catch{return null}};
+const str=(v,n=4000)=>typeof v==='string'?v.slice(0,n):'';
 export function validatePrivateCatalog(doc){
  if(doc?.version!==1||!Array.isArray(doc.titles)||doc.titles.length>10000)throw Error('ملف مكتبة غير صالح');
  const ids=new Set(),assets=new Set(),out=[];
@@ -13,9 +16,9 @@ export function validatePrivateCatalog(doc){
    const slot=t.kind==='tv'?a.season+':'+a.episode:a.id;
    if(slots.has(slot))throw Error('حلقة مكررة');
    slots.add(slot);assets.add(a.id);
-   return {id:a.id,title:typeof a.title==='string'?a.title:t.title,season:a.season,episode:a.episode,format:a.format,url:u.href};
+   return {id:a.id,title:typeof a.title==='string'?a.title:t.title,season:a.season,episode:a.episode,format:a.format,url:u.href,thumbnail:art(a.thumbnail),story:str(a.story),sourcePage:art(a.sourcePage),duration:Number.isFinite(a.duration)&&a.duration>0?a.duration:null,verifiedAt:Number.isFinite(a.verifiedAt)?a.verifiedAt:null};
   });
-  out.push({id:t.id,title:t.title,kind:t.kind,year:t.year||null,poster:typeof t.poster==='string'&&/^https:\/\//.test(t.poster)?t.poster:null,assets:list.sort((a,b)=>(a.season||0)-(b.season||0)||(a.episode||0)-(b.episode||0))});
+  out.push({id:t.id,title:t.title,kind:t.kind,year:t.year||null,poster:art(t.poster),banner:art(t.banner),story:str(t.story),genres:Array.isArray(t.genres)?t.genres.filter(x=>typeof x==='string').slice(0,15):[],sourcePage:art(t.sourcePage),assets:list.sort((a,b)=>(a.season||0)-(b.season||0)||(a.episode||0)-(b.episode||0))});
  }
  return {version:1,titles:out};
 }
@@ -27,13 +30,13 @@ export function mergePrivateCatalog(oldDoc,newDoc){
   if(prior.title!==t.title||prior.kind!==t.kind)throw Error('تعارض هوية العمل');
   const rows=new Map(prior.assets.map(a=>[a.id,a]));
   for(const a of t.assets){const b=rows.get(a.id);if(b&&(b.url!==a.url||b.season!==a.season||b.episode!==a.episode||b.format!==a.format))throw Error('تعارض رابط الحلقة');rows.set(a.id,a);}
-  titles.set(t.id,{...prior,assets:[...rows.values()]});
+  titles.set(t.id,{...prior,year:t.year||prior.year,poster:t.poster||prior.poster,banner:t.banner||prior.banner,story:t.story||prior.story,genres:t.genres.length?t.genres:prior.genres,sourcePage:t.sourcePage||prior.sourcePage,assets:[...rows.values()]});
  }
  return validatePrivateCatalog({version:1,titles:[...titles.values()]});
 }
 export function privateMovie(t,a){
  const safe=validatePrivateCatalog({version:1,titles:[{...t,assets:[a]}]}).titles[0],v=safe.assets[0];
- return {id:'private:'+v.id,title:safe.kind==='tv'?safe.title+' · الحلقة '+v.episode:safe.title,seriesTitle:safe.title,media_type:safe.kind==='tv'?'tv':'movie',season:v.season,episode:v.episode,isArabic:true,original_language:'ar',poster_path:null,licensedPoster:safe.poster,release_date:safe.year?safe.year+'-01-01':'',licensedSource:{stream_url:v.url,type:v.format,localOnly:true,rights:{nativeMp4:v.format==='mp4'},subtitles:[]}};
+ return {id:'private:'+v.id,title:safe.kind==='tv'?safe.title+' · الحلقة '+v.episode:safe.title,seriesTitle:safe.title,media_type:safe.kind==='tv'?'tv':'movie',season:v.season,episode:v.episode,isArabic:true,original_language:'ar',poster_path:null,licensedPoster:v.thumbnail||safe.poster,banner:safe.banner,overview:v.story||safe.story,release_date:safe.year?safe.year+'-01-01':'',licensedSource:{stream_url:v.url,type:v.format,localOnly:true,rights:{nativeMp4:v.format==='mp4'},subtitles:[]}};
 }
 export function isPrivateMedia(s){
  try{const u=new URL(s?.stream_url);return s.localOnly===true&&u.protocol==='https:'&&!u.username&&!u.password&&['mp4','hls'].includes(s.type);}catch{return false;}
