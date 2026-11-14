@@ -1,43 +1,26 @@
-name: Dailymotion playback browser verification
+name: Verify deployed Cinema episode test
 on:
   push:
     branches: [dailymotion-diagnosis]
 permissions:
   contents: read
 jobs:
-  browser:
+  live:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 3
     steps:
-      - name: Install browser test tooling
+      - name: Check live test page and exact iframe
         run: |
-          npm install --no-save playwright
-          npx playwright install chromium
-      - name: Test exact episode in an iframe
-        run: |
-          cat > /tmp/dm-test.cjs <<'JS'
-          const { chromium } = require(process.cwd()+'/node_modules/playwright');
-          (async()=>{
-            const browser=await chromium.launch({headless:true,args:['--autoplay-policy=no-user-gesture-required']});
-            const page=await browser.newPage();
-            page.on('pageerror',e=>console.log('PAGE_ERROR',e.message.slice(0,300)));
-            page.on('response',r=>{if(r.status()>=400 && /dailymotion|dmcdn/.test(r.url())) console.log('HTTP_ERROR',r.status(),r.url().split('?')[0].slice(0,180));});
-            await page.route('https://movie.o-a-f-a.workers.dev/__dm-test',r=>r.fulfill({contentType:'text/html',body:'<!doctype html><html><body><iframe width="900" height="500" src="https://geo.dailymotion.com/player/x8lr5.html?video=x6rtfip" allow="autoplay; fullscreen; picture-in-picture; web-share" allowfullscreen></iframe></body></html>'}));
-            await page.goto('https://movie.o-a-f-a.workers.dev/__dm-test',{waitUntil:'domcontentloaded'});
-            await page.waitForTimeout(6000);
-            const frame=page.frames().find(f=>f.url().includes('geo.dailymotion.com/player/'));
-            if(!frame) throw Error('No iframe');
-            console.log('FRAME_URL',frame.url());
-            console.log('FRAME_TEXT',(await frame.locator('body').innerText()).slice(0,800));
-            const buttons=await frame.getByRole('button').all();
-            console.log('BUTTONS',await Promise.all(buttons.slice(0,15).map(b=>b.getAttribute('aria-label').catch(()=>null))));
-            const play=frame.getByRole('button',{name:/^play$|play video|lecture|تشغيل/i}).first();
-            if(await play.count())await play.click({timeout:3000}).catch(()=>{});
-            else await frame.locator('body').click({position:{x:450,y:250},timeout:3000}).catch(()=>{});
-            await page.waitForTimeout(12000);
-            console.log('VIDEO_STATE',JSON.stringify(await frame.locator('video').evaluateAll(vs=>vs.map(v=>({duration:v.duration,currentTime:v.currentTime,paused:v.paused,readyState:v.readyState,error:v.error?.message||null})))));
-            console.log('FRAME_TEXT_AFTER',(await frame.locator('body').innerText()).slice(0,1200));
-            await browser.close();
-          })().catch(e=>{console.error(e);process.exit(1)});
-          JS
-          node /tmp/dm-test.cjs
+          python - <<'PY'
+          import urllib.request,time
+          url='https://movie.o-a-f-a.workers.dev/dm-test.html'
+          for n in range(5):
+              try:
+                  r=urllib.request.urlopen(url,timeout=8)
+                  b=r.read(100000).decode('utf-8','replace')
+                  print('LIVE',r.status,r.url,'TEST_PAGE', 'geo.dailymotion.com/player/x8lr5.html?video=x6rtfip' in b)
+                  if 'geo.dailymotion.com/player/x8lr5.html?video=x6rtfip' in b:break
+              except Exception as e: print('LIVE_ERROR',e)
+              time.sleep(5)
+          else: raise SystemExit('Test page not confirmed on live deployment')
+          PY
