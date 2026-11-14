@@ -1,0 +1,28 @@
+/* Cinema TV: large-screen layout, static CSS, no runtime compiler. */
+.cinema-tv body{background:#08080e;color:#f9fafb;font-family:Arial,Tahoma,sans-serif;font-size:20px}
+.cinema-tv #root{min-height:100vh}
+.cinema-tv .tv-home{padding:40px 5vw 60px;background:radial-gradient(ellipse at 85% 0,#241334 0,transparent 42%),#08080e;min-height:100vh}
+.cinema-tv .tv-home-header{display:flex;flex-direction:row;align-items:center;flex-wrap:wrap;gap:22px;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid #ffffff20}
+.cinema-tv .tv-brand{flex:1;min-width:250px}
+.cinema-tv .tv-brand h1{font-size:42px;line-height:1.15;color:#f4f0ff;background:none;-webkit-text-fill-color:#f4f0ff;font-style:normal;letter-spacing:-1px}
+.cinema-tv .tv-brand p{color:#b9b2cc}
+.cinema-tv .tv-home-header button{padding:12px 22px;min-height:54px;font-size:18px;border-radius:14px}
+.cinema-tv .tv-home-header form{width:100%;max-width:900px}
+.cinema-tv .tv-home-header input{min-height:54px;font-size:20px;color:white;background:#1a1724}
+.cinema-tv .tv-poster-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:24px}
+.cinema-tv .tv-poster-card{min-width:0;border-radius:14px;padding:4px;outline-offset:4px}
+.cinema-tv .tv-poster-card h3{font-size:18px!important;line-height:1.35;margin:12px 0 6px;text-align:left;color:#f5f3ff}
+.cinema-tv .tv-poster-card img{display:block;aspect-ratio:2/3;width:100%;object-fit:cover}
+.cinema-tv .tv-poster-card:focus{background:#2d2149}
+.cinema-tv .tv-notice{background:#20182b;border:1px solid #563a7d;border-radius:18px;padding:24px;margin:20px 0;color:#f3e8ff}
+.cinema-tv .tv-notice button{background:#7542bd;color:#fff;border-radius:12px;padding:10px 20px;margin-top:12px}
+.cinema-tv [class~="h-[100dvh]"]{height:100vh}
+.cinema-tv [class~="min-h-[100dvh]"]{min-height:100vh}
+.cinema-tv [class~="max-h-[92dvh]"]{max-height:92vh}
+.cinema-tv [class~="max-h-[85dvh]"]{max-height:85vh}
+.cinema-tv [class~="max-h-[80dvh]"]{max-height:80vh}
+.cinema-tv [data-cinema-player] header{background:#121019}
+.cinema-tv [data-cinema-player] header>div{max-width:none;height:70px}
+.cinema-tv [data-cinema-player] header p{font-size:20px}
+.cinema-tv [data-cinema-player] header p+p{font-size:15px}
+@media(max-width:1000px){.cinema-tv .tv-poster-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}.cinema-tv .tv-home{padding:24px 4vw}.cinema-tv .tv-brand h1{font-size:32px}}
