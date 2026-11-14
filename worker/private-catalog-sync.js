@@ -23,7 +23,8 @@ export function metadata(html,page,kind=''){
  const genres=(Array.isArray(ld.genre)?ld.genre:ld.genre?[ld.genre]:[]).map(clean).filter(Boolean).slice(0,15);
  const inferred=types(ld).includes('Movie')?'movie':types(ld).includes('TVSeries')?'tv':kind;
  const thumbnail=image(value(ld.thumbnailUrl)||meta(html,'thumbnailUrl')||meta(html,'og:image'),page);
- return {title,story,poster,banner,year,genres,kind:inferred,thumbnail};
+ const explicitSeason=Number(ld.seasonNumber||ld.partOfSeason?.seasonNumber||title.match(/(?:الموسم|الجزء|ج)\\s*(\\d+)/)?.[1]||title.match(/\\bS(?:eason\\s*)?0?(\\d+)\\b/i)?.[1]||1);
+ return {title,story,poster,banner,year,genres,kind:inferred,thumbnail,season:Number.isSafeInteger(explicitSeason)&&explicitSeason>0?explicitSeason:1};
 }
 const workPath=u=>/^\/(?:watch|movie)\/[a-z0-9-]+\.html$/i.test(u.pathname);
 const workId=u=>'alooytv:'+u.pathname.split('/').pop().replace(/\.html$/i,'');
@@ -31,7 +32,7 @@ function kindHint(u,label=''){const s=(u.pathname+' '+label).toLowerCase();retur
 export function indexLinks(html,page,kind=''){
  const out=new Map();
  for(const a of anchors(html,page)){const u=a.u;
-  if(workPath(u)){u.search='';const id=workId(u);out.set('w:'+id,{type:'work',url:u.href,id,kind:kind||kindHint(u,a.label)});}
+  if(workPath(u)){u.search='';const id=workId(u);const img=a.html.match(/<img\\b[^>]*>/i)?.[0]||'';const poster=image(attr(img,'data-src')||attr(img,'src'),page);out.set('w:'+id,{type:'work',url:u.href,id,kind:kind||kindHint(u,a.label),poster});}
   else if(/^\/genre\/[a-z0-9_-]+(?:\.html)?(?:\/\d+)?$/i.test(u.pathname)||/^\/(?:movies|series|tv-series)(?:\/\d+|\.html)?$/i.test(u.pathname)||u.pathname==='/'&&u.searchParams.has('page')){
    // Only actual navigable category/pagination URLs; reject arbitrary query parameters.
    if([...u.searchParams.keys()].some(k=>!['page','p','offset','sort'].includes(k)))continue;
@@ -84,7 +85,7 @@ async function processJob(s,j,fetcher,now){
   const kind=list.length?'tv':m.kind;if(!['tv','movie','play'].includes(kind)||kind==='tv'&&!list.length)throw Error('unclassified-or-incomplete-work');
   const count=list.length||1,old=await s.get(wk(j.id));if(old&&old.count>count)throw Error('refuse-catalog-shrink');
   const current=await s.get(dk(j.id));if(current&&current.remaining>0&&now-current.gen<DAY)return;
-  const d={id:j.id,title:m.title,kind,year:m.year,story:m.story,poster:m.poster,banner:m.banner,genres:m.genres,sourcePage:j.url,count,gen:now,remaining:count};
+  const d={id:j.id,title:m.title,kind,year:m.year,story:m.story,poster:m.poster||j.poster||null,banner:m.banner,genres:m.genres,sourcePage:j.url,count,season:m.season,gen:now,remaining:count};
   await s.put(dk(j.id),d);
   for(const [n,url] of list.length?list:[[1,j.url]])await enqueue(s,{type:'episode',url,id:j.id,gen:now,n,kind},now,true);
   return;
@@ -93,7 +94,7 @@ async function processJob(s,j,fetcher,now){
  const key=epPrefix(j.id,j.gen)+String(j.n).padStart(4,'0');
  if(await s.get(key))return;
  const url=mediaLink(html,j.url);await probe(url,fetcher);
- const m=metadata(html,j.url),asset={id:j.id+':s1:e'+j.n,title:d.kind==='tv'?'الحلقة '+j.n:d.title,season:1,episode:j.n,format:'mp4',url,sourcePage:j.url,thumbnail:m.thumbnail&&m.thumbnail!==d.poster?m.thumbnail:null,story:m.story!==d.story?m.story:'',verifiedAt:now};
+ const m=metadata(html,j.url),asset={id:j.id+':s'+d.season+':e'+j.n,title:d.kind==='tv'?'الحلقة '+j.n:d.title,season:d.season,episode:j.n,format:'mp4',url,sourcePage:j.url,thumbnail:m.thumbnail&&m.thumbnail!==d.poster?m.thumbnail:null,story:m.story!==d.story?m.story:'',verifiedAt:now};
  await s.transaction(async tx=>{const latest=await tx.get(dk(j.id));if(!latest||latest.gen!==j.gen||await tx.get(key))return;await tx.put(key,asset);latest.remaining--;await tx.put(dk(j.id),latest);});
  const latest=await s.get(dk(j.id));if(latest&&latest.gen===j.gen&&latest.remaining===0)await publish(s,latest);
 }
