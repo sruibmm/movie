@@ -869,12 +869,14 @@ function App() {
           </form>
         </header>
 
+        {tvMode&&<div className="tv-section-intro"><div><span className="tv-kicker">CINEMA · TV</span><h2>{arabicLibrary?'السينما العربية':search?'Search results':'World Cinema'}</h2><p>{arabicLibrary?'أفلام ومسلسلات ومسرحيات — اختر عملاً للمتابعة.':search?'Find your next favourite film.':'Explore your next movie on the big screen.'}</p></div><span className="tv-remote-hint">↑ ↓ ← → · OK · Back</span></div>}
         {arabicLibrary ? <>
           <SyncedLibrary query={search} onPlay={startArabicEpisode}/>
           <AutoLibrary query={search} onPlay={startArabicEpisode} options={fetchOptions}/>
           <LicensedLibrary query={search} onPlay={startArabicEpisode}/>
           <ArabicDiscovery query={search} existing={[]} options={fetchOptions} onMovie={setActiveMovie} onEpisode={startArabicEpisode}/>
         </> : <>
+        {tvMode&&!search&&movies.length>0&&<section className="tv-featured" aria-label="Featured movie"><div className="tv-featured-art"><img src={'https://image.tmdb.org/t/p/w500'+movies[0].poster_path} alt={movies[0].title}/></div><div className="tv-featured-info"><span className="tv-kicker">FEATURED · MOVIE</span><h2>{movies[0].title}</h2><p>{movies[0].overview||'Discover the film and start watching.'}</p><button className="tv-featured-play" onClick={()=>setActiveMovie(movies[0])}>▶ Details &amp; watch</button></div></section>}
         {catalogError&&<div className="tv-notice text-red-300 mb-4 text-sm" role="status"><p>{tvMode?"تعذر تحميل مكتبة الأفلام. اضغط إعادة المحاولة.":catalogError}</p><button onClick={()=>setCatalogRetry(n=>n+1)}>↻ {tvMode?"إعادة المحاولة":"Retry"}</button></div>}
         {!loading&&!movies.length&&!catalogError&&<p className="text-gray-400 mb-4">{arabicLibrary?'لا توجد نتائج في هذه الصفحة. جرّب اسم الفيلم أو الصفحة التالية.':'No matching movies.'}</p>}
         <div className="flex items-center justify-between mb-4 text-sm text-gray-400"><span>{arabicLibrary?'أفلام عربية':'Movies'} · {catalogPage}/{catalogPages}</span><div className="flex gap-2"><button disabled={catalogPage<=1||loading} onClick={()=>setCatalogPage(p=>p-1)} className="bg-white/5 rounded-lg px-3 py-2 disabled:opacity-30">‹</button><button disabled={catalogPage>=catalogPages||loading} onClick={()=>setCatalogPage(p=>p+1)} className="bg-white/5 rounded-lg px-3 py-2 disabled:opacity-30">›</button></div></div>
