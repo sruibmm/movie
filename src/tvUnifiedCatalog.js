@@ -14,7 +14,7 @@ export function buildUnifiedCatalog({films=[],series=[],bulk={series:[],films:[]
   let row=rows.get(key);if(!row){row={id:key,title:item.title,kind,year:y,poster:poster||null,variants:[],search:name};rows.set(key,row);}
   if(!row.variants.some(x=>x.id===v.id))row.variants.push(v);
   if(!row.poster&&poster)row.poster=poster;
-  row.search+=' '+normalizeArabic([item.aliases||'',...(item.seasons||[]).map(s=>s.title||'')].join(' '));
+  row.search+=' '+normalizeArabic([item.aliases||'',...(Array.isArray(item.seasons)?item.seasons:[]).map(s=>s.title||'')].join(' '));
  }
  for(const x of films)add('youtube-film',x,filmKind(x),globalThis.__TV_ARABIC_ART__?.['film:'+x.id]||x.poster||ytArt(x.video));
  for(const x of series)add('youtube-series',x,x.kind==='tv'?'tv':'collection',globalThis.__TV_ARABIC_ART__?.['series:'+x.id]||x.poster||ytArt(x.seasons?.[0]?.episodes?.[0]?.video));
