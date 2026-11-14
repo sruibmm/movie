@@ -11,6 +11,9 @@ export const PUBLISHERS=[
  {id:'UColf1L4k9OVGwzuwNkzEOLg',name:'ماسبيرو زمان',url:'https://www.youtube.com/@masperozaman'},
  {handle:'ART_Aflam',name:'ART أفلام',url:'https://www.youtube.com/@ART_Aflam'},
  {handle:'ART-Nostalgia',name:'ART نوستالجيا',url:'https://www.youtube.com/@ART-Nostalgia'},
+ {handle:'watanflix',name:'وطن فليكس',url:'https://www.youtube.com/@watanflix'},
+ {handle:'cedarsartdrama-1525',name:'CedarsArt Drama',url:'https://www.youtube.com/@cedarsartdrama-1525'},
+ {id:'UCJjN-DtSpJqu13JuN30e79g',name:'حارة شوف بلس',url:'https://www.youtube.com/@haretshoofplus'},
 ];
 export function isoDuration(v){const m=String(v||'').match(/^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$/);return m?Number(m[1]||0)*3600+Number(m[2]||0)*60+Number(m[3]||0):0;}
 export function matchPublisherVideo(v,query,publishers=PUBLISHERS){
