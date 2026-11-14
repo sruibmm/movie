@@ -129,7 +129,7 @@ async function loadEpisode(page,candidates,fetcher){
  const graph=directGraph(html,page);
  return {html,url:await chooseMedia([...candidatesFor(graph,base),...explicitVideoLinks(html,page)],fetcher)};
 }
-async function getPage(url,fetcher){
+export async function getPage(url,fetcher){
  const requested=source(url);let r;
  for(let hop=0;hop<4;hop++){
   r=await fetcher(url,{redirect:'manual',signal:AbortSignal.timeout(8000),headers:{accept:'text/html'}});
