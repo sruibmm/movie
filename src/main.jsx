@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import Hls from 'hls.js'
 import {attachPublisherFilm} from './officialCatalog.js'
 import PublisherPlayer from './PublisherPlayer.jsx'
+import {attachArabicSiteEpisode,allowArabicPlayback,approvedPublisherUrl} from './arabicSiteCatalog.js'
 import {attachPublisherEpisode} from './publisherSeries.js'
 import LicensedLibrary from './LicensedLibrary.jsx'
 import ArabicDiscovery,{OfficialAvailability} from './ArabicDiscovery.jsx'
@@ -547,7 +548,7 @@ function App() {
   };
 
   const startArabicEpisode=(input)=>{
-    const movie=attachPublisherFilm(attachPublisherEpisode(input));
+    const movie=attachPublisherFilm(attachPublisherEpisode(attachArabicSiteEpisode(input)));
     if(mode==='couples'&&!conn?.open){alert('Connect Renad first, then start the episode.');return;}
     const settings={...syncSettings,fallbackServer:10,progress:getFromHistory(movie.id)?.progress||0};
     setSyncSettings(settings);setRoomMovie(movie);
@@ -628,8 +629,12 @@ function App() {
     );
   }
 
-  if (roomMovie?.publisherSource) {
-    return <PublisherPlayer key={roomMovie.id} movie={roomMovie} mode={mode} onBack={()=>{if(role==='admin'&&conn?.open)conn.send({type:'end_party'});saveToHistory(roomMovie,syncSettings.progress,syncSettings);setRoomMovie(null);setActiveMovie(null);}}/>;
+  const resolvedRoomMovie=roomMovie?attachPublisherFilm(attachPublisherEpisode(attachArabicSiteEpisode(roomMovie))):null;
+  if (resolvedRoomMovie?.publisherSource&&approvedPublisherUrl(resolvedRoomMovie.publisherSource)) {
+    return <PublisherPlayer key={resolvedRoomMovie.id} movie={resolvedRoomMovie} mode={mode} onBack={()=>{if(role==='admin'&&conn?.open)conn.send({type:'end_party'});saveToHistory(roomMovie,syncSettings.progress,syncSettings);setRoomMovie(null);setActiveMovie(null);}}/>;
+  }
+  if (resolvedRoomMovie&&!allowArabicPlayback(resolvedRoomMovie)) {
+    return <div dir="rtl" className="min-h-[100dvh] bg-black text-white flex items-center justify-center p-6"><section className="max-w-md rounded-3xl border border-white/10 bg-zinc-900 p-6"><p className="text-purple-300 text-sm">مصادر عربية فقط</p><h2 className="text-xl font-black mt-2">{resolvedRoomMovie.title}</h2><p className="text-sm text-gray-300 mt-3">لا يوجد مصدر ناشر قابل للتضمين لهذا العنوان حالياً. تم إيقاف EmbedWave والسيرفرات المشابهة للمحتوى العربي؛ لن يتم تشغيل مصدر بديل مجهول.</p>{/^\d+$/.test(String(resolvedRoomMovie.tmdbId||resolvedRoomMovie.id))&&<OfficialAvailability movie={resolvedRoomMovie} options={fetchOptions}/>}<button onClick={()=>{if(role==='admin'&&conn?.open)conn.send({type:'end_party'});setRoomMovie(null);setActiveMovie(null);}} className="w-full mt-5 rounded-xl bg-purple-700 py-3 font-bold">رجوع للمكتبة</button></section></div>;
   }
   if (roomMovie) {
     return (
@@ -980,7 +985,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   const [ownedError, setOwnedError] = useState('');
   const [ownedSource, setOwnedSource] = useState(null);
   const [nativeError, setNativeError] = useState('');
-  const [directOnly, setDirectOnly] = useState(false);
+  const [directOnly, setDirectOnly] = useState(Boolean(movie.isArabic||movie.original_language==='ar'));
   const [playState, setPlayState] = useState('Preparing');
   const [mediaInfo, setMediaInfo] = useState({time:0,duration:0});
   const [quality, setQuality] = useState(-1);
@@ -1000,11 +1005,11 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
   const requestedServer = localServer ?? syncSettings.fallbackServer ?? 10;
   const isTV=movie.media_type==='tv';
   const arabic=movie.isArabic||movie.original_language==='ar';
-  const sourceIds=arabic?arabicSourceIds(isTV,ACTIVE_SERVER_IDS):(isTV?[10]:ACTIVE_SERVER_IDS);
-  const currentServer=sourceIds.includes(Number(requestedServer))?Number(requestedServer):sourceIds[0];
+  const sourceIds=arabic?[]:(isTV?[10]:ACTIVE_SERVER_IDS);
+  const currentServer=sourceIds.includes(Number(requestedServer))?Number(requestedServer):(sourceIds[0]??-1);
   const [publisherSource,setPublisherSource]=useState(null);
   useEffect(()=>{
-    if(Number(requestedServer)===currentServer)return;
+    if(arabic||Number(requestedServer)===currentServer)return;
     if(role==='admin'){setLocalServer(null);onServerChange(currentServer);}
     else setLocalServer(currentServer);
   },[requestedServer,currentServer,role]);
@@ -1372,7 +1377,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
             {isNative&&levels.length>1&&<div className="flex justify-between items-center"><label htmlFor="cinema-quality" className="text-sm text-gray-300">Quality</label><select id="cinema-quality" value={quality} onChange={e=>{const v=Number(e.target.value);setQuality(v);if(hlsRef.current)hlsRef.current.currentLevel=v;}} className="bg-zinc-800 rounded-lg px-2 py-2 text-xs"><option value={-1}>Auto</option>{levels.map(l=><option key={l.id} value={l.id}>{l.height?l.height+'p':Math.round(l.bitrate/1000)+' kbps'}</option>)}</select></div>}
             <button onClick={()=>{setPublisherSource(null);setDirectOnly(v=>!v);}} aria-pressed={directOnly} className="w-full flex items-center justify-between gap-3 text-sm text-left"><span>Direct-only mode</span><span className={`rounded-full w-10 h-6 p-1 transition-colors ${directOnly?'bg-purple-600':'bg-zinc-600'}`}><span className={`block w-4 h-4 rounded-full bg-white transition-transform ${directOnly?'translate-x-4':''}`}/></span></button>
           </div>
-          {!isNative&&!directOnly&&<div className="mt-4 space-y-2">
+          {!arabic&&!isNative&&!directOnly&&<div className="mt-4 space-y-2">
             {<button onClick={()=>setShowServerList(v=>!v)} aria-expanded={showServerList} className="w-full flex items-center justify-between rounded-xl bg-white/5 px-4 py-3 text-sm"><span>Change server</span><span className="text-gray-400">{showServerList?'⌃':'›'}</span></button>}
             {showServerList&&<div className="grid grid-cols-2 gap-2">{sourceIds.map(i=>{const node=fallbackNodes[i];return <button key={i} onClick={()=>{handleServerChange(i);setShowPlaybackHelp(false);}} className={`text-left rounded-xl px-3 py-3 ${i===currentServer?'bg-purple-600':'bg-white/5'}`}><span className="block text-xs font-semibold">{node.name}</span><span className="block text-[10px] opacity-75 mt-1">{adMemory[i]?.status==='ad'?'Ad reported':adMemory[i]?.status==='blocked'?'Blocked':adMemory[i]?.status==='clean'?'Reported clean':node.health}</span></button>;})}</div>}
             <div className="grid grid-cols-2 gap-2">
@@ -1447,7 +1452,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
               ref={iframeRef}
               key={`${movie.id}-${currentServer}-${publisherSource?.id||''}-${frameRevision}`}
               title="Movie playback"
-              src={publisherSource?.embed||fallbackNodes[currentServer]?.url}
+              src={arabic?undefined:(publisherSource?.embed||fallbackNodes[currentServer]?.url)}
               className="w-full h-full border-0"
               sandbox="allow-scripts allow-same-origin allow-presentation"
               allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
