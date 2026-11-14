@@ -6,7 +6,7 @@ const decode=s=>String(s||'').replace(/&amp;|&#38;/gi,'&').replace(/&quot;/gi,'"
 const clean=s=>decode(String(s||'').replace(/<[^>]*>/g,' ')).replace(/\s+/g,' ').trim();
 const attr=(tag,key)=>{const m=tag.match(new RegExp('(?:^|\\s)'+key+'\\s*=\\s*(?:"([^"]*)"|\'([^\']*)\'|([^\\s>]+))','i'));return m?decode(m[1]??m[2]??m[3]):'';};
 function source(raw,base=ORIGIN){try{const u=new URL(raw,base);if(u.origin!==ORIGIN||u.username||u.password||u.hash)return null;return u;}catch{return null}}
-function image(raw,base=ORIGIN){try{const u=new URL(raw,base);return u.protocol==='https:'&&!u.username&&!u.password?u.href:null;}catch{return null}}
+function image(raw,base=ORIGIN){if(!raw)return null;try{const u=new URL(raw,base);return u.protocol==='https:'&&!u.username&&!u.password?u.href:null;}catch{return null}}
 function anchors(html,base){const out=[];for(const m of html.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a\s*>/gi)){const u=source(attr(m[1],'href'),base);if(u)out.push({u,label:clean(m[2]),html:m[2]});}return out;}
 function meta(html,key){for(const m of html.matchAll(/<meta\b[^>]*>/gi)){if([attr(m[0],'property'),attr(m[0],'name'),attr(m[0],'itemprop')].includes(key))return attr(m[0],'content');}return '';}
 function schema(html){const out=[];for(const m of html.matchAll(/<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)){try{const o=JSON.parse(m[1]);const walk=x=>{if(Array.isArray(x))x.forEach(walk);else if(x&&typeof x==='object'){out.push(x);if(x['@graph'])walk(x['@graph']);}};walk(o);}catch{}}return out;}
@@ -74,7 +74,7 @@ async function publish(s,d){
  const old=await s.get(wk(d.id));if(old&&old.count>d.count)throw Error('refuse-catalog-shrink');
  const {remaining,...record}=d;await s.put(wk(d.id),record);await s.delete(dk(d.id));
  // Keep the previous generation until the replacement is complete, then remove it.
- if(old&&old.gen!==d.gen){const rows=await s.list({prefix:epPrefix(d.id,old.gen)});if(rows.size)await s.delete([...rows.keys()]);}
+ if(old&&old.gen!==d.gen){const rows=await s.list({prefix:epPrefix(d.id,old.gen),limit:1000});const keys=[...rows.keys()];for(let i=0;i<keys.length;i+=100)await s.delete(keys.slice(i,i+100));}
 }
 async function processJob(s,j,fetcher,now){
  const html=await getPage(j.url,fetcher);
@@ -116,7 +116,7 @@ export async function privateRequest(request,s){
  if(u.pathname==='/private-work'){
   const id=u.searchParams.get('id')||'';if(!/^alooytv:[a-z0-9-]+$/i.test(id))return json({error:'invalid-work'},400);
   const w=await s.get(wk(id));if(!w)return json({error:'not-found'},404);
-  const rows=await s.list({prefix:epPrefix(id,w.gen)});if(rows.size!==w.count)return json({error:'incomplete-work'},503);
+  const rows=await s.list({prefix:epPrefix(id,w.gen),limit:1000});if(rows.size!==w.count)return json({error:'incomplete-work'},503);
   return json({...w,assets:[...rows.values()]});
  }
  if(u.pathname==='/private-list'){
