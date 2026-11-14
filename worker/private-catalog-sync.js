@@ -121,7 +121,8 @@ async function loadEpisode(page,candidates,fetcher){
  // Only use those links when their ref matches the precise episode key.
  if(candidates?.length){try{return {url:await chooseMedia(candidates,fetcher),html:''};}catch(e){if(String(e.message||e)==='batch-network-budget')throw e;}}
  const html=await getPage(page,fetcher),base=source(page);
- const graph=directGraph(html,page),urls=[...candidatesFor(graph,base),...explicitVideoLinks(html,page)];
+ // Prefer the explicitly identified player media over download anchors.
+ const graph=directGraph(html,page),urls=[...explicitVideoLinks(html,page),...candidatesFor(graph,base)];
  if(!urls.length){const e=sourceEvidence(html,page);throw Error('missing-direct-source · links:'+e.downloadLinks+' · exact:'+e.exactRefs+(e.otherHosts.length?' · unsupported-hosts:'+e.otherHosts.join(','):''));}
  return {html,url:await chooseMedia(urls,fetcher)};
 }
@@ -228,7 +229,7 @@ export function explicitVideoLinks(html,page){
 async function harvestLinks(s,id,page,html,now){
  const base=source(page);if(!base)return new Map();
  const graph=directGraph(html,page);
- const explicit=explicitVideoLinks(html,page);if(explicit.length){const key=base.searchParams.get('key')||'';const set=graph.get(key)||new Set();explicit.forEach(u=>set.add(u));graph.set(key,set);}
+ const explicit=explicitVideoLinks(html,page);if(explicit.length){const key=base.searchParams.get('key')||'';graph.set(key,new Set([...explicit,...(graph.get(key)||[])]));}
  const entries=[...graph].slice(0,1000).map(([key,urls])=>[mediaKey(id,key),[...urls].slice(0,3)]);
  const old=await getMany(s,entries.map(([key])=>key)),writes=[];
  for(const [key,urls] of entries){
