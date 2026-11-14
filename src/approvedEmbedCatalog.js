@@ -24,3 +24,13 @@ export function attachApprovedEmbed(movie,entries=APPROVED_EMBEDS,now=Date.now()
  const source=approvedEmbed(movie,entries,now);
  return source?{...movie,publisherSource:source}:movie;
 }
+
+// Resolve a catalog slot before attempting an unsupported direct media URL.
+// Keep the original asset identity so history remains attached to the work.
+export function approvedPrivateSlot(work,slot,entries=APPROVED_EMBEDS,now=Date.now()){
+ if(!work?.id||!slot?.id||!['movie','tv'].includes(work.kind))return null;
+ if(work.kind==='tv'&&(!Number.isSafeInteger(slot.season)||!Number.isSafeInteger(slot.episode)||slot.season<1||slot.episode<1))return null;
+ const movie={id:'private:'+slot.id,title:work.kind==='tv'?work.title+' · الحلقة '+slot.episode:work.title,seriesTitle:work.title,media_type:work.kind,season:slot.season,episode:slot.episode,isArabic:true,original_language:'ar',licensedPoster:slot.thumbnail||work.poster,banner:work.banner,overview:slot.story||work.story,release_date:work.year?work.year+'-01-01':''};
+ const source=approvedEmbed(movie,entries,now);
+ return source?{...movie,publisherSource:source}:null;
+}
