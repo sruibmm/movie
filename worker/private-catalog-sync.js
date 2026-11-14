@@ -1,13 +1,15 @@
 // Private, incremental catalog crawler. Only ordinary public source pages and authorized direct media.
 // No proxy, cookies, access-control bypass, or public playback endpoint.
-const ORIGIN='https://ae.alooytv16.com';
+const ORIGIN='https://af.alooytv16.com';
+const SOURCE_HOSTS=new Set(['af.alooytv16.com','ae.alooytv16.com','alooytv16.com','e.alooytv16.com']);
+const REVISION='auto-diagnostics-v2';
 const P='pc:', DAY=86400000;
 const decode=s=>String(s||'').replace(/&amp;|&#38;/gi,'&').replace(/&quot;/gi,'"').replace(/&#39;|&apos;/gi,"'").replace(/&nbsp;/gi,' ').replace(/&#(\d+);/g,(_,n)=>{try{return String.fromCodePoint(Number(n))}catch{return ''}});
 const clean=s=>decode(String(s||'').replace(/<[^>]*>/g,' ')).replace(/\s+/g,' ').trim();
 const attr=(tag,key)=>{const m=tag.match(new RegExp('(?:^|\\s)'+key+'\\s*=\\s*(?:"([^"]*)"|\'([^\']*)\'|([^\\s>]+))','i'));return m?decode(m[1]??m[2]??m[3]):'';};
-function source(raw,base=ORIGIN){if(!raw)return null;try{const u=new URL(raw,base);if(u.origin!==ORIGIN||u.username||u.password||u.hash)return null;return u;}catch{return null}}
+function source(raw,base=ORIGIN){if(!raw)return null;try{const u=new URL(raw,base);if(u.protocol!=='https:'||!SOURCE_HOSTS.has(u.hostname)||u.port||u.username||u.password||u.hash)return null;return u;}catch{return null}}
 function image(raw,base=ORIGIN){if(!raw)return null;try{const u=new URL(raw,base);return u.protocol==='https:'&&!u.username&&!u.password?u.href:null;}catch{return null}}
-function anchors(html,base){const out=[];for(const m of html.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a\s*>/gi)){const u=source(attr(m[1],'href'),base);if(u)out.push({u,label:clean(m[2]),html:m[2]});}return out;}
+function anchors(html,base){const out=[];for(const m of html.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a\s*>/gi)){const u=source(attr(m[1],'href'),base);if(u){const active=new URL(u.pathname+u.search,base);if(source(active.href))out.push({u:active,label:clean(m[2]),html:m[2]});}}return out;}
 function meta(html,key){for(const m of html.matchAll(/<meta\b[^>]*>/gi)){if([attr(m[0],'property'),attr(m[0],'name'),attr(m[0],'itemprop')].includes(key))return attr(m[0],'content');}return '';}
 function schema(html){const out=[];for(const m of html.matchAll(/<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)){try{const o=JSON.parse(m[1]);const walk=x=>{if(Array.isArray(x))x.forEach(walk);else if(x&&typeof x==='object'){out.push(x);if(x['@graph'])walk(x['@graph']);}};walk(o);}catch{}}return out;}
 const types=x=>Array.isArray(x?.['@type'])?x['@type']:[x?.['@type']];
@@ -16,10 +18,10 @@ export function metadata(html,page,kind=''){
  const ld=schema(html).find(x=>types(x).some(t=>['Movie','TVSeries','TVEpisode','VideoObject','CreativeWork'].includes(t)))||{};
  const title=clean(ld.name||html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i)?.[1]||meta(html,'og:title')).slice(0,300);
  const story=clean(ld.description||meta(html,'og:description')||meta(html,'description')).slice(0,4000);
- const poster=image(value(ld.image)||meta(html,'og:image'),page);
+ const titleImage=[...html.matchAll(/<img\b[^>]*>/gi)].find(m=>attr(m[0],'alt').trim()===title);const poster=image(value(ld.image)||meta(html,'og:image')||(titleImage&&(attr(titleImage[0],'data-src')||attr(titleImage[0],'src'))),page);
  const wide=Number(meta(html,'og:image:width'))>Number(meta(html,'og:image:height'))*1.3;
  const banner=image(value(ld.backdrop)||value(ld.banner)||meta(html,'og:image:landscape')||(wide?meta(html,'og:image'):''),page);
- const year=String(ld.datePublished||meta(html,'release_date')||'').match(/\b(19\d{2}|20\d{2})\b/)?.[1]||title.match(/\((19\d{2}|20\d{2})\)/)?.[1]||null;
+ const year=String(ld.datePublished||meta(html,'release_date')||clean(html).match(/(?:Release\s*:\s*|إنتاج عام\s*)(\d{4})/)?.[1]||'').match(/\b(19\d{2}|20\d{2})\b/)?.[1]||title.match(/\((19\d{2}|20\d{2})\)/)?.[1]||null;
  const genres=(Array.isArray(ld.genre)?ld.genre:ld.genre?[ld.genre]:[]).map(clean).filter(Boolean).slice(0,15);
  const inferred=types(ld).includes('Movie')?'movie':types(ld).includes('TVSeries')?'tv':kind;
  const thumbnail=image(value(ld.thumbnailUrl)||meta(html,'thumbnailUrl')||meta(html,'og:image'),page);
@@ -33,7 +35,7 @@ export function indexLinks(html,page,kind=''){
  const out=new Map();
  for(const a of anchors(html,page)){const u=a.u;
   if(workPath(u)){u.search='';const id=workId(u);const img=a.html.match(/<img\b[^>]*>/i)?.[0]||'';const poster=image(attr(img,'data-src')||attr(img,'src'),page);out.set('w:'+id,{type:'work',url:u.href,id,kind:kind||kindHint(u,a.label),poster});}
-  else if(/^\/genre\/[a-z0-9_-]+(?:\.html)?(?:\/(?:page\/)?\d+)?$/i.test(u.pathname)||/^\/(?:movies|series|tv-series)(?:\/\d+|\.html)?$/i.test(u.pathname)||u.pathname==='/'&&u.searchParams.has('page')){
+  else if(/^\/genre\/[a-z0-9_-]+(?:\.html|\/(?:page\/)?\d+(?:\.html)?)?$/i.test(u.pathname)||/^\/(?:movies|series|tv-series)(?:\/\d+|\.html)?$/i.test(u.pathname)||u.pathname==='/'&&u.searchParams.has('page')){
    // Only actual navigable category/pagination URLs; reject arbitrary query parameters.
    if([...u.searchParams.keys()].some(k=>!['page','p','offset','sort'].includes(k)))continue;
    out.set('i:'+u.pathname+u.search,{type:'index',url:u.href,kind:kindHint(u,a.label)||kind});
@@ -60,7 +62,7 @@ export function mediaLink(html,page){
  const ep=source(page),matches=new Set();
  for(const a of anchors(html,page)){
   if(a.u.pathname!=='/download_video.php'||!a.u.searchParams.has('video_url'))continue;
-  const ref=source(a.u.searchParams.get('ref')||'/');if(!ref||ref.pathname!==ep.pathname||ref.searchParams.get('key')!==ep.searchParams.get('key'))continue;
+  const ref=source(a.u.searchParams.get('ref')||'/',page);if(!ref||ref.pathname!==ep.pathname||ref.searchParams.get('key')!==ep.searchParams.get('key'))continue;
   try{const u=new URL(atob(a.u.searchParams.get('video_url')));if(u.protocol==='https:'&&/^vid\d+\.zvde-dsn-01\.site$/i.test(u.hostname)&&!u.port&&!u.username&&!u.password&&!u.hash)matches.add(u.href);}catch{}
  }
  if(matches.size!==1)throw Error('missing-or-ambiguous-direct-source');
@@ -100,14 +102,17 @@ async function processJob(s,j,fetcher,now){
 }
 export async function crawl(s,fetcher=fetch,now=Date.now(),budget=12){
  // One bounded sequential batch; no parallel hammering of the upstream.
- const last=Number(await s.get(P+'seed')||0);
- if(!last||now-last>=DAY){await enqueue(s,{type:'index',url:ORIGIN+'/',kind:''},now,true);await enqueue(s,{type:'work',url:ORIGIN+'/watch/gztyqowfz11u.html',id:'alooytv:gztyqowfz11u',kind:'tv'},now);await s.put(P+'seed',now);}
- const rows=await s.list({prefix:P+'q:',limit:200});let done=0,failed=0;const start=Date.now();
+ const last=Number(await s.get(P+'seed')||0),rev=await s.get(P+'revision');
+ if(rev!==REVISION){const previous=await s.list({prefix:P+'q:',limit:1000});for(const [key,j] of previous){const u=source(j.url);if(u&&u.origin!==ORIGIN){const next={...j,url:ORIGIN+u.pathname+u.search,tries:0,after:0};await s.put(jobKey(next),next);if(key!==jobKey(next))await s.delete(key);}}await s.put(P+'revision',REVISION);}
+ const seedDue=rev!==REVISION||!last||now-last>=DAY;
+ if(seedDue){await enqueue(s,{type:'index',url:ORIGIN+'/',kind:''},now,true);await enqueue(s,{type:'index',url:ORIGIN+'/genre/ramadan-arabi-2026.html',kind:'tv'},now,true);await enqueue(s,{type:'work',url:ORIGIN+'/watch/gztyqowfz11u.html',id:'alooytv:gztyqowfz11u',kind:'tv'},now,true);await s.put(P+'seed',now);}
+ const rows=await s.list({prefix:P+'q:',limit:1000});let done=0,failed=0;const start=Date.now();const errors=[];const prior=await s.get(P+'status')||{};const totals={...(prior.totals||{processed:0,failed:0})};
  for(const [key,j] of rows){if(done+failed>=budget||Date.now()-start>20000)break;if(j.after>now)continue;
   try{await processJob(s,j,fetcher,now);await s.put(P+'seen:'+key,now);await s.delete(key);done++;}
-  catch(e){failed++;const tries=j.tries+1;if(tries>=4){await s.put(P+'error:'+key,{url:j.url,reason:String(e.message).slice(0,160),at:now});await s.delete(key);}else await s.put(key,{...j,tries,after:now+Math.min(3600000,60000*2**tries)});}
+  catch(e){failed++;const reason=String(e.message||e).slice(0,160);errors.push({type:j.type,reason,path:new URL(j.url).pathname});const tries=j.tries+1;if(tries>=4){await s.put(P+'error:'+key,{url:j.url,reason:String(e.message).slice(0,160),at:now});await s.delete(key);}else await s.put(key,{...j,tries,after:now+Math.min(3600000,60000*2**tries)});}
  }
- const result={at:now,processed:done,failed,queuedSample:Math.max(0,rows.size-done)};await s.put(P+'status',result);return result;
+ const pending=await s.list({prefix:P+'q:',limit:1000}),works=await s.list({prefix:P+'work:',limit:1000}),drafts=await s.list({prefix:P+'draft:',limit:1000});const ready=[...pending.values()].filter(j=>j.after<=now).length;const nextRetry=[...pending.values()].filter(j=>j.after>now).reduce((m,j)=>Math.min(m,j.after),Infinity);totals.processed+=done;totals.failed+=failed;
+ const result={at:now,revision:REVISION,source:ORIGIN,processed:done,failed,queuedSample:pending.size,ready,waiting:pending.size-ready,nextRetry:Number.isFinite(nextRetry)?nextRetry:null,published:works.size,publishedEpisodes:[...works.values()].reduce((n,w)=>n+w.count,0),drafts:drafts.size,verifiedDraftEpisodes:[...drafts.values()].reduce((n,d)=>n+d.count-d.remaining,0),totals,errors:errors.length?errors.slice(0,5):(prior.errors||[]),state:done?'working':failed?'source-error':pending.size?'retry-wait':'idle'};await s.put(P+'status',result);return result;
 }
 const json=(x,status=200)=>Response.json(x,{status,headers:{'Cache-Control':'private, no-store','Vary':'Authorization'}});
 export async function privateRequest(request,s){
