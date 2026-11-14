@@ -1,4 +1,4 @@
-import {VERSION,structural,pickJobs,nextHealth} from './private-turbo-scheduler.js';
+import {VERSION,structural,pickJobs,nextHealth,queueRows,effectiveDue,retryPlan} from './private-turbo-scheduler.js';
 import {buildEpisodeGraph,mediaByEpisode,candidatesFor,graphSignature} from './private-episode-graph.js';
 import {categoryInfo,getFastIndex,searchCards,putMany,getMany,invalidateIndex} from './private-fast-index.js';
 // Private, incremental catalog crawler. Only ordinary public source pages and authorized direct media.
@@ -203,15 +203,30 @@ export async function crawl(s,fetcher=fetch,now=Date.now(),budget=48){
  // A bounded batch with at most four concurrent network checks.
  const last=Number(await s.get(P+'seed')||0),rev=await s.get(P+'revision');
  if(rev!==REVISION)await s.put(P+'revision',REVISION);
- const seedDue=rev!==REVISION||!last||now-last>=DAY;
- if(seedDue){if(rev!==REVISION){for(const id of ['asix3ql1l2cf','eo0d9c52j0k8','ewi7bvciic6u','0savdpd5wt7z','06v44abenwn6','b1fofd5a2ccl','mnfdrzi1l8a4','029tbb8b6shb','vrag6g9jmzjm']){const known=await s.get(P+'discovered:alooytv:'+id);if(known)await enqueue(s,{type:'work',url:ORIGIN+'/watch/'+id+'.html',id:'alooytv:'+id,kind:known.kind,title:known.title,poster:known.poster},now,true);}}await enqueue(s,{type:'index',url:ORIGIN+'/',kind:''},now,true);await enqueue(s,{type:'index',url:ORIGIN+'/genre/ramadan-arabi-2026.html',kind:'tv'},now,true);await enqueue(s,{type:'work',url:ORIGIN+'/watch/gztyqowfz11u.html',id:'alooytv:gztyqowfz11u',kind:'tv'},now,true);await s.put(P+'seed',now);}
+ const seedDue=!last||now-last>=DAY;
+ if(rev!==REVISION){for(const id of ['asix3ql1l2cf','eo0d9c52j0k8','ewi7bvciic6u','0savdpd5wt7z','06v44abenwn6','b1fofd5a2ccl','mnfdrzi1l8a4','029tbb8b6shb','vrag6g9jmzjm']){const known=await s.get(P+'discovered:alooytv:'+id);if(known&&!await s.get(P+'preview:alooytv:'+id))await enqueue(s,{type:'work',url:ORIGIN+'/watch/'+id+'.html',id:'alooytv:'+id,kind:known.kind,title:known.title,poster:known.poster},now,true);}}if(seedDue){await enqueue(s,{type:'index',url:ORIGIN+'/',kind:''},now,true);await enqueue(s,{type:'index',url:ORIGIN+'/genre/ramadan-arabi-2026.html',kind:'tv'},now,true);await enqueue(s,{type:'work',url:ORIGIN+'/watch/gztyqowfz11u.html',id:'alooytv:gztyqowfz11u',kind:'tv'},now,true);await s.put(P+'seed',now);}
  // Read each lane independently so an episode backlog cannot starve discovery.
- const lanes=await Promise.all(['0','1','2'].map(n=>s.list({prefix:P+'q:'+n+':',limit:1000})));
- const eligible=j=>j.revision!==REVISION||j.after<=now;
- const ready=lanes.map(rows=>[...rows].filter(([,j])=>eligible(j)).map(([key,j])=>{const u=source(j.url);return [key,{...j,url:u?ORIGIN+u.pathname+u.search:j.url,tries:j.revision===REVISION?j.tries:0,revision:REVISION}];}));
- const healthRows=await getMany(s,[...new Set(ready[0].map(([,j])=>healthKey(j.id)))]);const health=new Map([...healthRows].map(([k,v])=>[k.slice((P+'health:').length),v]));
- const jobs=pickJobs(ready,budget,health,now);
- let done=0,failed=0,skipped=0,extracted=0;const start=Date.now();const errors=[];const prior=await s.get(P+'status')||{};const totals={...(prior.totals||{processed:0,failed:0})};
+ const lanes=await Promise.all(['0','1','2'].map(n=>queueRows(s,P+'q:'+n+':')));
+ const draftRows=await queueRows(s,P+'draft:');
+ const draftsById=new Map([...draftRows.values()].map(d=>[d.id,d]));
+ const episodeRows=[...lanes[0]];
+ const healthRows=await getMany(s,[...new Set(episodeRows.map(([,j])=>healthKey(j.id)))]);
+ const health=new Map([...healthRows].map(([k,v])=>[k.slice((P+'health:').length),v]));
+ // Read the exact saved links in bulk, not per deferred job.
+ const linkKeys=episodeRows.flatMap(([,j])=>{const u=source(j.url);return u&&j.phase!=='verify'?[mediaKey(j.id,u.searchParams.get('key')||'')]:[];});
+ const savedLinks=await getMany(s,linkKeys);
+ const stale=episodeRows.filter(([,j])=>draftsById.get(j.id)?.gen!==j.gen).map(([k])=>k);
+ for(let i=0;i<stale.length;i+=100)await s.delete(stale.slice(i,i+100));
+ const ready=lanes.map(rows=>[...rows].flatMap(([key,j])=>{
+  if(j.type==='episode'&&draftsById.get(j.id)?.gen!==j.gen)return [];
+  const u=source(j.url);if(!u)return [];
+  const link=j.type==='episode'&&j.phase!=='verify'?savedLinks.get(mediaKey(j.id,u.searchParams.get('key')||'')):null;
+  const newLink=!!(link?.urls?.length&&now-link.at<DAY&&link.at>(j.deferredAt||j.after||0));
+  if(effectiveDue(j,health.get(j.id),now,newLink)>now)return [];
+  return [[key,{...j,url:ORIGIN+u.pathname+u.search,revision:REVISION,rescued:newLink,candidates:link?.urls||j.candidates}]];
+ }));
+ const jobs=pickJobs(ready,budget,health,now,draftsById);
+ let done=0,failed=0,skipped=stale.length,extracted=0;const start=Date.now();const errors=[];const prior=await s.get(P+'status')||{};const totals={processed:0,failed:0,extracted:0,...prior.totals};
  // Parallelize only network reads; serialize storage commits to avoid races between episodes.
  const parallel=6;
  for(let i=0;i<jobs.length&&Date.now()-start<20000;i+=parallel){
@@ -229,14 +244,24 @@ export async function crawl(s,fetcher=fetch,now=Date.now(),budget=48){
     failed++;const reason=String(e.message||e).slice(0,160);errors.push({type:j.type,reason,path:new URL(j.url).pathname,episode:j.episode||j.n,season:j.season});
     const tries=j.tries+1,isStructural=structural(reason);
     if(j.type==='episode'&&j.phase!=='verify'){const h=nextHealth(health.get(j.id),false,reason,now);health.set(j.id,h);await s.put(healthKey(j.id),h);}
-    if(isStructural||tries>=4){await s.put(P+'error:'+key,{url:j.url,reason,at:now});await s.put(key,{...j,tries:0,after:now+DAY,revision:REVISION});}
-    else await s.put(key,{...j,tries,after:now+Math.min(3600000,60000*2**tries),revision:REVISION});
+    const plan=retryPlan(reason,tries,now);await s.put(P+'error:'+key,{url:j.url,reason,at:now});await s.put(key,{...j,...plan,deferredAt:now,revision:REVISION});
    }
   }
-  await s.put(P+'status',{...prior,revision:REVISION,state:'running',at:now,processed:done,failed,skipped,extracted,errors:errors.slice(0,5),totals:{processed:totals.processed+done,failed:totals.failed+failed}});
+  await s.put(P+'status',{...prior,revision:REVISION,state:'running',at:now,processed:done,failed,skipped,extracted,errors:errors.slice(0,5),totals:{processed:totals.processed+done,failed:totals.failed+failed,extracted:totals.extracted+extracted}});
  }
- const pendingLanes=await Promise.all(['0','1','2'].map(n=>s.list({prefix:P+'q:'+n+':',limit:1000})));const pending=new Map(pendingLanes.flatMap(m=>[...m]));const works=await s.list({prefix:P+'work:',limit:1000}),drafts=await s.list({prefix:P+'draft:',limit:1000});const pendingHealthRows=await getMany(s,[...new Set([...pending.values()].filter(j=>j.type==='episode'&&j.phase!=='verify').map(j=>healthKey(j.id)))]);const cooldown=j=>j.type==='episode'&&j.phase!=='verify'?(pendingHealthRows.get(healthKey(j.id))?.until||0):0;const runnable=j=>eligible(j)&&cooldown(j)<=now;const readyCount=[...pending.values()].filter(runnable).length;const nextRetry=[...pending.values()].filter(j=>!runnable(j)).reduce((m,j)=>Math.min(m,Math.max(j.after||0,cooldown(j))),Infinity);totals.processed+=done;totals.failed+=failed;
- const result={at:now,revision:REVISION,source:ORIGIN,processed:done,failed,skipped,extracted,queuedSample:pending.size,queueSampleTruncated:pendingLanes.some(m=>m.size===1000),ready:readyCount,waiting:pending.size-readyCount,nextRetry:Number.isFinite(nextRetry)?nextRetry:null,published:[...works.values()].filter(w=>!w.partial&&w.source!=='personal-import').length,availableWorks:works.size,publishedEpisodes:[...works.values()].filter(w=>w.source!=='personal-import').reduce((n,w)=>n+(w.availableCount??w.count),0),importedWorks:[...works.values()].filter(w=>w.source==='personal-import').length,importedEpisodes:[...works.values()].filter(w=>w.source==='personal-import').reduce((n,w)=>n+(w.availableCount??w.count),0),discovered:(await getFastIndex(s)).length,drafts:drafts.size,verifiedDraftEpisodes:[...drafts.values()].reduce((n,d)=>n+d.count-d.remaining,0),totals,errors:errors.length?errors.slice(0,5):[],state:done?'working':failed?'source-error':pending.size?'retry-wait':'idle'};await s.put(P+'status',result);return result;
+ const pendingLanes=await Promise.all(['0','1','2'].map(n=>queueRows(s,P+'q:'+n+':')));
+ const pending=new Map(pendingLanes.flatMap(m=>[...m]));
+ const [workMap,draftMap]=await Promise.all([queueRows(s,P+'work:'),queueRows(s,P+'draft:')]);
+ const works=workMap,drafts=draftMap;
+ const pendingHealthRows=await getMany(s,[...new Set([...pending.values()].filter(j=>j.type==='episode'&&j.phase!=='verify').map(j=>healthKey(j.id)))]);
+ const due=j=>effectiveDue(j,pendingHealthRows.get(healthKey(j.id)),now);
+ const readyCount=[...pending.values()].filter(j=>due(j)<=now).length;
+ const nextRetry=[...pending.values()].filter(j=>due(j)>now).reduce((m,j)=>Math.min(m,due(j)),Infinity);
+ const stages={index:0,work:0,extract:0,verify:0};const delayed={structural:0,transient:0,cooldown:0};
+ for(const j of pending.values()){stages[j.type==='episode'?(j.phase==='verify'?'verify':'extract'):j.type]++;if(due(j)>now){if(j.after>now){if(j.structural)delayed.structural++;else delayed.transient++;}else delayed.cooldown++;}}
+ totals.processed+=done;totals.failed+=failed;totals.extracted+=extracted;
+
+ const result={at:now,revision:REVISION,source:ORIGIN,processed:done,failed,skipped,extracted,queuedSample:pending.size,queueSampleTruncated:false,stages,delayed,ready:readyCount,waiting:pending.size-readyCount,nextRetry:Number.isFinite(nextRetry)?nextRetry:null,published:[...works.values()].filter(w=>!w.partial&&w.source!=='personal-import').length,availableWorks:works.size,publishedEpisodes:[...works.values()].filter(w=>w.source!=='personal-import').reduce((n,w)=>n+(w.availableCount??w.count),0),importedWorks:[...works.values()].filter(w=>w.source==='personal-import').length,importedEpisodes:[...works.values()].filter(w=>w.source==='personal-import').reduce((n,w)=>n+(w.availableCount??w.count),0),discovered:(await getFastIndex(s)).length,drafts:drafts.size,verifiedDraftEpisodes:[...drafts.values()].reduce((n,d)=>n+d.count-d.remaining,0),totals,errors:errors.length?errors.slice(0,5):[],state:done||extracted?'working':failed?'source-error':pending.size?'retry-wait':'idle'};await s.put(P+'status',result);return result;
 }
 // On-demand catalog lookup uses only known source page identities, never an arbitrary URL.
 // Metadata and the exact episode index are separate from verified playback.
