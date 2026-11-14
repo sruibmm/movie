@@ -1,5 +1,6 @@
 import {privateRequest,crawl} from './private-catalog-sync.js';
 import {PrivateRunner} from './private-catalog-runner.js';
+import {shareLocalCatalog} from './private-share.js';
 import {reviewSourceSnapshot} from '../src/sourceSyncGate.js';
 import {eligibleAsset,approvedDelivery} from '../src/licensedCatalog.js';
 
@@ -95,7 +96,7 @@ export class SourceSync{
  async alarm(){if(typeof this.env.PRIVATE_CATALOG_KEY==='string'&&this.env.PRIVATE_CATALOG_KEY.length>=32)await this.privateRunner.alarm();}
  async fetch(request){
   const u=new URL(request.url);
-  if(u.pathname.startsWith('/private-')){const headers={'Cache-Control':'private, no-store','Vary':'Authorization'};if(u.pathname==='/private-sync'&&request.method==='POST')return Response.json(await this.privateRunner.kick(),{status:202,headers});if(u.pathname==='/private-status')return Response.json(await this.privateRunner.status(),{headers});return privateRequest(request,this.storage);}
+  if(u.pathname.startsWith('/private-')){const headers={'Cache-Control':'private, no-store','Vary':'Authorization'};if(u.pathname==='/private-sync'&&request.method==='POST')return Response.json(await this.privateRunner.kick(),{status:202,headers});if(u.pathname==='/private-status')return Response.json(await this.privateRunner.status(),{headers});if(u.pathname==='/private-share'&&request.method==='POST'){try{const raw=await request.text();if(raw.length>1000000)return Response.json({error:'share-too-large'},{status:413,headers});return Response.json(await shareLocalCatalog(this.storage,JSON.parse(raw)),{headers});}catch(e){return Response.json({error:String(e.message||e).slice(0,160)},{status:400,headers});}}return privateRequest(request,this.storage);}
   let config;try{config=policies(this.env);}catch{return Response.json({error:'invalid-configuration'},{status:503});}
   if(u.pathname==='/sync'&&request.method==='POST'){
    if(!this.running)this.running=(async()=>{const results=[];for(const p of config)results.push(await synchronize(this.storage,p));await this.storage.put('lastRun',{at:Date.now(),results});return results;})().finally(()=>{this.running=null;});
