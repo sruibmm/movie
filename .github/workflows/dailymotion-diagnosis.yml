@@ -1,43 +1,22 @@
-name: Index official Dubai Plus catalogue links
+name: Validate expanded Cinema catalogue
 on:
   push:
     branches: [dailymotion-diagnosis]
 permissions:
   contents: read
 jobs:
-  index:
+  build:
     runs-on: ubuntu-latest
-    timeout-minutes: 3
+    timeout-minutes: 5
     steps:
-      - name: Collect public catalogue hyperlinks only
+      - uses: actions/checkout@v4
+        with:
+          ref: ea0e4b4cc4024b667715df36a7fd9acecfc9ada1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci
+      - run: npm run build:cloudflare
+      - name: Verify Dubai Plus catalogue
         run: |
-          python - <<'PY'
-          import urllib.request, urllib.parse, urllib.error, re, json, concurrent.futures
-          from html.parser import HTMLParser
-          base='https://www.dubaiplus.net'
-          class Parser(HTMLParser):
-            def __init__(self):super().__init__();self.links=[]
-            def handle_starttag(self,tag,attrs):
-              if tag=='a':
-                href=dict(attrs).get('href','')
-                if '/s/series/' in href or '/s/movie/' in href or '/s/movies/' in href:self.links.append(href)
-          def read(path):
-            try:
-              r=urllib.request.urlopen(urllib.request.Request(base+path,headers={'User-Agent':'Mozilla/5.0'}),timeout=15)
-              p=Parser();p.feed(r.read(5000000).decode('utf8','replace'));print('PAGE',path,r.status,len(p.links))
-              return p.links
-            except Exception as e:print('ERROR',path,str(e));return []
-          paths=['/web/?lang=ar-AE']+['/web/series?lang=ar-AE&page='+str(i) for i in range(1,13)]+['/web/movies?lang=ar-AE&page='+str(i) for i in range(1,5)]
-          with concurrent.futures.ThreadPoolExecutor(max_workers=5) as p:rows=list(p.map(read,paths))
-          seen={}
-          for raw in sum(rows,[]):
-            u=urllib.parse.urlsplit(urllib.parse.urljoin(base,raw))
-            if u.hostname!='www.dubaiplus.net':continue
-            m=re.search(r'/s/(series|movie|movies)/(\d+)_([^/]+)',u.path)
-            if not m:continue
-            kind,ident,title=m.groups();title=urllib.parse.unquote(title).replace('-',' ').strip()
-            if not re.search(r'[\u0600-\u06ff]',title):continue
-            seen[ident]={'id':'dubai-'+ident,'title':title,'kind':'tv' if kind=='series' else 'movie','url':urllib.parse.urlunsplit(('https',u.netloc,u.path,'',''))}
-          print('COUNT',len(seen))
-          for x in seen.values():print('TITLE_ROW '+json.dumps(x,ensure_ascii=False))
-          PY
+          node --input-type=module -e "import {DUBAI_PLUS_TITLES as t} from './src/dubaiPlusCatalog.js'; console.log('DUBAI_DIRECTORY',t.length,new Set(t.map(x=>x.id)).size,t.every(x=>!x.playbackVerified)); if(t.length!==16||new Set(t.map(x=>x.id)).size!==16)process.exit(1)"
