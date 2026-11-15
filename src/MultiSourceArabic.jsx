@@ -1,5 +1,5 @@
 import React,{useState,useEffect,useMemo} from 'react';
-import bulk from './arabicBulkCatalog.json';
+import {extendedDailymotionCatalog as bulk} from './extendedDailymotion.js';
 import {PUBLISHER_SERIES,importedEpisode} from './publisherSeries.js';
 import {normalizeArabic} from './arabicDiscovery.js';
 import {multiSourceSeries,multiDailymotionMovie} from './multiSourceArabic.js';

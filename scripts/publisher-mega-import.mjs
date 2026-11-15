@@ -4,7 +4,7 @@ import {PUBLISHER_SERIES} from '../src/publisherSeries.js';
 import {PUBLISHER_FILMS} from '../src/officialCatalog.js';
 const read=p=>JSON.parse(fs.readFileSync(p,'utf8'));
 const norm=s=>normalizeArabic(s||'').normalize('NFKC').replace(/[٠-٩]/g,c=>String(c.charCodeAt(0)-1632)).replace(/[^\p{L}\p{N} ]/gu,' ').replace(/\s+/g,' ').trim();
-const fold=s=>norm(s).replace(/[ةه]/g,'ه').replace(/[ئؤء]/g,'').replace(/\s+/g,''); const raw=read('docs/publisher-mega-catalog.json');
+const fold=s=>norm(s).replace(/[ةه]/g,'ه').replace(/[ئؤء]/g,'').replace(/\s+/g,''); const raw=read('docs/publisher-mega-catalog.json'); if(fs.existsSync('docs/publisher-mega-additional.json'))raw.rows.push(...read('docs/publisher-mega-additional.json').rows);
 const bulk=read('src/arabicBulkCatalog.json'),preview=read('src/arabicPublisherBatch.json'),out=read('src/arabicPublisherExpansion.json');
 const token=process.env.TMDB_TOKEN||fs.readFileSync('src/main.jsx','utf8').match(/const TMDB_TOKEN = '([^']+)'/)?.[1];
 const existingIds=new Set([...PUBLISHER_FILMS.map(f=>f.video),...bulk.films.map(f=>f.id),...PUBLISHER_SERIES.flatMap(g=>g.seasons.flatMap(s=>s.episodes.map(e=>e.video))),...bulk.series.flatMap(g=>g.seasons.flatMap(s=>s.episodes.map(e=>e.id))),...preview.flatMap(s=>s.episodes.map(e=>e.video)),...out.films.map(f=>f.id),...out.series.flatMap(s=>s.episodes.map(e=>e.id))]);

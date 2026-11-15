@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import {normalizeArabic} from './arabicDiscovery.js';
-import catalog from './arabicBulkCatalog.json';
+import {extendedDailymotionCatalog as catalog} from './extendedDailymotion.js';
 import {dailymotionConfigured,dailymotionEmbedUrl} from './dailymotionPlayer.js';
 import {fullyCoveredByYoutube} from './publisherAvailability.js';
 const count=catalog.series.reduce((n,g)=>n+g.seasons.reduce((k,s)=>k+s.episodes.length,0),0);

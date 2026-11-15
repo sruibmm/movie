@@ -2,7 +2,7 @@ import {metadataFetch} from './tvMetadata.js';
 import React,{useEffect,useState} from 'react';
 import PublisherLibrary from './PublisherLibrary.jsx';
 import DubaiPlusLibrary from './DubaiPlusLibrary.jsx';
-import bulkCatalog from './arabicBulkCatalog.json';
+import {extendedDailymotionCatalog as bulkCatalog} from './extendedDailymotion.js';
 import {ARABIC_SITE_EPISODES,ARABIC_SITE_SERIES,findArabicSiteSeries,arabicSiteEpisode} from './arabicSiteCatalog.js';
 import {PUBLISHER_EPISODES,PUBLISHER_SERIES} from './publisherSeries.js';
 import {PLAYLIST_SERIES} from './publisherPlaylists.js';

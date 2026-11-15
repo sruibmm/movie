@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {WATAN_SERIES} from '../src/watanSeries.js';
 import {IMPORTED_FILMS} from '../src/publisherFilmData.js';
 const read=p=>JSON.parse(fs.readFileSync(new URL('../'+p,import.meta.url),'utf8'));
-const bulk=read('src/arabicBulkCatalog.json');
+const bulk=read('src/arabicBulkCatalog.json'); bulk.series.push(...read('src/publisherMegaAlternates.json'));
 const preview=read('src/arabicPublisherBatch.json'); const expansion=read('src/arabicPublisherExpansion.json');
 const a=read('docs/arabic-series-episode-audit-2026-11-15.json');
 const b=read('docs/arabic-expansion-next-batch-2026-11-15.json');

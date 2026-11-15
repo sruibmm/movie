@@ -1,20 +1,20 @@
 {
   "schema": 1,
   "summary": {
-    "candidateGroups": 246,
-    "pendingUniqueReferences": 1287,
+    "candidateGroups": 245,
+    "pendingUniqueReferences": 1286,
     "approved": 0,
     "byKind": {
       "series": 41,
-      "film": 9,
+      "film": 8,
       "unclassified": 196
     },
     "reasons": {
       "canonical-season-length-unverified": 41,
-      "hd-unverified": 225,
-      "ad-free-unverified": 246,
-      "full-work-identity-unverified": 246,
-      "live-playback-and-tv-unverified": 246
+      "hd-unverified": 224,
+      "ad-free-unverified": 245,
+      "full-work-identity-unverified": 245,
+      "live-playback-and-tv-unverified": 245
     }
   },
   "groups": [
@@ -2062,29 +2062,6 @@
         "adsFree": false
       },
       "reasons": [
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
-      "key": "dailymotion:film:x8p3fto",
-      "provider": "dailymotion",
-      "kind": "film",
-      "title": "فيلم - مغامرون حول العالم - بطوله عادل امام  - ناهد شريف  - 1978",
-      "referenceCount": 1,
-      "pendingCount": 1,
-      "pendingIds": [
-        "dailymotion:x8p3fto"
-      ],
-      "metadata": {
-        "publisher": "IMediaMovies",
-        "hd": false,
-        "adsFree": false
-      },
-      "reasons": [
-        "hd-unverified",
         "ad-free-unverified",
         "full-work-identity-unverified",
         "live-playback-and-tv-unverified"

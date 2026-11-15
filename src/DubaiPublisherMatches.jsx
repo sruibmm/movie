@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import catalog from './arabicBulkCatalog.json';
+import {extendedDailymotionCatalog as catalog} from './extendedDailymotion.js';
 import {normalizeArabic} from './arabicDiscovery.js';
 import {dailymotionEmbedUrl} from './dailymotionPlayer.js';
 import {DUBAI_PUBLISHER_MATCH_IDS} from './dubaiPlusCatalog.js';

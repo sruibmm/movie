@@ -5,7 +5,7 @@ import {PUBLISHER_FILMS,importedFilm} from './officialCatalog.js';
 import PublisherPlaylists from './PublisherPlaylists.jsx';
 import ArabicSiteLibrary from './ArabicSiteLibrary.jsx';
 import {BulkArabicLibrary} from './BulkArabicLibrary.jsx';
-import bulkCatalog from './arabicBulkCatalog.json';
+import {extendedDailymotionCatalog as bulkCatalog} from './extendedDailymotion.js';
 import {ARABIC_SITE_SERIES} from './arabicSiteCatalog.js';
 import {PLAYLIST_SERIES} from './publisherPlaylists.js';
 import {OFFICIAL_SERIES_LINKS} from './officialSeriesLinks.js';

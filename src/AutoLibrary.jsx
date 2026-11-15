@@ -2,7 +2,7 @@ import React,{useEffect,useState,useRef} from 'react';
 import {enrichWork} from './privateMetadata.js';
 import {approvedPrivateSlot} from './approvedEmbedCatalog.js';
 import {savedEpisode,publisherAlternative,verifiedSyncedAlternative} from './privatePlaybackFallback.js';
-import bulkCatalog from './arabicBulkCatalog.json';
+import {extendedDailymotionCatalog as bulkCatalog} from './extendedDailymotion.js';
 import {PRIVATE_KEY,PRIVATE_ACTIVE_KEY,validatePrivateCatalog,privateMovie} from './privateCatalog.js';
 const TOKEN='cinema_private_session';
 const getToken=()=>{try{const invite=new URLSearchParams(location.hash.slice(1)).get('cinema-invite');return invite||sessionStorage.getItem(TOKEN)||''}catch{return ''}};

@@ -1,0 +1,3002 @@
+[
+  {
+    "id": "tmdb:82313:1",
+    "provider": "youtube",
+    "title": "يوميات زوجة مفروسة أوي",
+    "tmdbId": 82313,
+    "year": "2015",
+    "season": 1,
+    "expected": 30,
+    "publisher": "MBAProductionEgypt",
+    "source": "https://www.youtube.com/playlist?list=PL-vGCvo6IiRK07xqyykI91VAT0SxgPY4r",
+    "poster": "https://image.tmdb.org/t/p/w342/a71mn0bRD760yCGpijX6T2cMNmn.jpg",
+    "episodes": [
+      {
+        "number": 1,
+        "id": "yXFc8joD0VU"
+      },
+      {
+        "number": 2,
+        "id": "x2y4TEIWLbI"
+      },
+      {
+        "number": 3,
+        "id": "NbBUXw3lMRY"
+      },
+      {
+        "number": 4,
+        "id": "HFw1pp4mKfM"
+      },
+      {
+        "number": 5,
+        "id": "5UTj5iK5g-I"
+      },
+      {
+        "number": 6,
+        "id": "KUPFaYer3s0"
+      },
+      {
+        "number": 7,
+        "id": "TdMgCyxbVRQ"
+      },
+      {
+        "number": 8,
+        "id": "rOV5q0AugPc"
+      },
+      {
+        "number": 9,
+        "id": "0zCPCf48LHM"
+      },
+      {
+        "number": 10,
+        "id": "tT8kWIHAX78"
+      },
+      {
+        "number": 11,
+        "id": "jqWIGjCYLdY"
+      },
+      {
+        "number": 12,
+        "id": "FU-zZA5MHKg"
+      },
+      {
+        "number": 13,
+        "id": "-UsWCFno5u8"
+      },
+      {
+        "number": 14,
+        "id": "9SILWJ68q68"
+      },
+      {
+        "number": 15,
+        "id": "fz5s_CDGnnc"
+      },
+      {
+        "number": 16,
+        "id": "iu3YEK8eUtI"
+      },
+      {
+        "number": 17,
+        "id": "N0ndVXnITs8"
+      },
+      {
+        "number": 18,
+        "id": "WoSbBM9X2uI"
+      },
+      {
+        "number": 19,
+        "id": "TJBvNTtIfiw"
+      },
+      {
+        "number": 20,
+        "id": "qDw1pTonuwc"
+      },
+      {
+        "number": 21,
+        "id": "KpU-kSFigWQ"
+      },
+      {
+        "number": 22,
+        "id": "dGgw5n54Zzw"
+      },
+      {
+        "number": 23,
+        "id": "h386GnNg_tE"
+      },
+      {
+        "number": 24,
+        "id": "6e74WFfX_5c"
+      },
+      {
+        "number": 25,
+        "id": "hNWCxXGUVN8"
+      },
+      {
+        "number": 26,
+        "id": "gZ3OF6QaoRE"
+      },
+      {
+        "number": 27,
+        "id": "A1Z4hVJaT9M"
+      },
+      {
+        "number": 28,
+        "id": "gaZpkV8iyr8"
+      },
+      {
+        "number": 29,
+        "id": "3-uurY9zdqo"
+      },
+      {
+        "number": 30,
+        "id": "ySpv-Iyu-RE"
+      }
+    ],
+    "adsPossible": true,
+    "evidence": "Official publisher playlist metadata, same channel, exact numbered canonical season, duration >=15 minutes; first/last embed checked; HD/live playback/ads unverified"
+  },
+  {
+    "id": "tmdb:119302:1",
+    "provider": "youtube",
+    "title": "مزاج الخير",
+    "tmdbId": 119302,
+    "year": "2013",
+    "season": 1,
+    "expected": 30,
+    "publisher": "MBAProductionEgypt",
+    "source": "https://www.youtube.com/playlist?list=PL-vGCvo6IiRJmpNRm2wNvsMvX18HDswqx",
+    "poster": "https://image.tmdb.org/t/p/w342/7pUhPmzg0856EyZFCUrkymrIev5.jpg",
+    "episodes": [
+      {
+        "number": 1,
+        "id": "qNJxp6nJi58"
+      },
+      {
+        "number": 2,
+        "id": "p1PCZwx-_Ek"
+      },
+      {
+        "number": 3,
+        "id": "NSHpQmLNd64"
+      },
+      {
+        "number": 4,
+        "id": "H3bH6JdKmfU"
+      },
+      {
+        "number": 5,
+        "id": "a8uRKSavKx8"
+      },
+      {
+        "number": 6,
+        "id": "K6tjwSFzcsM"
+      },
+      {
+        "number": 7,
+        "id": "KVNyWZgo3Rc"
+      },
+      {
+        "number": 8,
+        "id": "L8g8rmV6Dfs"
+      },
+      {
+        "number": 9,
+        "id": "QFNXFUwn3vQ"
+      },
+      {
+        "number": 10,
+        "id": "OmQ_h0Df5Tw"
+      },
+      {
+        "number": 11,
+        "id": "rKDtCC1amS8"
+      },
+      {
+        "number": 12,
+        "id": "s5ZPMg7L8Cw"
+      },
+      {
+        "number": 13,
+        "id": "3qfFU4hSgmc"
+      },
+      {
+        "number": 14,
+        "id": "GHu2nd42Myo"
+      },
+      {
+        "number": 15,
+        "id": "vY8Tcxm3GMw"
+      },
+      {
+        "number": 16,
+        "id": "vmfpok29XSA"
+      },
+      {
+        "number": 17,
+        "id": "ZG4oPfrTnlk"
+      },
+      {
+        "number": 18,
+        "id": "LmQmddW1z1Y"
+      },
+      {
+        "number": 19,
+        "id": "TPsLwK3CCiQ"
+      },
+      {
+        "number": 20,
+        "id": "XIE72JhCc9k"
+      },
+      {
+        "number": 21,
+        "id": "vT7CC8ei6uQ"
+      },
+      {
+        "number": 22,
+        "id": "a3NWBd1nkas"
+      },
+      {
+        "number": 23,
+        "id": "htVGUVQBKq0"
+      },
+      {
+        "number": 24,
+        "id": "Kmi-wdkGLbA"
+      },
+      {
+        "number": 25,
+        "id": "HNU0hTjKdK0"
+      },
+      {
+        "number": 26,
+        "id": "8AaHj8R0Ph4"
+      },
+      {
+        "number": 27,
+        "id": "LY1KGnbCA_c"
+      },
+      {
+        "number": 28,
+        "id": "zqx9gyjR3Ds"
+      },
+      {
+        "number": 29,
+        "id": "9K5wi0wjUtY"
+      },
+      {
+        "number": 30,
+        "id": "QLcA0oAVY_w"
+      }
+    ],
+    "adsPossible": true,
+    "evidence": "Official publisher playlist metadata, same channel, exact numbered canonical season, duration >=15 minutes; first/last embed checked; HD/live playback/ads unverified"
+  },
+  {
+    "id": "tmdb:96822:1",
+    "provider": "youtube",
+    "title": "العار",
+    "tmdbId": 96822,
+    "year": "2011",
+    "season": 1,
+    "expected": 30,
+    "publisher": "ElWadyDrama",
+    "source": "https://www.youtube.com/playlist?list=PLdjrLm0eK-Pa94ZU-uN4O3yVDAypXRjtu",
+    "poster": "https://image.tmdb.org/t/p/w342/hXtqGeIczLjfrlrvoYBXeBWQctb.jpg",
+    "episodes": [
+      {
+        "number": 1,
+        "id": "KZy1Q-ksZBg"
+      },
+      {
+        "number": 2,
+        "id": "Ha8-0GijEQs"
+      },
+      {
+        "number": 3,
+        "id": "QbOD50TQjfY"
+      },
+      {
+        "number": 4,
+        "id": "79vO-ViY87s"
+      },
+      {
+        "number": 5,
+        "id": "VE7bKriEMqY"
+      },
+      {
+        "number": 6,
+        "id": "ImIWdqP3bcQ"
+      },
+      {
+        "number": 7,
+        "id": "sAnUKXwJcVY"
+      },
+      {
+        "number": 8,
+        "id": "Q-Jw2GfkVLU"
+      },
+      {
+        "number": 9,
+        "id": "_jBVQ-VkdjU"
+      },
+      {
+        "number": 10,
+        "id": "VnprVMk-Oqg"
+      },
+      {
+        "number": 11,
+        "id": "kHGxsazbDos"
+      },
+      {
+        "number": 12,
+        "id": "tfpu6anabKU"
+      },
+      {
+        "number": 13,
+        "id": "HqMEb-GJaYc"
+      },
+      {
+        "number": 14,
+        "id": "3LKZFrEHzZw"
+      },
+      {
+        "number": 15,
+        "id": "Rhr0_sye-68"
+      },
+      {
+        "number": 16,
+        "id": "O6gxrkBuGHI"
+      },
+      {
+        "number": 17,
+        "id": "UeyCUmeekwQ"
+      },
+      {
+        "number": 18,
+        "id": "2k4MlHP1Ji0"
+      },
+      {
+        "number": 19,
+        "id": "BiEmen7gdwA"
+      },
+      {
+        "number": 20,
+        "id": "m0V3dD38Joo"
+      },
+      {
+        "number": 21,
+        "id": "Xs6g9UF3AmU"
+      },
+      {
+        "number": 22,
+        "id": "H1wyeIqFY_4"
+      },
+      {
+        "number": 23,
+        "id": "HiLMTIdfJHA"
+      },
+      {
+        "number": 24,
+        "id": "bco8t5evXWk"
+      },
+      {
+        "number": 25,
+        "id": "5GU8zbZt7IY"
+      },
+      {
+        "number": 26,
+        "id": "mrZDim4t4k8"
+      },
+      {
+        "number": 27,
+        "id": "vGTIrpFFTfs"
+      },
+      {
+        "number": 28,
+        "id": "puVdAUYbD6g"
+      },
+      {
+        "number": 29,
+        "id": "6dTTStUUeUE"
+      },
+      {
+        "number": 30,
+        "id": "MpoBe2hEKl8"
+      }
+    ],
+    "adsPossible": true,
+    "evidence": "Official publisher playlist metadata, same channel, exact numbered canonical season, duration >=15 minutes; first/last embed checked; HD/live playback/ads unverified"
+  },
+  {
+    "id": "tmdb:291220:1",
+    "provider": "youtube",
+    "title": "ظل المحارب",
+    "tmdbId": 291220,
+    "year": "2008",
+    "season": 1,
+    "expected": 34,
+    "publisher": "ElWadyDrama",
+    "source": "https://www.youtube.com/playlist?list=PLdjrLm0eK-PYMdQo-CWzj40WwQZ-klt4g",
+    "poster": "https://image.tmdb.org/t/p/w342/bmLl1IhNavDVeAxHYG0FOS4E6PO.jpg",
+    "episodes": [
+      {
+        "number": 1,
+        "id": "BPW8xeoZvBY"
+      },
+      {
+        "number": 2,
+        "id": "YX6vJETBKRE"
+      },
+      {
+        "number": 3,
+        "id": "Z03admzwefU"
+      },
+      {
+        "number": 4,
+        "id": "CqIKGu2T1Bw"
+      },
+      {
+        "number": 5,
+        "id": "eKvd_upCY5w"
+      },
+      {
+        "number": 6,
+        "id": "6pNuypfbZYA"
+      },
+      {
+        "number": 7,
+        "id": "L2Ax7W22fuQ"
+      },
+      {
+        "number": 8,
+        "id": "pMkj2I-AkIw"
+      },
+      {
+        "number": 9,
+        "id": "BPCGb84nbLM"
+      },
+      {
+        "number": 10,
+        "id": "uY3A0bi6X1E"
+      },
+      {
+        "number": 11,
+        "id": "Hn5V-9o3M4U"
+      },
+      {
+        "number": 12,
+        "id": "UFYXwwWi3HY"
+      },
+      {
+        "number": 13,
+        "id": "V8ztp0ki9bo"
+      },
+      {
+        "number": 14,
+        "id": "NQk-vQjpekU"
+      },
+      {
+        "number": 15,
+        "id": "wAlOG7NSOjY"
+      },
+      {
+        "number": 16,
+        "id": "fiyWQ4Q9ZRE"
+      },
+      {
+        "number": 17,
+        "id": "gmrDWK-Zeo4"
+      },
+      {
+        "number": 18,
+        "id": "whv95ji9Wro"
+      },
+      {
+        "number": 19,
+        "id": "PPsT6Pd3W18"
+      },
+      {
+        "number": 20,
+        "id": "lWS8Do2xZI8"
+      },
+      {
+        "number": 21,
+        "id": "Nt5w047GMZw"
+      },
+      {
+        "number": 22,
+        "id": "r4XXpCFz0xQ"
+      },
+      {
+        "number": 23,
+        "id": "gQWi3AkyX5k"
+      },
+      {
+        "number": 24,
+        "id": "Yvjqf1jfA94"
+      },
+      {
+        "number": 25,
+        "id": "lh5B7NW27Ng"
+      },
+      {
+        "number": 26,
+        "id": "yJmDKlWeNls"
+      },
+      {
+        "number": 27,
+        "id": "egN3OS5Iudc"
+      },
+      {
+        "number": 28,
+        "id": "_5nDRcKASnE"
+      },
+      {
+        "number": 29,
+        "id": "eyYb34AMB78"
+      },
+      {
+        "number": 30,
+        "id": "sKTGrOQr4_E"
+      },
+      {
+        "number": 31,
+        "id": "o3yD3_e5ZXQ"
+      },
+      {
+        "number": 32,
+        "id": "f4tVnkHMrQ4"
+      },
+      {
+        "number": 33,
+        "id": "007yDdBiBGU"
+      },
+      {
+        "number": 34,
+        "id": "HPxGI7BRpB8"
+      }
+    ],
+    "adsPossible": true,
+    "evidence": "Official publisher playlist metadata, same channel, exact numbered canonical season, duration >=15 minutes; first/last embed checked; HD/live playback/ads unverified"
+  },
+  {
+    "id": "tmdb:87774:1",
+    "provider": "youtube",
+    "title": "المصراوية",
+    "tmdbId": 87774,
+    "year": "2007",
+    "season": 1,
+    "expected": 34,
+    "publisher": "MBAProductionEgypt",
+    "source": "https://www.youtube.com/playlist?list=PL-vGCvo6IiRKCv1nCEd9lAcCgVZXcDQDr",
+    "poster": "https://image.tmdb.org/t/p/w342/3tZmOKyQo3jwyC17kl75GYuQEom.jpg",
+    "episodes": [
+      {
+        "number": 1,
+        "id": "e_LULDNKZZc"
+      },
+      {
+        "number": 2,
+        "id": "BfBN15eM1Is"
+      },
+      {
+        "number": 3,
+        "id": "JKBweFMqiH8"
+      },
+      {
+        "number": 4,
+        "id": "7RHYgrCsujA"
+      },
+      {
+        "number": 5,
+        "id": "TuXMJFQ9_CQ"
+      },
+      {
+        "number": 6,
+        "id": "_EQ5T57Gihw"
+      },
+      {
+        "number": 7,
+        "id": "TE8S-ftiCFg"
+      },
+      {
+        "number": 8,
+        "id": "jWrx8NxAzSw"
+      },
+      {
+        "number": 9,
+        "id": "qCGnjh6TNrw"
+      },
+      {
+        "number": 10,
+        "id": "4YPSfSNcTyk"
+      },
+      {
+        "number": 11,
+        "id": "8oAAX9uOMxQ"
+      },
+      {
+        "number": 12,
+        "id": "U1VvieYFcDs"
+      },
+      {
+        "number": 13,
+        "id": "U-FOtLjcswk"
+      },
+      {
+        "number": 14,
+        "id": "Vvy3gZ22BR0"
+      },
+      {
+        "number": 15,
+        "id": "T3XS38s8G9s"
+      },
+      {
+        "number": 16,
+        "id": "sNQx-uM_ItI"
+      },
+      {
+        "number": 17,
+        "id": "HAcjJf9_BNA"
+      },
+      {
+        "number": 18,
+        "id": "XJ57NzxgPTI"
+      },
+      {
+        "number": 19,
+        "id": "-6kmvTbgXKM"
+      },
+      {
+        "number": 20,
+        "id": "AEp2Hu-MBtM"
+      },
+      {
+        "number": 21,
+        "id": "0wmnkCT4kVk"
+      },
+      {
+        "number": 22,
+        "id": "W8TeExxQ2hg"
+      },
+      {
+        "number": 23,
+        "id": "XmVdSlSORAA"
+      },
+      {
+        "number": 24,
+        "id": "bB_1WOoH2P0"
+      },
+      {
+        "number": 25,
+        "id": "vOCGf_oJURg"
+      },
+      {
+        "number": 26,
+        "id": "x9Y859XP3YI"
+      },
+      {
+        "number": 27,
+        "id": "x4-gHZt-V8g"
+      },
+      {
+        "number": 28,
+        "id": "Iem_6NtrlVA"
+      },
+      {
+        "number": 29,
+        "id": "GKm6JZDKm_8"
+      },
+      {
+        "number": 30,
+        "id": "rHjQw5LIUGA"
+      },
+      {
+        "number": 31,
+        "id": "aaGEaa54TPE"
+      },
+      {
+        "number": 32,
+        "id": "B9GRUgKurOE"
+      },
+      {
+        "number": 33,
+        "id": "f51Y4aZIHIc"
+      },
+      {
+        "number": 34,
+        "id": "qBftBN30gsA"
+      }
+    ],
+    "adsPossible": true,
+    "evidence": "Official publisher playlist metadata, same channel, exact numbered canonical season, duration >=15 minutes; first/last embed checked; HD/live playback/ads unverified"
+  },
+  {
+    "id": "tmdb:50865:1",
+    "provider": "youtube",
+    "title": "زهرة وأزواجها الخمسة",
+    "tmdbId": 50865,
+    "year": "2010",
+    "season": 1,
+    "expected": 30,
+    "publisher": "ElWadyDrama",
+    "source": "https://www.youtube.com/playlist?list=PLdjrLm0eK-PalN8mgM7flo-y9KQs3x7bS",
+    "poster": "https://image.tmdb.org/t/p/w342/dIiX6Hx74KB3TTFFIK3N5TSImCA.jpg",
+    "episodes": [
+      {
+        "number": 1,
+        "id": "fyxlLzLPnQI"
+      },
+      {
+        "number": 2,
+        "id": "UtB9nf9ij58"
+      },
+      {
+        "number": 3,
+        "id": "-9OArA_RV5g"
+      },
+      {
+        "number": 4,
+        "id": "ru0HUlfjuF4"
+      },
+      {
+        "number": 5,
+        "id": "5uj5XtIKXrE"
+      },
+      {
+        "number": 6,
+        "id": "kfzGqRdSoNw"
+      },
+      {
+        "number": 7,
+        "id": "AErWxBOKY6s"
+      },
+      {
+        "number": 8,
+        "id": "iSnAan_BNxo"
+      },
+      {
+        "number": 9,
+        "id": "i_dT7-r3YKw"
+      },
+      {
+        "number": 10,
+        "id": "JXdDiVKiX-0"
+      },
+      {
+        "number": 11,
+        "id": "yuybu91V2n8"
+      },
+      {
+        "number": 12,
+        "id": "VTx7OSqs2yI"
+      },
+      {
+        "number": 13,
+        "id": "p1wbmacipkU"
+      },
+      {
+        "number": 14,
+        "id": "lvaGXFcQtdY"
+      },
+      {
+        "number": 15,
+        "id": "aGvRhtkNsC0"
+      },
+      {
+        "number": 16,
+        "id": "PDs4_vjrJ4Q"
+      },
+      {
+        "number": 17,
+        "id": "TpQX-gkyqDc"
+      },
+      {
+        "number": 18,
+        "id": "WLRsNOW9tQs"
+      },
+      {
+        "number": 19,
+        "id": "EnLpJ0dMtbQ"
+      },
+      {
+        "number": 20,
+        "id": "qvWaUnSk7ag"
+      },
+      {
+        "number": 21,
+        "id": "biJcKWSjUwY"
+      },
+      {
+        "number": 22,
+        "id": "iZnWrcRPwMg"
+      },
+      {
+        "number": 23,
+        "id": "21buR_ZJ-N0"
+      },
+      {
+        "number": 24,
+        "id": "GfDM_yAHpM4"
+      },
+      {
+        "number": 25,
+        "id": "2i7XhaQb1ok"
+      },
+      {
+        "number": 26,
+        "id": "m8wMAf1gXP0"
+      },
+      {
+        "number": 27,
+        "id": "IGoZ3Xz0nRk"
+      },
+      {
+        "number": 28,
+        "id": "9TXhugKLytA"
+      },
+      {
+        "number": 29,
+        "id": "6kJo9UA0UwA"
+      },
+      {
+        "number": 30,
+        "id": "b5MmguhHqzY"
+      }
+    ],
+    "adsPossible": true,
+    "evidence": "Official publisher playlist metadata, same channel, exact numbered canonical season, duration >=15 minutes; first/last embed checked; HD/live playback/ads unverified"
+  },
+  {
+    "id": "tmdb:137652:1",
+    "provider": "youtube",
+    "title": "السقوط في بئر سبع",
+    "tmdbId": 137652,
+    "year": "1995",
+    "season": 1,
+    "expected": 24,
+    "publisher": "ماسبيرو دراما",
+    "source": "https://www.youtube.com/playlist?list=PLVg-8WeoO0gI",
+    "poster": "https://image.tmdb.org/t/p/w342/6hOpyqbQxgcypuKcjXEHpfCYI3x.jpg",
+    "episodes": [
+      {
+        "number": 1,
+        "id": "LLt4CeUV_zU"
+      },
+      {
+        "number": 2,
+        "id": "vFiawCQuF0w"
+      },
+      {
+        "number": 3,
+        "id": "xN3Wvpuensg"
+      },
+      {
+        "number": 4,
+        "id": "7UOAQvVFiic"
+      },
+      {
+        "number": 5,
+        "id": "1JzIZEPYtVk"
+      },
+      {
+        "number": 6,
+        "id": "gwJjWzIRlyo"
+      },
+      {
+        "number": 7,
+        "id": "sdHkBybI4Mo"
+      },
+      {
+        "number": 8,
+        "id": "8I0xNX3Xvwo"
+      },
+      {
+        "number": 9,
+        "id": "36O9TZmvzaE"
+      },
+      {
+        "number": 10,
+        "id": "zRH2fhJhWl4"
+      },
+      {
+        "number": 11,
+        "id": "bqmcQkMkpcM"
+      },
+      {
+        "number": 12,
+        "id": "NAtqbkrF55Q"
+      },
+      {
+        "number": 13,
+        "id": "ksPTxqBgVQs"
+      },
+      {
+        "number": 14,
+        "id": "YixyeiRIE_0"
+      },
+      {
+        "number": 15,
+        "id": "wDST0Mm3IOk"
+      },
+      {
+        "number": 16,
+        "id": "ywWgf9EpW6c"
+      },
+      {
+        "number": 17,
+        "id": "dKzZ1-ovb80"
+      },
+      {
+        "number": 18,
+        "id": "_wtbau3neJ4"
+      },
+      {
+        "number": 19,
+        "id": "3GPVNqcJrtM"
+      },
+      {
+        "number": 20,
+        "id": "s6Y0DycCnzo"
+      },
+      {
+        "number": 21,
+        "id": "4TrvInw-ZAs"
+      },
+      {
+        "number": 22,
+        "id": "vRzgi0Z0Q00"
+      },
+      {
+        "number": 23,
+        "id": "jhvhsSSCAEI"
+      },
+      {
+        "number": 24,
+        "id": "N19sfwAg-lU"
+      }
+    ],
+    "adsPossible": true,
+    "evidence": "Official publisher playlist metadata, same channel, exact numbered canonical season, duration >=15 minutes; first/last embed checked; HD/live playback/ads unverified"
+  },
+  {
+    "id": "tmdb:52697:1",
+    "provider": "youtube",
+    "title": "لن أعيش في جلباب أبي",
+    "tmdbId": 52697,
+    "year": "",
+    "season": 1,
+    "expected": 36,
+    "publisher": "ماسبيرو دراما",
+    "source": "https://www.youtube.com/playlist?list=PLRh7qWd2skgA",
+    "poster": "https://image.tmdb.org/t/p/w342/9hN6TAz3WOYFbWQ1Qa6kVFcDw81.jpg",
+    "episodes": [
+      {
+        "number": 1,
+        "id": "zwvnzvLowBY"
+      },
+      {
+        "number": 2,
+        "id": "mEIsQY6qIhE"
+      },
+      {
+        "number": 3,
+        "id": "1ihEuAcU3QM"
+      },
+      {
+        "number": 4,
+        "id": "yCkInkIl1rw"
+      },
+      {
+        "number": 5,
+        "id": "i_XCp1XW3RA"
+      },
+      {
+        "number": 6,
+        "id": "Feh1EKi7F-M"
+      },
+      {
+        "number": 7,
+        "id": "_B4JYa1MBe0"
+      },
+      {
+        "number": 8,
+        "id": "ip9YkjVgXZ4"
+      },
+      {
+        "number": 9,
+        "id": "4eNnDcE7Sa8"
+      },
+      {
+        "number": 10,
+        "id": "5ThuoT0h6do"
+      },
+      {
+        "number": 11,
+        "id": "b5aRPmcadx0"
+      },
+      {
+        "number": 12,
+        "id": "C4EwfAUaSAs"
+      },
+      {
+        "number": 13,
+        "id": "G_x-PfC1MJc"
+      },
+      {
+        "number": 14,
+        "id": "k2Mg4Wa9vPg"
+      },
+      {
+        "number": 15,
+        "id": "x1KbIgrpL7c"
+      },
+      {
+        "number": 16,
+        "id": "cwntg-peo_w"
+      },
+      {
+        "number": 17,
+        "id": "QXHzbCwzImM"
+      },
+      {
+        "number": 18,
+        "id": "rEiR2bY2k64"
+      },
+      {
+        "number": 19,
+        "id": "uao8vGGdBfw"
+      },
+      {
+        "number": 20,
+        "id": "4YCsObKStZ8"
+      },
+      {
+        "number": 21,
+        "id": "_hKpiCcxAsM"
+      },
+      {
+        "number": 22,
+        "id": "xBVGlLylRy4"
+      },
+      {
+        "number": 23,
+        "id": "w4HDGA1qtf0"
+      },
+      {
+        "number": 24,
+        "id": "3hCFqW6rnMg"
+      },
+      {
+        "number": 25,
+        "id": "hGhNci1JHss"
+      },
+      {
+        "number": 26,
+        "id": "fzms7cOai7o"
+      },
+      {
+        "number": 27,
+        "id": "zsSpJqLQOdk"
+      },
+      {
+        "number": 28,
+        "id": "OLN8Z3TM7bI"
+      },
+      {
+        "number": 29,
+        "id": "pqSCvk1L92E"
+      },
+      {
+        "number": 30,
+        "id": "JKF2AezQ1_c"
+      },
+      {
+        "number": 31,
+        "id": "eHvF-k0hSrw"
+      },
+      {
+        "number": 32,
+        "id": "DRl9psEnE90"
+      },
+      {
+        "number": 33,
+        "id": "fHuY6p_HTQQ"
+      },
+      {
+        "number": 34,
+        "id": "HUousI-Bxtk"
+      },
+      {
+        "number": 35,
+        "id": "nDT89lx-B8o"
+      },
+      {
+        "number": 36,
+        "id": "02cbbNjktxI"
+      }
+    ],
+    "adsPossible": true,
+    "evidence": "Official publisher playlist metadata, same channel, exact numbered canonical season, duration >=15 minutes; first/last embed checked; HD/live playback/ads unverified"
+  },
+  {
+    "id": "tmdb:195603:1",
+    "provider": "youtube",
+    "title": "الوتد",
+    "tmdbId": 195603,
+    "year": "1996",
+    "season": 1,
+    "expected": 25,
+    "publisher": "هاشتاج كلاسيك - Hashtag Classic",
+    "source": "https://www.youtube.com/playlist?list=PLWxXeIVlFzP4_tM3H1WiBgWSfURZNJCiB",
+    "poster": "https://image.tmdb.org/t/p/w342/8YnxEBiTZJSDG4uoyHs476AgYcY.jpg",
+    "episodes": [
+      {
+        "number": 1,
+        "id": "fRq99D9pbPY"
+      },
+      {
+        "number": 2,
+        "id": "TWdTWBfa1l8"
+      },
+      {
+        "number": 3,
+        "id": "w1egJPmlBlw"
+      },
+      {
+        "number": 4,
+        "id": "MOb_iO5G_WM"
+      },
+      {
+        "number": 5,
+        "id": "t2xjp8Kaf18"
+      },
+      {
+        "number": 6,
+        "id": "7t7lZ4JYLsU"
+      },
+      {
+        "number": 7,
+        "id": "ltfpImQarRg"
+      },
+      {
+        "number": 8,
+        "id": "p21U74q8jys"
+      },
+      {
+        "number": 9,
+        "id": "cxYEwhH3D2Q"
+      },
+      {
+        "number": 10,
+        "id": "hf656WAR5Hg"
+      },
+      {
+        "number": 11,
+        "id": "UKhTf9bV01Q"
+      },
+      {
+        "number": 12,
+        "id": "cxKLtcu8YG8"
+      },
+      {
+        "number": 13,
+        "id": "_by9EinsJto"
+      },
+      {
+        "number": 14,
+        "id": "de3imAGuc8I"
+      },
+      {
+        "number": 15,
+        "id": "4R5ypVM17lg"
+      },
+      {
+        "number": 16,
+        "id": "cv8iwsjRkdY"
+      },
+      {
+        "number": 17,
+        "id": "DhLscfTa-L8"
+      },
+      {
+        "number": 18,
+        "id": "RWu_MSadQAg"
+      },
+      {
+        "number": 19,
+        "id": "dJtytkikNuk"
+      },
+      {
+        "number": 20,
+        "id": "NnWcW24uTTw"
+      },
+      {
+        "number": 21,
+        "id": "eKUbPlwn2ZE"
+      },
+      {
+        "number": 22,
+        "id": "v5d6ky-pP-Q"
+      },
+      {
+        "number": 23,
+        "id": "JxzG_odr5Q8"
+      },
+      {
+        "number": 24,
+        "id": "Oov4hieqqSY"
+      },
+      {
+        "number": 25,
+        "id": "NXKmyFS3OqE"
+      }
+    ],
+    "adsPossible": true,
+    "evidence": "Official publisher playlist metadata, same channel, exact numbered canonical season, duration >=15 minutes; first/last embed checked; HD/live playback/ads unverified"
+  },
+  {
+    "id": "tmdb:87470:1",
+    "provider": "youtube",
+    "title": "الثعلب",
+    "tmdbId": 87470,
+    "year": "1993",
+    "season": 1,
+    "expected": 15,
+    "publisher": "ماسبيرو دراما",
+    "source": "https://www.youtube.com/playlist?list=PL9KkecclNUBTvVintPEZP4fJjUSd6gXuM",
+    "poster": "https://image.tmdb.org/t/p/w342/9nlK3ikhKq5ZcOiyVAZq7UA7zZs.jpg",
+    "episodes": [
+      {
+        "number": 1,
+        "id": "CRO2s-GVa68"
+      },
+      {
+        "number": 2,
+        "id": "wKzjzw8NSvA"
+      },
+      {
+        "number": 3,
+        "id": "sy519FBZbjI"
+      },
+      {
+        "number": 4,
+        "id": "471IKGR9VVA"
+      },
+      {
+        "number": 5,
+        "id": "I0jlQoXPOhE"
+      },
+      {
+        "number": 6,
+        "id": "Bkz1CEzecvY"
+      },
+      {
+        "number": 7,
+        "id": "JW8J2dhx5t0"
+      },
+      {
+        "number": 8,
+        "id": "mg8qbhX8dbg"
+      },
+      {
+        "number": 9,
+        "id": "o4hb3uJYexA"
+      },
+      {
+        "number": 10,
+        "id": "pkyAjYa-pTI"
+      },
+      {
+        "number": 11,
+        "id": "srfkeEBfgss"
+      },
+      {
+        "number": 12,
+        "id": "PIAbkkgmB8w"
+      },
+      {
+        "number": 13,
+        "id": "rMFGw7IpF1A"
+      },
+      {
+        "number": 14,
+        "id": "D3DvsEXDpKw"
+      },
+      {
+        "number": 15,
+        "id": "SaRTkiYOqAQ"
+      }
+    ],
+    "adsPossible": true,
+    "evidence": "Official publisher playlist metadata, same channel, exact numbered canonical season, duration >=15 minutes; first/last embed checked; HD/live playback/ads unverified"
+  },
+  {
+    "id": "tmdb:52716:1",
+    "provider": "youtube",
+    "title": "عائلة الحاج متولي",
+    "tmdbId": 52716,
+    "year": "2001",
+    "season": 1,
+    "expected": 34,
+    "publisher": "ماسبيرو دراما",
+    "source": "https://www.youtube.com/playlist?list=PL9KkecclNUBQ6n76NuryjoSvJO8VC56I9",
+    "poster": "https://image.tmdb.org/t/p/w342/AumIz0wBmdLOKrFRTY1N004kfma.jpg",
+    "episodes": [
+      {
+        "number": 1,
+        "id": "EwovHyD-0o0"
+      },
+      {
+        "number": 2,
+        "id": "BWa0qJo9lYQ"
+      },
+      {
+        "number": 3,
+        "id": "b9jRjalzkc0"
+      },
+      {
+        "number": 4,
+        "id": "hxrBp1RVXlQ"
+      },
+      {
+        "number": 5,
+        "id": "ZT3wrZK4LIc"
+      },
+      {
+        "number": 6,
+        "id": "xnc9p-R_7mo"
+      },
+      {
+        "number": 7,
+        "id": "PvUgh7Dhb0o"
+      },
+      {
+        "number": 8,
+        "id": "7agMuV8q2pI"
+      },
+      {
+        "number": 9,
+        "id": "Kmvbfn1iqi4"
+      },
+      {
+        "number": 10,
+        "id": "HWnqmuScVFs"
+      },
+      {
+        "number": 11,
+        "id": "eG7TwX1C0Hg"
+      },
+      {
+        "number": 12,
+        "id": "_QdEzblix_E"
+      },
+      {
+        "number": 13,
+        "id": "167aCf5wzSI"
+      },
+      {
+        "number": 14,
+        "id": "NCDdDm-qgSU"
+      },
+      {
+        "number": 15,
+        "id": "golMACuL2rg"
+      },
+      {
+        "number": 16,
+        "id": "ZDx-xJr9jV0"
+      },
+      {
+        "number": 17,
+        "id": "Y79nlbdR1Vg"
+      },
+      {
+        "number": 18,
+        "id": "gANvaECOPO8"
+      },
+      {
+        "number": 19,
+        "id": "G_jSaDxwSKw"
+      },
+      {
+        "number": 20,
+        "id": "MuVM5XBrFIo"
+      },
+      {
+        "number": 21,
+        "id": "mFDGLmSWKho"
+      },
+      {
+        "number": 22,
+        "id": "k765txxlwmQ"
+      },
+      {
+        "number": 23,
+        "id": "2dmhtp1MFMc"
+      },
+      {
+        "number": 24,
+        "id": "AbmS-JSwKgA"
+      },
+      {
+        "number": 25,
+        "id": "asddMIhhPWI"
+      },
+      {
+        "number": 26,
+        "id": "Eh_56IaFDEo"
+      },
+      {
+        "number": 27,
+        "id": "sYNrHPef5DA"
+      },
+      {
+        "number": 28,
+        "id": "47C48MarGY4"
+      },
+      {
+        "number": 29,
+        "id": "uLfFn8X_tUQ"
+      },
+      {
+        "number": 30,
+        "id": "3X0fNhxvPus"
+      },
+      {
+        "number": 31,
+        "id": "mhjtQe0AVio"
+      },
+      {
+        "number": 32,
+        "id": "vmwInJ5gODs"
+      },
+      {
+        "number": 33,
+        "id": "GPzgpmbXLvk"
+      },
+      {
+        "number": 34,
+        "id": "CrA060zB6ms"
+      }
+    ],
+    "adsPossible": true,
+    "evidence": "Official publisher playlist metadata, same channel, exact numbered canonical season, duration >=15 minutes; first/last embed checked; HD/live playback/ads unverified"
+  },
+  {
+    "id": "tmdb:90674:1",
+    "provider": "youtube",
+    "title": "رأفت الهجان",
+    "tmdbId": 90674,
+    "year": "1988",
+    "season": 1,
+    "expected": 15,
+    "publisher": "هاشتاج كلاسيك - Hashtag Classic",
+    "source": "https://www.youtube.com/playlist?list=PLWxXeIVlFzP6egauJXgSMHAX5zJ6Z5ir4",
+    "poster": "https://image.tmdb.org/t/p/w342/cnToOn9QjqUlKa5EGhXPb38Be2g.jpg",
+    "episodes": [
+      {
+        "number": 1,
+        "id": "5N8rjWdUGmc"
+      },
+      {
+        "number": 2,
+        "id": "eJaGxOYG4WQ"
+      },
+      {
+        "number": 3,
+        "id": "aUtFodMLUzQ"
+      },
+      {
+        "number": 4,
+        "id": "A3dFaVVEJ7A"
+      },
+      {
+        "number": 5,
+        "id": "MDPkSR8Fkoc"
+      },
+      {
+        "number": 6,
+        "id": "n5AABO54yIA"
+      },
+      {
+        "number": 7,
+        "id": "k1S1Cl5iR2E"
+      },
+      {
+        "number": 8,
+        "id": "eS3tb0-iQAk"
+      },
+      {
+        "number": 9,
+        "id": "_tIcO9uZWnE"
+      },
+      {
+        "number": 10,
+        "id": "5zAjkRGWKbY"
+      },
+      {
+        "number": 11,
+        "id": "PwF4t9vhwW0"
+      },
+      {
+        "number": 12,
+        "id": "yyuAadFyycQ"
+      },
+      {
+        "number": 13,
+        "id": "ItPew0vimnk"
+      },
+      {
+        "number": 14,
+        "id": "KbSvoa3I4uc"
+      },
+      {
+        "number": 15,
+        "id": "Npcf1az6wbA"
+      }
+    ],
+    "adsPossible": true,
+    "evidence": "Official publisher playlist metadata, same channel, exact numbered canonical season, duration >=15 minutes; first/last embed checked; HD/live playback/ads unverified"
+  },
+  {
+    "id": "tmdb:209926:2",
+    "provider": "youtube",
+    "title": "العصيان",
+    "tmdbId": 209926,
+    "year": "2003",
+    "season": 2,
+    "expected": 35,
+    "publisher": "ماسبيرو دراما",
+    "source": "https://www.youtube.com/playlist?list=PL9KkecclNUBQ7tFb6VvNbSogcGnV7ln29",
+    "poster": "https://image.tmdb.org/t/p/w342/3X5FejHEI6IGsNKwI1YmgdZIW6l.jpg",
+    "episodes": [
+      {
+        "number": 1,
+        "id": "cBFjQjztjzs"
+      },
+      {
+        "number": 2,
+        "id": "TWwi8HjirS0"
+      },
+      {
+        "number": 3,
+        "id": "iH0CN3q4pg8"
+      },
+      {
+        "number": 4,
+        "id": "KAn_oQblfQQ"
+      },
+      {
+        "number": 5,
+        "id": "zP0AV2CFsI0"
+      },
+      {
+        "number": 6,
+        "id": "NYawZItsP-Q"
+      },
+      {
+        "number": 7,
+        "id": "-lcEXPmJAZg"
+      },
+      {
+        "number": 8,
+        "id": "pP6ldoNIzkk"
+      },
+      {
+        "number": 9,
+        "id": "2VEwkI5YFC4"
+      },
+      {
+        "number": 10,
+        "id": "IeBgupRWkDg"
+      },
+      {
+        "number": 11,
+        "id": "QNzykr9NumY"
+      },
+      {
+        "number": 12,
+        "id": "4dWMKPfKLFw"
+      },
+      {
+        "number": 13,
+        "id": "UbeU9JokOuw"
+      },
+      {
+        "number": 14,
+        "id": "Q8O5AkD-WSI"
+      },
+      {
+        "number": 15,
+        "id": "AH-d8a-xGDQ"
+      },
+      {
+        "number": 16,
+        "id": "8zMfMAJJFCk"
+      },
+      {
+        "number": 17,
+        "id": "ZxPWATVMpSo"
+      },
+      {
+        "number": 18,
+        "id": "jCg_wR_1z9o"
+      },
+      {
+        "number": 19,
+        "id": "V8qHf-C4IkI"
+      },
+      {
+        "number": 20,
+        "id": "Xnxz8VI1s5s"
+      },
+      {
+        "number": 21,
+        "id": "eHicHlp_Ffo"
+      },
+      {
+        "number": 22,
+        "id": "qBll7Np0bRo"
+      },
+      {
+        "number": 23,
+        "id": "W0pKnOUChuQ"
+      },
+      {
+        "number": 24,
+        "id": "G9cEo-XVx_U"
+      },
+      {
+        "number": 25,
+        "id": "gG-vhXr7SC8"
+      },
+      {
+        "number": 26,
+        "id": "xPZSzhZphr4"
+      },
+      {
+        "number": 27,
+        "id": "0TCNF0iy_Wg"
+      },
+      {
+        "number": 28,
+        "id": "pqup5E038k4"
+      },
+      {
+        "number": 29,
+        "id": "MZIk7TEOk14"
+      },
+      {
+        "number": 30,
+        "id": "wUQ0lr0OvGc"
+      },
+      {
+        "number": 31,
+        "id": "XDOkrAc51aY"
+      },
+      {
+        "number": 32,
+        "id": "6xIsFDQSako"
+      },
+      {
+        "number": 33,
+        "id": "2eosPk39DB4"
+      },
+      {
+        "number": 34,
+        "id": "7JQBnnuJ9PU"
+      },
+      {
+        "number": 35,
+        "id": "6vHYRhzUCIY"
+      }
+    ],
+    "adsPossible": true,
+    "evidence": "Official publisher playlist metadata, same channel, exact numbered canonical season, duration >=15 minutes; first/last embed checked; HD/live playback/ads unverified"
+  },
+  {
+    "id": "tmdb:329331:1",
+    "provider": "youtube",
+    "title": "شفت الليل",
+    "tmdbId": 329331,
+    "year": "2012",
+    "season": 1,
+    "expected": 30,
+    "publisher": "روتانا خليجية",
+    "source": "https://www.youtube.com/playlist?list=PLp8t9oGfE4VD_GBcM16wi4JGQctHvaUo8",
+    "poster": "https://image.tmdb.org/t/p/w342/rrGhfDyGeH6Ix9CXiRM06L9XPPK.jpg",
+    "episodes": [
+      {
+        "number": 1,
+        "id": "C7ynWFjkg5E"
+      },
+      {
+        "number": 2,
+        "id": "ti63rQe3xig"
+      },
+      {
+        "number": 3,
+        "id": "Aqx2glG9Af4"
+      },
+      {
+        "number": 4,
+        "id": "m5jtk1mPl1A"
+      },
+      {
+        "number": 5,
+        "id": "TpLl4gGND9Q"
+      },
+      {
+        "number": 6,
+        "id": "70PB40Yd4vw"
+      },
+      {
+        "number": 7,
+        "id": "rbMPaIqpoiM"
+      },
+      {
+        "number": 8,
+        "id": "CjsLET1ru5k"
+      },
+      {
+        "number": 9,
+        "id": "tzg-PqSKj90"
+      },
+      {
+        "number": 10,
+        "id": "ivHVwC4Mdpw"
+      },
+      {
+        "number": 11,
+        "id": "rhXO5uPUTx0"
+      },
+      {
+        "number": 12,
+        "id": "-wHpZjKBAGA"
+      },
+      {
+        "number": 13,
+        "id": "DkcCBc3XyGw"
+      },
+      {
+        "number": 14,
+        "id": "unsgygtFX6A"
+      },
+      {
+        "number": 15,
+        "id": "nG6ygB5WwZ4"
+      },
+      {
+        "number": 16,
+        "id": "ZqHcjs6N-NU"
+      },
+      {
+        "number": 17,
+        "id": "WkFUfNL7lDc"
+      },
+      {
+        "number": 18,
+        "id": "fGY3gpK9kFY"
+      },
+      {
+        "number": 19,
+        "id": "bB5evXi4dbk"
+      },
+      {
+        "number": 20,
+        "id": "I6w44YE7qzc"
+      },
+      {
+        "number": 21,
+        "id": "Km8H9uTKxK8"
+      },
+      {
+        "number": 22,
+        "id": "xTXUHIp6zj0"
+      },
+      {
+        "number": 23,
+        "id": "jw8z33o0-qE"
+      },
+      {
+        "number": 24,
+        "id": "fojvjMH2Pnk"
+      },
+      {
+        "number": 25,
+        "id": "jMS3nQbZF3s"
+      },
+      {
+        "number": 26,
+        "id": "3S3Mi6lnRM8"
+      },
+      {
+        "number": 27,
+        "id": "QNrK7DuhvLk"
+      },
+      {
+        "number": 28,
+        "id": "6WGaF3HnehM"
+      },
+      {
+        "number": 29,
+        "id": "s2mAswbpLoA"
+      },
+      {
+        "number": 30,
+        "id": "3zUXtomFQWw"
+      }
+    ],
+    "adsPossible": true,
+    "evidence": "Official publisher playlist metadata, same channel, exact numbered canonical season, duration >=15 minutes; first/last embed checked; HD/live playback/ads unverified"
+  },
+  {
+    "id": "tmdb:284586:1",
+    "provider": "youtube",
+    "title": "شد بلد",
+    "tmdbId": 284586,
+    "year": "2016",
+    "season": 1,
+    "expected": 30,
+    "publisher": "روتانا خليجية",
+    "source": "https://www.youtube.com/playlist?list=PLp8t9oGfE4VANiTwY5L_LhcibbV_107dF",
+    "poster": "https://image.tmdb.org/t/p/w342/f0eiCxZquVveV3HhXOIioUTB07C.jpg",
+    "episodes": [
+      {
+        "number": 1,
+        "id": "_3S-J4AP19U"
+      },
+      {
+        "number": 2,
+        "id": "QPrdf8mqm00"
+      },
+      {
+        "number": 3,
+        "id": "TkXSf6B4wW0"
+      },
+      {
+        "number": 4,
+        "id": "JzXuD3fZ6Xg"
+      },
+      {
+        "number": 5,
+        "id": "zi8J7jybTWI"
+      },
+      {
+        "number": 6,
+        "id": "esCl-Wg4HqQ"
+      },
+      {
+        "number": 7,
+        "id": "w_XZvJtLvK8"
+      },
+      {
+        "number": 8,
+        "id": "XlmxTD2e5c4"
+      },
+      {
+        "number": 9,
+        "id": "aH-rBJvQqfs"
+      },
+      {
+        "number": 10,
+        "id": "gpfTprnLCRI"
+      },
+      {
+        "number": 11,
+        "id": "pXD1Q0brJiE"
+      },
+      {
+        "number": 12,
+        "id": "QkzXgwqMcXQ"
+      },
+      {
+        "number": 13,
+        "id": "Cm3XTu7VxwY"
+      },
+      {
+        "number": 14,
+        "id": "i5moxbY1d74"
+      },
+      {
+        "number": 15,
+        "id": "LOG3O4txlGE"
+      },
+      {
+        "number": 16,
+        "id": "a8MUeVEYo_g"
+      },
+      {
+        "number": 17,
+        "id": "j5rrjhrat3k"
+      },
+      {
+        "number": 18,
+        "id": "MOGxSkXtC5Q"
+      },
+      {
+        "number": 19,
+        "id": "pvEYxB1Wf0Y"
+      },
+      {
+        "number": 20,
+        "id": "W3qbroSO7Ew"
+      },
+      {
+        "number": 21,
+        "id": "DmunED5EnDU"
+      },
+      {
+        "number": 22,
+        "id": "K4QuzHQvZ1M"
+      },
+      {
+        "number": 23,
+        "id": "u6fQaaAzW7A"
+      },
+      {
+        "number": 24,
+        "id": "SZJuRDNzb_A"
+      },
+      {
+        "number": 25,
+        "id": "faQIz40Mzgo"
+      },
+      {
+        "number": 26,
+        "id": "TR5l9sIJD48"
+      },
+      {
+        "number": 27,
+        "id": "CxzEBi27fMo"
+      },
+      {
+        "number": 28,
+        "id": "Xp9jAMvsNg8"
+      },
+      {
+        "number": 29,
+        "id": "2dWrtf5PrOk"
+      },
+      {
+        "number": 30,
+        "id": "HWPl_q7ihpU"
+      }
+    ],
+    "adsPossible": true,
+    "evidence": "Official publisher playlist metadata, same channel, exact numbered canonical season, duration >=15 minutes; first/last embed checked; HD/live playback/ads unverified"
+  },
+  {
+    "id": "tmdb:312462:1",
+    "provider": "youtube",
+    "title": "أخلاقنا",
+    "tmdbId": 312462,
+    "year": "1993",
+    "season": 1,
+    "expected": 15,
+    "publisher": "قناة ذكريات",
+    "source": "https://www.youtube.com/playlist?list=PLBi9RC4H0Bwh0Wpb4KDVn8NnuzJ2GQdV6",
+    "poster": "https://image.tmdb.org/t/p/w342/5qUk3LgY5QicGVe1FR2oxMlzRL7.jpg",
+    "episodes": [
+      {
+        "number": 1,
+        "id": "YYmc_vHIOHE"
+      },
+      {
+        "number": 2,
+        "id": "ZFgqic-PdxI"
+      },
+      {
+        "number": 3,
+        "id": "qVILqRiP4eg"
+      },
+      {
+        "number": 4,
+        "id": "4i6vpD-URyU"
+      },
+      {
+        "number": 5,
+        "id": "U3ijzEkXYNw"
+      },
+      {
+        "number": 6,
+        "id": "o_c849Hzb8I"
+      },
+      {
+        "number": 7,
+        "id": "ycxvaBJXqno"
+      },
+      {
+        "number": 8,
+        "id": "ly8LQytXMeQ"
+      },
+      {
+        "number": 9,
+        "id": "DSz8BDbJYoQ"
+      },
+      {
+        "number": 10,
+        "id": "NAfmkpGyu6M"
+      },
+      {
+        "number": 11,
+        "id": "dNcxo8ujpp8"
+      },
+      {
+        "number": 12,
+        "id": "d3D-2WHBUeY"
+      },
+      {
+        "number": 13,
+        "id": "b4VIdlSXvao"
+      },
+      {
+        "number": 14,
+        "id": "TB7P3XBb6gE"
+      },
+      {
+        "number": 15,
+        "id": "GZ8Qrbprjio"
+      }
+    ],
+    "adsPossible": true,
+    "evidence": "Official publisher playlist metadata, same channel, exact numbered canonical season, duration >=15 minutes; first/last embed checked; HD/live playback/ads unverified"
+  },
+  {
+    "id": "tmdb:299458:1",
+    "provider": "youtube",
+    "title": "ذئب السيسبان",
+    "tmdbId": 299458,
+    "year": "1987",
+    "season": 1,
+    "expected": 13,
+    "publisher": "قناة ذكريات",
+    "source": "https://www.youtube.com/playlist?list=PLBi9RC4H0Bwi7WHZTtucr7iuIkJTztLK4",
+    "poster": "https://image.tmdb.org/t/p/w342/985hcplIBpek0ucj2i2kFg21avB.jpg",
+    "episodes": [
+      {
+        "number": 1,
+        "id": "brps0QRHQ-8"
+      },
+      {
+        "number": 2,
+        "id": "edSgTugTCaY"
+      },
+      {
+        "number": 3,
+        "id": "ppxUkVEzEkE"
+      },
+      {
+        "number": 4,
+        "id": "tmtSDhcZnaw"
+      },
+      {
+        "number": 5,
+        "id": "4OKtcYZDVZk"
+      },
+      {
+        "number": 6,
+        "id": "BgCxhXfmCeY"
+      },
+      {
+        "number": 7,
+        "id": "Bq8JVO7lMjU"
+      },
+      {
+        "number": 8,
+        "id": "VHMH2kJM8EE"
+      },
+      {
+        "number": 9,
+        "id": "aDQx9gIHKHw"
+      },
+      {
+        "number": 10,
+        "id": "QHvDYTh6rUw"
+      },
+      {
+        "number": 11,
+        "id": "vKdV04LIgyc"
+      },
+      {
+        "number": 12,
+        "id": "ESwDIlM34FI"
+      },
+      {
+        "number": 13,
+        "id": "Y0IcRHGreZE"
+      }
+    ],
+    "adsPossible": true,
+    "evidence": "Official publisher playlist metadata, same channel, exact numbered canonical season, duration >=15 minutes; first/last embed checked; HD/live playback/ads unverified"
+  },
+  {
+    "id": "tmdb:155173:1",
+    "provider": "youtube",
+    "title": "الجسر",
+    "tmdbId": 155173,
+    "year": "2022",
+    "season": 1,
+    "expected": 6,
+    "publisher": "قناة ذكريات",
+    "source": "https://www.youtube.com/playlist?list=PLBi9RC4H0BwiQxaZcVgVzC_D8Un0Z5ER0",
+    "poster": "https://image.tmdb.org/t/p/w342/xar1mmEH1M51R8l7Ii7P68G2HSu.jpg",
+    "episodes": [
+      {
+        "number": 1,
+        "id": "3mLGkkxYTxg"
+      },
+      {
+        "number": 2,
+        "id": "Oda0OwzMano"
+      },
+      {
+        "number": 3,
+        "id": "SZ4QYzlIpQA"
+      },
+      {
+        "number": 4,
+        "id": "FCJL-HL_k1U"
+      },
+      {
+        "number": 5,
+        "id": "u3kUhMjQEm8"
+      },
+      {
+        "number": 6,
+        "id": "xTZd7wBlTlA"
+      }
+    ],
+    "adsPossible": true,
+    "evidence": "Official publisher playlist metadata, same channel, exact numbered canonical season, duration >=15 minutes; first/last embed checked; HD/live playback/ads unverified"
+  },
+  {
+    "id": "tmdb:338541:1",
+    "provider": "youtube",
+    "title": "ليل الخائفين",
+    "tmdbId": 338541,
+    "year": "1994",
+    "season": 1,
+    "expected": 12,
+    "publisher": "قناة ذكريات",
+    "source": "https://www.youtube.com/playlist?list=PLBi9RC4H0BwhbaiLDXNiAUyvbD78PZx_-",
+    "poster": "https://image.tmdb.org/t/p/w342/y3NgL0uH7G0nns03JMMe9RGxgwr.jpg",
+    "episodes": [
+      {
+        "number": 1,
+        "id": "VhCWTluND20"
+      },
+      {
+        "number": 2,
+        "id": "Nutay__HzW4"
+      },
+      {
+        "number": 3,
+        "id": "hqkcLzLfAhs"
+      },
+      {
+        "number": 4,
+        "id": "NoxvjeNsO68"
+      },
+      {
+        "number": 5,
+        "id": "Eu-oBqeYngQ"
+      },
+      {
+        "number": 6,
+        "id": "V8xsQRQQ70U"
+      },
+      {
+        "number": 7,
+        "id": "TgtGOyUoyas"
+      },
+      {
+        "number": 8,
+        "id": "td-OLNpkPes"
+      },
+      {
+        "number": 9,
+        "id": "WZS2fz6TEgY"
+      },
+      {
+        "number": 10,
+        "id": "ZqFhdhs4aKQ"
+      },
+      {
+        "number": 11,
+        "id": "WsLQvyHbXYs"
+      },
+      {
+        "number": 12,
+        "id": "lLrYTDlkaLc"
+      }
+    ],
+    "adsPossible": true,
+    "evidence": "Official publisher playlist metadata, same channel, exact numbered canonical season, duration >=15 minutes; first/last embed checked; HD/live playback/ads unverified"
+  },
+  {
+    "id": "tmdb:248839:1",
+    "provider": "youtube",
+    "title": "مرضي ودحام",
+    "tmdbId": 248839,
+    "year": "2024",
+    "season": 1,
+    "expected": 30,
+    "publisher": "Qatar Television تلفزيون قطر",
+    "source": "https://www.youtube.com/playlist?list=PLQP03I9fS2V_zahbDpG52yYf8oIAMVcex",
+    "poster": "https://image.tmdb.org/t/p/w342/ti5U8LBakcsmMgLdsYuMOXNL4DX.jpg",
+    "episodes": [
+      {
+        "number": 1,
+        "id": "N5wuX3vL4yk"
+      },
+      {
+        "number": 2,
+        "id": "zJ0P7Yqv2VY"
+      },
+      {
+        "number": 3,
+        "id": "-Ubl7O-YCpk"
+      },
+      {
+        "number": 4,
+        "id": "9M9KvT1lBFw"
+      },
+      {
+        "number": 5,
+        "id": "sdBfUmnZ8MU"
+      },
+      {
+        "number": 6,
+        "id": "QQNS_ws2Zy4"
+      },
+      {
+        "number": 7,
+        "id": "jLKJYIEj_h8"
+      },
+      {
+        "number": 8,
+        "id": "99IoMRmmsjI"
+      },
+      {
+        "number": 9,
+        "id": "PFDz4iTv9VE"
+      },
+      {
+        "number": 10,
+        "id": "9lqw0k5KD1w"
+      },
+      {
+        "number": 11,
+        "id": "-QrWozVHkWs"
+      },
+      {
+        "number": 12,
+        "id": "2dY134z3E5M"
+      },
+      {
+        "number": 13,
+        "id": "p1WT5Ia_-xk"
+      },
+      {
+        "number": 14,
+        "id": "BKOjSWLV-bs"
+      },
+      {
+        "number": 15,
+        "id": "1Zyx-TAEkOY"
+      },
+      {
+        "number": 16,
+        "id": "N0_NDv04qM4"
+      },
+      {
+        "number": 17,
+        "id": "bliBgY5hupk"
+      },
+      {
+        "number": 18,
+        "id": "dIHiS1c82b4"
+      },
+      {
+        "number": 19,
+        "id": "u4JlcOdRSYc"
+      },
+      {
+        "number": 20,
+        "id": "g1M6TUsNkCE"
+      },
+      {
+        "number": 21,
+        "id": "-fAXOf5dSEw"
+      },
+      {
+        "number": 22,
+        "id": "8TX-A86HvF0"
+      },
+      {
+        "number": 23,
+        "id": "Bfd0P_EML0k"
+      },
+      {
+        "number": 24,
+        "id": "WmjIAHmg6Z8"
+      },
+      {
+        "number": 25,
+        "id": "vW8kUAaDjnI"
+      },
+      {
+        "number": 26,
+        "id": "S8xaiFIF9us"
+      },
+      {
+        "number": 27,
+        "id": "LtTgH_YhFAc"
+      },
+      {
+        "number": 28,
+        "id": "YMqIvy3zb4Y"
+      },
+      {
+        "number": 29,
+        "id": "OARiyHFJquE"
+      },
+      {
+        "number": 30,
+        "id": "vrYvdCMm1rY"
+      }
+    ],
+    "adsPossible": true,
+    "evidence": "Official publisher playlist metadata, same channel, exact numbered canonical season, duration >=15 minutes; first/last embed checked; HD/live playback/ads unverified"
+  },
+  {
+    "id": "tmdb:106190:1",
+    "provider": "youtube",
+    "title": "الكابتن جودة",
+    "tmdbId": 106190,
+    "year": "1986",
+    "season": 1,
+    "expected": 15,
+    "publisher": "هاشتاج كلاسيك - Hashtag Classic",
+    "source": "https://www.youtube.com/playlist?list=PLWxXeIVlFzP56X6nXMd4kReb_yfOtQZ7p",
+    "poster": "https://image.tmdb.org/t/p/w342/9NbJ8L37EgEMD21BE0SezII7fua.jpg",
+    "episodes": [
+      {
+        "number": 1,
+        "id": "3j0V961QA08"
+      },
+      {
+        "number": 2,
+        "id": "zYu5PYWmcLw"
+      },
+      {
+        "number": 3,
+        "id": "gm_4msl4RvU"
+      },
+      {
+        "number": 4,
+        "id": "kCfoziYn884"
+      },
+      {
+        "number": 5,
+        "id": "tEa_H0Zn_Q8"
+      },
+      {
+        "number": 6,
+        "id": "TPssr72tlT4"
+      },
+      {
+        "number": 7,
+        "id": "7KZ-_7wJnhA"
+      },
+      {
+        "number": 8,
+        "id": "PpLBogmQ3ws"
+      },
+      {
+        "number": 9,
+        "id": "54ptPXGgS7c"
+      },
+      {
+        "number": 10,
+        "id": "fWTaX6d-JHI"
+      },
+      {
+        "number": 11,
+        "id": "C-vCp6HuN40"
+      },
+      {
+        "number": 12,
+        "id": "Q7yXlb48jgk"
+      },
+      {
+        "number": 13,
+        "id": "DOgdONTJw4U"
+      },
+      {
+        "number": 14,
+        "id": "ZItJ-sF2i40"
+      },
+      {
+        "number": 15,
+        "id": "UcZolRgL99A"
+      }
+    ],
+    "adsPossible": true,
+    "evidence": "Official publisher playlist metadata, same channel, exact numbered canonical season, duration >=15 minutes; first/last embed checked; HD/live playback/ads unverified"
+  },
+  {
+    "id": "tmdb:216392:1",
+    "provider": "youtube",
+    "title": "الوسية",
+    "tmdbId": 216392,
+    "year": "1990",
+    "season": 1,
+    "expected": 19,
+    "publisher": "هاشتاج كلاسيك - Hashtag Classic",
+    "source": "https://www.youtube.com/playlist?list=PLWxXeIVlFzP6Eixep82pld0xwYotAw0H5",
+    "poster": "https://image.tmdb.org/t/p/w342/le62Mvb6CGTK29Ha68Ov3956Mwv.jpg",
+    "episodes": [
+      {
+        "number": 1,
+        "id": "cuqboE9YRGE"
+      },
+      {
+        "number": 2,
+        "id": "SxL_4Xi4DoQ"
+      },
+      {
+        "number": 3,
+        "id": "AY4Vqvb3kAs"
+      },
+      {
+        "number": 4,
+        "id": "ROQrm1lMOMg"
+      },
+      {
+        "number": 5,
+        "id": "eiFojQKSFY8"
+      },
+      {
+        "number": 6,
+        "id": "wSrYB1WdxOE"
+      },
+      {
+        "number": 7,
+        "id": "ko6VpUVFDmE"
+      },
+      {
+        "number": 8,
+        "id": "SF3xEcTaH1Q"
+      },
+      {
+        "number": 9,
+        "id": "iGH3vkNBNv8"
+      },
+      {
+        "number": 10,
+        "id": "Y0Y-znS2TiU"
+      },
+      {
+        "number": 11,
+        "id": "cV-QF0y64Ks"
+      },
+      {
+        "number": 12,
+        "id": "gQ0haVIl8Ho"
+      },
+      {
+        "number": 13,
+        "id": "bO__jv1LwPo"
+      },
+      {
+        "number": 14,
+        "id": "vEZ6cQJ7CJw"
+      },
+      {
+        "number": 15,
+        "id": "kwLcTYfAO1A"
+      },
+      {
+        "number": 16,
+        "id": "YMeyrrniW9I"
+      },
+      {
+        "number": 17,
+        "id": "vVX27NIi-Ag"
+      },
+      {
+        "number": 18,
+        "id": "Nrd5oHlpgVk"
+      },
+      {
+        "number": 19,
+        "id": "B0wTgu4ptmg"
+      }
+    ],
+    "adsPossible": true,
+    "evidence": "Official publisher playlist metadata, same channel, exact numbered canonical season, duration >=15 minutes; first/last embed checked; HD/live playback/ads unverified"
+  },
+  {
+    "id": "tmdb:56115:1",
+    "provider": "youtube",
+    "title": "حياة الجوهري",
+    "tmdbId": 56115,
+    "year": "1997",
+    "season": 1,
+    "expected": 18,
+    "publisher": "هاشتاج كلاسيك - Hashtag Classic",
+    "source": "https://www.youtube.com/playlist?list=PLWxXeIVlFzP7K2xJucGvk9hfvtXs60vNU",
+    "poster": "https://image.tmdb.org/t/p/w342/v2YRaJb2N8wuQS54i16QKpZM5yo.jpg",
+    "episodes": [
+      {
+        "number": 1,
+        "id": "p6bfnLKlkQ0"
+      },
+      {
+        "number": 2,
+        "id": "Vd_jIeoR5T4"
+      },
+      {
+        "number": 3,
+        "id": "jKYLiTBrTeU"
+      },
+      {
+        "number": 4,
+        "id": "jyhirc0qNlM"
+      },
+      {
+        "number": 5,
+        "id": "W64GZ_HPED8"
+      },
+      {
+        "number": 6,
+        "id": "owk58Y4QzDI"
+      },
+      {
+        "number": 7,
+        "id": "x0hRoNNjAL8"
+      },
+      {
+        "number": 8,
+        "id": "3RCmSgOjXx0"
+      },
+      {
+        "number": 9,
+        "id": "o1oRNKPQVT0"
+      },
+      {
+        "number": 10,
+        "id": "6YThKV_-pEg"
+      },
+      {
+        "number": 11,
+        "id": "G-UQT5lO4fc"
+      },
+      {
+        "number": 12,
+        "id": "vG4g5NvsPW0"
+      },
+      {
+        "number": 13,
+        "id": "AfyBsIq7Sno"
+      },
+      {
+        "number": 14,
+        "id": "iOP548HI5pU"
+      },
+      {
+        "number": 15,
+        "id": "U9H6nheu6-s"
+      },
+      {
+        "number": 16,
+        "id": "-rVj7Noq01g"
+      },
+      {
+        "number": 17,
+        "id": "oTqTn4dH_QU"
+      },
+      {
+        "number": 18,
+        "id": "0xGY3XyGJlk"
+      }
+    ],
+    "adsPossible": true,
+    "evidence": "Official publisher playlist metadata, same channel, exact numbered canonical season, duration >=15 minutes; first/last embed checked; HD/live playback/ads unverified"
+  },
+  {
+    "id": "tmdb:86325:1",
+    "provider": "youtube",
+    "title": "بوابة الحلواني",
+    "tmdbId": 86325,
+    "year": "1992",
+    "season": 1,
+    "expected": 23,
+    "publisher": "هاشتاج كلاسيك - Hashtag Classic",
+    "source": "https://www.youtube.com/playlist?list=PLWxXeIVlFzP6yNI2C-A4_egjWper44H8e",
+    "poster": "https://image.tmdb.org/t/p/w342/7bA0kG0kvwUELZ09NkMmVfqHe3H.jpg",
+    "episodes": [
+      {
+        "number": 1,
+        "id": "RTx75pIObGE"
+      },
+      {
+        "number": 2,
+        "id": "Lam2u8M9BgE"
+      },
+      {
+        "number": 3,
+        "id": "2aHB3liqRrk"
+      },
+      {
+        "number": 4,
+        "id": "0KL4tW2DN_I"
+      },
+      {
+        "number": 5,
+        "id": "SKyEkGGPTUE"
+      },
+      {
+        "number": 6,
+        "id": "fI4ik1sLCVE"
+      },
+      {
+        "number": 7,
+        "id": "r__AXqhYcn0"
+      },
+      {
+        "number": 8,
+        "id": "dfkeaeJl1nE"
+      },
+      {
+        "number": 9,
+        "id": "hFLC2ZZqU9c"
+      },
+      {
+        "number": 10,
+        "id": "-YGBvTezsds"
+      },
+      {
+        "number": 11,
+        "id": "QQlZh-XoyxY"
+      },
+      {
+        "number": 12,
+        "id": "RA20Q-ev4qA"
+      },
+      {
+        "number": 13,
+        "id": "F02cC_SJbQM"
+      },
+      {
+        "number": 14,
+        "id": "s4vfhL6iyLM"
+      },
+      {
+        "number": 15,
+        "id": "qgq2pFMWwkc"
+      },
+      {
+        "number": 16,
+        "id": "cGtnleBIBG4"
+      },
+      {
+        "number": 17,
+        "id": "aDfaEEUz-IQ"
+      },
+      {
+        "number": 18,
+        "id": "EqeXrMgWWKc"
+      },
+      {
+        "number": 19,
+        "id": "p6NRXZVvfrI"
+      },
+      {
+        "number": 20,
+        "id": "yFku5-Vporc"
+      },
+      {
+        "number": 21,
+        "id": "RB4LAy2XSf8"
+      },
+      {
+        "number": 22,
+        "id": "b4CCf3u4Vgs"
+      },
+      {
+        "number": 23,
+        "id": "PftyrBPDFcE"
+      }
+    ],
+    "adsPossible": true,
+    "evidence": "Official publisher playlist metadata, same channel, exact numbered canonical season, duration >=15 minutes; first/last embed checked; HD/live playback/ads unverified"
+  },
+  {
+    "id": "tmdb:90993:1",
+    "provider": "youtube",
+    "title": "ذئاب الجبل",
+    "tmdbId": 90993,
+    "year": "1993",
+    "season": 1,
+    "expected": 18,
+    "publisher": "هاشتاج كلاسيك - Hashtag Classic",
+    "source": "https://www.youtube.com/playlist?list=PLWxXeIVlFzP7qviWT62hWYHgtoIoCTUnm",
+    "poster": "https://image.tmdb.org/t/p/w342/ylANiaoNJspwMJaC0VX8GmOIZZh.jpg",
+    "episodes": [
+      {
+        "number": 1,
+        "id": "BtFFnjh9DIM"
+      },
+      {
+        "number": 2,
+        "id": "Gy7IL5_4N2Q"
+      },
+      {
+        "number": 3,
+        "id": "cR-5cD958Z0"
+      },
+      {
+        "number": 4,
+        "id": "3dGVD6RydCg"
+      },
+      {
+        "number": 5,
+        "id": "jbVkLyO9Eus"
+      },
+      {
+        "number": 6,
+        "id": "nrYqll5nQvY"
+      },
+      {
+        "number": 7,
+        "id": "FQFbJOGXJuU"
+      },
+      {
+        "number": 8,
+        "id": "_nKPX7cMpw4"
+      },
+      {
+        "number": 9,
+        "id": "yEzaRiu4Oho"
+      },
+      {
+        "number": 10,
+        "id": "wb5weOc7BdM"
+      },
+      {
+        "number": 11,
+        "id": "nHltHd72_IA"
+      },
+      {
+        "number": 12,
+        "id": "nEBc6W60RMs"
+      },
+      {
+        "number": 13,
+        "id": "1oVC4Py_LZo"
+      },
+      {
+        "number": 14,
+        "id": "VEghctaw9UE"
+      },
+      {
+        "number": 15,
+        "id": "bC2RTwa5Iyo"
+      },
+      {
+        "number": 16,
+        "id": "Yv3KlD537yw"
+      },
+      {
+        "number": 17,
+        "id": "bIhfBSewhuQ"
+      },
+      {
+        "number": 18,
+        "id": "tIFN5EB8kLE"
+      }
+    ],
+    "adsPossible": true,
+    "evidence": "Official publisher playlist metadata, same channel, exact numbered canonical season, duration >=15 minutes; first/last embed checked; HD/live playback/ads unverified"
+  },
+  {
+    "id": "tmdb:90674:3",
+    "provider": "youtube",
+    "title": "رأفت الهجان",
+    "tmdbId": 90674,
+    "year": "1992",
+    "season": 3,
+    "expected": 14,
+    "publisher": "هاشتاج كلاسيك - Hashtag Classic",
+    "source": "https://www.youtube.com/playlist?list=PLWxXeIVlFzP5FVpz6aZkjUpWHJuEBvby4",
+    "poster": "https://image.tmdb.org/t/p/w342/cnToOn9QjqUlKa5EGhXPb38Be2g.jpg",
+    "episodes": [
+      {
+        "number": 1,
+        "id": "q4fpgtpKiE0"
+      },
+      {
+        "number": 2,
+        "id": "shFF2MbCw6A"
+      },
+      {
+        "number": 3,
+        "id": "C085SLBgF6A"
+      },
+      {
+        "number": 4,
+        "id": "GV37_lNcch0"
+      },
+      {
+        "number": 5,
+        "id": "jLooIuW9e5k"
+      },
+      {
+        "number": 6,
+        "id": "meKdhboCaN8"
+      },
+      {
+        "number": 7,
+        "id": "hPZNoDFdN-g"
+      },
+      {
+        "number": 8,
+        "id": "HXceilSGTng"
+      },
+      {
+        "number": 9,
+        "id": "g99PReaKi9M"
+      },
+      {
+        "number": 10,
+        "id": "PfyLFhfD9Nc"
+      },
+      {
+        "number": 11,
+        "id": "L4VHS-89cmw"
+      },
+      {
+        "number": 12,
+        "id": "PpQ7TnlyxYs"
+      },
+      {
+        "number": 13,
+        "id": "Z_ynkISXt2o"
+      },
+      {
+        "number": 14,
+        "id": "wEbWRWh-A7A"
+      }
+    ],
+    "adsPossible": true,
+    "evidence": "Official publisher playlist metadata, same channel, exact numbered canonical season, duration >=15 minutes; first/last embed checked; HD/live playback/ads unverified"
+  },
+  {
+    "id": "tmdb:90674:2",
+    "provider": "youtube",
+    "title": "رأفت الهجان",
+    "tmdbId": 90674,
+    "year": "1990",
+    "season": 2,
+    "expected": 27,
+    "publisher": "هاشتاج كلاسيك - Hashtag Classic",
+    "source": "https://www.youtube.com/playlist?list=PLWxXeIVlFzP6ZnwMR_yipVmIX7zQ-GF8T",
+    "poster": "https://image.tmdb.org/t/p/w342/cnToOn9QjqUlKa5EGhXPb38Be2g.jpg",
+    "episodes": [
+      {
+        "number": 1,
+        "id": "-voFFJbnoIw"
+      },
+      {
+        "number": 2,
+        "id": "AAJIfDPDiKI"
+      },
+      {
+        "number": 3,
+        "id": "yvPWeHTF3Wc"
+      },
+      {
+        "number": 4,
+        "id": "hlZAc1fYmAA"
+      },
+      {
+        "number": 5,
+        "id": "BPmD17hpArw"
+      },
+      {
+        "number": 6,
+        "id": "BOV0W8MUqls"
+      },
+      {
+        "number": 7,
+        "id": "WgbcAGUsZEo"
+      },
+      {
+        "number": 8,
+        "id": "9P5t5GmALQU"
+      },
+      {
+        "number": 9,
+        "id": "vlPWhOTw6IU"
+      },
+      {
+        "number": 10,
+        "id": "l_kNG4aO84I"
+      },
+      {
+        "number": 11,
+        "id": "ijaO6z8F-Lk"
+      },
+      {
+        "number": 12,
+        "id": "vGlANG0sJx4"
+      },
+      {
+        "number": 13,
+        "id": "kw6j9t9sFFs"
+      },
+      {
+        "number": 14,
+        "id": "dyd-vHsII-c"
+      },
+      {
+        "number": 15,
+        "id": "Jpxuox7By6Q"
+      },
+      {
+        "number": 16,
+        "id": "WtitWxOH4iQ"
+      },
+      {
+        "number": 17,
+        "id": "BJB_XM4yT70"
+      },
+      {
+        "number": 18,
+        "id": "bNUG0KXE3NE"
+      },
+      {
+        "number": 19,
+        "id": "hj9Y5uPEID8"
+      },
+      {
+        "number": 20,
+        "id": "kqkQWvnoyR0"
+      },
+      {
+        "number": 21,
+        "id": "FT40kFHy2lE"
+      },
+      {
+        "number": 22,
+        "id": "Bw1AtcD-Np4"
+      },
+      {
+        "number": 23,
+        "id": "ThrNPu985nk"
+      },
+      {
+        "number": 24,
+        "id": "6rJOYHV5W9A"
+      },
+      {
+        "number": 25,
+        "id": "D3VYAIXJXL4"
+      },
+      {
+        "number": 26,
+        "id": "nLe73qvHoAw"
+      },
+      {
+        "number": 27,
+        "id": "qd9gFoDnVEI"
+      }
+    ],
+    "adsPossible": true,
+    "evidence": "Official publisher playlist metadata, same channel, exact numbered canonical season, duration >=15 minutes; first/last embed checked; HD/live playback/ads unverified"
+  }
+]
