@@ -58,7 +58,14 @@
       "title": "فيلم الكنز: الحقيقة والخيال كامل | بطولة محمد سعد ومحمد رمضان وهند صبري",
       "channel": "محمد رمضان · محمد سعد",
       "duration": 9408,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "Rotana Cinema KSA",
+        "authorUrl": "https://www.youtube.com/@RotanaCinema_KSA",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=610",
@@ -66,7 +73,14 @@
       "title": "صاحب المقام | الفيلم الكامل جودة عالية جدا HD يسرا .. أسر ياسين .. أمينة خليل",
       "channel": "روتانا سينما",
       "duration": 6359,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "Rotana Cinema - روتانا سينما",
+        "authorUrl": "https://www.youtube.com/@RotanaCinema",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=602",
@@ -74,7 +88,14 @@
       "title": "تمثيلية صفحة حب ׀زيزي مصطفى - شاكر عبد اللطيف ׀ سهرات",
       "channel": "ماسبيرو زمان",
       "duration": 4978,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=601",
@@ -82,7 +103,14 @@
       "title": "فيلم انت حبيبي وبس كامل | حصرياً بجودة عالية | محمود الليثي - بوسي - صافينار",
       "channel": "روتانا سينما",
       "duration": 4897,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "Rotana Cinema - روتانا سينما",
+        "authorUrl": "https://www.youtube.com/@RotanaCinema",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=600",
@@ -90,7 +118,14 @@
       "title": "فيلم أمير الظلام - بطولة عادل إمام | الفيلم الكامل",
       "channel": "عادل إمام",
       "duration": 6689,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "AlarabiaCinema",
+        "authorUrl": "https://www.youtube.com/@AlarabiaCinema",
+        "knownPublisher": false,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=593",
@@ -98,7 +133,14 @@
       "title": "شوف قصة حياة الفاجر محمد ثروت بدون فواصل.. دارت يا صيع 😂",
       "channel": "السبكي للإنتاج الفني",
       "duration": 3703,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "El Sobky production السبكي للإنتاج الفني",
+        "authorUrl": "https://www.youtube.com/@sobkyproductions",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=591",
@@ -106,7 +148,14 @@
       "title": "كمل ضحك مع اقوي النجوم  | من فيلم #عوكل | بطولة #محمد_سعد #حسن_حسني #نور",
       "channel": "السبكي للإنتاج الفني",
       "duration": 3665,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "El Sobky production السبكي للإنتاج الفني",
+        "authorUrl": "https://www.youtube.com/@sobkyproductions",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=590",
@@ -114,7 +163,14 @@
       "title": "ضحك بدون فواصل مع نجوم الكوميديا #ياسمين_عبدالعزيز #حسن_الرداد #كريم_محمود_عبدالعزيز",
       "channel": "السبكي للإنتاج الفني",
       "duration": 3846,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "El Sobky production السبكي للإنتاج الفني",
+        "authorUrl": "https://www.youtube.com/@sobkyproductions",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=586",
@@ -122,7 +178,14 @@
       "title": "فيلم أمريكا شيكا بيكا كامل \"HD\" | بطولة محمد فؤاد و شويكار و نهلة سلامة",
       "channel": "شويكار · محمد فؤاد",
       "duration": 7379,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "Rotana Cinema - روتانا سينما",
+        "authorUrl": "https://www.youtube.com/@RotanaCinema",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=585",
@@ -130,7 +193,14 @@
       "title": "الفيلم الكوميدي تيته رهيبة - محمد هنيدي .. بجودة HD",
       "channel": "روتانا سينما",
       "duration": 6009,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "Rotana Cinema - روتانا سينما",
+        "authorUrl": "https://www.youtube.com/@RotanaCinema",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=584",
@@ -138,7 +208,14 @@
       "title": "الفيلم الكوميدي انهم يسرقون الارانب | بطولة يحيى الفخراني و سمير غانم و لبلبة و جميل راتب",
       "channel": "جميل راتب · سمير غانم",
       "duration": 5987,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "Rotana Cinema - روتانا سينما",
+        "authorUrl": "https://www.youtube.com/@RotanaCinema",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=583",
@@ -146,7 +223,14 @@
       "title": "فيلم الاكشن والاثارة.. جواب اعتقال - بطولة النجم محمد رمضان \"HD\"",
       "channel": "محمد رمضان",
       "duration": 5960,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "Rotana Cinema - روتانا سينما",
+        "authorUrl": "https://www.youtube.com/@RotanaCinema",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=581",
@@ -154,7 +238,14 @@
       "title": "فيلم عمر وسلمى الجزء 2 كامل \" تامر حسني \" - أعلى جودة HD",
       "channel": "روتانا سينما",
       "duration": 6039,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "Rotana Cinema - روتانا سينما",
+        "authorUrl": "https://www.youtube.com/@RotanaCinema",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=575",
@@ -162,7 +253,14 @@
       "title": "حصرياً فيلم | درب الهوى | بطولة احمد زكي ومحمود عبدالعزيز ويسرا ومديحة كامل وفاروق الفيشاوي",
       "channel": "احمد زكي · فاروق الفيشاوي",
       "duration": 8234,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "El Sobky production السبكي للإنتاج الفني",
+        "authorUrl": "https://www.youtube.com/@sobkyproductions",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=572",
@@ -170,7 +268,14 @@
       "title": "سهرة كوميدية مع اقوى نجوم الكوميديا #محمد_سعد#حسن_حسني#عبلة_كامل😂😂Full HD",
       "channel": "السبكي للإنتاج الفني",
       "duration": 4639,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "El Sobky production السبكي للإنتاج الفني",
+        "authorUrl": "https://www.youtube.com/@sobkyproductions",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=571",
@@ -178,7 +283,14 @@
       "title": "سهرة كوميدية مع اقوى نجوم الكوميديا #سمير_غانم#إيمي_سمير_غانم #حسن_الرداد 😂😂Full HD",
       "channel": "السبكي للإنتاج الفني",
       "duration": 6655,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "El Sobky production السبكي للإنتاج الفني",
+        "authorUrl": "https://www.youtube.com/@sobkyproductions",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=570",
@@ -186,7 +298,14 @@
       "title": "فيلم رمضان كريم الجزء الثاني | بطولة سيد رجب وروبي وصبري فواز وكريم عفيفي",
       "channel": "روبي · سيد رجب",
       "duration": 6472,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "El Sobky production السبكي للإنتاج الفني",
+        "authorUrl": "https://www.youtube.com/@sobkyproductions",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=569",
@@ -194,7 +313,14 @@
       "title": "ساعة من اقوي اغاني محمود الليثي 2022 | لأول مرة",
       "channel": "السبكي للإنتاج الفني",
       "duration": 5000,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "El Sobky production السبكي للإنتاج الفني",
+        "authorUrl": "https://www.youtube.com/@sobkyproductions",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=563",
@@ -202,7 +328,14 @@
       "title": "مقلب رمضان .. في عم رمضان #رمضان_كريم2😂",
       "channel": "السبكي للإنتاج الفني",
       "duration": 6625,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "El Sobky production السبكي للإنتاج الفني",
+        "authorUrl": "https://www.youtube.com/@sobkyproductions",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=562",
@@ -210,7 +343,14 @@
       "title": "فرقة الكابتن سامي علي القهوة #رمضان_كريم2😂",
       "channel": "السبكي للإنتاج الفني",
       "duration": 6394,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "El Sobky production السبكي للإنتاج الفني",
+        "authorUrl": "https://www.youtube.com/@sobkyproductions",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=561",
@@ -218,7 +358,14 @@
       "title": "رمضان مع خميس .. وعم رمضان #رمضان_كريم 😂",
       "channel": "السبكي للإنتاج الفني",
       "duration": 7367,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "El Sobky production السبكي للإنتاج الفني",
+        "authorUrl": "https://www.youtube.com/@sobkyproductions",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=560",
@@ -226,7 +373,14 @@
       "title": "ساعة من اقوي اغاني الافراح",
       "channel": "السبكي للإنتاج الفني",
       "duration": 5499,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "El Sobky production السبكي للإنتاج الفني",
+        "authorUrl": "https://www.youtube.com/@sobkyproductions",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=559",
@@ -234,7 +388,14 @@
       "title": "ساعتين من اقوي اغاني الافراح",
       "channel": "السبكي للإنتاج الفني",
       "duration": 7198,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "El Sobky production السبكي للإنتاج الفني",
+        "authorUrl": "https://www.youtube.com/@sobkyproductions",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=558",
@@ -242,7 +403,14 @@
       "title": "حصرياً فيلم | شد اجزاء | بطولة محمد رمضان ودنيا سمير غانم وياسر جلال ومحمد ممدوح",
       "channel": "دنيا سمير غانم · محمد رمضان",
       "duration": 5963,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "El Sobky production السبكي للإنتاج الفني",
+        "authorUrl": "https://www.youtube.com/@sobkyproductions",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=557",
@@ -250,7 +418,14 @@
       "title": "صدمة كمال وامه في ابوه #رمضان_كريم2",
       "channel": "السبكي للإنتاج الفني",
       "duration": 5883,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "El Sobky production السبكي للإنتاج الفني",
+        "authorUrl": "https://www.youtube.com/@sobkyproductions",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=556",
@@ -258,7 +433,14 @@
       "title": "رعب ماسك الهالات #رمضان_كريم2",
       "channel": "السبكي للإنتاج الفني",
       "duration": 5992,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "El Sobky production السبكي للإنتاج الفني",
+        "authorUrl": "https://www.youtube.com/@sobkyproductions",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=555",
@@ -266,7 +448,14 @@
       "title": "صدمة عم رمضان ومراته #رمضان_كريم2",
       "channel": "السبكي للإنتاج الفني",
       "duration": 5988,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "El Sobky production السبكي للإنتاج الفني",
+        "authorUrl": "https://www.youtube.com/@sobkyproductions",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=554",
@@ -274,7 +463,14 @@
       "title": "عم رمضان مش مصدق جمال #رمضان_كريم2",
       "channel": "السبكي للإنتاج الفني",
       "duration": 5447,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "El Sobky production السبكي للإنتاج الفني",
+        "authorUrl": "https://www.youtube.com/@sobkyproductions",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=553",
@@ -282,7 +478,14 @@
       "title": "شوف عم رمضان عمل ايه في وليد الفاطر #رمضان_كريم2",
       "channel": "السبكي للإنتاج الفني",
       "duration": 6215,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "El Sobky production السبكي للإنتاج الفني",
+        "authorUrl": "https://www.youtube.com/@sobkyproductions",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=552",
@@ -290,7 +493,14 @@
       "title": "مصايب عم رمضان علي الفطار #رمضان_كريم2",
       "channel": "السبكي للإنتاج الفني",
       "duration": 5985,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "El Sobky production السبكي للإنتاج الفني",
+        "authorUrl": "https://www.youtube.com/@sobkyproductions",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=551",
@@ -298,7 +508,14 @@
       "title": "حصرياً فيلم |الرغبة | بطولة نادية الجندي والهام شاهين وياسر جلال و صلاح عبد الله",
       "channel": "الهام شاهين · صلاح عبد الله",
       "duration": 6702,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "El Sobky production السبكي للإنتاج الفني",
+        "authorUrl": "https://www.youtube.com/@sobkyproductions",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=549",
@@ -306,7 +523,14 @@
       "title": "الفيلم اللمبي | كامل HD بطولة محمد سعد  / Film El limby",
       "channel": "السبكي للإنتاج الفني",
       "duration": 5349,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "El Sobky production السبكي للإنتاج الفني",
+        "authorUrl": "https://www.youtube.com/@sobkyproductions",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=548",
@@ -314,7 +538,14 @@
       "title": "حصرياً فيلم | أبو شنب | بطولة ياسمين عبد العزيز وظافر العابدين وبيومي فؤاد",
       "channel": "بيومي فؤاد · ظافر العابدين",
       "duration": 6545,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "El Sobky production السبكي للإنتاج الفني",
+        "authorUrl": "https://www.youtube.com/@sobkyproductions",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=540",
@@ -322,7 +553,14 @@
       "title": "الفيلم العربي المهمة .. رحلة من الغموض وصراع لا يعرف المستحيل  📺✨",
       "channel": "ماسبيرو زمان",
       "duration": 6841,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=538",
@@ -330,7 +568,14 @@
       "title": "فيلم في العشق والسفر ׀ حنان ترك | محمود مسعود",
       "channel": "ماسبيرو زمان",
       "duration": 7268,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=536",
@@ -338,7 +583,14 @@
       "title": "ليلتي ׀  يحيى الفخراني ׀",
       "channel": "ماسبيرو زمان",
       "duration": 6107,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=535",
@@ -346,7 +598,14 @@
       "title": "ضي الليل׃ الأديب يوسف القعيد وضيفه عم محمد مدبولي على قهوة الفيشاوي الشهيرة مع عزة مصطفى",
       "channel": "ماسبيرو زمان",
       "duration": 3689,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=534",
@@ -354,7 +613,14 @@
       "title": "الفيلم العربي  ״ دليل الاتهام ״ ׀ محمود المليجي  –  شيرين –   كرم مطاوع ׀",
       "channel": "ماسبيرو زمان",
       "duration": 6277,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=533",
@@ -362,7 +628,14 @@
       "title": "فيلم المال والبنون الجزء الأول.. صراع الحق والباطل في ملحمة المال والبنون",
       "channel": "ماسبيرو زمان",
       "duration": 14918,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=531",
@@ -370,7 +643,14 @@
       "title": "ضي الليل׃ كابتن محسن صالح المدير الفني للمنتخب القومي والكاتب الصحفي إبراهيم حجازي",
       "channel": "ماسبيرو زمان",
       "duration": 3704,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=530",
@@ -378,7 +658,14 @@
       "title": "صالون الشاعر أحمد عبد المعطي حجازي وضيوفه ˖˖ ألفريد فرج - عادل السيوي ومصطفى فتحي",
       "channel": "ماسبيرو زمان",
       "duration": 3627,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=517",
@@ -386,7 +673,14 @@
       "title": "الفيلم العربي _ الرجل والقضبان",
       "channel": "ماسبيرو زمان",
       "duration": 5302,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=503",
@@ -394,7 +688,14 @@
       "title": "فيلم التجربة | أحمد مظهر |  مريم فخر الدين |  مديحة كامل",
       "channel": "ماسبيرو زمان",
       "duration": 4117,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=500",
@@ -402,7 +703,14 @@
       "title": "صالون الرائد الإذاعي علي خليل وضيوفه ˖˖ د⁄ أحمد عصمت عبد المجيد - د⁄ أحمد عمر هاشم وأمين بسيوني",
       "channel": "ماسبيرو زمان",
       "duration": 3613,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=494",
@@ -410,7 +718,14 @@
       "title": "الفيلم العربي _ دقات على بابي",
       "channel": "ماسبيرو زمان",
       "duration": 4781,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=479",
@@ -418,7 +733,14 @@
       "title": "الفيلم العربي _ مايوه بنت الأسطى محمود",
       "channel": "ماسبيرو زمان",
       "duration": 3867,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=462",
@@ -426,7 +748,14 @@
       "title": "بتونس بيك׃ نجم الكوميديا صلاح عبد الله في حوار عن بداياته الفنية مع محمد صبحي وأعماله المتميزة",
       "channel": "ماسبيرو زمان",
       "duration": 4130,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=456",
@@ -434,7 +763,14 @@
       "title": "صالون د⁄ رتيبة الحفني وضيوفها ˖˖ ماما نعم الباز - نصير شمة - د⁄ زين نصار وآمال بكير",
       "channel": "ماسبيرو زمان",
       "duration": 4575,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=452",
@@ -442,7 +778,14 @@
       "title": "صالون اللواء د⁄ سمير فرج وضيوفه ˖˖ سليم سحاب - د⁄  كمال حسين - عبد الرؤوف الريدي - منى رجب",
       "channel": "ماسبيرو زمان",
       "duration": 4369,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=447",
@@ -450,7 +793,14 @@
       "title": "فارس حول العالم׃ رجاء الجدواي وضيوفها ˖˖ أحمد ماهر – أحمد جوهر – إيناس نور",
       "channel": "ماسبيرو زمان",
       "duration": 3825,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=441",
@@ -458,7 +808,14 @@
       "title": "قصر النجوم׃ د⁄  حمدي السيد نقيب الأطباء لعدة دورات والحاصل على وسام الاستحقاق من الزعيم عبد الناصر",
       "channel": "ماسبيرو زمان",
       "duration": 3920,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=421",
@@ -466,7 +823,14 @@
       "title": "صالون الكاتب الكبير محفوظ عبد الرحمن وضيوفه ˖˖ خيري شلبي و د⁄ أحمد تيمور مع حنان منصور",
       "channel": "ماسبيرو زمان",
       "duration": 3689,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=417",
@@ -474,7 +838,14 @@
       "title": "فارس حول العالم׃ ميمي جمال تروي عن دخولها الفن من الطفولة وضيوفها وفاء مكي – محمد أبو الشيخ",
       "channel": "ماسبيرو زمان",
       "duration": 3703,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=415",
@@ -482,7 +853,14 @@
       "title": "صالون د⁄نعمات أحمد فؤاد مع˖˖ د⁄حافظ شمس الدين- د⁄منير الجنزوري- د⁄محمود كامل الناقة ود⁄نبيلة الجبلي",
       "channel": "ماسبيرو زمان",
       "duration": 4144,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=404",
@@ -490,7 +868,14 @@
       "title": "صالون د⁄ سمير سرحان وضيوفه ˖˖ عزت العلايلي - د⁄ مصطفى الفقي - منى رجب - ميلاد حنا وسيد ياسين",
       "channel": "ماسبيرو زمان",
       "duration": 3741,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=400",
@@ -498,7 +883,14 @@
       "title": "الحكم بعد المداولة׃ الموسيقار محمد الموجي في قفص الاتهام",
       "channel": "ماسبيرو زمان",
       "duration": 3651,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=396",
@@ -506,7 +898,14 @@
       "title": "سهرة في ضيافة الشاعر الغنائي عبد السلام أمين وكوكبه من نجوم الدراما المصرية",
       "channel": "ماسبيرو زمان",
       "duration": 4110,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=394",
@@ -514,7 +913,14 @@
       "title": "التمثيلية التليفزيونية ״ صفحة حب ״ ׀ زيزى مصطفي – شاكر عبد اللطيف",
       "channel": "ماسبيرو زمان",
       "duration": 4979,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=393",
@@ -522,7 +928,14 @@
       "title": "حق الجماهير׃ النجم القدير محمود ياسين ومشوار طويل من الفن الهادف",
       "channel": "ماسبيرو زمان",
       "duration": 6810,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=391",
@@ -530,7 +943,14 @@
       "title": "ليلتي׃ نازك هانم السلحدار أو صفية العمري نجمة ״ليالي الحلمية״ وسفيرة النوايا الحسنة بالأمم المتحدة",
       "channel": "ماسبيرو زمان",
       "duration": 4942,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=390",
@@ -538,7 +958,14 @@
       "title": "فارس حول العالم׃ هالة صدقي – ماجد المصري – حسن إش إش",
       "channel": "ماسبيرو زمان",
       "duration": 3905,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=383",
@@ -546,7 +973,14 @@
       "title": "سواريه׃ نجاح الموجي – علاء عبد الخالق – عائشة الكيلاني – د˖ حسين صابر – فكري الجيزاوي",
       "channel": "ماسبيرو زمان",
       "duration": 4290,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=379",
@@ -554,7 +988,14 @@
       "title": "فارس حول العالم׃ نادية حليم مع يوسف داوود – حنان شوقي",
       "channel": "ماسبيرو زمان",
       "duration": 3834,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=378",
@@ -562,7 +1003,14 @@
       "title": "أوتوجراف׃ طارق حبيب يحاور الوزير إبراهيم شكري",
       "channel": "ماسبيرو زمان",
       "duration": 3882,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=374",
@@ -570,7 +1018,14 @@
       "title": "ليلتي׃ نجم الكوميديا سمير غانم يستكمل حواره مع أميرة عبد العظيم عن فوازير فطوطة وغيرها جـ2",
       "channel": "ماسبيرو زمان",
       "duration": 4853,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=373",
@@ -578,7 +1033,14 @@
       "title": "جديد × جديد׃ نبيلة عبيد – إلهام شاهين – محمود حميدة – فيفي عبده – عزت العلايلي – ماجد المصري – شوبير",
       "channel": "ماسبيرو زمان",
       "duration": 4647,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=371",
@@ -586,7 +1048,14 @@
       "title": "تمثيلية ״عازف الصخر״ ׀ محمود مختار ׀ علي الحجار – شيرين – مديحة حمدي",
       "channel": "ماسبيرو زمان",
       "duration": 5243,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=367",
@@ -594,7 +1063,14 @@
       "title": "السهرة تحلى׃ المخرج يحيى العلمي صاحب روائع الدراما المصرية ״هو وهي - دموع في عيون وقحة ورأفت الهجان״",
       "channel": "ماسبيرو زمان",
       "duration": 4532,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=365",
@@ -602,7 +1078,14 @@
       "title": "حق الجماهير׃ النجم فاروق الفيشاوي مع فريال صالح وجمهوره",
       "channel": "ماسبيرو زمان",
       "duration": 6080,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=361",
@@ -610,7 +1093,14 @@
       "title": "اتوجراف _ صالح سليم",
       "channel": "ماسبيرو زمان",
       "duration": 4183,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=358",
@@ -618,7 +1108,14 @@
       "title": "صالون أ˖د⁄ أحمد شفيق وضيوفه˖˖زوجته د⁄ألفت السباعي- حلمي بكر- سكينة فؤاد - ابنه د⁄علي ود⁄أحمد تيمور",
       "channel": "ماسبيرو زمان",
       "duration": 4123,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=357",
@@ -626,7 +1123,14 @@
       "title": "نجوى إبراهيم مع سيد الملاح - هاني مهنى - محمد الشويحي - سوزان عطية - محمد ثروت ومغرد حجاب",
       "channel": "ماسبيرو زمان",
       "duration": 4521,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=354",
@@ -634,7 +1138,14 @@
       "title": "النجم سمير غانم – وائل فهمي عبد الحميد – حسن عفيفي ومأمون عطا في حوار عن فوازير ״فطوطة״",
       "channel": "ماسبيرو زمان",
       "duration": 4287,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=351",
@@ -642,7 +1153,14 @@
       "title": "ليلتي׃ النجمة يسرا تستعرض محطاتها الفنية مع الزعيم عادل إمام والمخرج العالمي يوسف شاهين وآخرون",
       "channel": "ماسبيرو زمان",
       "duration": 5370,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=350",
@@ -650,7 +1168,14 @@
       "title": "تمثيلية ״وخلعت ثوبي الأسود جـ2״ ׀ حسن يوسف – زيزي البدراوي – إبراهيم عبد الرازق",
       "channel": "ماسبيرو زمان",
       "duration": 3678,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=342",
@@ -658,7 +1183,14 @@
       "title": "أوبريت ״ حراس الوطن״ ׀ عبد الرحمن الأبنودي – جمال سلامة ׀ أحمد السقا – رامز جلال – أشرف عبد الباقي",
       "channel": "ماسبيرو زمان",
       "duration": 7257,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=341",
@@ -666,7 +1198,14 @@
       "title": "نجوم وكواكب׃ نجوى إبراهيم تحاور عبد المنعم مدبولي",
       "channel": "ماسبيرو زمان",
       "duration": 3756,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=340",
@@ -674,7 +1213,14 @@
       "title": "سواريه׃ أمينة رزق – علي الحجار – إبراهيم نصر جـ 1",
       "channel": "ماسبيرو زمان",
       "duration": 4843,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=336",
@@ -682,7 +1228,14 @@
       "title": "سواريه׃ كرم مطاوع – عبد الله محمود – محمد ثروت – عطية شرارة – حلمي المليجي – عادل سعيد",
       "channel": "ماسبيرو زمان",
       "duration": 4521,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=330",
@@ -690,7 +1243,14 @@
       "title": "نور النبوة .. مع أشرف عبدالغفور و حمزة الشيمي  و نخبة من النجوم",
       "channel": "ماسبيرو زمان",
       "duration": 4854,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=326",
@@ -698,7 +1258,14 @@
       "title": "سهرة ״سناء جميل ˖˖ عاشقة الفن״ ׀ عبد الرحمن علي",
       "channel": "ماسبيرو زمان",
       "duration": 4286,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=325",
@@ -706,7 +1273,14 @@
       "title": "سواريه׃ سهير المرشدي – أنغام – فاطمة التابعي",
       "channel": "ماسبيرو زمان",
       "duration": 4912,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=309",
@@ -714,7 +1288,14 @@
       "title": "ليلتي׃ نجمة مصر الأولى نبيلة عبيد تستعرض أسرار بداياتها ومسيرتها الفنية الحافلة بالجوائز",
       "channel": "ماسبيرو زمان",
       "duration": 5689,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=307",
@@ -722,7 +1303,14 @@
       "title": "مسرحيات زمان | العمر لحظة | سميحة أيوب - عزت العلايلي",
       "channel": "ماسبيرو زمان",
       "duration": 7145,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=301",
@@ -730,7 +1318,14 @@
       "title": "أفيش׃ سهير البابلي – إسعاد يونس – أحمد آدم – د˖ هالة سرحان – جلال الشرقاوي – عمر عبد العزيز",
       "channel": "ماسبيرو زمان",
       "duration": 3848,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=288",
@@ -738,7 +1333,14 @@
       "title": "قصر النجوم׃ النجمة نيللي بطلة فوازير رمضان لمواسم عديدة في حوار عن عالم الاستعراض",
       "channel": "ماسبيرو زمان",
       "duration": 4583,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=286",
@@ -746,7 +1348,14 @@
       "title": "قصر النجوم׃ الشاعر الخال عبد الرحمن الأبنودي أشهر جامع للتراث الشعبي ويلتقي بالإعلامي وجدي الحكيم",
       "channel": "ماسبيرو زمان",
       "duration": 4161,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=285",
@@ -754,7 +1363,14 @@
       "title": "محمود ياسين وسهير المرشدي في مسرحية \"حدث في أكتوبر\"",
       "channel": "ماسبيرو زمان",
       "duration": 5948,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=283",
@@ -762,7 +1378,14 @@
       "title": "تمثيلية ״ الرواية فيها غلط ״ ׀ سهير البابلي – يوسف شعبان – صلاح قابيل",
       "channel": "ماسبيرو زمان",
       "duration": 4176,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=279",
@@ -770,7 +1393,14 @@
       "title": "مسرحيات زمان: رائعة عبد الله الطوخي .. المشخصاتية",
       "channel": "ماسبيرو زمان",
       "duration": 9504,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=278",
@@ -778,7 +1408,14 @@
       "title": "أفيش׃ نبيلة عبيد – فاروق الفيشاوي – إلهام شاهين – علي عبد الخالق – محمود أبو زيد – نبيل عصمت",
       "channel": "ماسبيرو زمان",
       "duration": 3937,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=277",
@@ -786,7 +1423,14 @@
       "title": "ليلتي׃ المطربة أصالة تروي عن مشوارها الفني وخلافاتها مع بعض المطربين",
       "channel": "ماسبيرو زمان",
       "duration": 5294,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=276",
@@ -794,7 +1438,14 @@
       "title": "الحب وسنينه ׀ أحمد رجب – حسين فهمي – إسعاد يونس ׀ خصلة شعرها",
       "channel": "ماسبيرو زمان",
       "duration": 3640,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=275",
@@ -802,7 +1453,14 @@
       "title": "تمثيلية ״الإمام العادل״ ׀ عزت العلايلي – إلهام شاهين ׀ الجزء الثاني",
       "channel": "ماسبيرو زمان",
       "duration": 5536,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=274",
@@ -810,7 +1468,14 @@
       "title": "أفيش׃ ليلى علوي – حسين فهمي – محمد خان – أحمد صالح",
       "channel": "ماسبيرو زمان",
       "duration": 3753,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=265",
@@ -818,7 +1483,14 @@
       "title": "سواريه׃ زهرة العلا – لطيفة – هالة صدقي",
       "channel": "ماسبيرو زمان",
       "duration": 4819,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=256",
@@ -826,7 +1498,14 @@
       "title": "الفيلم العربي أولاد ضرغام |   يحيى شاهين  |  تيسير فهمي |  وائل نور",
       "channel": "ماسبيرو زمان",
       "duration": 6606,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=254",
@@ -834,7 +1513,14 @@
       "title": "فؤاد المهندس وشويكار في مسرحية | أنا فين وإنتي فين",
       "channel": "ماسبيرو زمان",
       "duration": 11973,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=251",
@@ -842,7 +1528,14 @@
       "title": "شاهد على العصر׃ الرائد الإعلامي د˖عبد القادر حاتم يبوح لـ عمر بطيشة بأسرار خطيرة عن حرب أكتوبر 1973",
       "channel": "ماسبيرو زمان",
       "duration": 4198,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=249",
@@ -850,7 +1543,14 @@
       "title": "صالون الأديب أنيس منصور وضيوفه ˖˖ إقبال بركة - فاروق جويدة - اللواء محمد فريد حجاج وم⁄ أحمد المسري",
       "channel": "ماسبيرو زمان",
       "duration": 4316,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=246",
@@ -858,7 +1558,14 @@
       "title": "من روائع المسرح القومي | النسر الأحمر | مسرحية شعرية لعبد الرحمن الشرقاوي",
       "channel": "ماسبيرو زمان",
       "duration": 12714,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=244",
@@ -866,7 +1573,14 @@
       "title": "مسرحيات زمان: بيت برنارد ألبا | أمينة رزق - سهير البابلي",
       "channel": "ماسبيرو زمان",
       "duration": 7725,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=242",
@@ -874,7 +1588,14 @@
       "title": "قصر النجوم׃ الأديب والفيلسوف الكبير أنيس منصور الذي يجيد 7 لغات وأبرز مؤلفاته حول العالم في 200 يوم",
       "channel": "ماسبيرو زمان",
       "duration": 3919,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=239",
@@ -882,7 +1603,14 @@
       "title": "فارس حول العالم׃ عبد الرحمن الأبنودي وضيوفه ˖˖ محمد رشدي – د˖ جمال سلامة – فكري القناوي",
       "channel": "ماسبيرو زمان",
       "duration": 4509,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=236",
@@ -890,7 +1618,14 @@
       "title": "قصر النجوم׃ كرم مطاوع وزوجته سهير المرشدي وأهم تجربة جمعتهما معاً بمسرحية ״إيزيس״",
       "channel": "ماسبيرو زمان",
       "duration": 3710,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=235",
@@ -898,7 +1633,14 @@
       "title": "تمثيلية ״محمد رسول الله״ جـ 1 ׀ سميحة أيوب – سعد أردش – سامي العدل",
       "channel": "ماسبيرو زمان",
       "duration": 4931,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=232",
@@ -906,7 +1648,14 @@
       "title": "ليلتي׃ ظهور نادر للزعيم عادل إمام وابنائه سارة – رامي ومحمد عادل إمام",
       "channel": "ماسبيرو زمان",
       "duration": 5374,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=227",
@@ -914,7 +1663,14 @@
       "title": "بروفيل׃ مدبولي - محمد صبحي - سيد زيان - فايز حلاوة - سهير الباروني - حسن عبد السلام ولينين الرملي",
       "channel": "ماسبيرو زمان",
       "duration": 5607,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=226",
@@ -922,7 +1678,14 @@
       "title": "تمثيلية ״البوابة جـ 2״ ׀ إلهام شاهين – محمد العربي – توفيق الدقن",
       "channel": "ماسبيرو زمان",
       "duration": 4104,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=222",
@@ -930,7 +1693,14 @@
       "title": "مسرحيات زمان | رائعة نجيب محفوظ \"قصر الشوق\" | أبو بكر عزت",
       "channel": "ماسبيرو زمان",
       "duration": 9138,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=221",
@@ -938,7 +1708,14 @@
       "title": "من روائع المسرح القومي ׀ بلاد برة ׀ نعمان عاشور",
       "channel": "ماسبيرو زمان",
       "duration": 10032,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=219",
@@ -946,7 +1723,14 @@
       "title": "مسرحية ״اعقل يا دكتور״ ׀ لينين الرملي ׀ فاروق الفيشاوي – عبلة كامل – علا غانم",
       "channel": "ماسبيرو زمان",
       "duration": 9862,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=218",
@@ -954,7 +1738,14 @@
       "title": "مسرحيات زمان ׀ بنات الريف ׀ يوسف وهبي – أمينة رزق",
       "channel": "ماسبيرو زمان",
       "duration": 8929,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=215",
@@ -962,7 +1753,14 @@
       "title": "الحب وسنينه ׀ أحمد رجب – حسين فهمي – إسعاد يونس ׀ البوابة الذهبية",
       "channel": "ماسبيرو زمان",
       "duration": 3661,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=214",
@@ -970,7 +1768,14 @@
       "title": "تمثيلية ״عاشقة زوجها״ ׀ مشيرة إسماعيل – سعيد عبد الغني – فايزة كمال",
       "channel": "ماسبيرو زمان",
       "duration": 5655,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=212",
@@ -978,7 +1783,14 @@
       "title": "تمثيلية ״المشروع״ ׀ عبلة كامل – سامح السيد – صلاح نظمي",
       "channel": "ماسبيرو زمان",
       "duration": 4259,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=208",
@@ -986,7 +1798,14 @@
       "title": "تمثيلية ״الإمام العادل״ ׀ عزت العلايلي – إلهام شاهين ׀ الجزء الأول",
       "channel": "ماسبيرو زمان",
       "duration": 5972,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=207",
@@ -994,7 +1813,14 @@
       "title": "إثنين على الهواء: سيد مكاوي - عبد الوهاب محمد",
       "channel": "ماسبيرو زمان",
       "duration": 4941,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=205",
@@ -1002,7 +1828,14 @@
       "title": "مسرحيات زمان: الخال فانيا .. سميحة أيوب - عبد الله غيث",
       "channel": "ماسبيرو زمان",
       "duration": 9363,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=202",
@@ -1010,7 +1843,14 @@
       "title": "تمثيلية ״شرفتمونا يا كرام״ ׀ أسامة عباس – سناء شافع – نبيل بدر",
       "channel": "ماسبيرو زمان",
       "duration": 5593,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=201",
@@ -1018,7 +1858,14 @@
       "title": "أفيش׃ عمر الشريف – نادية لطفي – آثار الحكيم – كمال الشيخ – صلاح أبوسيف",
       "channel": "ماسبيرو زمان",
       "duration": 4436,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=200",
@@ -1026,7 +1873,14 @@
       "title": "تمثيلية ״البوابة جـ 1״ ׀ إلهام شاهين – محمد العربي – توفيق الدقن",
       "channel": "ماسبيرو زمان",
       "duration": 4643,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=197",
@@ -1034,7 +1888,14 @@
       "title": "من مكتبة توفيق الحكيم تمثيلية ״الزمار״ ׀ سيد زيان – شريفة ماهر",
       "channel": "ماسبيرو زمان",
       "duration": 6199,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=194",
@@ -1042,7 +1903,14 @@
       "title": "تمثيلية ״عجيبة״ ׀ صابرين – تيسير فهمي  – محمود مسعود",
       "channel": "ماسبيرو زمان",
       "duration": 4741,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=192",
@@ -1050,7 +1918,14 @@
       "title": "تمثيلية ״قلوب خضراء״ ׀ شريهان – محسن محيي الدين – عمر الحريري",
       "channel": "ماسبيرو زمان",
       "duration": 6240,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=190",
@@ -1058,7 +1933,14 @@
       "title": "مسرحيات زمان: كوبري الناموس | سعد الدين وهبة - سميحة أيوب",
       "channel": "ماسبيرو زمان",
       "duration": 9446,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=189",
@@ -1066,7 +1948,14 @@
       "title": "مسرحيات زمان: الدنيا رواية هزلية .. توفيق الحكيم",
       "channel": "ماسبيرو زمان",
       "duration": 7969,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=186",
@@ -1074,7 +1963,14 @@
       "title": "فارس حول العالم׃ سعاد نصر وضيوفها ˖˖ فاروق فلوكس – ليلى غفران",
       "channel": "ماسبيرو زمان",
       "duration": 4750,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=184",
@@ -1082,7 +1978,14 @@
       "title": "من روائع المسرح القومي ׀ ״حلاق بغداد״ – الحكاية الأولى ׀ ألفريد فرج",
       "channel": "ماسبيرو زمان",
       "duration": 4072,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=183",
@@ -1090,7 +1993,14 @@
       "title": "مسرحية ״روبابيكيا״ ׀ تحية كاريوكا – صلاح ذو الفقار – نبيلة عبيد",
       "channel": "ماسبيرو زمان",
       "duration": 8171,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=181",
@@ -1098,7 +2008,14 @@
       "title": "تمثيلية ״نفوسة״ ׀ سهير المرشدي – سمير حسني – فايزة كمال",
       "channel": "ماسبيرو زمان",
       "duration": 6770,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=178",
@@ -1106,7 +2023,14 @@
       "title": "ليلتي׃ النجمة شويكار صاحبة مشوار فني طويل ودور فؤاد المهندس في حياتها",
       "channel": "ماسبيرو زمان",
       "duration": 4233,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=177",
@@ -1114,7 +2038,14 @@
       "title": "تمثيلية ״نداء إلى المجهول״ ׀ عبد الرحمن أبو زهرة – فريدة سيف النصر – إحسان القلعاوي",
       "channel": "ماسبيرو زمان",
       "duration": 3616,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=169",
@@ -1122,7 +2053,14 @@
       "title": "مسرحيات زمان: المسرح القومي يقدم رائعة نجيب محفوظ .. بداية ونهاية",
       "channel": "ماسبيرو زمان",
       "duration": 9015,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=166",
@@ -1130,7 +2068,14 @@
       "title": "مسرحيات زمان | خان الخليلي لـ نجيب محفوظ | عماد حمدي - صلاح قابيل",
       "channel": "ماسبيرو زمان",
       "duration": 8991,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=163",
@@ -1138,7 +2083,14 @@
       "title": "ضيفنا الليلة׃ النجمة شويكار ضيفة سامية الإتربي تروي عن قصة أشهر ثنائي فني مع المبدع فؤاد المهندس",
       "channel": "ماسبيرو زمان",
       "duration": 3645,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=161",
@@ -1146,7 +2098,14 @@
       "title": "مسرحيات زمان: البكاشين .. فريد شوقي - سهير رمزي",
       "channel": "ماسبيرو زمان",
       "duration": 9278,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=160",
@@ -1154,7 +2113,14 @@
       "title": "مسرحيات زمان | زهرة الصبار | سناء جميل - عبد الرحمن أبو زهرة",
       "channel": "ماسبيرو زمان",
       "duration": 12447,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=159",
@@ -1162,7 +2128,14 @@
       "title": "المسرح القومي ׀ سناء جميل في رائعة توفيق الحكيم ׀ ״شمس النهار״",
       "channel": "ماسبيرو زمان",
       "duration": 9326,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=158",
@@ -1170,7 +2143,14 @@
       "title": "المسرح القومي: سميحة أيوب في رائعة سعد الدين وهبة .. السبنسة",
       "channel": "ماسبيرو زمان",
       "duration": 6447,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=155",
@@ -1178,7 +2158,14 @@
       "title": "ليلتي׃ نجمة الفوازير الفراشة شريهان تستعرض مشوارها الفني الطويل",
       "channel": "ماسبيرو زمان",
       "duration": 5873,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=150",
@@ -1186,7 +2173,14 @@
       "title": "تمثيلية ״عاشق الربابة״ ׀ إبراهيم سعفان – رجاء حسين – أسامة عباس",
       "channel": "ماسبيرو زمان",
       "duration": 7372,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=149",
@@ -1194,7 +2188,14 @@
       "title": "تمثيلية ״عفواً ضيوفنا الأعزاء״ ׀ محمود الجندي – فايزة كمال – حجاج عبد العظيم",
       "channel": "ماسبيرو زمان",
       "duration": 6439,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=146",
@@ -1202,7 +2203,14 @@
       "title": "مسرحيات زمان: كل واحد وله عفريت .. ثلاثي أضواء المسرح",
       "channel": "ماسبيرو زمان",
       "duration": 8323,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=144",
@@ -1210,7 +2218,14 @@
       "title": "شريط الذكريات׃ فاروق شوشة يحاور بنت الشاطىء د⁄ عائشة عبدالرحمن أول امرأة تحاضر بالأزهر الشريف",
       "channel": "ماسبيرو زمان",
       "duration": 5492,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=142",
@@ -1218,7 +2233,14 @@
       "title": "ثلاثي أضواء المسرح | الراجل اللي جوز مراته | سمير غانم - جورج سيدهم - الضيف أحمد",
       "channel": "ماسبيرو زمان",
       "duration": 8536,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=140",
@@ -1226,7 +2248,14 @@
       "title": "مسرحيات زمان | البغل × الإبريق | تحية كاريوكا - فايز حلاوة",
       "channel": "ماسبيرو زمان",
       "duration": 10603,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=138",
@@ -1234,7 +2263,14 @@
       "title": "من روائع المسرح القومي | المحروسة | سعد الدين وهبة",
       "channel": "ماسبيرو زمان",
       "duration": 8776,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=136",
@@ -1242,7 +2278,14 @@
       "title": "من روائع المسرح القومي ׀ ״حلاق بغداد״ – الحكاية الثانية ׀ ألفريد فرج",
       "channel": "ماسبيرو زمان",
       "duration": 5168,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=133",
@@ -1250,7 +2293,14 @@
       "title": "مسرحيات زمان: معروف الإسكافي | عبد المنعم إبراهيم",
       "channel": "ماسبيرو زمان",
       "duration": 8986,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=131",
@@ -1258,7 +2308,14 @@
       "title": "تمثيلية ״ تحت الملاحظة״ ׀ هالة صدقي – سمية الألفي – نبيل الحلفاوي",
       "channel": "ماسبيرو زمان",
       "duration": 8077,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=127",
@@ -1266,7 +2323,14 @@
       "title": "سواريه׃ عبد الله غيث – فادية عبد الغني – ليلى غفران – توني ترك",
       "channel": "ماسبيرو زمان",
       "duration": 4219,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=125",
@@ -1274,7 +2338,14 @@
       "title": "اخترنا لكم׃ الشوط الأول من مباراة اعتزال محمود الخطيب عام 1988",
       "channel": "ماسبيرو زمان",
       "duration": 3628,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=123",
@@ -1282,7 +2353,14 @@
       "title": "سواريه׃ مريم فخر الدين – محمود الجندي – فاطيما",
       "channel": "ماسبيرو زمان",
       "duration": 5195,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=119",
@@ -1290,7 +2368,14 @@
       "title": "مسرحية ״الزوج العاشر״ ׀ السيد بدير – عبد المنعم مدبولي – عقيلة راتب",
       "channel": "ماسبيرو زمان",
       "duration": 9389,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=118",
@@ -1298,7 +2383,14 @@
       "title": "حديث الرئيس محمد أنور السادات مع قيادة الجيش الثالث الميداني عام 1978",
       "channel": "ماسبيرو زمان",
       "duration": 5008,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=117",
@@ -1306,7 +2398,14 @@
       "title": "فيلم | مايوه بنت الأسطى محمود  كامل بجودة خيالية 🎬🍿",
       "channel": "ماسبيرو زمان",
       "duration": 3868,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=114",
@@ -1314,7 +2413,14 @@
       "title": "الفيلم العربي _ كل شئ قبل أن ينتهي العمر",
       "channel": "ماسبيرو زمان",
       "duration": 5627,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=113",
@@ -1322,7 +2428,14 @@
       "title": "اثنين على الهواء׃ تحية كاريوكا ˖˖ سامية جمال",
       "channel": "ماسبيرو زمان",
       "duration": 3996,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=112",
@@ -1330,7 +2443,14 @@
       "title": "اثنين على الهواء׃ أمينة رزق – عقيلة راتب",
       "channel": "ماسبيرو زمان",
       "duration": 4530,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=108",
@@ -1338,7 +2458,14 @@
       "title": "مسرحيات زمان: جوليو وروميت ׀ سمير غانم - جورج سيدهم - بوسي",
       "channel": "ماسبيرو زمان",
       "duration": 9468,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=106",
@@ -1346,7 +2473,14 @@
       "title": "من روائع مسرح الريحاني: سنة مع الشغل اللذيذ | أبو بكر عزت - ليلى طاهر",
       "channel": "ماسبيرو زمان",
       "duration": 7760,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=104",
@@ -1354,7 +2488,14 @@
       "title": "مسرحيات زمان | حضرة صاحب العمارة | تحية كاريوكا - فايز حلاوة",
       "channel": "ماسبيرو زمان",
       "duration": 10309,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=101",
@@ -1362,7 +2503,14 @@
       "title": "فيلم الحواجز الزجاجية |  نور الشريف  |  ليلي طاهر |  زيزي البدراوي بجودة خيالية ⚡🎥",
       "channel": "ماسبيرو زمان",
       "duration": 12206,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=99",
@@ -1370,7 +2518,14 @@
       "title": "واجه الصحافة׃ المشير أبو غزالة مع أحمد سمير يواجه كتيبة من الصحفيين",
       "channel": "ماسبيرو زمان",
       "duration": 4518,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=94",
@@ -1378,7 +2533,14 @@
       "title": "سهرة الجمعة الفيلم العربي | حائط البطولات",
       "channel": "ماسبيرو زمان",
       "duration": 8286,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=92",
@@ -1386,7 +2548,14 @@
       "title": "سهرة الخميس مسرحية أصل وصورة  | محمد عوض |  عبد المنعم مدبولي  | أمين الهنيدي",
       "channel": "ماسبيرو زمان",
       "duration": 13478,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=90",
@@ -1394,7 +2563,14 @@
       "title": "الفيلم العربي القانون لا يعرف عائشة",
       "channel": "ماسبيرو زمان",
       "duration": 5180,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=86",
@@ -1402,7 +2578,14 @@
       "title": "اثنين على الهواء׃ عبد المنعم مدبولي – فايز حلاوة",
       "channel": "ماسبيرو زمان",
       "duration": 5407,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=85",
@@ -1410,7 +2593,14 @@
       "title": "اثنين على الهواء׃ فكري أباظة ˖˖ أحمد رجب",
       "channel": "ماسبيرو زمان",
       "duration": 4453,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=84",
@@ -1418,7 +2608,14 @@
       "title": "تمثيلية ״مع استعمال الرأفة״ ׀ صابرين – خالد زكي – إجلال زكي",
       "channel": "ماسبيرو زمان",
       "duration": 5201,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=80",
@@ -1426,7 +2623,14 @@
       "title": "مسرحية \"موسيقى في الحي الشرقي\" لـ سمير غانم - جورج سيدهم - صفاء أبو السعود",
       "channel": "ماسبيرو زمان",
       "duration": 11256,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=75",
@@ -1434,7 +2638,14 @@
       "title": "سهرة الرهان القاتل_أبو بكر عزت _هالة فاخر",
       "channel": "ماسبيرو زمان",
       "duration": 4493,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=72",
@@ -1442,7 +2653,14 @@
       "title": "اثنين على الهواء׃ يوسف وهبي ـ زكي طليمات",
       "channel": "ماسبيرو زمان",
       "duration": 5135,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=71",
@@ -1450,7 +2668,14 @@
       "title": "نجمك المفضل: موسيقار الأجيال محمد عبد الوهاب - نيللي - ليلى رستم",
       "channel": "ماسبيرو زمان",
       "duration": 5003,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=70",
@@ -1458,7 +2683,14 @@
       "title": "أوتوجراف: حوار طارق حبيب مع سيدة مصر الأولى جيهان السادات",
       "channel": "ماسبيرو زمان",
       "duration": 5035,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=69",
@@ -1466,7 +2698,14 @@
       "title": "مسرحيات زمان | الدبور | أبو بكر عزت - ليلى طاهر",
       "channel": "ماسبيرو زمان",
       "duration": 7863,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=68",
@@ -1474,7 +2713,14 @@
       "title": "مسرحية \"مطار الحب\" | عبد المنعم مدبولي - ميرفت أمين - يوسف شعبان",
       "channel": "ماسبيرو زمان",
       "duration": 8513,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=65",
@@ -1482,7 +2728,14 @@
       "title": "مسرحيات زمان: أمين الهنيدي في مسرحية \"عبود عبده عبود\"",
       "channel": "ماسبيرو زمان",
       "duration": 12309,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=64",
@@ -1490,7 +2743,14 @@
       "title": "تمثيلية ״أمهات لم يلدن أبداً״ ׀ أمينة رزق – فاروق الفيشاوي – علي الشريف",
       "channel": "ماسبيرو زمان",
       "duration": 3921,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=63",
@@ -1498,7 +2758,14 @@
       "title": "مسرحيات زمان: فندق الأشغال الشاقة | سمير غانم - جورج سيدهم - نورا",
       "channel": "ماسبيرو زمان",
       "duration": 10260,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=61",
@@ -1506,7 +2773,14 @@
       "title": "الفيلم التليفزيوني \" الأسطى المدير \" ومواقف مضحكة ومغامرات لا تنسى",
       "channel": "ماسبيرو زمان",
       "duration": 6080,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=60",
@@ -1514,7 +2788,14 @@
       "title": "الفيلم العربي صاحب العمارة",
       "channel": "ماسبيرو زمان",
       "duration": 6497,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=59",
@@ -1522,7 +2803,14 @@
       "title": "الفيلم العربي  جواز في السر",
       "channel": "ماسبيرو زمان",
       "duration": 5941,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=58",
@@ -1530,7 +2818,14 @@
       "title": "الفيلم التليفزيوني رأفت الهجان | بطولة محمود عبد العزيز جودة عالية HD",
       "channel": "ماسبيرو زمان",
       "duration": 12986,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=56",
@@ -1538,7 +2833,14 @@
       "title": "سهرة _العودة الي الحضانة",
       "channel": "ماسبيرو زمان",
       "duration": 7162,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=55",
@@ -1546,7 +2848,14 @@
       "title": "الفيلم العربي.. رجل له ماضي بطولة فاروق الفيشاوي",
       "channel": "فاروق الفيشاوي",
       "duration": 5969,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=54",
@@ -1554,7 +2863,14 @@
       "title": "روائع المسرح القومي: مسرحية القضية لـ .. فهمي الخولي",
       "channel": "ماسبيرو زمان",
       "duration": 10983,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=52",
@@ -1562,7 +2878,14 @@
       "title": "إثنين على الهواء: سمير غانم - جورج سيدهم",
       "channel": "ماسبيرو زمان",
       "duration": 5074,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=48",
@@ -1570,7 +2893,14 @@
       "title": "السلطان الحائر .. رائعة المسرح القومي",
       "channel": "ماسبيرو زمان",
       "duration": 6217,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=47",
@@ -1578,7 +2908,14 @@
       "title": "مسرحيات زمان: أنا وهي وسموه .. فؤاد المهندس - شويكار",
       "channel": "ماسبيرو زمان",
       "duration": 9104,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=45",
@@ -1586,7 +2923,14 @@
       "title": "مسرحيات زمان: ثلاثي أضواء المسرح في مسرحية حواديت",
       "channel": "ماسبيرو زمان",
       "duration": 8676,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=43",
@@ -1594,7 +2938,14 @@
       "title": "مسرحية  هاللو شلبي  |   سعيد صالح  | عبد المنعم مدبولي |  مديحة كامل",
       "channel": "ماسبيرو زمان",
       "duration": 12342,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=42",
@@ -1602,7 +2953,14 @@
       "title": "الفيلم العربي.. محاكمة علي بابا بطولة يحيى الفخراني",
       "channel": "يحيى الفخراني",
       "duration": 6157,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=40",
@@ -1610,7 +2968,14 @@
       "title": "أفلام التليفزيون أنا وأنت وساعات السفر",
       "channel": "ماسبيرو زمان",
       "duration": 4828,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=39",
@@ -1618,7 +2983,14 @@
       "title": "الفيلم العربي: سهم الله .. يوسف شعبان - منى جبر",
       "channel": "ماسبيرو زمان",
       "duration": 4886,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=36",
@@ -1626,7 +2998,14 @@
       "title": "فريد شوقي ونيللي في رائعة مسرح الريحاني .. الدلوعة",
       "channel": "ماسبيرو زمان",
       "duration": 9622,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=35",
@@ -1634,7 +3013,14 @@
       "title": "أوتوجراف: شاعر الشباب أحمد رامي في حوار شيق مع طارق حبيب",
       "channel": "ماسبيرو زمان",
       "duration": 4262,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=34",
@@ -1642,7 +3028,14 @@
       "title": "الحكم بعد المداولة: محمود ياسين في قفص الاتهام",
       "channel": "ماسبيرو زمان",
       "duration": 3676,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=33",
@@ -1650,7 +3043,14 @@
       "title": "مسرحيات زمان: البيجاما الحمراء .. أبو بكر عزت - عادل إمام",
       "channel": "ماسبيرو زمان",
       "duration": 9560,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=32",
@@ -1658,7 +3058,14 @@
       "title": "نجمك المفضل: شمس المعرفة طه حسين وسط نجوم الفكر والأدب",
       "channel": "ماسبيرو زمان",
       "duration": 3993,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=29",
@@ -1666,7 +3073,14 @@
       "title": "هو وهي׃ الظهور النادر للراقصة سهير زكي وزوجها المصور محمد عمارة مع سمير صبري",
       "channel": "ماسبيرو زمان",
       "duration": 4206,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=28",
@@ -1674,7 +3088,14 @@
       "title": "مسرحية عيني في عينك |  سهير البابلي  | فاروق الفيشاوي  | صلاح منصور  كاملة",
       "channel": "ماسبيرو زمان",
       "duration": 10277,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=24",
@@ -1682,7 +3103,14 @@
       "title": "أوتوجراف: طارق حبيب يحاور الفنان التشكيلي الكبير صلاح طاهر",
       "channel": "ماسبيرو زمان",
       "duration": 4214,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=23",
@@ -1690,7 +3118,14 @@
       "title": "أوتوجراف: حوار طارق حبيب مع عالم الطب النفسي الدكتور أحمد عكاشة",
       "channel": "ماسبيرو زمان",
       "duration": 3734,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=22",
@@ -1698,7 +3133,14 @@
       "title": "مسرحية \"سيدتي الجميلة\" .. فؤاد المهندس - شويكار",
       "channel": "ماسبيرو زمان",
       "duration": 13238,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=20",
@@ -1706,7 +3148,14 @@
       "title": "مسرحية ״حواء الساعة 12״ ׀ فؤاد المهندس – شويكار – زهرة العلا – عبد الله فرغلي",
       "channel": "ماسبيرو زمان",
       "duration": 10423,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=18",
@@ -1714,7 +3163,14 @@
       "title": "أوتوجراف: حوار طارق حبيب مع صلاح جاهين كاملاً",
       "channel": "ماسبيرو زمان",
       "duration": 4076,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=17",
@@ -1722,7 +3178,14 @@
       "title": "أوتوجراف: حوار طارق حبيب مع القارئ الشيخ مصطفى إسماعيل كاملاً",
       "channel": "ماسبيرو زمان",
       "duration": 4450,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=16",
@@ -1730,7 +3193,14 @@
       "title": "حوار عباس محمود العقاد مع أماني ناشد كاملاً",
       "channel": "ماسبيرو زمان",
       "duration": 4574,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=14",
@@ -1738,7 +3208,14 @@
       "title": "مسرحيات زمان: فؤاد المهندس وشويكار في مسرحية \"أنا وهو وهي\"",
       "channel": "ماسبيرو زمان",
       "duration": 12078,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=11",
@@ -1746,7 +3223,14 @@
       "title": "من افضل افلام محمد فؤاد .. فيلم أمريكا شيكا بيكا كامل",
       "channel": "روتانا سينما",
       "duration": 7379,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "Rotana Cinema KSA",
+        "authorUrl": "https://www.youtube.com/@RotanaCinema_KSA",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=7",
@@ -1754,7 +3238,14 @@
       "title": "الفيلم النادر الرصيف | بطولة نجوى فؤاد وسوسن بدر و فاروق الفيشاوي و محمود الجندي",
       "channel": "سوسن بدر · فاروق الفيشاوي",
       "duration": 6586,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "Rotana Cinema KSA",
+        "authorUrl": "https://www.youtube.com/@RotanaCinema_KSA",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=6",
@@ -1762,7 +3253,14 @@
       "title": "الفيلم النادرغريب في الميناء | بطولة الشحات مبروك ومحمود الجندي و سميرة صدقي",
       "channel": "الشحات مبروك · سميرة صدقي",
       "duration": 6246,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "Rotana Cinema KSA",
+        "authorUrl": "https://www.youtube.com/@RotanaCinema_KSA",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=2",
@@ -1770,7 +3268,14 @@
       "title": "مسرحيات زمان | السكرتير الفني | فؤاد المهندس - شويكار",
       "channel": "ماسبيرو زمان",
       "duration": 10923,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     },
     {
       "url": "https://assyrian4all.net/A4A/news/arabicmovie_watch.php?id=1",
@@ -1778,7 +3283,14 @@
       "title": "من كنوز مكتبة ماسبيرو | عادل خيري في رائعة مسرح الريحاني | إلا خمسة",
       "channel": "ماسبيرو زمان",
       "duration": 9478,
-      "status": "indexed-not-playback-verified"
+      "status": "publisher-metadata-verified; actual playback, HD and ads not verified",
+      "publisherCheck": {
+        "http": 200,
+        "author": "ماسبيرو زمان",
+        "authorUrl": "https://www.youtube.com/@MasperoZaman",
+        "knownPublisher": true,
+        "embedMetadataAvailable": true
+      }
     }
   ],
   "dailymotionAudit": [
@@ -1911,6 +3423,32 @@
         "author": "Rotana Cinema - روتانا سينما"
       }
     ],
-    "productionActivation": false
+    "productionActivation": false,
+    "publisherBatch": {
+      "total": 216,
+      "ok": 216,
+      "knownPublisher": 215,
+      "errors": 0,
+      "other": 0,
+      "checkedAt": "2026-11-15",
+      "filmTitleHeuristicCount": 39,
+      "limitations": "39 titles contain film labels and avoid selected TV/play/clip keywords; not verified films; some compilations or duplicates remain."
+    },
+    "vimeoCandidate": {
+      "title": "بصرة",
+      "source": "https://vimeo.com/64180003",
+      "publisher": "Ahmed Rashwan",
+      "publisherPage": "https://vimeo.com/ahmedrashwan2012",
+      "durationSeconds": 5601,
+      "releaseYear": 2010,
+      "productionYear": 2008,
+      "embedMetadataHttp": 200,
+      "embedPageHttp": 401,
+      "localIframeVideoElements": 0,
+      "actualPlaybackVerified": false,
+      "hdVerified": false,
+      "productionActivation": false,
+      "notes": "Vimeo documentation supports embeds if owner enables; oEmbed output alone did not establish playable embed from test device. No workaround attempted."
+    }
   }
 }
