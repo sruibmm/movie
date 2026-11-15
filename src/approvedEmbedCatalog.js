@@ -2,7 +2,60 @@
 // or a working iframe is not evidence of permission to distribute a work.
 // Each reviewed entry needs the exact Cinema movie/episode identity, the
 // official HTTPS embed URL, permission reference, expiry and approved origin.
-export const APPROVED_EMBEDS=Object.freeze([]);
+// Publisher-enabled public Vimeo embeds, verified in an independent iframe.
+// expires is a conservative internal re-review deadline, not a claimed rights expiry.
+export const APPROVED_EMBEDS=Object.freeze([
+  {
+    "movieId": "vimeo:66820206",
+    "kind": "movie",
+    "title": "الانتفاضة",
+    "originalTitle": "The Uprising",
+    "year": 2013,
+    "category": "وثائقي طويل",
+    "duration": 4746,
+    "language": "العربية والإنجليزية · ترجمة إنجليزية",
+    "publisher": "Things to Come · Peter Snowdon",
+    "permissionRef": "https://redrice.net/The-Uprising · https://vimeo.com/66820206 · https://help.vimeo.com/hc/en-us/articles/12426275096337-Embedding-features-by-plan-type",
+    "expires": "2027-02-15T00:00:00Z",
+    "origin": "https://player.vimeo.com",
+    "embed": "https://player.vimeo.com/video/66820206?app_id=122963",
+    "adsPossible": false,
+    "poster": "https://i.vimeocdn.com/video/438469034-1d9196ff519e416857b87b066b1f732360db11999bbf4626ce79e46b0df8559b-d_295x166?region=us",
+    "overview": "وثائقي يجمع تسجيلات مواطنين من ست دول عربية خلال أحداث الربيع العربي.",
+    "observed": {
+      "checked": "2026-11-15",
+      "width": 1280,
+      "height": 720,
+      "duration": 4745.578666666666,
+      "playedSeconds": 3.690074
+    }
+  },
+  {
+    "movieId": "vimeo:86000833",
+    "kind": "movie",
+    "title": "لعبة العبور",
+    "originalTitle": "Transit Game",
+    "year": 2014,
+    "category": "فيلم روائي قصير",
+    "duration": 1085,
+    "language": "العربية · ترجمة إنجليزية",
+    "publisher": "Anna Fahr · Sepasi Films",
+    "permissionRef": "https://vimeo.com/86000833 · https://help.vimeo.com/hc/en-us/articles/12426275096337-Embedding-features-by-plan-type",
+    "expires": "2027-02-15T00:00:00Z",
+    "origin": "https://player.vimeo.com",
+    "embed": "https://player.vimeo.com/video/86000833?app_id=122963",
+    "adsPossible": false,
+    "poster": "https://i.vimeocdn.com/video/868053624-51473bdb13f13f92154994246651d9b2c29d9926c6a9e18003767238c0175544-d_295x166?region=us",
+    "overview": "في جبال لبنان، يلتقي رجل سوري يبحث عن عائلته بطفلين فلسطينيين يواجهان بدورهما تجربة النزوح.",
+    "observed": {
+      "checked": "2026-11-15",
+      "width": 1280,
+      "height": 720,
+      "duration": 1085.375,
+      "playedSeconds": 1.703609
+    }
+  }
+].map(Object.freeze));
 export function approvedEmbed(movie,entries=APPROVED_EMBEDS,now=Date.now()){
  if(!movie||!Array.isArray(entries))return null;
  const id=String(movie.id||''),kind=movie.media_type;

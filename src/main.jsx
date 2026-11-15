@@ -10,6 +10,7 @@ import {attachPublisherEpisode} from './publisherSeries.js'
 import LicensedLibrary from './LicensedLibrary.jsx'
 import AutoLibrary from './AutoLibrary.jsx'
 import MultiSourceArabic from './MultiSourceArabic.jsx'
+import IndependentArabic from './IndependentArabic.jsx'
 import {fullWorkMediaStatus,isPrivateMedia,PRIVATE_KEY,PRIVATE_ACTIVE_KEY,validatePrivateCatalog,privateMovie} from './privateCatalog.js'
 import SyncedLibrary from './SyncedLibrary.jsx'
 import SyncedPlayback from './SyncedPlayback.jsx'
@@ -821,6 +822,7 @@ function App() {
 
         {arabicLibrary ? <>
           <SyncedLibrary query={search} onPlay={startArabicEpisode}/>
+          <IndependentArabic query={search} onPlay={startArabicEpisode}/>
           <MultiSourceArabic query={search} onPlay={startArabicEpisode}/>
           <AutoLibrary query={search} onPlay={startArabicEpisode} options={fetchOptions}/>
           <LicensedLibrary query={search} onPlay={startArabicEpisode}/>
@@ -876,6 +878,7 @@ function App() {
         {tvMode&&<div className="tv-section-intro"><div><span className="tv-kicker">CINEMA · TV</span><h2>{arabicLibrary?'السينما العربية':search?'Search results':'World Cinema'}</h2><p>{arabicLibrary?'أفلام ومسلسلات ومسرحيات — اختر عملاً للمتابعة.':search?'Find your next favourite film.':'Explore your next movie on the big screen.'}</p></div><span className="tv-remote-hint">↑ ↓ ← → · OK · Back</span></div>}
         {arabicLibrary ? <>
           <SyncedLibrary query={search} onPlay={startArabicEpisode}/>
+          <IndependentArabic query={search} onPlay={startArabicEpisode}/>
           <MultiSourceArabic query={search} onPlay={startArabicEpisode}/>
           <AutoLibrary query={search} onPlay={startArabicEpisode} options={fetchOptions}/>
           <LicensedLibrary query={search} onPlay={startArabicEpisode}/>
