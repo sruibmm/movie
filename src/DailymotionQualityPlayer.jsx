@@ -11,7 +11,7 @@ function loadLibrary(id){
  });libs.set(id,promise);promise.catch(()=>libs.delete(id));return promise;
 }
 export function highestQuality(list){return (Array.isArray(list)?list:[]).map(String).filter(x=>['240','380','480','720','1080','1440','2160'].includes(x)).sort((a,b)=>Number(b)-Number(a))[0]||null;}
-export default function DailymotionQualityPlayer({src,title}){
+export default function DailymotionQualityPlayer({src,title,onPlaying,onError}){
  const id='dm-'+useId().replace(/[^a-zA-Z0-9_-]/g,'');
  const [fallback,setFallback]=useState(false),[quality,setQuality]=useState(''),[started,setStarted]=useState(false);
  const host=useRef(null);
@@ -21,7 +21,7 @@ export default function DailymotionQualityPlayer({src,title}){
   let dead=false,player=null,watchdog,interval,stopTimer,busy=false,lastBest=null,attempts=0,playing=false,adPlaying=false,lastTime=0;
   const pid=url.pathname.split('/').pop().replace('.html',''),video=url.searchParams.get('video');
   function fail(){if(!dead)setFallback(true);}
-  function markPlaying(){if(dead)return;playing=true;clearTimeout(watchdog);setStarted(true);}
+  function markPlaying(){if(dead)return;playing=true;clearTimeout(watchdog);setStarted(true);onPlaying?.();}
   function checkStart(){if(dead||playing)return;if(adPlaying){watchdog=setTimeout(checkStart,10000);return;}fail();}
   watchdog=setTimeout(checkStart,10000);
   async function inspect(){
@@ -45,7 +45,7 @@ export default function DailymotionQualityPlayer({src,title}){
    const on=(name,fn)=>{const event=dm.events?.[name];if(event)p.on(event,fn);};
    on('VIDEO_PLAYING',markPlaying);on('VIDEO_TIMECHANGE',inspect);
    on('VIDEO_QUALITIESREADY',inspect);on('VIDEO_START',inspect);on('PLAYER_CRITICALPATHREADY',inspect);
-   on('PLAYER_ERROR',fail);on('VIDEO_ERROR',fail);
+   on('PLAYER_ERROR',()=>{onError?.();fail();});on('VIDEO_ERROR',()=>{onError?.();fail();});
    on('AD_START',()=>{adPlaying=true;});on('AD_END',()=>{adPlaying=false;});
    interval=setInterval(inspect,800);stopTimer=setTimeout(()=>clearInterval(interval),30000);inspect();
   }).catch(fail);
