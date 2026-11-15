@@ -1,3 +1,4 @@
+import {isHdVideo,qualityScore} from '../src/mediaQuality.js';
 import {configureMediaHosts} from './private-media-policy.js';
 import {privateRequest,crawl} from './private-catalog-sync.js';
 import {PrivateRunner} from './private-catalog-runner.js';
@@ -65,12 +66,12 @@ export async function resolveCandidates(storage,config,request,now=Date.now()){
     if(exclude.includes(id)||!eligibleAsset(a,now,p.region??'KW')||a.rights.provider!==p.provider||a.rights.reference!==p.grantReference)continue;
     try{validUrl(a.url,p.hosts);}catch{continue;}
     const o=record.observations[a.id];
-    if(!approvedDelivery(a,p,o)||!approvedDelivery(a,p,o)||!o||o.url!==a.url||o.played!==true||!Number.isFinite(o.height)||o.height<720||!Number.isFinite(o.checkedAt)||o.checkedAt>now||now-o.checkedAt>(p.maxAgeMs??86400000))continue;
-    options.push({id,provider:p.provider,url:a.url,format:a.format,height:o.height,duration:o.duration,checkedAt:o.checkedAt,rights:a.rights});
+    if(!approvedDelivery(a,p,o)||!o||o.url!==a.url||o.played!==true||!isHdVideo(o.width,o.height)||!Number.isFinite(o.checkedAt)||o.checkedAt>now||now-o.checkedAt>(p.maxAgeMs??86400000))continue;
+    options.push({id,provider:p.provider,url:a.url,format:a.format,height:o.height,...(Number.isFinite(o.width)?{width:o.width}:{}),duration:o.duration,checkedAt:o.checkedAt,rights:a.rights});
    }
   }
  }
- return options.sort((a,b)=>b.height-a.height||b.checkedAt-a.checkedAt||a.id.localeCompare(b.id));
+ return options.sort((a,b)=>qualityScore(b.width,b.height)-qualityScore(a.width,a.height)||b.checkedAt-a.checkedAt||a.id.localeCompare(b.id));
 }
 // Public catalogue contains only canonical IDs and episode metadata, never unreviewed URLs.
 export async function listSyncedTitles(storage,config,now=Date.now()){
@@ -83,7 +84,7 @@ export async function listSyncedTitles(storage,config,now=Date.now()){
    if(typeof work!=='string'||!work||work.length>160||result.has(work))continue;
    const assets=t.assets.filter(a=>{
     const o=record.observations[a.id];
-    if(!eligibleAsset(a,now,p.region??'KW')||a.rights.provider!==p.provider||a.rights.reference!==p.grantReference||!o||o.url!==a.url||o.played!==true||!Number.isFinite(o.height)||o.height<720||!Number.isFinite(o.checkedAt)||o.checkedAt>now||now-o.checkedAt>(p.maxAgeMs??86400000))return false;
+    if(!eligibleAsset(a,now,p.region??'KW')||a.rights.provider!==p.provider||a.rights.reference!==p.grantReference||!o||o.url!==a.url||o.played!==true||!isHdVideo(o.width,o.height)||!Number.isFinite(o.checkedAt)||o.checkedAt>now||now-o.checkedAt>(p.maxAgeMs??86400000))return false;
     try{validUrl(a.url,p.hosts);return true;}catch{return false;}
    });
    if(!assets.length||assets.length!==t.assets.length)continue;
