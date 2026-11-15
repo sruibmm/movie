@@ -1,3 +1,4 @@
+import {isHdVideo} from './mediaQuality.js';
 import {eligibleAsset,approvedDelivery} from './licensedCatalog.js';
 
 // Staging-only validation. An explicit provider grant and playback observations
@@ -27,7 +28,7 @@ export function reviewSourceSnapshot(previous,candidate,policy,observations={},n
     if(assets.has(k)||globalAssetIds.has(a.id))return fail('duplicate-episode-or-asset');
     assets.set(k,a);globalAssetIds.add(a.id);
     const o=Object.hasOwn(observations,a.id)?observations[a.id]:null;
-    if(!approvedDelivery(a,policy,o)||!o||o.url!==a.url||o.played!==true||!Number.isFinite(o.height)||o.height<720||!Number.isFinite(o.duration)||o.duration<60||!Number.isFinite(o.checkedAt)||o.checkedAt>now||now-o.checkedAt>(policy.maxAgeMs??86400000))return fail('playback-not-verified');
+    if(!approvedDelivery(a,policy,o)||!o||o.url!==a.url||o.played!==true||!isHdVideo(o.width,o.height)||!Number.isFinite(o.duration)||o.duration<60||!Number.isFinite(o.checkedAt)||o.checkedAt>now||now-o.checkedAt>(policy.maxAgeMs??86400000))return fail('playback-not-verified');
    }
    if(t.kind==='tv'&&t.assets.length!==Object.values(expected).reduce((n,x)=>n+x,0))return fail('incomplete-series');
   }
