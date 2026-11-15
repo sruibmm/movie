@@ -2,7 +2,7 @@ import {isHdVideo} from './mediaQuality.js';
 import {attachApprovedEmbed} from './approvedEmbedCatalog.js';
 import React, { useState, useEffect, useRef } from 'react'
 import ReactDOM from 'react-dom/client'
-import Hls from 'hls.js'
+const loadHls=()=>import('hls.js').then(m=>m.default);
 import {attachPublisherFilm} from './officialCatalog.js'
 import PublisherPlayer from './PublisherPlayer.jsx'
 import {attachArabicSiteEpisode,allowArabicPlayback,approvedPublisherUrl} from './arabicSiteCatalog.js'
@@ -1311,7 +1311,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     const url=nativeSource.stream_url;
     if(movie.licensedSource&&!isPrivateMedia(movie.licensedSource)&&(!Number.isFinite(Date.parse(movie.licensedSource.rights?.expires))||Date.parse(movie.licensedSource.rights.expires)<=Date.now())){if(onNativeFailure)onNativeFailure({time:0,duration:0});else setNativeError('Playback authorization expired.');return;}
     const desired=languageCode(movie.original_language);
-    let hls, selectedAudio=false,selectedSub=false;
+    let hls, disposed=false, selectedAudio=false,selectedSub=false;
     const applyTv=()=>{const result=applyTvCC(video,hls,tvCCRef.current);setTvCaptionStatus(result.status);};
     if(tvPlayback){tvCaptionApply.current=applyTv;setTvCaptionStatus('waiting');}
     setLanguageStatus({audio:desired?'Looking for original audio':'Original language unknown',subs:'Looking for Arabic subtitles'});
@@ -1344,7 +1344,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     armDeadline();
     const isMp4=nativeSource.type==='mp4'||/\.mp4(?:[?#]|$)/i.test(url);
     if(isMp4 || video.canPlayType('application/vnd.apple.mpegurl')) video.src=url;
-    else if(Hls.isSupported()) {
+    else loadHls().then(Hls=>{if(disposed||failed)return;if(!Hls.isSupported()){fail();return;}
       hls=new Hls({maxBufferLength:30,maxMaxBufferLength:60,enableWorker:true});
       hlsRef.current=hls;
       const applyHls=()=>{
@@ -1358,8 +1358,8 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
       if(tvPlayback)hls.on(Hls.Events.SUBTITLE_TRACK_LOADED,applyTv);
       hls.loadSource(url);hls.attachMedia(video);
       hls.on(Hls.Events.ERROR,(_event,data)=>{if(data.fatal)fail();});
-    } else fail();
-    return()=>{tvCaptionApply.current=null;clearDeadline();video.removeEventListener('error',fail);video.removeEventListener('canplay',onCanPlay);video.removeEventListener('playing',clearDeadline);video.removeEventListener('waiting',onStall);video.removeEventListener('stalled',onStall);video.removeEventListener('pause',clearDeadline);video.removeEventListener('loadedmetadata',applyNative);video.textTracks?.removeEventListener('addtrack',applyNative);video.audioTracks?.removeEventListener('addtrack',applyNative);hls?.destroy();hlsRef.current=null;video.pause();video.removeAttribute('src');video.load();};
+    }).catch(()=>{if(!disposed)fail();});
+    return()=>{disposed=true;tvCaptionApply.current=null;clearDeadline();video.removeEventListener('error',fail);video.removeEventListener('canplay',onCanPlay);video.removeEventListener('playing',clearDeadline);video.removeEventListener('waiting',onStall);video.removeEventListener('stalled',onStall);video.removeEventListener('pause',clearDeadline);video.removeEventListener('loadedmetadata',applyNative);video.textTracks?.removeEventListener('addtrack',applyNative);video.audioTracks?.removeEventListener('addtrack',applyNative);hls?.destroy();hlsRef.current=null;video.pause();video.removeAttribute('src');video.load();};
   }, [nativeSource,ownedSource,movie.original_language,tvPlayback]);
 
   const restoreProtection=()=>{
