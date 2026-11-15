@@ -1,0 +1,3733 @@
+{
+  "generatedAt": "2026-11-15T09:08:45.331Z",
+  "youtube": {
+    "films": 58,
+    "series": 462,
+    "seriesEpisodes": 14502,
+    "exampleSeasonKeys": [
+      "id",
+      "title",
+      "seriesTitle",
+      "year",
+      "kind",
+      "season",
+      "channel",
+      "source",
+      "poster",
+      "episodes"
+    ]
+  },
+  "dailymotion": {
+    "films": 77,
+    "series": 104,
+    "episodes": 3297
+  },
+  "overlap": {
+    "series": [
+      {
+        "id": "dm-series:ابناء القهر",
+        "title": "أبناء القهر",
+        "year": "2002",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:ابناء القهر",
+            "year": "2002",
+            "title": "أبناء القهر"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:ارواح عارية",
+        "title": "أرواح عارية",
+        "year": "2012",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:ارواح عارية",
+            "year": "2012",
+            "title": "أرواح عارية"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:ازمة عائلية",
+        "title": "أزمة عائلية",
+        "year": "2017",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:ازمة عائلية",
+            "year": "2017",
+            "title": "أزمة عائلية"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:اشواك ناعمة",
+        "title": "أشواك ناعمة",
+        "year": "2005",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:اشواك ناعمة",
+            "year": "2005",
+            "title": "أشواك ناعمة"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:الحوت",
+        "title": "الحوت",
+        "year": "2008",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:الحوت",
+            "year": "2008",
+            "title": "الحوت"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:الدبور",
+        "title": "الدبور",
+        "year": "",
+        "yearKnown": false,
+        "matched": [
+          {
+            "id": "wf:الدبور",
+            "year": "2012",
+            "title": "الدبور"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:السفينة رحلة 13",
+        "title": "السفينة - رحلة 13",
+        "year": "2002",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:السفينة رحلة 13",
+            "year": "2002",
+            "title": "السفينة - رحلة 13"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:الطير",
+        "title": "الطير",
+        "year": "1998",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:الطير",
+            "year": "1998",
+            "title": "الطير"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:الظاهر بيبرس",
+        "title": "الظاهر بيبرس",
+        "year": "2005",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:الظاهر بيبرس",
+            "year": "2005",
+            "title": "الظاهر بيبرس"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:الغفران",
+        "title": "الغفران",
+        "year": "2011",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:الغفران",
+            "year": "2011",
+            "title": "الغفران"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:الليلة الثانية بعد الالف",
+        "title": "الليلة الثانية بعد الألف",
+        "year": "2007",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:الليلة الثانية بعد الالف",
+            "year": "2007",
+            "title": "الليلة الثانية بعد الألف"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:الملك لله",
+        "title": "الملك لله",
+        "year": "2000",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:الملك لله",
+            "year": "2000",
+            "title": "الملك لله"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:الهارب",
+        "title": "الهارب",
+        "year": "1994",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:الهارب",
+            "year": "1994",
+            "title": "الهارب"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:امراة من رماد",
+        "title": "امرأة من رماد",
+        "year": "2015",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:امراة من رماد",
+            "year": "2015",
+            "title": "امرأة من رماد"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:انت عمري",
+        "title": "انت عمري",
+        "year": "2001",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:انت عمري",
+            "year": "2001",
+            "title": "انت عمري"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:ايام شامية",
+        "title": "أيام شامية",
+        "year": "1992",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:ايام شامية",
+            "year": "1992",
+            "title": "أيام شامية"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:باب المقام",
+        "title": "باب المقام",
+        "year": "2008",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:باب المقام",
+            "year": "2008",
+            "title": "باب المقام"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:بطل من هذا الزمان",
+        "title": "بطل من هذا الزمان",
+        "year": "2000",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:بطل من هذا الزمان",
+            "year": "2000",
+            "title": "بطل من هذا الزمان"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:بكرا احلي",
+        "title": "بكرا أحلى",
+        "year": "2005",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:بكرا احلي",
+            "year": "2005",
+            "title": "بكرا أحلى"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:بنات اكريكوز",
+        "title": "بنات اكريكوز",
+        "year": "2004",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:بنات اكريكوز",
+            "year": "2004",
+            "title": "بنات اكريكوز"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:تخت شرقي",
+        "title": "تخت شرقي",
+        "year": "2010",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:تخت شرقي",
+            "year": "2010",
+            "title": "تخت شرقي"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:جواد الليل",
+        "title": "جواد الليل",
+        "year": "1999",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:جواد الليل",
+            "year": "1999",
+            "title": "جواد الليل"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:حاجز الصمت",
+        "title": "حاجز الصمت",
+        "year": "2008",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:حاجز الصمت",
+            "year": "2008",
+            "title": "حاجز الصمت"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:حريم الشاويش",
+        "title": "حريم الشاويش",
+        "year": "2018",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:حريم الشاويش",
+            "year": "2018",
+            "title": "حريم الشاويش"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:خبز و ملح",
+        "title": "خبز و ملح",
+        "year": "",
+        "yearKnown": false,
+        "matched": [
+          {
+            "id": "wf:خبز وملح",
+            "year": "2003",
+            "title": "خبز وملح"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:درب التبان",
+        "title": "درب التبان",
+        "year": "1992",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:درب التبان",
+            "year": "1992",
+            "title": "درب التبان"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:رائحة الروح",
+        "title": "رائحة الروح",
+        "year": "2018",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:رائحة الروح",
+            "year": "2018",
+            "title": "رائحة الروح"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:رجال تحت الطربوش",
+        "title": "رجال تحت الطربوش",
+        "year": "2004",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:رجال تحت الطربوش",
+            "year": "2004",
+            "title": "رجال تحت الطربوش"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:روزنا",
+        "title": "روزنا",
+        "year": "2018",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:روزنا",
+            "year": "2018",
+            "title": "روزنا"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:زمن العار",
+        "title": "زمن العار",
+        "year": "2009",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:زمن العار",
+            "year": "2009",
+            "title": "زمن العار"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:سباق للزواج",
+        "title": "سباق للزواج",
+        "year": "2000",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:سباق للزواج",
+            "year": "2000",
+            "title": "سباق للزواج"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:سفر الحجارة",
+        "title": "سفر الحجارة",
+        "year": "2009",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:سفر الحجارة",
+            "year": "2009",
+            "title": "سفر الحجارة"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:سنعود بعد قليل",
+        "title": "سنعود بعد قليل",
+        "year": "2013",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:سنعود بعد قليل",
+            "year": "2013",
+            "title": "سنعود بعد قليل"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:شو حكينا",
+        "title": "شو حكينا",
+        "year": "2001",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:شو حكينا",
+            "year": "2001",
+            "title": "شو حكينا"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:صراع المال",
+        "title": "صراع المال",
+        "year": "2009",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:صراع المال",
+            "year": "2009",
+            "title": "صراع المال"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:طيبون جدا",
+        "title": "طيبون جداً",
+        "year": "1998",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:طيبون جدا",
+            "year": "1998",
+            "title": "طيبون جداً"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:عرب لندن",
+        "title": "عرب لندن",
+        "year": "2008",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:عرب لندن",
+            "year": "2008",
+            "title": "عرب لندن"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:عش المجانين",
+        "title": "عش المجانين",
+        "year": "2001",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:عش المجانين",
+            "year": "2001",
+            "title": "عش المجانين"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:عيلة اكابر",
+        "title": "عيلة أكابر",
+        "year": "1998",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:عيلة اكابر",
+            "year": "1998",
+            "title": "عيلة أكابر"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:غدا نلتقي",
+        "title": "غداً نلتقي",
+        "year": "2015",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:غدا نلتقي",
+            "year": "2015",
+            "title": "غداً نلتقي"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:غزلان في غابة الذئاب",
+        "title": "غزلان في غابة الذئاب",
+        "year": "2006",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:غزلان في غابة الذئاب",
+            "year": "2006",
+            "title": "غزلان في غابة الذئاب"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:فرصة عمر",
+        "title": "فرصة عمر",
+        "year": "2000",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:فرصة عمر",
+            "year": "2000",
+            "title": "فرصة عمر"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:قتل الربيع",
+        "title": "قتل الربيع",
+        "year": "2004",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:قتل الربيع",
+            "year": "2004",
+            "title": "قتل الربيع"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:قصة حب",
+        "title": "قصة حب",
+        "year": "2015",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:قصة حب",
+            "year": "2015",
+            "title": "قصة حب"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:قلم حمرة",
+        "title": "قلم حمرة",
+        "year": "2014",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:قلم حمرة",
+            "year": "2014",
+            "title": "قلم حمرة"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:كسر الخواطر",
+        "title": "كسر الخواطر",
+        "year": "2006",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:كسر الخواطر",
+            "year": "2006",
+            "title": "كسر الخواطر"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:كوم الحجر",
+        "title": "كوم الحجر",
+        "year": "2007",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:كوم الحجر",
+            "year": "2007",
+            "title": "كوم الحجر"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:لعبة الموت",
+        "title": "لعبة الموت",
+        "year": "2013",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:لعبة الموت",
+            "year": "2013",
+            "title": "لعبة الموت"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:لورنس العرب",
+        "title": "لورنس العرب",
+        "year": "2008",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:لورنس العرب",
+            "year": "2008",
+            "title": "لورنس العرب"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:هومي هون",
+        "title": "هومي هون",
+        "year": "2004",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:هومي هون",
+            "year": "2004",
+            "title": "هومي هون"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:وراء الشمس",
+        "title": "وراء الشمس",
+        "year": "2010",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:وراء الشمس",
+            "year": "2010",
+            "title": "وراء الشمس"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:وردة لخريف العمر",
+        "title": "وردة لخريف العمر",
+        "year": "2002",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:وردة لخريف العمر",
+            "year": "2002",
+            "title": "وردة لخريف العمر"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:يلا شباب يلا بنات",
+        "title": "يلا شباب يلا بنات",
+        "year": "2015",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:يلا شباب يلا بنات",
+            "year": "2015",
+            "title": "يلا شباب يلا بنات"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:محرومين",
+        "title": "محرومين",
+        "year": "2017",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:محرومين",
+            "year": "2017",
+            "title": "محرومين"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:عشق النساء",
+        "title": "عشق النساء",
+        "year": "2014",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:عشق النساء",
+            "year": "2014",
+            "title": "عشق النساء"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:علاقات خاصة",
+        "title": "علاقات خاصة",
+        "year": "2015",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:علاقات خاصة",
+            "year": "2015",
+            "title": "علاقات خاصة"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:فتت لعبت",
+        "title": "فتت لعبت",
+        "year": "2013",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:فتت لعبت",
+            "year": "2013",
+            "title": "فتت لعبت"
+          }
+        ]
+      },
+      {
+        "id": "dm-series:صدي الروح",
+        "title": "صدى الروح",
+        "year": "2006",
+        "yearKnown": true,
+        "matched": [
+          {
+            "id": "wf:صدي الروح",
+            "year": "2006",
+            "title": "صدى الروح"
+          }
+        ]
+      }
+    ],
+    "films": []
+  },
+  "seriesCandidates": [
+    {
+      "title": "سنة أولى زواج",
+      "id": "x7d9ux",
+      "episodes": 30,
+      "matched": []
+    },
+    {
+      "title": "بالحجم العائلي",
+      "id": "x793zi",
+      "episodes": 30,
+      "matched": []
+    },
+    {
+      "title": "طرف ثالث",
+      "id": "x6ti23",
+      "episodes": 30,
+      "matched": []
+    },
+    {
+      "title": "عود أخضر",
+      "id": "x6thxu",
+      "episodes": 30,
+      "matched": []
+    },
+    {
+      "title": "حاميها حراميها",
+      "id": "x6tdzc",
+      "episodes": 30,
+      "matched": []
+    },
+    {
+      "title": "بعد الفراق",
+      "id": "x6t302",
+      "episodes": 33,
+      "matched": []
+    }
+  ],
+  "newFilmReferences": 216,
+  "notes": "Matching by normalized title and nonconflicting year; blank years are unresolved, not confirmed exact identity. No production changes.",
+  "summary": {
+    "existingSeriesRecords": 566,
+    "existingFilmRecords": 135,
+    "existingSeriesEpisodeReferences": 17799,
+    "exactTitleKnownYearSeriesOverlap": 56,
+    "unresolvedYearSeriesOverlap": 2,
+    "newIMediaSeriesCandidates": 6,
+    "newIMediaEpisodeReferences": 183,
+    "hdEpisodeMetadata": 182,
+    "fullSeriesHdMetadata": 5,
+    "newIMediaFilmCandidates": 21,
+    "hdFilmMetadata": 20,
+    "publisherIndexCandidates": 216,
+    "publisherOEmbedSuccess": 216,
+    "knownPublisherOEmbed": 215,
+    "strictAdFreeNewWorksVerified": 0
+  },
+  "seriesCandidatesDetailed": [
+    {
+      "id": "x7d9ux",
+      "title": "سنة أولى زواج",
+      "count": 30,
+      "metadataFound": 30,
+      "hd": 30,
+      "adBlocked": 0,
+      "episodes": [
+        {
+          "duration": 1564,
+          "number": 1,
+          "allowEmbed": true,
+          "id": "x870zc6",
+          "metadata": {
+            "duration": 1564,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1574,
+          "number": 2,
+          "allowEmbed": true,
+          "id": "x870zc7",
+          "metadata": {
+            "duration": 1574,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1694,
+          "number": 3,
+          "allowEmbed": true,
+          "id": "x870zca",
+          "metadata": {
+            "duration": 1694,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1580,
+          "number": 4,
+          "allowEmbed": true,
+          "id": "x870zcb",
+          "metadata": {
+            "duration": 1580,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1652,
+          "number": 5,
+          "allowEmbed": true,
+          "id": "x870zc9",
+          "metadata": {
+            "duration": 1652,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1693,
+          "number": 6,
+          "allowEmbed": true,
+          "id": "x870zcd",
+          "metadata": {
+            "duration": 1693,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1697,
+          "number": 7,
+          "allowEmbed": true,
+          "id": "x870zce",
+          "metadata": {
+            "duration": 1697,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1685,
+          "number": 8,
+          "allowEmbed": true,
+          "id": "x870zc8",
+          "metadata": {
+            "duration": 1685,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1599,
+          "number": 9,
+          "allowEmbed": true,
+          "id": "x870zcf",
+          "metadata": {
+            "duration": 1599,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1690,
+          "number": 10,
+          "allowEmbed": true,
+          "id": "x870zcc",
+          "metadata": {
+            "duration": 1690,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1555,
+          "number": 11,
+          "allowEmbed": true,
+          "id": "x871tmf",
+          "metadata": {
+            "duration": 1555,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1438,
+          "number": 12,
+          "allowEmbed": true,
+          "id": "x871tm9",
+          "metadata": {
+            "duration": 1438,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1677,
+          "number": 13,
+          "allowEmbed": true,
+          "id": "x871tmb",
+          "metadata": {
+            "duration": 1677,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1686,
+          "number": 14,
+          "allowEmbed": true,
+          "id": "x871tm8",
+          "metadata": {
+            "duration": 1686,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1704,
+          "number": 15,
+          "allowEmbed": true,
+          "id": "x871tmd",
+          "metadata": {
+            "duration": 1704,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1698,
+          "number": 16,
+          "allowEmbed": true,
+          "id": "x871tm4",
+          "metadata": {
+            "duration": 1698,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1641,
+          "number": 17,
+          "allowEmbed": true,
+          "id": "x871tm7",
+          "metadata": {
+            "duration": 1641,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1640,
+          "number": 18,
+          "allowEmbed": true,
+          "id": "x871tm5",
+          "metadata": {
+            "duration": 1640,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1522,
+          "number": 19,
+          "allowEmbed": true,
+          "id": "x871tmc",
+          "metadata": {
+            "duration": 1522,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1656,
+          "number": 20,
+          "allowEmbed": true,
+          "id": "x871tma",
+          "metadata": {
+            "duration": 1656,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1703,
+          "number": 21,
+          "allowEmbed": true,
+          "id": "x872r5b",
+          "metadata": {
+            "duration": 1703,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1528,
+          "number": 22,
+          "allowEmbed": true,
+          "id": "x872r56",
+          "metadata": {
+            "duration": 1528,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1653,
+          "number": 23,
+          "allowEmbed": true,
+          "id": "x872r58",
+          "metadata": {
+            "duration": 1653,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1696,
+          "number": 24,
+          "allowEmbed": true,
+          "id": "x872r59",
+          "metadata": {
+            "duration": 1696,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1699,
+          "number": 25,
+          "allowEmbed": true,
+          "id": "x872r53",
+          "metadata": {
+            "duration": 1699,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1561,
+          "number": 26,
+          "allowEmbed": true,
+          "id": "x872r52",
+          "metadata": {
+            "duration": 1561,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1643,
+          "number": 27,
+          "allowEmbed": true,
+          "id": "x872r57",
+          "metadata": {
+            "duration": 1643,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1578,
+          "number": 28,
+          "allowEmbed": true,
+          "id": "x872r55",
+          "metadata": {
+            "duration": 1578,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1381,
+          "number": 29,
+          "allowEmbed": true,
+          "id": "x872r5a",
+          "metadata": {
+            "duration": 1381,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1518,
+          "number": 30,
+          "allowEmbed": true,
+          "id": "x872r54",
+          "metadata": {
+            "duration": 1518,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "x793zi",
+      "title": "بالحجم العائلي",
+      "count": 30,
+      "metadataFound": 30,
+      "hd": 29,
+      "adBlocked": 0,
+      "episodes": [
+        {
+          "duration": 2359,
+          "number": 1,
+          "allowEmbed": true,
+          "id": "x84kbh5",
+          "metadata": {
+            "duration": 2359,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1820,
+          "number": 2,
+          "allowEmbed": true,
+          "id": "x84kbh4",
+          "metadata": {
+            "duration": 1820,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2175,
+          "number": 3,
+          "allowEmbed": true,
+          "id": "x84kbh0",
+          "metadata": {
+            "duration": 2175,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1958,
+          "number": 4,
+          "allowEmbed": true,
+          "id": "x84kbh3",
+          "metadata": {
+            "duration": 1958,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2135,
+          "number": 5,
+          "allowEmbed": true,
+          "id": "x84kbh2",
+          "metadata": {
+            "duration": 2135,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1823,
+          "number": 6,
+          "allowEmbed": true,
+          "id": "x84kbh1",
+          "metadata": {
+            "duration": 1823,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2217,
+          "number": 7,
+          "allowEmbed": true,
+          "id": "x84m8xa",
+          "metadata": {
+            "duration": 2217,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2202,
+          "number": 8,
+          "allowEmbed": true,
+          "id": "x84m8x3",
+          "metadata": {
+            "duration": 2202,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1956,
+          "number": 9,
+          "allowEmbed": true,
+          "id": "x84m8xb",
+          "metadata": {
+            "duration": 1956,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1756,
+          "number": 10,
+          "allowEmbed": true,
+          "id": "x84m8x7",
+          "metadata": {
+            "duration": 1756,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1894,
+          "number": 11,
+          "allowEmbed": true,
+          "id": "x84m8x9",
+          "metadata": {
+            "duration": 1894,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2118,
+          "number": 12,
+          "allowEmbed": true,
+          "id": "x84m8x8",
+          "metadata": {
+            "duration": 2118,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2184,
+          "number": 13,
+          "allowEmbed": true,
+          "id": "x84m8x4",
+          "metadata": {
+            "duration": 2184,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2004,
+          "number": 14,
+          "allowEmbed": true,
+          "id": "x84m8x2",
+          "metadata": {
+            "duration": 2004,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1857,
+          "number": 15,
+          "allowEmbed": true,
+          "id": "x84m8x6",
+          "metadata": {
+            "duration": 1857,
+            "hd": false,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1856,
+          "number": 16,
+          "allowEmbed": true,
+          "id": "x84m8x5",
+          "metadata": {
+            "duration": 1856,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1924,
+          "number": 17,
+          "allowEmbed": true,
+          "id": "x84n45t",
+          "metadata": {
+            "duration": 1924,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1859,
+          "number": 18,
+          "allowEmbed": true,
+          "id": "x84n45s",
+          "metadata": {
+            "duration": 1859,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1823,
+          "number": 19,
+          "allowEmbed": true,
+          "id": "x84n45r",
+          "metadata": {
+            "duration": 1823,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1824,
+          "number": 20,
+          "allowEmbed": true,
+          "id": "x84n45p",
+          "metadata": {
+            "duration": 1824,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1844,
+          "number": 21,
+          "allowEmbed": true,
+          "id": "x84n45o",
+          "metadata": {
+            "duration": 1844,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1812,
+          "number": 22,
+          "allowEmbed": true,
+          "id": "x84n45q",
+          "metadata": {
+            "duration": 1812,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2032,
+          "number": 23,
+          "allowEmbed": true,
+          "id": "x84n45n",
+          "metadata": {
+            "duration": 2032,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1899,
+          "number": 24,
+          "allowEmbed": true,
+          "id": "x84n45l",
+          "metadata": {
+            "duration": 1899,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1794,
+          "number": 25,
+          "allowEmbed": true,
+          "id": "x84n45m",
+          "metadata": {
+            "duration": 1794,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1850,
+          "number": 26,
+          "allowEmbed": true,
+          "id": "x84nyx7",
+          "metadata": {
+            "duration": 1850,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1785,
+          "number": 27,
+          "allowEmbed": true,
+          "id": "x84nyx3",
+          "metadata": {
+            "duration": 1785,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1756,
+          "number": 28,
+          "allowEmbed": true,
+          "id": "x84nyx6",
+          "metadata": {
+            "duration": 1756,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1834,
+          "number": 29,
+          "allowEmbed": true,
+          "id": "x84nyx4",
+          "metadata": {
+            "duration": 1834,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1969,
+          "number": 30,
+          "allowEmbed": true,
+          "id": "x84nyx2",
+          "metadata": {
+            "duration": 1969,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "x6ti23",
+      "title": "طرف ثالث",
+      "count": 30,
+      "metadataFound": 30,
+      "hd": 30,
+      "adBlocked": 0,
+      "episodes": [
+        {
+          "duration": 2010,
+          "number": 1,
+          "allowEmbed": true,
+          "id": "x7v3alr",
+          "metadata": {
+            "duration": 2010,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2410,
+          "number": 2,
+          "allowEmbed": true,
+          "id": "x7v3als",
+          "metadata": {
+            "duration": 2410,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2040,
+          "number": 3,
+          "allowEmbed": true,
+          "id": "x7v3alt",
+          "metadata": {
+            "duration": 2040,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2051,
+          "number": 4,
+          "allowEmbed": true,
+          "id": "x7v3alu",
+          "metadata": {
+            "duration": 2051,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2186,
+          "number": 5,
+          "allowEmbed": true,
+          "id": "x7v3alv",
+          "metadata": {
+            "duration": 2186,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2541,
+          "number": 6,
+          "allowEmbed": true,
+          "id": "x7v3alw",
+          "metadata": {
+            "duration": 2541,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2060,
+          "number": 7,
+          "allowEmbed": true,
+          "id": "x7v3alx",
+          "metadata": {
+            "duration": 2060,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2369,
+          "number": 8,
+          "allowEmbed": true,
+          "id": "x7v3aly",
+          "metadata": {
+            "duration": 2369,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1945,
+          "number": 9,
+          "allowEmbed": true,
+          "id": "x7v3alz",
+          "metadata": {
+            "duration": 1945,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2552,
+          "number": 10,
+          "allowEmbed": true,
+          "id": "x7v3am0",
+          "metadata": {
+            "duration": 2552,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2297,
+          "number": 11,
+          "allowEmbed": true,
+          "id": "x7v3am1",
+          "metadata": {
+            "duration": 2297,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1991,
+          "number": 12,
+          "allowEmbed": true,
+          "id": "x7v3am3",
+          "metadata": {
+            "duration": 1991,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2216,
+          "number": 13,
+          "allowEmbed": true,
+          "id": "x7v3am4",
+          "metadata": {
+            "duration": 2216,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2161,
+          "number": 14,
+          "allowEmbed": true,
+          "id": "x7v3am5",
+          "metadata": {
+            "duration": 2161,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2873,
+          "number": 15,
+          "allowEmbed": true,
+          "id": "x7v3am6",
+          "metadata": {
+            "duration": 2873,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2412,
+          "number": 16,
+          "allowEmbed": true,
+          "id": "x7v3am7",
+          "metadata": {
+            "duration": 2412,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2450,
+          "number": 17,
+          "allowEmbed": true,
+          "id": "x7v3am8",
+          "metadata": {
+            "duration": 2450,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2171,
+          "number": 18,
+          "allowEmbed": true,
+          "id": "x7v3am9",
+          "metadata": {
+            "duration": 2171,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2263,
+          "number": 19,
+          "allowEmbed": true,
+          "id": "x7v3ama",
+          "metadata": {
+            "duration": 2263,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2329,
+          "number": 20,
+          "allowEmbed": true,
+          "id": "x7v3amb",
+          "metadata": {
+            "duration": 2329,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2266,
+          "number": 21,
+          "allowEmbed": true,
+          "id": "x7v3amd",
+          "metadata": {
+            "duration": 2266,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2182,
+          "number": 22,
+          "allowEmbed": true,
+          "id": "x7v3ame",
+          "metadata": {
+            "duration": 2182,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2835,
+          "number": 23,
+          "allowEmbed": true,
+          "id": "x7v3amg",
+          "metadata": {
+            "duration": 2835,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2285,
+          "number": 24,
+          "allowEmbed": true,
+          "id": "x7v3aml",
+          "metadata": {
+            "duration": 2285,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2653,
+          "number": 25,
+          "allowEmbed": true,
+          "id": "x7v3amn",
+          "metadata": {
+            "duration": 2653,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2891,
+          "number": 26,
+          "allowEmbed": true,
+          "id": "x7v3amp",
+          "metadata": {
+            "duration": 2891,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2344,
+          "number": 27,
+          "allowEmbed": true,
+          "id": "x7v3amq",
+          "metadata": {
+            "duration": 2344,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1839,
+          "number": 28,
+          "allowEmbed": true,
+          "id": "x7v3amr",
+          "metadata": {
+            "duration": 1839,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1734,
+          "number": 29,
+          "allowEmbed": true,
+          "id": "x7v3ams",
+          "metadata": {
+            "duration": 1734,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1981,
+          "number": 30,
+          "allowEmbed": true,
+          "id": "x7v3amt",
+          "metadata": {
+            "duration": 1981,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "x6thxu",
+      "title": "عود أخضر",
+      "count": 30,
+      "metadataFound": 30,
+      "hd": 30,
+      "adBlocked": 0,
+      "episodes": [
+        {
+          "duration": 2071,
+          "number": 1,
+          "allowEmbed": true,
+          "id": "k3srZZVRSrLWA3wb0iF",
+          "metadata": {
+            "duration": 2071,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1893,
+          "number": 2,
+          "allowEmbed": true,
+          "id": "k4s4DAdgTnqjg1wb0iG",
+          "metadata": {
+            "duration": 1893,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2177,
+          "number": 3,
+          "allowEmbed": true,
+          "id": "k47hFC2f8yhcNMwb0iH",
+          "metadata": {
+            "duration": 2177,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2719,
+          "number": 4,
+          "allowEmbed": true,
+          "id": "k3MIhYDryfFQ0Vwb0iI",
+          "metadata": {
+            "duration": 2719,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2678,
+          "number": 5,
+          "allowEmbed": true,
+          "id": "k79wPWmquDL6X1wb0iJ",
+          "metadata": {
+            "duration": 2678,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2228,
+          "number": 6,
+          "allowEmbed": true,
+          "id": "keQmfDDZfqGVpGwb0iK",
+          "metadata": {
+            "duration": 2228,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2093,
+          "number": 7,
+          "allowEmbed": true,
+          "id": "k4p1ylbJqbeYtpwb2pP",
+          "metadata": {
+            "duration": 2093,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2245,
+          "number": 8,
+          "allowEmbed": true,
+          "id": "x7v2vjn",
+          "metadata": {
+            "duration": 2245,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2260,
+          "number": 9,
+          "allowEmbed": true,
+          "id": "k49swqFYCXAk2Pwb0iM",
+          "metadata": {
+            "duration": 2260,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1887,
+          "number": 10,
+          "allowEmbed": true,
+          "id": "k5d7IkardFgto5wb2pQ",
+          "metadata": {
+            "duration": 1887,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2015,
+          "number": 11,
+          "allowEmbed": true,
+          "id": "k6KblPhsg4T4F0wb0iN",
+          "metadata": {
+            "duration": 2015,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2516,
+          "number": 12,
+          "allowEmbed": true,
+          "id": "x7v31tf",
+          "metadata": {
+            "duration": 2516,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1759,
+          "number": 13,
+          "allowEmbed": true,
+          "id": "k62hdeLP4LXgjXwb0iO",
+          "metadata": {
+            "duration": 1759,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2494,
+          "number": 14,
+          "allowEmbed": true,
+          "id": "k1yiZoO3RmFfqowb2pT",
+          "metadata": {
+            "duration": 2494,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1780,
+          "number": 15,
+          "allowEmbed": true,
+          "id": "kv1VsGpcL0xasSwb2pU",
+          "metadata": {
+            "duration": 1780,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1995,
+          "number": 16,
+          "allowEmbed": true,
+          "id": "x7v31tj",
+          "metadata": {
+            "duration": 1995,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2181,
+          "number": 17,
+          "allowEmbed": true,
+          "id": "k3BVSNjgHUvgN4wb2pW",
+          "metadata": {
+            "duration": 2181,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1847,
+          "number": 18,
+          "allowEmbed": true,
+          "id": "k1nEKHasXhd8ilwb2pX",
+          "metadata": {
+            "duration": 1847,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1791,
+          "number": 19,
+          "allowEmbed": true,
+          "id": "k5QRrf76lzMjkNwb2q7",
+          "metadata": {
+            "duration": 1791,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1979,
+          "number": 20,
+          "allowEmbed": true,
+          "id": "k3Vfekhn7mNVc5wb2q8",
+          "metadata": {
+            "duration": 1979,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1823,
+          "number": 21,
+          "allowEmbed": true,
+          "id": "x7v31tx",
+          "metadata": {
+            "duration": 1823,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1967,
+          "number": 22,
+          "allowEmbed": true,
+          "id": "k7kZQBwHTR7CLGwb2qa",
+          "metadata": {
+            "duration": 1967,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1954,
+          "number": 23,
+          "allowEmbed": true,
+          "id": "x7v31tz",
+          "metadata": {
+            "duration": 1954,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2230,
+          "number": 24,
+          "allowEmbed": true,
+          "id": "k7b3WjcT7zOBtswb2qc",
+          "metadata": {
+            "duration": 2230,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1872,
+          "number": 25,
+          "allowEmbed": true,
+          "id": "k1PVXHXEzl80Mvwb2qd",
+          "metadata": {
+            "duration": 1872,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2271,
+          "number": 26,
+          "allowEmbed": true,
+          "id": "kDnf18UN6lXLjvwb2qe",
+          "metadata": {
+            "duration": 2271,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1793,
+          "number": 27,
+          "allowEmbed": true,
+          "id": "k5gvh3vr000gcjwb2qf",
+          "metadata": {
+            "duration": 1793,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1833,
+          "number": 28,
+          "allowEmbed": true,
+          "id": "k57G1fw0f4PsZywb2qg",
+          "metadata": {
+            "duration": 1833,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1803,
+          "number": 29,
+          "allowEmbed": true,
+          "id": "k5hxEVPG72K9YWwb2qi",
+          "metadata": {
+            "duration": 1803,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2236,
+          "number": 30,
+          "allowEmbed": true,
+          "id": "kSlJrU6hv7nUvwwb2qj",
+          "metadata": {
+            "duration": 2236,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "x6tdzc",
+      "title": "حاميها حراميها",
+      "count": 30,
+      "metadataFound": 30,
+      "hd": 30,
+      "adBlocked": 0,
+      "episodes": [
+        {
+          "duration": 1864,
+          "number": 1,
+          "allowEmbed": true,
+          "id": "x7v1opl",
+          "metadata": {
+            "duration": 1864,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1800,
+          "number": 2,
+          "allowEmbed": true,
+          "id": "x7v1opm",
+          "metadata": {
+            "duration": 1800,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1981,
+          "number": 3,
+          "allowEmbed": true,
+          "id": "x7v3dzb",
+          "metadata": {
+            "duration": 1981,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1902,
+          "number": 4,
+          "allowEmbed": true,
+          "id": "x7v1opn",
+          "metadata": {
+            "duration": 1902,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1835,
+          "number": 5,
+          "allowEmbed": true,
+          "id": "x7v1opo",
+          "metadata": {
+            "duration": 1835,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1814,
+          "number": 6,
+          "allowEmbed": true,
+          "id": "x7v1opq",
+          "metadata": {
+            "duration": 1814,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1807,
+          "number": 7,
+          "allowEmbed": true,
+          "id": "x7v1opt",
+          "metadata": {
+            "duration": 1807,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1888,
+          "number": 8,
+          "allowEmbed": true,
+          "id": "x7v1opv",
+          "metadata": {
+            "duration": 1888,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1840,
+          "number": 9,
+          "allowEmbed": true,
+          "id": "x7v3e4l",
+          "metadata": {
+            "duration": 1840,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1799,
+          "number": 10,
+          "allowEmbed": true,
+          "id": "x7v3dzc",
+          "metadata": {
+            "duration": 1799,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1776,
+          "number": 11,
+          "allowEmbed": true,
+          "id": "x7v1ozb",
+          "metadata": {
+            "duration": 1776,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1774,
+          "number": 12,
+          "allowEmbed": true,
+          "id": "x7v1ozc",
+          "metadata": {
+            "duration": 1774,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1814,
+          "number": 13,
+          "allowEmbed": true,
+          "id": "x7v1ozd",
+          "metadata": {
+            "duration": 1814,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1462,
+          "number": 14,
+          "allowEmbed": true,
+          "id": "x7v1oze",
+          "metadata": {
+            "duration": 1462,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1803,
+          "number": 15,
+          "allowEmbed": true,
+          "id": "x7v1ozf",
+          "metadata": {
+            "duration": 1803,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1649,
+          "number": 16,
+          "allowEmbed": true,
+          "id": "x7v1ozg",
+          "metadata": {
+            "duration": 1649,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1927,
+          "number": 17,
+          "allowEmbed": true,
+          "id": "x7v1ozh",
+          "metadata": {
+            "duration": 1927,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1476,
+          "number": 18,
+          "allowEmbed": true,
+          "id": "x7v1ozi",
+          "metadata": {
+            "duration": 1476,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1785,
+          "number": 19,
+          "allowEmbed": true,
+          "id": "x7v1ozj",
+          "metadata": {
+            "duration": 1785,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1774,
+          "number": 20,
+          "allowEmbed": true,
+          "id": "x7v3e4k",
+          "metadata": {
+            "duration": 1774,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1744,
+          "number": 21,
+          "allowEmbed": true,
+          "id": "x7v1qhu",
+          "metadata": {
+            "duration": 1744,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1833,
+          "number": 22,
+          "allowEmbed": true,
+          "id": "x7v1qhv",
+          "metadata": {
+            "duration": 1833,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1703,
+          "number": 23,
+          "allowEmbed": true,
+          "id": "x7v1qhw",
+          "metadata": {
+            "duration": 1703,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1713,
+          "number": 24,
+          "allowEmbed": true,
+          "id": "x7v1qhx",
+          "metadata": {
+            "duration": 1713,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1607,
+          "number": 25,
+          "allowEmbed": true,
+          "id": "x7v1qhy",
+          "metadata": {
+            "duration": 1607,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1482,
+          "number": 26,
+          "allowEmbed": true,
+          "id": "x7v1qhz",
+          "metadata": {
+            "duration": 1482,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1506,
+          "number": 27,
+          "allowEmbed": true,
+          "id": "x7v1qi0",
+          "metadata": {
+            "duration": 1506,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1430,
+          "number": 28,
+          "allowEmbed": true,
+          "id": "x7v1qi1",
+          "metadata": {
+            "duration": 1430,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1689,
+          "number": 29,
+          "allowEmbed": true,
+          "id": "x7v1qi3",
+          "metadata": {
+            "duration": 1689,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1301,
+          "number": 30,
+          "allowEmbed": true,
+          "id": "x7v1qi4",
+          "metadata": {
+            "duration": 1301,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "x6t302",
+      "title": "بعد الفراق",
+      "count": 33,
+      "metadataFound": 33,
+      "hd": 33,
+      "adBlocked": 0,
+      "episodes": [
+        {
+          "duration": 1810,
+          "number": 1,
+          "allowEmbed": true,
+          "id": "x7uwv5z",
+          "metadata": {
+            "duration": 1810,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2143,
+          "number": 2,
+          "allowEmbed": true,
+          "id": "x7uwv60",
+          "metadata": {
+            "duration": 2143,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1950,
+          "number": 3,
+          "allowEmbed": true,
+          "id": "x7uwv61",
+          "metadata": {
+            "duration": 1950,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2106,
+          "number": 4,
+          "allowEmbed": true,
+          "id": "x7uwv62",
+          "metadata": {
+            "duration": 2106,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2082,
+          "number": 5,
+          "allowEmbed": true,
+          "id": "x7uwv64",
+          "metadata": {
+            "duration": 2082,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2263,
+          "number": 6,
+          "allowEmbed": true,
+          "id": "x7uwv65",
+          "metadata": {
+            "duration": 2263,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2124,
+          "number": 7,
+          "allowEmbed": true,
+          "id": "x7uwv66",
+          "metadata": {
+            "duration": 2124,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2045,
+          "number": 8,
+          "allowEmbed": true,
+          "id": "x7uwv67",
+          "metadata": {
+            "duration": 2045,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2210,
+          "number": 9,
+          "allowEmbed": true,
+          "id": "x7uwv68",
+          "metadata": {
+            "duration": 2210,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2308,
+          "number": 10,
+          "allowEmbed": true,
+          "id": "x7uwv69",
+          "metadata": {
+            "duration": 2308,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2303,
+          "number": 11,
+          "allowEmbed": true,
+          "id": "x7uz9x9",
+          "metadata": {
+            "duration": 2303,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2253,
+          "number": 12,
+          "allowEmbed": true,
+          "id": "x7uz9xa",
+          "metadata": {
+            "duration": 2253,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2450,
+          "number": 13,
+          "allowEmbed": true,
+          "id": "x7uz9xb",
+          "metadata": {
+            "duration": 2450,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2286,
+          "number": 14,
+          "allowEmbed": true,
+          "id": "x7uz9xc",
+          "metadata": {
+            "duration": 2286,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2086,
+          "number": 15,
+          "allowEmbed": true,
+          "id": "x7uz9xd",
+          "metadata": {
+            "duration": 2086,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2044,
+          "number": 16,
+          "allowEmbed": true,
+          "id": "x7uz9xe",
+          "metadata": {
+            "duration": 2044,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2074,
+          "number": 17,
+          "allowEmbed": true,
+          "id": "x7uzdee",
+          "metadata": {
+            "duration": 2074,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2047,
+          "number": 18,
+          "allowEmbed": true,
+          "id": "x7uzdef",
+          "metadata": {
+            "duration": 2047,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 1927,
+          "number": 19,
+          "allowEmbed": true,
+          "id": "x7uzdeg",
+          "metadata": {
+            "duration": 1927,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2037,
+          "number": 20,
+          "allowEmbed": true,
+          "id": "x7uzdeh",
+          "metadata": {
+            "duration": 2037,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2123,
+          "number": 21,
+          "allowEmbed": true,
+          "id": "x7v068x",
+          "metadata": {
+            "duration": 2123,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2249,
+          "number": 22,
+          "allowEmbed": true,
+          "id": "x7v068z",
+          "metadata": {
+            "duration": 2249,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2356,
+          "number": 23,
+          "allowEmbed": true,
+          "id": "x7v0693",
+          "metadata": {
+            "duration": 2356,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2079,
+          "number": 24,
+          "allowEmbed": true,
+          "id": "x7v0694",
+          "metadata": {
+            "duration": 2079,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2214,
+          "number": 25,
+          "allowEmbed": true,
+          "id": "x7v0697",
+          "metadata": {
+            "duration": 2214,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2069,
+          "number": 26,
+          "allowEmbed": true,
+          "id": "x7v0cfp",
+          "metadata": {
+            "duration": 2069,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2080,
+          "number": 27,
+          "allowEmbed": true,
+          "id": "x7v0cfr",
+          "metadata": {
+            "duration": 2080,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2094,
+          "number": 28,
+          "allowEmbed": true,
+          "id": "x7v0cfs",
+          "metadata": {
+            "duration": 2094,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2177,
+          "number": 29,
+          "allowEmbed": true,
+          "id": "x7v0cft",
+          "metadata": {
+            "duration": 2177,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2114,
+          "number": 30,
+          "allowEmbed": true,
+          "id": "x7v0cfv",
+          "metadata": {
+            "duration": 2114,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2180,
+          "number": 31,
+          "allowEmbed": true,
+          "id": "x7v0cfx",
+          "metadata": {
+            "duration": 2180,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 2652,
+          "number": 32,
+          "allowEmbed": true,
+          "id": "x7v0cfy",
+          "metadata": {
+            "duration": 2652,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        },
+        {
+          "duration": 3743,
+          "number": 33,
+          "allowEmbed": true,
+          "id": "x7v0t8c",
+          "metadata": {
+            "duration": 3743,
+            "hd": true,
+            "allowEmbed": true,
+            "adsBlocked": false,
+            "verifiedPublisher": true
+          }
+        }
+      ]
+    }
+  ],
+  "filmCandidatesDetailed": [
+    {
+      "id": "xay1vle",
+      "title": "فيلم الرعب   بستان الــ دم",
+      "duration": 4178,
+      "owner": "IMediaMovies",
+      "allowEmbed": true,
+      "status": "candidate-not-playback-tested",
+      "metadata": {
+        "title": "فيلم الرعب   بستان الــ دم",
+        "duration": 4178,
+        "formats": [
+          "sd",
+          "hq",
+          "hd720"
+        ],
+        "hd": true,
+        "allowEmbed": true,
+        "adsBlocked": false,
+        "verifiedPublisher": true
+      }
+    },
+    {
+      "id": "xaxzwqu",
+      "title": "فيلم العذاب امراة  - محمود يس - نيللى",
+      "duration": 6621,
+      "owner": "IMediaMovies",
+      "allowEmbed": true,
+      "status": "candidate-not-playback-tested",
+      "metadata": {
+        "title": "فيلم العذاب امراة  - محمود يس - نيللى",
+        "duration": 6621,
+        "formats": [
+          "sd",
+          "hq",
+          "hd720",
+          "hd1080"
+        ],
+        "hd": true,
+        "allowEmbed": true,
+        "adsBlocked": false,
+        "verifiedPublisher": true
+      }
+    },
+    {
+      "id": "xaxzsri",
+      "title": "الفيلم الرائع  بجودة  عاليه  بعد الترميم El Nasabeen Movie   فيلم النصابين",
+      "duration": 5601,
+      "owner": "IMediaMovies",
+      "allowEmbed": true,
+      "status": "candidate-not-playback-tested",
+      "metadata": {
+        "title": "الفيلم الرائع  بجودة  عاليه  بعد الترميم El Nasabeen Movie   فيلم النصابين",
+        "duration": 5601,
+        "formats": [
+          "sd",
+          "hq",
+          "hd720",
+          "hd1080"
+        ],
+        "hd": true,
+        "allowEmbed": true,
+        "adsBlocked": false,
+        "verifiedPublisher": true
+      }
+    },
+    {
+      "id": "x8p3ftk",
+      "title": "Marzoka Movie | فيلم مرزوقة",
+      "duration": 5806,
+      "owner": "IMediaMovies",
+      "allowEmbed": true,
+      "status": "candidate-not-playback-tested",
+      "metadata": {
+        "title": "Marzoka Movie | فيلم مرزوقة",
+        "duration": 5806,
+        "formats": [
+          "sd",
+          "hq",
+          "hd720"
+        ],
+        "hd": true,
+        "allowEmbed": true,
+        "adsBlocked": false,
+        "verifiedPublisher": true
+      }
+    },
+    {
+      "id": "x8p3fto",
+      "title": "فيلم - مغامرون حول العالم - بطوله عادل امام  - ناهد شريف  - 1978",
+      "duration": 5723,
+      "owner": "IMediaMovies",
+      "allowEmbed": true,
+      "status": "candidate-not-playback-tested",
+      "metadata": {
+        "title": "فيلم - مغامرون حول العالم - بطوله عادل امام  - ناهد شريف  - 1978",
+        "duration": 5723,
+        "formats": [
+          "sd",
+          "hq",
+          "hd720@60"
+        ],
+        "hd": false,
+        "allowEmbed": true,
+        "adsBlocked": false,
+        "verifiedPublisher": true
+      }
+    },
+    {
+      "id": "x8p3pkw",
+      "title": "Al Thalatha Yashtghalonaha Movie | فيلم الثلاثة يشتغلونها",
+      "duration": 7083,
+      "owner": "IMediaMovies",
+      "allowEmbed": true,
+      "status": "candidate-not-playback-tested",
+      "metadata": {
+        "title": "Al Thalatha Yashtghalonaha Movie | فيلم الثلاثة يشتغلونها",
+        "duration": 7083,
+        "formats": [
+          "sd",
+          "hq",
+          "hd720",
+          "hd1080"
+        ],
+        "hd": true,
+        "allowEmbed": true,
+        "adsBlocked": false,
+        "verifiedPublisher": true
+      }
+    },
+    {
+      "id": "x7yiol1",
+      "title": "فيلم ابليس فى المدينه_1",
+      "duration": 6573,
+      "owner": "IMediaMovies",
+      "allowEmbed": true,
+      "status": "candidate-not-playback-tested",
+      "metadata": {
+        "title": "فيلم ابليس فى المدينه_1",
+        "duration": 6573,
+        "formats": [
+          "sd",
+          "hq",
+          "hd720",
+          "hd1080"
+        ],
+        "hd": true,
+        "allowEmbed": true,
+        "adsBlocked": false,
+        "verifiedPublisher": true
+      }
+    },
+    {
+      "id": "x7yhvwd",
+      "title": "فيلم مدرسه  المشاغبين",
+      "duration": 6766,
+      "owner": "IMediaMovies",
+      "allowEmbed": true,
+      "status": "candidate-not-playback-tested",
+      "metadata": {
+        "title": "فيلم مدرسه  المشاغبين",
+        "duration": 6766,
+        "formats": [
+          "sd",
+          "hq",
+          "hd720",
+          "hd1080"
+        ],
+        "hd": true,
+        "allowEmbed": true,
+        "adsBlocked": false,
+        "verifiedPublisher": true
+      }
+    },
+    {
+      "id": "x7yec8h",
+      "title": "El ِِAbqary Khamsa Movie - فيلم العبقري خمسة",
+      "duration": 6347,
+      "owner": "IMediaMovies",
+      "allowEmbed": true,
+      "status": "candidate-not-playback-tested",
+      "metadata": {
+        "title": "El ِِAbqary Khamsa Movie - فيلم العبقري خمسة",
+        "duration": 6347,
+        "formats": [
+          "sd",
+          "hq",
+          "hd720"
+        ],
+        "hd": true,
+        "allowEmbed": true,
+        "adsBlocked": false,
+        "verifiedPublisher": true
+      }
+    },
+    {
+      "id": "x72cv3w",
+      "title": "Agras El Khatar Movie   فيلم اجراس الخطر",
+      "duration": 6568,
+      "owner": "IMediaMovies",
+      "allowEmbed": true,
+      "status": "candidate-not-playback-tested",
+      "metadata": {
+        "title": "Agras El Khatar Movie   فيلم اجراس الخطر",
+        "duration": 6568,
+        "formats": [
+          "sd",
+          "hq",
+          "hd720",
+          "hd1080"
+        ],
+        "hd": true,
+        "allowEmbed": true,
+        "adsBlocked": false,
+        "verifiedPublisher": true
+      }
+    },
+    {
+      "id": "x72slpq",
+      "title": "El Thalatha Yeshtghalonha Movie | فيلم الثلاثة يشتغلونها",
+      "duration": 7098,
+      "owner": "IMediaMovies",
+      "allowEmbed": true,
+      "status": "candidate-not-playback-tested",
+      "metadata": {
+        "title": "El Thalatha Yeshtghalonha Movie | فيلم الثلاثة يشتغلونها",
+        "duration": 7098,
+        "formats": [
+          "sd",
+          "hq",
+          "hd720",
+          "hd1080"
+        ],
+        "hd": true,
+        "allowEmbed": true,
+        "adsBlocked": false,
+        "verifiedPublisher": true
+      }
+    },
+    {
+      "id": "x6y24bj",
+      "title": "Demoa Fi Laylat Al Zefaf Movie | فيلم دموع فى ليلة الزفاف",
+      "duration": 5926,
+      "owner": "IMediaMovies",
+      "allowEmbed": true,
+      "status": "candidate-not-playback-tested",
+      "metadata": {
+        "title": "Demoa Fi Laylat Al Zefaf Movie | فيلم دموع فى ليلة الزفاف",
+        "duration": 5926,
+        "formats": [
+          "sd",
+          "hq",
+          "hd720"
+        ],
+        "hd": true,
+        "allowEmbed": true,
+        "adsBlocked": false,
+        "verifiedPublisher": true
+      }
+    },
+    {
+      "id": "x6y24bi",
+      "title": "Khamsa Fi Al Gahiem Movie | فيلم خمسة فى الجحيم",
+      "duration": 6413,
+      "owner": "IMediaMovies",
+      "allowEmbed": true,
+      "status": "candidate-not-playback-tested",
+      "metadata": {
+        "title": "Khamsa Fi Al Gahiem Movie | فيلم خمسة فى الجحيم",
+        "duration": 6413,
+        "formats": [
+          "sd",
+          "hq",
+          "hd720"
+        ],
+        "hd": true,
+        "allowEmbed": true,
+        "adsBlocked": false,
+        "verifiedPublisher": true
+      }
+    },
+    {
+      "id": "x6y1oqo",
+      "title": "Nos Arnab Movie - فيلم نص أرنب",
+      "duration": 5501,
+      "owner": "IMediaMovies",
+      "allowEmbed": true,
+      "status": "candidate-not-playback-tested",
+      "metadata": {
+        "title": "Nos Arnab Movie - فيلم نص أرنب",
+        "duration": 5501,
+        "formats": [
+          "sd",
+          "hd720"
+        ],
+        "hd": true,
+        "allowEmbed": true,
+        "adsBlocked": false,
+        "verifiedPublisher": true
+      }
+    },
+    {
+      "id": "x6w0y01",
+      "title": "Al Layla Al Maw'oudah Movie | فيلم الليله الموعودة",
+      "duration": 7315,
+      "owner": "IMediaMovies",
+      "allowEmbed": true,
+      "status": "candidate-not-playback-tested",
+      "metadata": {
+        "title": "Al Layla Al Maw'oudah Movie | فيلم الليله الموعودة",
+        "duration": 7315,
+        "formats": [
+          "sd",
+          "hd720"
+        ],
+        "hd": true,
+        "allowEmbed": true,
+        "adsBlocked": false,
+        "verifiedPublisher": true
+      }
+    },
+    {
+      "id": "x6w0ujr",
+      "title": "فيلم الثار - El Thaar Movie",
+      "duration": 5225,
+      "owner": "IMediaMovies",
+      "allowEmbed": true,
+      "status": "candidate-not-playback-tested",
+      "metadata": {
+        "title": "فيلم الثار - El Thaar Movie",
+        "duration": 5225,
+        "formats": [
+          "sd",
+          "hq",
+          "hd720"
+        ],
+        "hd": true,
+        "allowEmbed": true,
+        "adsBlocked": false,
+        "verifiedPublisher": true
+      }
+    },
+    {
+      "id": "x6w0n06",
+      "title": "Azraa Wa Thalthat Regal Movie | فيلم عذراء و ثلاثة رجال",
+      "duration": 6369,
+      "owner": "IMediaMovies",
+      "allowEmbed": true,
+      "status": "candidate-not-playback-tested",
+      "metadata": {
+        "title": "Azraa Wa Thalthat Regal Movie | فيلم عذراء و ثلاثة رجال",
+        "duration": 6369,
+        "formats": [
+          "sd",
+          "hq",
+          "hd720"
+        ],
+        "hd": true,
+        "allowEmbed": true,
+        "adsBlocked": false,
+        "verifiedPublisher": true
+      }
+    },
+    {
+      "id": "x6w0n5n",
+      "title": "Al Takhsheba Movie | فيلم التخشيبة",
+      "duration": 7449,
+      "owner": "IMediaMovies",
+      "allowEmbed": true,
+      "status": "candidate-not-playback-tested",
+      "metadata": {
+        "title": "Al Takhsheba Movie | فيلم التخشيبة",
+        "duration": 7449,
+        "formats": [
+          "sd",
+          "hq",
+          "hd720"
+        ],
+        "hd": true,
+        "allowEmbed": true,
+        "adsBlocked": false,
+        "verifiedPublisher": true
+      }
+    },
+    {
+      "id": "x6w0mx6",
+      "title": "El Aqzam Qadmoun Movie | فيلم الاقزام قادمون",
+      "duration": 5454,
+      "owner": "IMediaMovies",
+      "allowEmbed": true,
+      "status": "candidate-not-playback-tested",
+      "metadata": {
+        "title": "El Aqzam Qadmoun Movie | فيلم الاقزام قادمون",
+        "duration": 5454,
+        "formats": [
+          "sd",
+          "hq",
+          "hd720"
+        ],
+        "hd": true,
+        "allowEmbed": true,
+        "adsBlocked": false,
+        "verifiedPublisher": true
+      }
+    },
+    {
+      "id": "x6w0m8r",
+      "title": "Eatedaa Movie | فيلم اعتداء",
+      "duration": 5115,
+      "owner": "IMediaMovies",
+      "allowEmbed": true,
+      "status": "candidate-not-playback-tested",
+      "metadata": {
+        "title": "Eatedaa Movie | فيلم اعتداء",
+        "duration": 5115,
+        "formats": [
+          "sd",
+          "hq",
+          "hd720"
+        ],
+        "hd": true,
+        "allowEmbed": true,
+        "adsBlocked": false,
+        "verifiedPublisher": true
+      }
+    },
+    {
+      "id": "x6w0mo9",
+      "title": "Akhy Wa Sadeqy Saqtolak Movie | فيلم اخى و صديقى ساقتلك",
+      "duration": 5775,
+      "owner": "IMediaMovies",
+      "allowEmbed": true,
+      "status": "candidate-not-playback-tested",
+      "metadata": {
+        "title": "Akhy Wa Sadeqy Saqtolak Movie | فيلم اخى و صديقى ساقتلك",
+        "duration": 5775,
+        "formats": [
+          "sd",
+          "hd720"
+        ],
+        "hd": true,
+        "allowEmbed": true,
+        "adsBlocked": false,
+        "verifiedPublisher": true
+      }
+    }
+  ],
+  "acceptance": {
+    "status": "research inventory, not activated",
+    "reason": "No new work has been verified against all required conditions including ad-free playback and live Cinema/TV; title aliases and full-length identity require further review. No edits to production catalog."
+  }
+}
