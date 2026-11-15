@@ -1,3 +1,4 @@
+import {isHdVideo} from './mediaQuality.js';
 import {attachApprovedEmbed} from './approvedEmbedCatalog.js';
 import React, { useState, useEffect, useRef } from 'react'
 import ReactDOM from 'react-dom/client'
@@ -1324,7 +1325,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
     };
     const armDeadline=()=>{if(!onNativeFailure)return;clearDeadline();deadline=setTimeout(fail,20000);};
     const onStall=()=>{if(!video.paused)armDeadline();};
-    const onCanPlay=()=>{clearDeadline();if(movie.sourceSync&&video.videoHeight>0&&video.videoHeight<720)fail();};
+    const onCanPlay=()=>{clearDeadline();if(movie.sourceSync&&video.videoHeight>0&&!isHdVideo(video.videoWidth,video.videoHeight))fail();};
     video.addEventListener('error',fail);
     video.addEventListener('canplay',onCanPlay);
     video.addEventListener('playing',clearDeadline);
@@ -1342,7 +1343,7 @@ function Player({ movie, role, mode, myCoords, partnerCoords, syncSettings, onSe
         if(tvPlayback)applyTv();
         else if(!selectedSub&&hls.subtitleTracks.length){const i=arabicSubtitleIndex(hls.subtitleTracks);if(i>=0){hls.subtitleTrack=i;hls.subtitleDisplay=true;selectedSub=true;setLanguageStatus(v=>({...v,subs:'Arabic selected'}));}}
       };
-      hls.on(Hls.Events.MANIFEST_PARSED,()=>{const all=hls.levels.map((l,i)=>({id:i,height:l.height||0,bitrate:l.bitrate||0}));const usable=movie.sourceSync?all.filter(l=>l.height>=720):all;setLevels(usable);if(movie.sourceSync){if(!usable.length){fail();return;}const best=usable.reduce((a,b)=>b.height>a.height?b:a);hls.currentLevel=best.id;setQuality(best.id);}applyHls();});
+      hls.on(Hls.Events.MANIFEST_PARSED,()=>{const all=hls.levels.map((l,i)=>({id:i,height:l.height||0,width:l.width||0,bitrate:l.bitrate||0}));const usable=movie.sourceSync?all.filter(l=>isHdVideo(l.width,l.height)):all;setLevels(usable);if(movie.sourceSync){if(!usable.length){fail();return;}const best=usable.reduce((a,b)=>b.height>a.height?b:a);hls.currentLevel=best.id;setQuality(best.id);}applyHls();});
       hls.on(Hls.Events.AUDIO_TRACKS_UPDATED,applyHls);
       hls.on(Hls.Events.SUBTITLE_TRACKS_UPDATED,applyHls);
       if(tvPlayback)hls.on(Hls.Events.SUBTITLE_TRACK_LOADED,applyTv);
