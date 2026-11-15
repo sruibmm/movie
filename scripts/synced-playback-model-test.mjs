@@ -24,3 +24,9 @@ assert.equal((await verifiedSyncedAlternative(work,slot,mock)).sourceSync.episod
 const empty=async url=>Response.json(url.includes('/catalog')?{titles:[t]}:{candidates:[]});
 assert.equal(await verifiedSyncedAlternative(work,slot,empty),null);
 console.log('PASS exact approved fallback, no wrong year, season, ambiguous identity or empty source');
+
+import {isHdVideo,qualityScore} from '../src/mediaQuality.js';
+assert(isHdVideo(1280,544));assert(isHdVideo(1920,804));assert(!isHdVideo(854,480));assert(!isHdVideo(1280,480));assert(!isHdVideo(1280,300));assert(!isHdVideo(undefined,544));assert(isHdVideo(undefined,720));
+assert.equal(qualityScore(1280,544),720);
+assert.deepEqual(filterCandidates({candidates:[{...a,id:'wide',width:1280,height:544},{...a,id:'low',width:854,height:480}]},now).map(x=>x.id),['wide']);
+console.log('PASS cinematic widescreen HD accepted; low resolution and missing width rejected');
