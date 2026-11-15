@@ -1,0 +1,104 @@
+{
+  "checkedAt": "2026-11-15",
+  "goal": "Arabic films and complete series, free viewer access, no ads, authorized in-Cinema playback, HD, Kuwait and TV",
+  "platforms": [
+    {
+      "name": "Tabie",
+      "url": "https://tabie.net/",
+      "catalogEvidence": [
+        {
+          "title": "أبطال الرمال",
+          "url": "https://tabie.net/shows/1318",
+          "listedEpisodes": 15
+        },
+        {
+          "title": "مرضي ودحام",
+          "url": "https://tabie.net/shows/1072",
+          "listedEpisodes": 91,
+          "seasons": 3
+        }
+      ],
+      "playerVendor": "Kwikmotion",
+      "vendorDocs": "https://developer.kwikmotion.com/player-v9.html",
+      "observations": {
+        "http": 200,
+        "xFrameOptions": "SAMEORIGIN",
+        "publicIframeCount": 0,
+        "publicEmbedLinks": 0,
+        "scope": "static public show HTML only"
+      },
+      "status": "candidate; no title-specific publisher embed or ad-free playback verified"
+    },
+    {
+      "name": "Maraya",
+      "url": "https://maraya.sba.net.ae/",
+      "evidence": "https://www.wam.ae/ar/article/hszrc7ox",
+      "observations": {
+        "http": 200,
+        "xFrameOptions": "DENY",
+        "frameAncestors": "restrictive allowlist excludes Cinema",
+        "publicIframeCount": 0,
+        "publicEmbedLinks": 0
+      },
+      "status": "public site cannot be framed; separate publisher-supported embed not verified"
+    },
+    {
+      "name": "Weyyak",
+      "evidence": "https://apps.apple.com/kw/app/weyyak-%D9%88%D9%8A%D8%A7%D9%83/id1226514781?platform=tv",
+      "status": "16000+ hours advertised; ad-free subscription; no approved embed verified"
+    },
+    {
+      "name": "Wide",
+      "url": "https://wide.net/en/document/about_us",
+      "status": "8000+ hours; free tier ad-supported"
+    },
+    {
+      "name": "ADtv",
+      "url": "https://www.adtv.ae/",
+      "evidence": "https://campaignme.com/agency/adtv-app/",
+      "status": "AVOD"
+    },
+    {
+      "name": "Ayn",
+      "url": "https://ayn.om/terms-condition",
+      "status": "free registration; terms restrict redistribution"
+    },
+    {
+      "name": "51 Kuwait",
+      "url": "https://51.com.kw/faq",
+      "status": "subscription for full access; ad-free 51+"
+    },
+    {
+      "name": "WatanFlix",
+      "url": "https://watanflix.com/en/policy",
+      "status": "terms restrict reuse; independent original publisher sources only"
+    },
+    {
+      "name": "Aflamuna",
+      "url": "https://aflamuna.online/terms-condition",
+      "status": "limited screening windows and domain controls; redistribution prohibited"
+    },
+    {
+      "name": "Al Jazeera 360",
+      "url": "https://help.aljazeera360.com/",
+      "status": "free account; no authorized title-specific external player verified; documentary focus"
+    },
+    {
+      "name": "QAF",
+      "url": "https://www.qafplatform.com/terms",
+      "status": "ad-supported and restrictions on redistribution"
+    },
+    {
+      "name": "Dailymotion",
+      "url": "https://faq.dailymotion.com/hc/en-us/articles/4408224350994-Create-manage-your-Players",
+      "status": "Enterprise player ad toggle; existing publisher titles remain candidates; no new approval"
+    }
+  ],
+  "discoveryIndex": {
+    "url": "https://archivegenocide.com/media/",
+    "reportedFilms": 1803,
+    "reportedFreeFull": 1591,
+    "status": "third-party index; not a license or validated Arabic-only inventory; source-by-source review"
+  },
+  "newProductionActivations": 0
+}
