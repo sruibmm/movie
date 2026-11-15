@@ -183,6 +183,84 @@ export const APPROVED_EMBEDS=Object.freeze([
       "playedSeconds": 13.822701,
       "scope": "independent local iframe; publisher default player config has no advertising plugin; no ads observed at startup"
     }
+  },
+  {
+    "movieId": "vimeo:379629672",
+    "kind": "movie",
+    "title": "بنات آخر زمن",
+    "originalTitle": "Youth",
+    "year": 2019,
+    "category": "فيلم روائي قصير",
+    "duration": 661,
+    "language": "العربية · ترجمة إنجليزية",
+    "publisher": "Farida Zahran",
+    "permissionRef": "https://vimeo.com/379629672 · https://help.vimeo.com/hc/en-us/articles/12426275096337-Embedding-features-by-plan-type",
+    "expires": "2027-02-15T00:00:00Z",
+    "origin": "https://player.vimeo.com",
+    "embed": "https://player.vimeo.com/video/379629672?app_id=122963",
+    "adsPossible": false,
+    "poster": "https://i.vimeocdn.com/video/839918719-16cb0e93793c2b9ba5bbd8a85d695e5e2f7f26e112363b239e3cac95074c6c7f-d_295x166?region=us",
+    "overview": "فتاة مراهقة تخطو نحو النضج في القاهرة.",
+    "observed": {
+      "checked": "2026-11-15",
+      "width": 1280,
+      "height": 720,
+      "duration": 660.5866666666667,
+      "playedSeconds": 12.165401,
+      "scope": "independent local iframe; no ads observed at startup"
+    }
+  },
+  {
+    "movieId": "vimeo:580646637",
+    "kind": "movie",
+    "title": "واي فاي رايدر",
+    "originalTitle": "WIFI RIDER",
+    "year": 2021,
+    "category": "وثائقي قصير",
+    "duration": 762,
+    "language": "العربية · ترجمة إنجليزية",
+    "publisher": "Roxy Rezvany",
+    "permissionRef": "https://vimeo.com/580646637 · https://help.vimeo.com/hc/en-us/articles/12426275096337-Embedding-features-by-plan-type",
+    "expires": "2027-02-15T00:00:00Z",
+    "origin": "https://player.vimeo.com",
+    "embed": "https://player.vimeo.com/video/580646637?app_id=122963",
+    "adsPossible": false,
+    "poster": "https://i.vimeocdn.com/video/1201473869-c599373496d9c0412cb0cdf9f520a30f0b7269ccad06b0e4ac5f062a78b47cb8-d_295x166?region=us",
+    "overview": "رحلة الشاب الفلسطيني شكري من القدس إلى عمّان، حيث يجد في الفن والموضة على الإنترنت مساحة للتعبير عن ذاته.",
+    "observed": {
+      "checked": "2026-11-15",
+      "width": 1280,
+      "height": 720,
+      "duration": 761.52,
+      "playedSeconds": 9.935591,
+      "scope": "independent local iframe; no ads observed at startup"
+    }
+  },
+  {
+    "movieId": "vimeo:233685439",
+    "kind": "movie",
+    "title": "غواصة",
+    "originalTitle": "Submarine",
+    "year": 2016,
+    "category": "فيلم روائي قصير",
+    "duration": 1250,
+    "language": "العربية · ترجمة إنجليزية",
+    "publisher": "Mounia Akl",
+    "permissionRef": "https://vimeo.com/233685439 · https://help.vimeo.com/hc/en-us/articles/12426275096337-Embedding-features-by-plan-type",
+    "expires": "2027-02-15T00:00:00Z",
+    "origin": "https://player.vimeo.com",
+    "embed": "https://player.vimeo.com/video/233685439?app_id=122963",
+    "adsPossible": false,
+    "poster": "https://i.vimeocdn.com/video/655082466-b5f5e064fed9082824d409b7a5aa4312463bc2a92d3c462035a0b64fcd0686e2-d_295x166?region=us",
+    "overview": "ترفض هالة مغادرة منزلها وسط أزمة النفايات في لبنان.",
+    "observed": {
+      "checked": "2026-11-15",
+      "width": 1280,
+      "height": 720,
+      "duration": 1249.7066666666667,
+      "playedSeconds": 10.757883,
+      "scope": "independent local iframe; no ads observed at startup"
+    }
   }
 ].map(Object.freeze));
 export function approvedEmbed(movie,entries=APPROVED_EMBEDS,now=Date.now()){
