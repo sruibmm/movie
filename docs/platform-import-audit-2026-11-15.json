@@ -1,0 +1,3254 @@
+{
+  "checkedAt": "2026-11-15",
+  "status": "separate metadata staging; playable Brightcove films activated in commit 95ddcb2b",
+  "tabie": {
+    "source": "https://tabie.net/genre",
+    "uniqueVisibleCards": 247,
+    "dramaCount": 35,
+    "categories": [
+      [
+        "الاكثر مشاهدة",
+        10
+      ],
+      [
+        "مسلسلات  تاريخية",
+        10
+      ],
+      [
+        "مسلسلات دراما",
+        19
+      ],
+      [
+        "مسلسلات كوميدية",
+        6
+      ],
+      [
+        "منصة نبراس",
+        4
+      ],
+      [
+        "بودكاست",
+        1
+      ],
+      [
+        "برامج حوارية",
+        7
+      ],
+      [
+        "وثائقيات",
+        21
+      ],
+      [
+        "مؤسسة الإنتاج البرامجي المشترك",
+        23
+      ],
+      [
+        "برامج ثقافية",
+        18
+      ],
+      [
+        "برامج دينية",
+        24
+      ],
+      [
+        "لقاء خاص",
+        1
+      ],
+      [
+        "برامج العيد",
+        5
+      ],
+      [
+        "تغطيات",
+        8
+      ],
+      [
+        "برامج اجتماعية",
+        9
+      ],
+      [
+        "برامج الأطفال",
+        13
+      ],
+      [
+        "برامج رياضية",
+        5
+      ],
+      [
+        "برامج الطبخ",
+        7
+      ],
+      [
+        "مسابقات",
+        4
+      ],
+      [
+        "منوعات",
+        2
+      ],
+      [
+        "طرب",
+        4
+      ],
+      [
+        "أغاني",
+        12
+      ],
+      [
+        "مسرحيات",
+        17
+      ],
+      [
+        "برامج تفاعلية",
+        1
+      ],
+      [
+        "برامج اذاعة قطر",
+        17
+      ],
+      [
+        "برامج اذاعة القران",
+        13
+      ]
+    ],
+    "works": [
+      {
+        "id": "1318",
+        "title": "أبطال الرمال",
+        "poster": "https://www.qmc.qa/img/MediaContents/cd2afbd1-c3d4-4c7c-a2c2-3abe9e506a05.jpg",
+        "url": "https://tabie.net/shows/1318",
+        "categories": [
+          "الاكثر مشاهدة",
+          "مسلسلات  تاريخية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1320",
+        "title": "مراسيل",
+        "poster": "https://www.qmc.qa/img/MediaContents/7021d9a1-73a7-4c1a-a650-c6f5f19b900b.jpg",
+        "url": "https://tabie.net/shows/1320",
+        "categories": [
+          "الاكثر مشاهدة",
+          "مسلسلات دراما"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1197",
+        "title": "كناشة العرب",
+        "poster": "https://www.qmc.qa/img/MediaContents/6e8355b4-f4d4-4465-993e-86a83e5cbaa6.jpg",
+        "url": "https://tabie.net/shows/1197",
+        "categories": [
+          "الاكثر مشاهدة",
+          "برامج ثقافية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1192",
+        "title": "قدوة",
+        "poster": "https://www.qmc.qa/img/MediaContents/bbcd518a-6224-4e9c-9393-239815eb525d.jpg",
+        "url": "https://tabie.net/shows/1192",
+        "categories": [
+          "الاكثر مشاهدة",
+          "برامج دينية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1193",
+        "title": "أمس",
+        "poster": "https://www.qmc.qa/img/MediaContents/fbcdeb8a-5678-4425-9502-978fc046e3ae.jpg",
+        "url": "https://tabie.net/shows/1193",
+        "categories": [
+          "الاكثر مشاهدة",
+          "برامج دينية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1189",
+        "title": "شباب الصحابة",
+        "poster": "https://www.qmc.qa/img/MediaContents/e51433bb-60d9-4858-88ab-620cc6fd29f0.jpg",
+        "url": "https://tabie.net/shows/1189",
+        "categories": [
+          "الاكثر مشاهدة",
+          "برامج دينية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1191",
+        "title": "قصة آية",
+        "poster": "https://www.qmc.qa/img/MediaContents/d8770819-723f-4502-9334-4cb172c623b3.jpg",
+        "url": "https://tabie.net/shows/1191",
+        "categories": [
+          "الاكثر مشاهدة",
+          "برامج دينية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1196",
+        "title": "شورك",
+        "poster": "https://www.qmc.qa/img/MediaContents/991c45a1-4358-4ac6-8d8c-9a57ace52d7b.jpg",
+        "url": "https://tabie.net/shows/1196",
+        "categories": [
+          "الاكثر مشاهدة",
+          "برامج دينية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "33",
+        "title": "جائزة كتارا لتلاوة القرآن الكريم",
+        "poster": "https://www.qmc.qa/img/MediaContents/d0a6efac-6f89-4bd6-bfee-44b5129ffd5e.jpg",
+        "url": "https://tabie.net/shows/33",
+        "categories": [
+          "الاكثر مشاهدة",
+          "برامج دينية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1188",
+        "title": "ومضات من السنة",
+        "poster": "https://www.qmc.qa/img/MediaContents/1ffc90f3-2f65-47b6-903c-675b780106c4.jpg",
+        "url": "https://tabie.net/shows/1188",
+        "categories": [
+          "الاكثر مشاهدة",
+          "برامج دينية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "3",
+        "title": "عمر",
+        "poster": "https://www.qmc.qa/img/MediaContents/f914dff2-1eb7-4075-99fb-17626d6e9eaf.jpg",
+        "url": "https://tabie.net/shows/3",
+        "categories": [
+          "مسلسلات  تاريخية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "60",
+        "title": "الأمام أحمد بن حنبل",
+        "poster": "https://www.qmc.qa/img/MediaContents/b7652b81-18fc-4af4-83f5-24d02b9e5c90.jpg",
+        "url": "https://tabie.net/shows/60",
+        "categories": [
+          "مسلسلات  تاريخية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "55",
+        "title": "مالك بن الريب",
+        "poster": "https://www.qmc.qa/img/MediaContents/5c71590d-e393-4311-9522-46cf5e9a995f.jpg",
+        "url": "https://tabie.net/shows/55",
+        "categories": [
+          "مسلسلات  تاريخية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1057",
+        "title": "القعقاع بن عمرو التميمي",
+        "poster": "https://www.qmc.qa/img/MediaContents/6e998f55-e6bc-468d-94d6-ca2faac3d6bc.jpg",
+        "url": "https://tabie.net/shows/1057",
+        "categories": [
+          "مسلسلات  تاريخية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1058",
+        "title": "أبو جعفر المنصور",
+        "poster": "https://www.qmc.qa/img/MediaContents/9d99fa49-199a-47f9-8b1d-26a6e90a6406.jpg",
+        "url": "https://tabie.net/shows/1058",
+        "categories": [
+          "مسلسلات  تاريخية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1059",
+        "title": "الحجاج",
+        "poster": "https://www.qmc.qa/img/MediaContents/604f8f6f-3a63-4678-9dee-c933d6a17fc2.jpg",
+        "url": "https://tabie.net/shows/1059",
+        "categories": [
+          "مسلسلات  تاريخية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1159",
+        "title": "آخر ايام اليمامة",
+        "poster": "https://www.qmc.qa/img/MediaContents/299dc75e-6314-4544-9a78-6bfec6bf5691.jpg",
+        "url": "https://tabie.net/shows/1159",
+        "categories": [
+          "مسلسلات  تاريخية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1161",
+        "title": "زمان الوصل",
+        "poster": "https://www.qmc.qa/img/MediaContents/9395425e-94a7-45b9-9a75-a98b55ef70c9.jpg",
+        "url": "https://tabie.net/shows/1161",
+        "categories": [
+          "مسلسلات  تاريخية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1207",
+        "title": "سيوف العرب",
+        "poster": "https://www.qmc.qa/img/MediaContents/d132cba4-37d4-44e5-8baf-9473d8fd8cad.jpg",
+        "url": "https://tabie.net/shows/1207",
+        "categories": [
+          "مسلسلات  تاريخية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1087",
+        "title": "متى الأيام",
+        "poster": "https://www.qmc.qa/img/MediaContents/290690f6-ef58-4d36-a4cb-6378bfbe225a.jpg",
+        "url": "https://tabie.net/shows/1087",
+        "categories": [
+          "مسلسلات دراما"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1089",
+        "title": "الوشم",
+        "poster": "https://www.qmc.qa/img/MediaContents/a2fb4d0c-d73e-44b7-a850-08843fb8326e.jpg",
+        "url": "https://tabie.net/shows/1089",
+        "categories": [
+          "مسلسلات دراما"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1066",
+        "title": "عندما تغني الزهور",
+        "poster": "https://www.qmc.qa/img/MediaContents/0f2d3751-bf93-4364-aa42-b3411c97d43f.jpg",
+        "url": "https://tabie.net/shows/1066",
+        "categories": [
+          "مسلسلات دراما"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1067",
+        "title": "قلوب للإيجار",
+        "poster": "https://www.qmc.qa/img/MediaContents/14ad6150-ffa3-455a-b5c2-a25b05b3c839.jpg",
+        "url": "https://tabie.net/shows/1067",
+        "categories": [
+          "مسلسلات دراما"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1068",
+        "title": "مسلسل حكم البشر",
+        "poster": "https://www.qmc.qa/img/MediaContents/197dc83c-1289-4f6d-9453-290408b6561b.jpg",
+        "url": "https://tabie.net/shows/1068",
+        "categories": [
+          "مسلسلات دراما"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1069",
+        "title": "بيت المغتني",
+        "poster": "https://www.qmc.qa/img/MediaContents/6e2df345-618b-4337-baf0-c901091eb017.jpg",
+        "url": "https://tabie.net/shows/1069",
+        "categories": [
+          "مسلسلات دراما"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1063",
+        "title": "عيال الذيب",
+        "poster": "https://www.qmc.qa/img/MediaContents/3a3a92e4-2d2e-4d43-81a2-bc6a50afb626.jpg",
+        "url": "https://tabie.net/shows/1063",
+        "categories": [
+          "مسلسلات دراما"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1073",
+        "title": "هود الليل",
+        "poster": "https://www.qmc.qa/img/MediaContents/eb31d86b-3881-4b69-b9e0-93ff8fcb750f.jpg",
+        "url": "https://tabie.net/shows/1073",
+        "categories": [
+          "مسلسلات دراما"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1074",
+        "title": "الفرج بعد الشدة",
+        "poster": "https://www.qmc.qa/img/MediaContents/13f5d9f1-5454-4b66-abc8-268260a4b054.jpg",
+        "url": "https://tabie.net/shows/1074",
+        "categories": [
+          "مسلسلات دراما"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1052",
+        "title": "عفوا سيدي الوالد",
+        "poster": "https://www.qmc.qa/img/MediaContents/879d55e4-1add-4d02-8534-d0e17ff09424.jpg",
+        "url": "https://tabie.net/shows/1052",
+        "categories": [
+          "مسلسلات دراما"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1053",
+        "title": "نأسف لهذا الخلل",
+        "poster": "https://www.qmc.qa/img/MediaContents/9ee671b3-9846-426b-b1df-3389b052a828.jpg",
+        "url": "https://tabie.net/shows/1053",
+        "categories": [
+          "مسلسلات دراما"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "52",
+        "title": "العمر مرة",
+        "poster": "https://www.qmc.qa/img/MediaContents/126e8bb8-04f6-48f9-901e-54e24a92f7a4.jpg",
+        "url": "https://tabie.net/shows/52",
+        "categories": [
+          "مسلسلات دراما"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "53",
+        "title": "الجار",
+        "poster": "https://www.qmc.qa/img/MediaContents/1ef15aea-9936-474e-84fc-94f8a99f132b.jpg",
+        "url": "https://tabie.net/shows/53",
+        "categories": [
+          "مسلسلات دراما"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "54",
+        "title": "الجسر",
+        "poster": "https://www.qmc.qa/img/MediaContents/09973a7d-924f-4efd-8c18-2f334459df0d.jpg",
+        "url": "https://tabie.net/shows/54",
+        "categories": [
+          "مسلسلات دراما"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "14",
+        "title": "بعد الشتات",
+        "poster": "https://www.qmc.qa/img/MediaContents/960def51-2f03-4bcc-828f-db920331f4e5.jpg",
+        "url": "https://tabie.net/shows/14",
+        "categories": [
+          "مسلسلات دراما"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "10",
+        "title": "قالوا الأولين",
+        "poster": "https://www.qmc.qa/img/MediaContents/b7cae576-1aa6-4588-959b-b7b9074bb81b.jpg",
+        "url": "https://tabie.net/shows/10",
+        "categories": [
+          "مسلسلات دراما"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1160",
+        "title": "وضحا وابن عجلان",
+        "poster": "https://www.qmc.qa/img/MediaContents/3a4924d8-1df8-48c6-945e-ddcf2a2bcaa0.jpg",
+        "url": "https://tabie.net/shows/1160",
+        "categories": [
+          "مسلسلات دراما"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1164",
+        "title": "سوالف دنيا",
+        "poster": "https://www.qmc.qa/img/MediaContents/cfb07fb1-4791-4e27-88ee-13257c38fabb.jpg",
+        "url": "https://tabie.net/shows/1164",
+        "categories": [
+          "مسلسلات دراما"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "16",
+        "title": "تصانيف",
+        "poster": "https://www.qmc.qa/img/MediaContents/e468bc30-2e52-4ece-9fdc-20b87a564733.jpg",
+        "url": "https://tabie.net/shows/16",
+        "categories": [
+          "مسلسلات كوميدية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1072",
+        "title": "مرضي ودحام",
+        "poster": "https://www.qmc.qa/img/MediaContents/1e02255c-ad5b-45f0-927b-ca303b117755.jpg",
+        "url": "https://tabie.net/shows/1072",
+        "categories": [
+          "مسلسلات كوميدية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1070",
+        "title": "تناتيف",
+        "poster": "https://www.qmc.qa/img/MediaContents/15e6228d-6b48-475f-a2b4-06ce9d147057.jpg",
+        "url": "https://tabie.net/shows/1070",
+        "categories": [
+          "مسلسلات كوميدية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1071",
+        "title": "فايز التوش",
+        "poster": "https://www.qmc.qa/img/MediaContents/768f2a93-2624-48b7-933a-737104c73ebc.jpg",
+        "url": "https://tabie.net/shows/1071",
+        "categories": [
+          "مسلسلات كوميدية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1162",
+        "title": "برودكاست",
+        "poster": "https://www.qmc.qa/img/MediaContents/726c3b87-ac32-4dfe-aa27-5b4521547ef2.jpg",
+        "url": "https://tabie.net/shows/1162",
+        "categories": [
+          "مسلسلات كوميدية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1171",
+        "title": "ست شباب",
+        "poster": "https://www.qmc.qa/img/MediaContents/ef3274c5-ca59-440e-ad45-e856a320769e.jpg",
+        "url": "https://tabie.net/shows/1171",
+        "categories": [
+          "مسلسلات كوميدية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1341",
+        "title": "بودكاست برزة",
+        "poster": "https://www.qmc.qa/img/MediaContents/4ab4d65f-08a1-4c01-8bce-054e74c6750e.jpg",
+        "url": "https://tabie.net/shows/1341",
+        "categories": [
+          "منصة نبراس"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1334",
+        "title": "رواق",
+        "poster": "https://www.qmc.qa/img/MediaContents/2d1ab9dc-be0d-4bf5-acd4-a637d1a05fc7.jpg",
+        "url": "https://tabie.net/shows/1334",
+        "categories": [
+          "منصة نبراس"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1314",
+        "title": "مكتبات رائدة",
+        "poster": "https://www.qmc.qa/img/MediaContents/3b87985c-0b22-4661-9490-c30faa08157a.jpg",
+        "url": "https://tabie.net/shows/1314",
+        "categories": [
+          "منصة نبراس"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1235",
+        "title": "بين السطور",
+        "poster": "https://www.qmc.qa/img/MediaContents/1bd94294-49f9-4704-a7c3-af08e837b4d4.jpg",
+        "url": "https://tabie.net/shows/1235",
+        "categories": [
+          "منصة نبراس"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1240",
+        "title": "تدبر بودكاست",
+        "poster": "https://www.qmc.qa/img/MediaContents/32fe047e-652c-42bf-9b16-aedadbcb97c0.jpg",
+        "url": "https://tabie.net/shows/1240",
+        "categories": [
+          "بودكاست"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1173",
+        "title": "رؤية",
+        "poster": "https://www.qmc.qa/img/MediaContents/4f7999bc-efc1-40a8-a6a1-d90f288bb877.jpg",
+        "url": "https://tabie.net/shows/1173",
+        "categories": [
+          "برامج حوارية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1111",
+        "title": "برنامج البرواز",
+        "poster": "https://www.qmc.qa/img/MediaContents/f698b540-02f8-4d21-b787-47fece4a3000.jpg",
+        "url": "https://tabie.net/shows/1111",
+        "categories": [
+          "برامج حوارية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1181",
+        "title": "صباح الوطن",
+        "poster": "https://www.qmc.qa/img/MediaContents/32b19fdc-3c52-4488-83ad-7c6324c4fa04.jpg",
+        "url": "https://tabie.net/shows/1181",
+        "categories": [
+          "برامج حوارية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1182",
+        "title": "مسيرة وطن",
+        "poster": "https://www.qmc.qa/img/MediaContents/cab14cb1-0eb3-44f2-a369-972ee471f1bc.jpg",
+        "url": "https://tabie.net/shows/1182",
+        "categories": [
+          "برامج حوارية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1293",
+        "title": "شباب ورؤية",
+        "poster": "https://www.qmc.qa/img/MediaContents/6ecd92a2-7b8a-4d8c-9cf6-7449ce84675c.jpg",
+        "url": "https://tabie.net/shows/1293",
+        "categories": [
+          "برامج حوارية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1157",
+        "title": "برنامج نافذة على الماضي",
+        "poster": "https://www.qmc.qa/img/MediaContents/2bc7bed6-bfe0-4d69-ac4f-2dbb1d27b212.jpg",
+        "url": "https://tabie.net/shows/1157",
+        "categories": [
+          "برامج حوارية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1096",
+        "title": "برنامج محطات",
+        "poster": "https://www.qmc.qa/img/MediaContents/d932fa91-ba95-4781-833a-74ac96f7661b.jpg",
+        "url": "https://tabie.net/shows/1096",
+        "categories": [
+          "برامج حوارية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1335",
+        "title": "وثائقي سهيل",
+        "poster": "https://www.qmc.qa/img/MediaContents/c4449365-189b-4282-ba3b-606f842f9bd2.jpg",
+        "url": "https://tabie.net/shows/1335",
+        "categories": [
+          "وثائقيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1206",
+        "title": "صمله",
+        "poster": "https://www.qmc.qa/img/MediaContents/3f8fcaed-338f-44ca-888e-036131711f68.jpg",
+        "url": "https://tabie.net/shows/1206",
+        "categories": [
+          "وثائقيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1104",
+        "title": "رجال الواجب",
+        "poster": "https://www.qmc.qa/img/MediaContents/754fef1d-de8f-4814-960a-040c0227a802.jpg",
+        "url": "https://tabie.net/shows/1104",
+        "categories": [
+          "وثائقيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1178",
+        "title": "منتجع زلال",
+        "poster": "https://www.qmc.qa/img/MediaContents/63adca60-8fad-4442-88bd-b34a9b9d2556.jpg",
+        "url": "https://tabie.net/shows/1178",
+        "categories": [
+          "وثائقيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1234",
+        "title": "كسر الرماح",
+        "poster": "https://www.qmc.qa/img/MediaContents/dafe22cf-73f9-44e2-a34f-609d8a7e6ecd.jpg",
+        "url": "https://tabie.net/shows/1234",
+        "categories": [
+          "وثائقيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1098",
+        "title": "وثائقيات لوسيل",
+        "poster": "https://www.qmc.qa/img/MediaContents/34a57036-1ef0-44bb-9fbe-ff60ef086ad0.jpg",
+        "url": "https://tabie.net/shows/1098",
+        "categories": [
+          "وثائقيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1102",
+        "title": "وثائقيات محمية الوبرة 1",
+        "poster": "https://www.qmc.qa/img/MediaContents/e8205786-fef6-47db-8867-b5709900df6a.jpg",
+        "url": "https://tabie.net/shows/1102",
+        "categories": [
+          "وثائقيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1176",
+        "title": "ميناء حمد",
+        "poster": "https://www.qmc.qa/img/MediaContents/531bbeb1-eeeb-47dc-a44f-3cdef2114ec5.jpg",
+        "url": "https://tabie.net/shows/1176",
+        "categories": [
+          "وثائقيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1174",
+        "title": "سهيل سات",
+        "poster": "https://www.qmc.qa/img/MediaContents/4c409fee-aab9-4809-ae22-1343560e4c37.jpg",
+        "url": "https://tabie.net/shows/1174",
+        "categories": [
+          "وثائقيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1179",
+        "title": "الأمن الغذائي",
+        "poster": "https://www.qmc.qa/img/MediaContents/2b427be0-fd6b-439a-a4e1-61bad4b781f0.jpg",
+        "url": "https://tabie.net/shows/1179",
+        "categories": [
+          "وثائقيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1177",
+        "title": "إذاعة قطر",
+        "poster": "https://www.qmc.qa/img/MediaContents/b8144a67-4c21-4dbf-9567-e84cf58ad1c6.jpg",
+        "url": "https://tabie.net/shows/1177",
+        "categories": [
+          "وثائقيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1101",
+        "title": "وثائقيات مشيرب",
+        "poster": "https://www.qmc.qa/img/MediaContents/cd4ad502-cfe5-4ea1-8be0-519034a1791d.jpg",
+        "url": "https://tabie.net/shows/1101",
+        "categories": [
+          "وثائقيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1100",
+        "title": "وثائقيات الشقب",
+        "poster": "https://www.qmc.qa/img/MediaContents/c763284a-8987-4c1f-9b32-37cafcdece8d.jpg",
+        "url": "https://tabie.net/shows/1100",
+        "categories": [
+          "وثائقيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1175",
+        "title": "قطر وبريطانيا",
+        "poster": "https://www.qmc.qa/img/MediaContents/ca4b861e-3f73-472e-a7fd-9b2b81c894ab.jpg",
+        "url": "https://tabie.net/shows/1175",
+        "categories": [
+          "وثائقيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1172",
+        "title": "دار الوثائق القطرية",
+        "poster": "https://www.qmc.qa/img/MediaContents/a094175d-58ae-4326-b833-5da1fc5236fa.jpg",
+        "url": "https://tabie.net/shows/1172",
+        "categories": [
+          "وثائقيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1165",
+        "title": "متاحف قطر",
+        "poster": "https://www.qmc.qa/img/MediaContents/c055425c-360d-4e7c-b82d-052155fcf87c.jpg",
+        "url": "https://tabie.net/shows/1165",
+        "categories": [
+          "وثائقيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1151",
+        "title": "وثائقيات الوسيط",
+        "poster": "https://www.qmc.qa/img/MediaContents/12e0b071-d142-4eb6-933d-fb9e0dc51ae1.jpg",
+        "url": "https://tabie.net/shows/1151",
+        "categories": [
+          "وثائقيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1214",
+        "title": "بيت الباندا",
+        "poster": "https://www.qmc.qa/img/MediaContents/024c6ba4-2ae3-4387-a03c-6865dee316f4.jpg",
+        "url": "https://tabie.net/shows/1214",
+        "categories": [
+          "وثائقيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1317",
+        "title": "مستشفى حمد",
+        "poster": "https://www.qmc.qa/img/MediaContents/4cad8d67-fbdc-4758-ba6f-92efcfa59588.jpg",
+        "url": "https://tabie.net/shows/1317",
+        "categories": [
+          "وثائقيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1315",
+        "title": "مكتبة قطر الوطنية",
+        "poster": "https://www.qmc.qa/img/MediaContents/27747098-bd57-4e23-8c86-7397f2135707.jpg",
+        "url": "https://tabie.net/shows/1315",
+        "categories": [
+          "وثائقيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1316",
+        "title": "متحف قطر الأولمبي والرياضي",
+        "poster": "https://www.qmc.qa/img/MediaContents/26964c95-529b-4225-840a-9eaccfab16ae.jpg",
+        "url": "https://tabie.net/shows/1316",
+        "categories": [
+          "وثائقيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1263",
+        "title": "حكايات أمل",
+        "poster": "https://www.qmc.qa/img/MediaContents/dd831183-c484-4c39-8619-36aedb1e79db.jpg",
+        "url": "https://tabie.net/shows/1263",
+        "categories": [
+          "مؤسسة الإنتاج البرامجي المشترك"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1257",
+        "title": "مهنتي",
+        "poster": "https://www.qmc.qa/img/MediaContents/e31133a6-e575-43a5-a0c4-04aa2fe1598f.jpg",
+        "url": "https://tabie.net/shows/1257",
+        "categories": [
+          "مؤسسة الإنتاج البرامجي المشترك"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1246",
+        "title": "جازورا",
+        "poster": "https://www.qmc.qa/img/MediaContents/ab645f0f-e9d5-4985-b7aa-0a0292963c44.jpg",
+        "url": "https://tabie.net/shows/1246",
+        "categories": [
+          "مؤسسة الإنتاج البرامجي المشترك"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1255",
+        "title": "كليلة ودمنة",
+        "poster": "https://www.qmc.qa/img/MediaContents/3bf01118-b7ad-4f39-9cb6-9a44bbb5d798.jpg",
+        "url": "https://tabie.net/shows/1255",
+        "categories": [
+          "مؤسسة الإنتاج البرامجي المشترك"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1244",
+        "title": "دمتم سالمين",
+        "poster": "https://www.qmc.qa/img/MediaContents/98a82746-2b6a-428d-9881-8fab2f18b5b9.jpg",
+        "url": "https://tabie.net/shows/1244",
+        "categories": [
+          "مؤسسة الإنتاج البرامجي المشترك"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1241",
+        "title": "ليدي أوسكار",
+        "poster": "https://www.qmc.qa/img/MediaContents/52efdaf8-28ee-4174-95c9-b9c08a20fbb1.jpg",
+        "url": "https://tabie.net/shows/1241",
+        "categories": [
+          "مؤسسة الإنتاج البرامجي المشترك"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1250",
+        "title": "زعتور",
+        "poster": "https://www.qmc.qa/img/MediaContents/961523b3-2ba8-4643-bcd6-e4e5fb11bf0c.jpg",
+        "url": "https://tabie.net/shows/1250",
+        "categories": [
+          "مؤسسة الإنتاج البرامجي المشترك"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1248",
+        "title": "ميمي الصغيرة",
+        "poster": "https://www.qmc.qa/img/MediaContents/de3ce956-6180-471c-9385-b68a3e9db3de.jpg",
+        "url": "https://tabie.net/shows/1248",
+        "categories": [
+          "مؤسسة الإنتاج البرامجي المشترك"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1260",
+        "title": "فيلم ابن بطوطة",
+        "poster": "https://www.qmc.qa/img/MediaContents/5b7a9adc-f32b-4fd1-9bfb-892d63d0827d.jpg",
+        "url": "https://tabie.net/shows/1260",
+        "categories": [
+          "مؤسسة الإنتاج البرامجي المشترك"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1262",
+        "title": "قصص للأطفال",
+        "poster": "https://www.qmc.qa/img/MediaContents/a4115ecf-5e6d-4625-b7b9-8242ce5cc85e.jpg",
+        "url": "https://tabie.net/shows/1262",
+        "categories": [
+          "مؤسسة الإنتاج البرامجي المشترك"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1253",
+        "title": "فيلم علاء الدين",
+        "poster": "https://www.qmc.qa/img/MediaContents/d9262409-a0bc-4133-9d19-ae5076b98c93.jpg",
+        "url": "https://tabie.net/shows/1253",
+        "categories": [
+          "مؤسسة الإنتاج البرامجي المشترك"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1242",
+        "title": "قصص عالمية",
+        "poster": "https://www.qmc.qa/img/MediaContents/efe67f38-73f6-49a3-8d3b-b5a322c8b27f.jpg",
+        "url": "https://tabie.net/shows/1242",
+        "categories": [
+          "مؤسسة الإنتاج البرامجي المشترك"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1247",
+        "title": "فيلم ابن الغابة",
+        "poster": "https://www.qmc.qa/img/MediaContents/4644af01-1831-43b1-b504-f8689034fc84.jpg",
+        "url": "https://tabie.net/shows/1247",
+        "categories": [
+          "مؤسسة الإنتاج البرامجي المشترك"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1245",
+        "title": "صناع الحضارة",
+        "poster": "https://www.qmc.qa/img/MediaContents/a0169fa4-892e-48fb-ae04-adbacf5a016a.jpg",
+        "url": "https://tabie.net/shows/1245",
+        "categories": [
+          "مؤسسة الإنتاج البرامجي المشترك"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1249",
+        "title": "فيلم طائر الخير",
+        "poster": "https://www.qmc.qa/img/MediaContents/f50e5f3c-2b75-42b7-aada-e417ebaaebb9.jpg",
+        "url": "https://tabie.net/shows/1249",
+        "categories": [
+          "مؤسسة الإنتاج البرامجي المشترك"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1256",
+        "title": "مغامرات رنا",
+        "poster": "https://www.qmc.qa/img/MediaContents/3344a9fe-5921-4d21-9db1-dbabffeecf75.jpg",
+        "url": "https://tabie.net/shows/1256",
+        "categories": [
+          "مؤسسة الإنتاج البرامجي المشترك"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1259",
+        "title": "فيلم زينة ونحول",
+        "poster": "https://www.qmc.qa/img/MediaContents/3c04b258-791e-48a2-af2e-625b7babd04a.jpg",
+        "url": "https://tabie.net/shows/1259",
+        "categories": [
+          "مؤسسة الإنتاج البرامجي المشترك"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1261",
+        "title": "ملسون دوت اورغ",
+        "poster": "https://www.qmc.qa/img/MediaContents/eb371511-1afa-4465-87d5-aa2ed82eae32.jpg",
+        "url": "https://tabie.net/shows/1261",
+        "categories": [
+          "مؤسسة الإنتاج البرامجي المشترك"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1243",
+        "title": "أبطال الخليج",
+        "poster": "https://www.qmc.qa/img/MediaContents/d0e74113-110a-41a3-abd5-1e949b746b1a.jpg",
+        "url": "https://tabie.net/shows/1243",
+        "categories": [
+          "مؤسسة الإنتاج البرامجي المشترك"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1251",
+        "title": "عالم المعرفة",
+        "poster": "https://www.qmc.qa/img/MediaContents/1256ac39-e7db-4555-b6b3-e60ba006856b.jpg",
+        "url": "https://tabie.net/shows/1251",
+        "categories": [
+          "مؤسسة الإنتاج البرامجي المشترك"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1301",
+        "title": "مغامرات سنان",
+        "poster": "https://www.qmc.qa/img/MediaContents/79de6577-61a9-4a81-b638-4990adb55d0c.jpg",
+        "url": "https://tabie.net/shows/1301",
+        "categories": [
+          "مؤسسة الإنتاج البرامجي المشترك"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1252",
+        "title": "بسمة وعبدو",
+        "poster": "https://www.qmc.qa/img/MediaContents/07313682-ea37-4b1d-b8b0-80fa10e533a2.jpg",
+        "url": "https://tabie.net/shows/1252",
+        "categories": [
+          "مؤسسة الإنتاج البرامجي المشترك"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1258",
+        "title": "أحمد وكنعان",
+        "poster": "https://www.qmc.qa/img/MediaContents/0c1dd887-b291-43c8-adf2-0e4aa505b10c.jpg",
+        "url": "https://tabie.net/shows/1258",
+        "categories": [
+          "مؤسسة الإنتاج البرامجي المشترك"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1194",
+        "title": "سوالف فلكي",
+        "poster": "https://www.qmc.qa/img/MediaContents/ff9bc1ef-79fe-4d70-bb96-7f9b65dcfa87.jpg",
+        "url": "https://tabie.net/shows/1194",
+        "categories": [
+          "برامج ثقافية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1325",
+        "title": "خطوة بخطوة",
+        "poster": "https://www.qmc.qa/img/MediaContents/41421d7a-71dc-4bbe-aa9e-c32f58e22d17.jpg",
+        "url": "https://tabie.net/shows/1325",
+        "categories": [
+          "برامج ثقافية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1092",
+        "title": "إتقان",
+        "poster": "https://www.qmc.qa/img/MediaContents/fd6a3194-3966-4079-b6b8-b8d42f9c16cd.jpg",
+        "url": "https://tabie.net/shows/1092",
+        "categories": [
+          "برامج ثقافية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1093",
+        "title": "هيرات",
+        "poster": "https://www.qmc.qa/img/MediaContents/cd566297-b96c-405d-bec3-238818f00dcd.jpg",
+        "url": "https://tabie.net/shows/1093",
+        "categories": [
+          "برامج ثقافية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1170",
+        "title": "حصة معرفة",
+        "poster": "https://www.qmc.qa/img/MediaContents/8ade0e0e-2b22-4bcd-9b86-de25a0978d70.jpg",
+        "url": "https://tabie.net/shows/1170",
+        "categories": [
+          "برامج ثقافية",
+          "برامج الأطفال"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1062",
+        "title": "خطى الرحاله",
+        "poster": "https://www.qmc.qa/img/MediaContents/23302a8e-1d58-4526-a2bb-689e0e8d07d7.jpg",
+        "url": "https://tabie.net/shows/1062",
+        "categories": [
+          "برامج ثقافية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1294",
+        "title": "مراح",
+        "poster": "https://www.qmc.qa/img/MediaContents/ca754238-1a93-4a3c-9435-85276149ce19.jpg",
+        "url": "https://tabie.net/shows/1294",
+        "categories": [
+          "برامج ثقافية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1124",
+        "title": "برنامج رحلة طير",
+        "poster": "https://www.qmc.qa/img/MediaContents/1afc2ab0-095b-41ed-a28d-54975a8ce31b.jpg",
+        "url": "https://tabie.net/shows/1124",
+        "categories": [
+          "برامج ثقافية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1119",
+        "title": "بستنة",
+        "poster": "https://www.qmc.qa/img/MediaContents/b989171c-bf98-47de-8885-bec67b1029ad.jpg",
+        "url": "https://tabie.net/shows/1119",
+        "categories": [
+          "برامج ثقافية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1299",
+        "title": "قصة طير",
+        "poster": "https://www.qmc.qa/img/MediaContents/110ac141-8e64-43f6-b557-03678a589dde.jpg",
+        "url": "https://tabie.net/shows/1299",
+        "categories": [
+          "برامج ثقافية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1289",
+        "title": "ثرى",
+        "poster": "https://www.qmc.qa/img/MediaContents/f74fdb89-45d1-4e99-ab04-bb99be624df6.jpg",
+        "url": "https://tabie.net/shows/1289",
+        "categories": [
+          "برامج ثقافية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1290",
+        "title": "النايلة",
+        "poster": "https://www.qmc.qa/img/MediaContents/8a7ed88c-7fc6-4a42-a840-5bdaaa4eebf4.jpg",
+        "url": "https://tabie.net/shows/1290",
+        "categories": [
+          "برامج ثقافية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1131",
+        "title": "الجدول",
+        "poster": "https://www.qmc.qa/img/MediaContents/97db59b2-e5cc-40d1-8488-4df021a85ac0.jpg",
+        "url": "https://tabie.net/shows/1131",
+        "categories": [
+          "برامج ثقافية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1205",
+        "title": "شيء من الماضي",
+        "poster": "https://www.qmc.qa/img/MediaContents/f2f73341-416d-450d-8756-f873eca2c75d.jpg",
+        "url": "https://tabie.net/shows/1205",
+        "categories": [
+          "برامج ثقافية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1130",
+        "title": "برنامج ليلام",
+        "poster": "https://www.qmc.qa/img/MediaContents/78795102-e27a-4361-9afa-65ace4f7bf98.jpg",
+        "url": "https://tabie.net/shows/1130",
+        "categories": [
+          "برامج ثقافية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1156",
+        "title": "برنامج كشات",
+        "poster": "https://www.qmc.qa/img/MediaContents/e7d401da-5b1d-443e-a99a-e687e94a1a2e.jpg",
+        "url": "https://tabie.net/shows/1156",
+        "categories": [
+          "برامج ثقافية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1168",
+        "title": "صحتك",
+        "poster": "https://www.qmc.qa/img/MediaContents/cc750430-392c-46d3-ab55-a543cf38ed3f.jpg",
+        "url": "https://tabie.net/shows/1168",
+        "categories": [
+          "برامج ثقافية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1134",
+        "title": "آداب و أذكار",
+        "poster": "https://www.qmc.qa/img/MediaContents/1e42123e-4d10-494d-af5e-e9382025e124.jpg",
+        "url": "https://tabie.net/shows/1134",
+        "categories": [
+          "برامج دينية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1158",
+        "title": "بستان الأمل",
+        "poster": "https://www.qmc.qa/img/MediaContents/c407a969-ef49-44ba-ad37-154393131beb.jpg",
+        "url": "https://tabie.net/shows/1158",
+        "categories": [
+          "برامج دينية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1113",
+        "title": "وعاد العيد",
+        "poster": "https://www.qmc.qa/img/MediaContents/a90d22b0-6d9b-46c3-8957-8cf751a2fd58.jpg",
+        "url": "https://tabie.net/shows/1113",
+        "categories": [
+          "برامج دينية",
+          "برامج العيد"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1118",
+        "title": "بشائر",
+        "poster": "https://www.qmc.qa/img/MediaContents/5dbc2811-3cb1-44f4-8f0f-7f075dad2d8b.jpg",
+        "url": "https://tabie.net/shows/1118",
+        "categories": [
+          "برامج دينية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1163",
+        "title": "أحاديث قدسية",
+        "poster": "https://www.qmc.qa/img/MediaContents/8da3af52-223c-40ec-af5a-8d0da6b656b0.jpg",
+        "url": "https://tabie.net/shows/1163",
+        "categories": [
+          "برامج دينية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1114",
+        "title": "على خطاه",
+        "poster": "https://www.qmc.qa/img/MediaContents/f2dd5741-1c8a-488b-826a-0b9b9e547468.jpg",
+        "url": "https://tabie.net/shows/1114",
+        "categories": [
+          "برامج دينية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "13",
+        "title": "حروف من نور",
+        "poster": "https://www.qmc.qa/img/MediaContents/c8c8f537-c57c-4f52-a6dc-e40217f0ae92.jpg",
+        "url": "https://tabie.net/shows/13",
+        "categories": [
+          "برامج دينية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "6",
+        "title": "ديننا",
+        "poster": "https://www.qmc.qa/img/MediaContents/0cb16806-d245-4f9b-8643-e31b54f90a77.jpg",
+        "url": "https://tabie.net/shows/6",
+        "categories": [
+          "برامج دينية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "38",
+        "title": "الرسول قدوة",
+        "poster": "https://www.qmc.qa/img/MediaContents/5f17a361-3315-4ab3-85e2-591432a2ab55.jpg",
+        "url": "https://tabie.net/shows/38",
+        "categories": [
+          "برامج دينية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1076",
+        "title": "برنامج سند",
+        "poster": "https://www.qmc.qa/img/MediaContents/502af9b8-1fd0-4677-b6da-64d5d103a917.jpg",
+        "url": "https://tabie.net/shows/1076",
+        "categories": [
+          "برامج دينية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1321",
+        "title": "وسام القرآن",
+        "poster": "https://www.qmc.qa/img/MediaContents/10390627-77f7-4eea-9c8e-bc3d88ecfc90.jpg",
+        "url": "https://tabie.net/shows/1321",
+        "categories": [
+          "برامج دينية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1195",
+        "title": "هدى للناس",
+        "poster": "https://www.qmc.qa/img/MediaContents/b76c93be-d20b-4940-8a83-e5902343c9c6.jpg",
+        "url": "https://tabie.net/shows/1195",
+        "categories": [
+          "برامج دينية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "35",
+        "title": "فضائل",
+        "poster": "https://www.qmc.qa/img/MediaContents/964e5215-5254-4cf5-bb87-0c5e073528da.jpg",
+        "url": "https://tabie.net/shows/35",
+        "categories": [
+          "برامج دينية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1326",
+        "title": "في قصصهم عبرة",
+        "poster": "https://www.qmc.qa/img/MediaContents/d9f17764-6a55-48ab-8337-463644182950.jpg",
+        "url": "https://tabie.net/shows/1326",
+        "categories": [
+          "برامج دينية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1324",
+        "title": "طب القلوب",
+        "poster": "https://www.qmc.qa/img/MediaContents/42b84916-8072-4b2f-aed9-b49f17f2a13c.jpg",
+        "url": "https://tabie.net/shows/1324",
+        "categories": [
+          "برامج دينية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1322",
+        "title": "مع الناس",
+        "poster": "https://www.qmc.qa/img/MediaContents/0822be4b-53d8-4ee4-9eee-8f51147fee28.jpg",
+        "url": "https://tabie.net/shows/1322",
+        "categories": [
+          "برامج دينية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1323",
+        "title": "سحر البيان",
+        "poster": "https://www.qmc.qa/img/MediaContents/2e40eb63-601d-4f63-bc05-3cada91f3cf5.jpg",
+        "url": "https://tabie.net/shows/1323",
+        "categories": [
+          "برامج دينية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1210",
+        "title": "لقاء خاص",
+        "poster": "https://www.qmc.qa/img/MediaContents/7f966291-4536-47c6-8d09-75934c4742d0.jpg",
+        "url": "https://tabie.net/shows/1210",
+        "categories": [
+          "لقاء خاص"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1115",
+        "title": "يالعايدو",
+        "poster": "https://www.qmc.qa/img/MediaContents/f49bd7e9-f0ee-45e2-8c97-a411c7563ab3.jpg",
+        "url": "https://tabie.net/shows/1115",
+        "categories": [
+          "برامج العيد",
+          "برامج الأطفال"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1211",
+        "title": "سنن العيد",
+        "poster": "https://www.qmc.qa/img/MediaContents/29d904ab-37d7-4344-b302-0fcfd1892757.jpg",
+        "url": "https://tabie.net/shows/1211",
+        "categories": [
+          "برامج العيد"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1215",
+        "title": "سوالف العيد",
+        "poster": "https://www.qmc.qa/img/MediaContents/14ff3799-0548-45ef-865d-aa6db57f2b0f.jpg",
+        "url": "https://tabie.net/shows/1215",
+        "categories": [
+          "برامج العيد"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1216",
+        "title": "الطريق الى مكة",
+        "poster": "https://www.qmc.qa/img/MediaContents/7838c4c8-6967-4a67-ad15-9ab894d4a4a1.jpg",
+        "url": "https://tabie.net/shows/1216",
+        "categories": [
+          "برامج العيد"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1150",
+        "title": "زيارة أمير الكويت إلى الدوحة",
+        "poster": "https://www.qmc.qa/img/MediaContents/48be6d29-1e98-46b6-8b3a-e4d03c1ee406.jpg",
+        "url": "https://tabie.net/shows/1150",
+        "categories": [
+          "تغطيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1132",
+        "title": "معرض الدوحة الدولي للكتاب",
+        "poster": "https://www.qmc.qa/img/MediaContents/b1eb7225-204c-426e-aae8-62c4e1e209ea.jpg",
+        "url": "https://tabie.net/shows/1132",
+        "categories": [
+          "تغطيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1133",
+        "title": "مهرجان كتارا للمحامل التقليدية",
+        "poster": "https://www.qmc.qa/img/MediaContents/5f139302-3459-4721-a2d4-04936e289053.jpg",
+        "url": "https://tabie.net/shows/1133",
+        "categories": [
+          "تغطيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1129",
+        "title": "معرض ديمدكس",
+        "poster": "https://www.qmc.qa/img/MediaContents/e058beac-234f-4a72-a070-819f1ad722bd.jpg",
+        "url": "https://tabie.net/shows/1129",
+        "categories": [
+          "تغطيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1155",
+        "title": "معرض سهيل",
+        "poster": "https://www.qmc.qa/img/MediaContents/af53995d-bf42-4b97-84e2-da1d72f108e3.jpg",
+        "url": "https://tabie.net/shows/1155",
+        "categories": [
+          "تغطيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1127",
+        "title": "اليوم الوطني الكويتي",
+        "poster": "https://www.qmc.qa/img/MediaContents/73353c55-63ce-43e8-a699-681f6a7a9fa6.jpg",
+        "url": "https://tabie.net/shows/1127",
+        "categories": [
+          "تغطيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1123",
+        "title": "خليجنا واحد",
+        "poster": "https://www.qmc.qa/img/MediaContents/606cb8da-80fb-4292-a8b0-4b00570f2e13.jpg",
+        "url": "https://tabie.net/shows/1123",
+        "categories": [
+          "تغطيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1128",
+        "title": "اليوم الوطني السعودي",
+        "poster": "https://www.qmc.qa/img/MediaContents/67e09535-e697-417d-85c5-a9cc8c49a767.jpg",
+        "url": "https://tabie.net/shows/1128",
+        "categories": [
+          "تغطيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1167",
+        "title": "برنامج في المجتمع",
+        "poster": "https://www.qmc.qa/img/MediaContents/c44841c9-3b9b-4600-aa63-21faaa82294c.jpg",
+        "url": "https://tabie.net/shows/1167",
+        "categories": [
+          "برامج اجتماعية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1090",
+        "title": "الجيل الواعد",
+        "poster": "https://www.qmc.qa/img/MediaContents/0ba28d5e-7b5e-4824-9070-986ca4dfe5b4.jpg",
+        "url": "https://tabie.net/shows/1090",
+        "categories": [
+          "برامج اجتماعية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1288",
+        "title": "هن",
+        "poster": "https://www.qmc.qa/img/MediaContents/c1ae42f8-619d-4e6b-90d0-54e423987395.jpg",
+        "url": "https://tabie.net/shows/1288",
+        "categories": [
+          "برامج اجتماعية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1291",
+        "title": "العزم",
+        "poster": "https://www.qmc.qa/img/MediaContents/2638cae8-235a-497b-812a-09784a8fad27.jpg",
+        "url": "https://tabie.net/shows/1291",
+        "categories": [
+          "برامج اجتماعية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1116",
+        "title": "في خاطري",
+        "poster": "https://www.qmc.qa/img/MediaContents/dff6fdc2-baf1-493a-8728-bdae20c80ad9.jpg",
+        "url": "https://tabie.net/shows/1116",
+        "categories": [
+          "برامج اجتماعية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1298",
+        "title": "عون",
+        "poster": "https://www.qmc.qa/img/MediaContents/1d2597d0-41fb-4784-b198-c299711c1802.jpg",
+        "url": "https://tabie.net/shows/1298",
+        "categories": [
+          "برامج اجتماعية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1295",
+        "title": "جامعتنا",
+        "poster": "https://www.qmc.qa/img/MediaContents/7ea60819-c736-4312-97a2-85ad8afd88c1.jpg",
+        "url": "https://tabie.net/shows/1295",
+        "categories": [
+          "برامج اجتماعية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1120",
+        "title": "شباب لدعم",
+        "poster": "https://www.qmc.qa/img/MediaContents/8415db8d-b0e8-41c3-aca8-56d5b785001d.jpg",
+        "url": "https://tabie.net/shows/1120",
+        "categories": [
+          "برامج اجتماعية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1169",
+        "title": "أنت",
+        "poster": "https://www.qmc.qa/img/MediaContents/84c85c95-92e7-4519-a1ca-f152d0bf3dab.jpg",
+        "url": "https://tabie.net/shows/1169",
+        "categories": [
+          "برامج اجتماعية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1337",
+        "title": "لوز وسكر",
+        "poster": "https://www.qmc.qa/img/MediaContents/742f3f01-68f2-45ed-8d3a-3c55e10dd59d.jpg",
+        "url": "https://tabie.net/shows/1337",
+        "categories": [
+          "برامج الأطفال"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1338",
+        "title": "مغامرات سندباد",
+        "poster": "https://www.qmc.qa/img/MediaContents/d148dbca-6b76-4b67-80d4-f6bd5e4c7ad1.jpg",
+        "url": "https://tabie.net/shows/1338",
+        "categories": [
+          "برامج الأطفال"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1340",
+        "title": "شما في البراري الخضراء",
+        "poster": "https://www.qmc.qa/img/MediaContents/8d13e009-ac8b-4fa8-8684-a23c625465be.jpg",
+        "url": "https://tabie.net/shows/1340",
+        "categories": [
+          "برامج الأطفال"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "59",
+        "title": "فوق السطح",
+        "poster": "https://www.qmc.qa/img/MediaContents/fbc1ec99-3510-464e-9348-94e8db9ca5f7.jpg",
+        "url": "https://tabie.net/shows/59",
+        "categories": [
+          "برامج الأطفال"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "37",
+        "title": "عيالنا في رمضان",
+        "poster": "https://www.qmc.qa/img/MediaContents/8f40aa4e-adf8-4f83-808a-2db845f4aea0.jpg",
+        "url": "https://tabie.net/shows/37",
+        "categories": [
+          "برامج الأطفال"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1297",
+        "title": "نور وحصة",
+        "poster": "https://www.qmc.qa/img/MediaContents/ad8d43e8-fe37-486e-902f-6e65279d2e01.jpg",
+        "url": "https://tabie.net/shows/1297",
+        "categories": [
+          "برامج الأطفال"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1166",
+        "title": "جولة حصة",
+        "poster": "https://www.qmc.qa/img/MediaContents/c444eea3-4609-4629-9038-350323e20ec4.jpg",
+        "url": "https://tabie.net/shows/1166",
+        "categories": [
+          "برامج الأطفال"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1209",
+        "title": "يوميات عائلة",
+        "poster": "https://www.qmc.qa/img/MediaContents/419df2bd-5417-4a52-911d-52692b6b8509.jpg",
+        "url": "https://tabie.net/shows/1209",
+        "categories": [
+          "برامج الأطفال"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "32",
+        "title": "مطبخ حصه",
+        "poster": "https://www.qmc.qa/img/MediaContents/05a6429c-561f-461c-ba89-a3008479a45b.jpg",
+        "url": "https://tabie.net/shows/32",
+        "categories": [
+          "برامج الأطفال",
+          "برامج الطبخ"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "20",
+        "title": "سراج",
+        "poster": "https://www.qmc.qa/img/MediaContents/dcb1e920-ea2d-4a39-906f-5427d0c2d3c3.jpg",
+        "url": "https://tabie.net/shows/20",
+        "categories": [
+          "برامج الأطفال"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1079",
+        "title": "تمور وتموره",
+        "poster": "https://www.qmc.qa/img/MediaContents/1540f5d3-3d21-48c3-9708-f25707f70796.jpg",
+        "url": "https://tabie.net/shows/1079",
+        "categories": [
+          "برامج الأطفال"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1097",
+        "title": "برنامج زاوية",
+        "poster": "https://www.qmc.qa/img/MediaContents/eb944d86-bfa4-46f7-81bc-87a2baff6b55.jpg",
+        "url": "https://tabie.net/shows/1097",
+        "categories": [
+          "برامج رياضية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "49",
+        "title": "هلا فيكم",
+        "poster": "https://www.qmc.qa/img/MediaContents/0460656b-38a6-42b0-b1c3-1cf85c8c5a79.jpg",
+        "url": "https://tabie.net/shows/49",
+        "categories": [
+          "برامج رياضية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1108",
+        "title": "برنامج لياقة",
+        "poster": "https://www.qmc.qa/img/MediaContents/25dd3f02-c4a0-4c3c-9fe4-30584da55fda.jpg",
+        "url": "https://tabie.net/shows/1108",
+        "categories": [
+          "برامج رياضية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1109",
+        "title": "هلا آسيا",
+        "poster": "https://www.qmc.qa/img/MediaContents/45773494-8c93-4dad-9693-e946f44e7f97.jpg",
+        "url": "https://tabie.net/shows/1109",
+        "categories": [
+          "برامج رياضية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1292",
+        "title": "اللعبة",
+        "poster": "https://www.qmc.qa/img/MediaContents/25bd8342-44bf-4b83-b77c-82ec97e8cac4.jpg",
+        "url": "https://tabie.net/shows/1292",
+        "categories": [
+          "برامج رياضية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "61",
+        "title": "في ضيافتهن",
+        "poster": "https://www.qmc.qa/img/MediaContents/543d5287-3e55-4a98-bb5d-455bbc77d57e.jpg",
+        "url": "https://tabie.net/shows/61",
+        "categories": [
+          "برامج الطبخ"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "62",
+        "title": "طبخ في دقيقة",
+        "poster": "https://www.qmc.qa/img/MediaContents/d09e26ca-b304-49dd-b359-ad7a9edde7cc.jpg",
+        "url": "https://tabie.net/shows/62",
+        "categories": [
+          "برامج الطبخ"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "63",
+        "title": "نكهات",
+        "poster": "https://www.qmc.qa/img/MediaContents/b8e7a988-c0bc-47fe-8453-2cec556be820.jpg",
+        "url": "https://tabie.net/shows/63",
+        "categories": [
+          "برامج الطبخ"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "15",
+        "title": "برنامج سفرتنا",
+        "poster": "https://www.qmc.qa/img/MediaContents/160c7506-99eb-4a19-9c0c-de8de12ac163.jpg",
+        "url": "https://tabie.net/shows/15",
+        "categories": [
+          "برامج الطبخ"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1077",
+        "title": "يلا نطبخ",
+        "poster": "https://www.qmc.qa/img/MediaContents/b0e6519a-1628-4607-ac93-349a6031ba5c.jpg",
+        "url": "https://tabie.net/shows/1077",
+        "categories": [
+          "برامج الطبخ"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1075",
+        "title": "على الحطب",
+        "poster": "https://www.qmc.qa/img/MediaContents/fe5315b2-c787-4f5c-8e1d-73e7cfd43a77.jpg",
+        "url": "https://tabie.net/shows/1075",
+        "categories": [
+          "برامج الطبخ"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "56",
+        "title": "برنامج الليوان لوسيل",
+        "poster": "https://www.qmc.qa/img/MediaContents/0796f9ad-f272-4993-9f07-7ef02d4d19c8.jpg",
+        "url": "https://tabie.net/shows/56",
+        "categories": [
+          "مسابقات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1154",
+        "title": "درب لوسيل",
+        "poster": "https://www.qmc.qa/img/MediaContents/ffa3530b-8565-4fd1-9e79-312c4c31d9f0.jpg",
+        "url": "https://tabie.net/shows/1154",
+        "categories": [
+          "مسابقات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1296",
+        "title": "نجوم العلوم",
+        "poster": "https://www.qmc.qa/img/MediaContents/fc22688b-1299-4899-93fc-3bfa0ca82142.jpg",
+        "url": "https://tabie.net/shows/1296",
+        "categories": [
+          "مسابقات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1110",
+        "title": "برنامج عالطاير",
+        "poster": "https://www.qmc.qa/img/MediaContents/741d862a-8e9d-435a-a2f4-cef08391fb24.jpg",
+        "url": "https://tabie.net/shows/1110",
+        "categories": [
+          "مسابقات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "12",
+        "title": "برنامج الخير آت",
+        "poster": "https://www.qmc.qa/img/MediaContents/db362f2a-e4b5-481d-b58d-895cc0e6f04b.jpg",
+        "url": "https://tabie.net/shows/12",
+        "categories": [
+          "منوعات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1094",
+        "title": "المدونة",
+        "poster": "https://www.qmc.qa/img/MediaContents/a5635585-b07f-4110-b022-86b8c06d1187.jpg",
+        "url": "https://tabie.net/shows/1094",
+        "categories": [
+          "منوعات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1107",
+        "title": "برنامج ليالي لوسيل",
+        "poster": "https://www.qmc.qa/img/MediaContents/2e68dc7b-a1a8-441e-befc-4365a1143803.jpg",
+        "url": "https://tabie.net/shows/1107",
+        "categories": [
+          "طرب"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "51",
+        "title": "ليالي المونديال",
+        "poster": "https://www.qmc.qa/img/MediaContents/9ecf5f1b-2aa1-4ce8-b06c-4a36d98ea905.jpg",
+        "url": "https://tabie.net/shows/51",
+        "categories": [
+          "طرب"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1183",
+        "title": "سهرة وطن",
+        "poster": "https://www.qmc.qa/img/MediaContents/b34f2bf5-93a3-4bb7-904c-71ece78d3e66.jpg",
+        "url": "https://tabie.net/shows/1183",
+        "categories": [
+          "طرب"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1310",
+        "title": "سهرة كلاسيكيات العصر الذهبي",
+        "poster": "https://www.qmc.qa/img/MediaContents/b0c80f51-4351-4a34-866d-2e1136638683.jpg",
+        "url": "https://tabie.net/shows/1310",
+        "categories": [
+          "طرب"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1304",
+        "title": "بيرق الجوية",
+        "poster": "https://www.qmc.qa/img/MediaContents/e40cbf93-4730-4470-9c46-de35345beada.jpg",
+        "url": "https://tabie.net/shows/1304",
+        "categories": [
+          "أغاني"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1221",
+        "title": "يا سيدي لك سلام",
+        "poster": "https://www.qmc.qa/img/MediaContents/00a15754-bc40-40f7-87f0-ed5437839f9d.jpg",
+        "url": "https://tabie.net/shows/1221",
+        "categories": [
+          "أغاني"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1185",
+        "title": "عانقي هام السحايب والرعود",
+        "poster": "https://www.qmc.qa/img/MediaContents/418d856e-8b24-4056-af6d-4ff59fbd053d.jpg",
+        "url": "https://tabie.net/shows/1185",
+        "categories": [
+          "أغاني"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1302",
+        "title": "البحرية",
+        "poster": "https://www.qmc.qa/img/MediaContents/507a19b3-c8ce-4399-b5c9-92ac402424dc.jpg",
+        "url": "https://tabie.net/shows/1302",
+        "categories": [
+          "أغاني"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1117",
+        "title": "أغنية عالقوة",
+        "poster": "https://www.qmc.qa/img/MediaContents/21570350-45d9-4bdb-9e6f-f50c90e73b83.jpg",
+        "url": "https://tabie.net/shows/1117",
+        "categories": [
+          "أغاني"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1218",
+        "title": "صقور السماء",
+        "poster": "https://www.qmc.qa/img/MediaContents/e1cb1fca-cafc-43c6-806b-c94b3fd0f0fd.jpg",
+        "url": "https://tabie.net/shows/1218",
+        "categories": [
+          "أغاني"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1186",
+        "title": "نسل الحرار",
+        "poster": "https://www.qmc.qa/img/MediaContents/5afb4524-c25d-4bca-8c93-6cf9afa2cc04.jpg",
+        "url": "https://tabie.net/shows/1186",
+        "categories": [
+          "أغاني"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1303",
+        "title": "سمعاً وطاعة",
+        "poster": "https://www.qmc.qa/img/MediaContents/db6e378e-e700-4a61-90c2-b7156318b0c7.jpg",
+        "url": "https://tabie.net/shows/1303",
+        "categories": [
+          "أغاني"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1220",
+        "title": "المعنوية عالية",
+        "poster": "https://www.qmc.qa/img/MediaContents/dde41fb1-f42c-4f5d-9614-1ecc1f9cf9f0.jpg",
+        "url": "https://tabie.net/shows/1220",
+        "categories": [
+          "أغاني"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1140",
+        "title": "استظلي بلادي",
+        "poster": "https://www.qmc.qa/img/MediaContents/023fda83-4fb2-4201-a2c6-37bc979aeaa1.jpg",
+        "url": "https://tabie.net/shows/1140",
+        "categories": [
+          "أغاني"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1219",
+        "title": "كلنا لك يا قطر",
+        "poster": "https://www.qmc.qa/img/MediaContents/8eeaf013-d856-493c-8ce1-a7ae7ce3c583.jpg",
+        "url": "https://tabie.net/shows/1219",
+        "categories": [
+          "أغاني"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1184",
+        "title": "هلي برد",
+        "poster": "https://www.qmc.qa/img/MediaContents/aaa94625-d2ed-4822-b201-afe716210649.jpg",
+        "url": "https://tabie.net/shows/1184",
+        "categories": [
+          "أغاني"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1231",
+        "title": "في بيتنا مرشح",
+        "poster": "https://www.qmc.qa/img/MediaContents/dd767702-9e41-4528-b65f-9f62ebb07e10.jpg",
+        "url": "https://tabie.net/shows/1231",
+        "categories": [
+          "مسرحيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1223",
+        "title": "على هامان يا فرعون",
+        "poster": "https://www.qmc.qa/img/MediaContents/00acafac-28fb-44eb-962b-42c1a1508bc0.jpg",
+        "url": "https://tabie.net/shows/1223",
+        "categories": [
+          "مسرحيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1225",
+        "title": "انتخبوا ام علي",
+        "poster": "https://www.qmc.qa/img/MediaContents/9894d752-2228-4eab-8e00-6f96ac407588.jpg",
+        "url": "https://tabie.net/shows/1225",
+        "categories": [
+          "مسرحيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1229",
+        "title": "عنبر  و11 سبتمبر",
+        "poster": "https://www.qmc.qa/img/MediaContents/d6ed367a-b22e-4b31-a3fe-933a1c7c4898.jpg",
+        "url": "https://tabie.net/shows/1229",
+        "categories": [
+          "مسرحيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1202",
+        "title": "دوحة تشريف",
+        "poster": "https://www.qmc.qa/img/MediaContents/4f780b6b-2bab-43a7-99f3-a1b1c6fe4724.jpg",
+        "url": "https://tabie.net/shows/1202",
+        "categories": [
+          "مسرحيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1064",
+        "title": "وزير الناس",
+        "poster": "https://www.qmc.qa/img/MediaContents/12547afb-f837-4407-a273-b1dc0d8bce1a.jpg",
+        "url": "https://tabie.net/shows/1064",
+        "categories": [
+          "مسرحيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1065",
+        "title": "عنتر و أبلة",
+        "poster": "https://www.qmc.qa/img/MediaContents/cc1bc7dd-db7f-419f-bfb7-2927a1664402.jpg",
+        "url": "https://tabie.net/shows/1065",
+        "categories": [
+          "مسرحيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1233",
+        "title": "البيت المسكون",
+        "poster": "https://www.qmc.qa/img/MediaContents/e65657e2-cf67-430e-b01e-f670000a0e6a.jpg",
+        "url": "https://tabie.net/shows/1233",
+        "categories": [
+          "مسرحيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1204",
+        "title": "زلزال",
+        "poster": "https://www.qmc.qa/img/MediaContents/056096c1-dc96-4e35-a112-4303177f0e6a.jpg",
+        "url": "https://tabie.net/shows/1204",
+        "categories": [
+          "مسرحيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1232",
+        "title": "هالو بانكوك",
+        "poster": "https://www.qmc.qa/img/MediaContents/59597c42-c29d-438e-8666-ffe1669cba8e.jpg",
+        "url": "https://tabie.net/shows/1232",
+        "categories": [
+          "مسرحيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1226",
+        "title": "باي باي لندن",
+        "poster": "https://www.qmc.qa/img/MediaContents/cf3b5ddd-ef2e-4c3f-97e0-06c8020b5c0f.jpg",
+        "url": "https://tabie.net/shows/1226",
+        "categories": [
+          "مسرحيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1228",
+        "title": "حرم سعادة الوزير",
+        "poster": "https://www.qmc.qa/img/MediaContents/4c031fc9-8ebb-446f-8c1a-6c64dd6c351f.jpg",
+        "url": "https://tabie.net/shows/1228",
+        "categories": [
+          "مسرحيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1222",
+        "title": "مسرحية زواج بالفاكس",
+        "poster": "https://www.qmc.qa/img/MediaContents/5176d6b4-4151-4ba0-819b-f1d7da95b69a.jpg",
+        "url": "https://tabie.net/shows/1222",
+        "categories": [
+          "مسرحيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1230",
+        "title": "فرسان المناخ",
+        "poster": "https://www.qmc.qa/img/MediaContents/f3285793-0ca9-48d2-b40c-ad6f7007f2ab.jpg",
+        "url": "https://tabie.net/shows/1230",
+        "categories": [
+          "مسرحيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1227",
+        "title": "بشت المدير",
+        "poster": "https://www.qmc.qa/img/MediaContents/4a46d502-5acf-4fd4-9904-211fea405615.jpg",
+        "url": "https://tabie.net/shows/1227",
+        "categories": [
+          "مسرحيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1224",
+        "title": "قناص خيطان",
+        "poster": "https://www.qmc.qa/img/MediaContents/505360b7-206f-48d5-8796-38f06b9a32b9.jpg",
+        "url": "https://tabie.net/shows/1224",
+        "categories": [
+          "مسرحيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1203",
+        "title": "لولاكي",
+        "poster": "https://www.qmc.qa/img/MediaContents/19b77409-f7a5-4802-b9d3-1ee405124ac5.jpg",
+        "url": "https://tabie.net/shows/1203",
+        "categories": [
+          "مسرحيات"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1080",
+        "title": "سفاري الخير",
+        "poster": "https://www.qmc.qa/img/MediaContents/f32cdb1a-3156-494b-b18b-b40584570703.jpg",
+        "url": "https://tabie.net/shows/1080",
+        "categories": [
+          "برامج تفاعلية"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1264",
+        "title": "أصل الاشياء",
+        "poster": "https://www.qmc.qa/img/MediaContents/54008791-7e84-4abb-8798-f704f6223298.jpg",
+        "url": "https://tabie.net/shows/1264",
+        "categories": [
+          "برامج اذاعة قطر"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1238",
+        "title": "الأسير الطليق",
+        "poster": "https://www.qmc.qa/img/MediaContents/8ca75afd-d0f7-4b26-a8c9-d3f9f3aa72bb.jpg",
+        "url": "https://tabie.net/shows/1238",
+        "categories": [
+          "برامج اذاعة قطر"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1267",
+        "title": "شاعر بني تميم",
+        "poster": "https://www.qmc.qa/img/MediaContents/52db3dbb-d505-455a-9fb5-f0d8ec0be05c.jpg",
+        "url": "https://tabie.net/shows/1267",
+        "categories": [
+          "برامج اذاعة قطر"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1270",
+        "title": "مفاهيم واعلام",
+        "poster": "https://www.qmc.qa/img/MediaContents/b1e245fd-63a2-4a88-a50f-5302f4a94b63.jpg",
+        "url": "https://tabie.net/shows/1270",
+        "categories": [
+          "برامج اذاعة قطر"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1273",
+        "title": "في عيون المستشرقين",
+        "poster": "https://www.qmc.qa/img/MediaContents/c407471f-5ed0-4b6f-b63c-859b42b18d41.jpg",
+        "url": "https://tabie.net/shows/1273",
+        "categories": [
+          "برامج اذاعة قطر"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1272",
+        "title": "على ضفاف الدوحة",
+        "poster": "https://www.qmc.qa/img/MediaContents/d3730bc7-b13b-410a-afeb-4b14e17c5c8c.jpg",
+        "url": "https://tabie.net/shows/1272",
+        "categories": [
+          "برامج اذاعة قطر"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1239",
+        "title": "من ذاكرة التاريخ",
+        "poster": "https://www.qmc.qa/img/MediaContents/97560544-a37d-483b-95c2-d7ac45d68dde.jpg",
+        "url": "https://tabie.net/shows/1239",
+        "categories": [
+          "برامج اذاعة قطر"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1278",
+        "title": "روايات عالمية",
+        "poster": "https://www.qmc.qa/img/MediaContents/ae5adb7a-caa3-44a4-a68b-815d55f5a5ec.jpg",
+        "url": "https://tabie.net/shows/1278",
+        "categories": [
+          "برامج اذاعة قطر"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1274",
+        "title": "قصة بيت",
+        "poster": "https://www.qmc.qa/img/MediaContents/bc4e81e4-4d09-4dfb-8da6-ee921435cbce.jpg",
+        "url": "https://tabie.net/shows/1274",
+        "categories": [
+          "برامج اذاعة قطر"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1269",
+        "title": "ضربت مثلا",
+        "poster": "https://www.qmc.qa/img/MediaContents/bef46e36-c0ad-4e30-a88b-26560ae093a7.jpg",
+        "url": "https://tabie.net/shows/1269",
+        "categories": [
+          "برامج اذاعة قطر"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1265",
+        "title": "المقهى الثقافي",
+        "poster": "https://www.qmc.qa/img/MediaContents/b321cb47-1247-44a1-9043-de3bdbb55669.jpg",
+        "url": "https://tabie.net/shows/1265",
+        "categories": [
+          "برامج اذاعة قطر"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1266",
+        "title": "بساتين الحكمة",
+        "poster": "https://www.qmc.qa/img/MediaContents/32d224cf-90c1-4089-aa87-ee80bc09543f.jpg",
+        "url": "https://tabie.net/shows/1266",
+        "categories": [
+          "برامج اذاعة قطر"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1277",
+        "title": "صهيل القوافي",
+        "poster": "https://www.qmc.qa/img/MediaContents/a9e358f3-b528-430c-a0cf-cd2f3ff60ece.jpg",
+        "url": "https://tabie.net/shows/1277",
+        "categories": [
+          "برامج اذاعة قطر"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1305",
+        "title": "الموسوعة الإعلامية",
+        "poster": "https://www.qmc.qa/img/MediaContents/c2e0b5a5-9012-4972-ab45-b5a087eb92cc.jpg",
+        "url": "https://tabie.net/shows/1305",
+        "categories": [
+          "برامج اذاعة قطر"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1300",
+        "title": "بــيــت الــحــكــمــة",
+        "poster": "https://www.qmc.qa/img/MediaContents/d823baec-ec03-4413-bb6e-0ea2a16eef55.jpg",
+        "url": "https://tabie.net/shows/1300",
+        "categories": [
+          "برامج اذاعة قطر"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1268",
+        "title": "اعــلام الــشــعــراء",
+        "poster": "https://www.qmc.qa/img/MediaContents/ff285724-9c47-424f-babe-2887d3581f84.jpg",
+        "url": "https://tabie.net/shows/1268",
+        "categories": [
+          "برامج اذاعة قطر"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1271",
+        "title": "كاتب وكتاب",
+        "poster": "https://www.qmc.qa/img/MediaContents/9c92d823-a505-421a-ba2c-148e28d56711.jpg",
+        "url": "https://tabie.net/shows/1271",
+        "categories": [
+          "برامج اذاعة قطر"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1329",
+        "title": "التربية المعاصرة",
+        "poster": "https://www.qmc.qa/img/MediaContents/7b8fc982-5dc3-47d0-ac3b-bc7581b19ceb.jpg",
+        "url": "https://tabie.net/shows/1329",
+        "categories": [
+          "برامج اذاعة القران"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1328",
+        "title": "قصتي مع القرآن",
+        "poster": "https://www.qmc.qa/img/MediaContents/17bfce36-bd12-4826-ae1e-e6bcbee1e07e.jpg",
+        "url": "https://tabie.net/shows/1328",
+        "categories": [
+          "برامج اذاعة القران"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1307",
+        "title": "هدايات العمل بالقرآن",
+        "poster": "https://www.qmc.qa/img/MediaContents/cdd2494b-ad3d-417d-9e68-17807c947f26.jpg",
+        "url": "https://tabie.net/shows/1307",
+        "categories": [
+          "برامج اذاعة القران"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1306",
+        "title": "أسر في ظلال النبوة",
+        "poster": "https://www.qmc.qa/img/MediaContents/ff7f89f6-e994-4cf5-9fe3-b9cda83690ad.jpg",
+        "url": "https://tabie.net/shows/1306",
+        "categories": [
+          "برامج اذاعة القران"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1236",
+        "title": "خلاصة السيرة النبوية",
+        "poster": "https://www.qmc.qa/img/MediaContents/27919e44-1fd5-4142-92f1-f19a1f82ae62.jpg",
+        "url": "https://tabie.net/shows/1236",
+        "categories": [
+          "برامج اذاعة القران"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1237",
+        "title": "كتاب نافع",
+        "poster": "https://www.qmc.qa/img/MediaContents/08241735-6e24-4bb8-88e2-270c2ef6d811.jpg",
+        "url": "https://tabie.net/shows/1237",
+        "categories": [
+          "برامج اذاعة القران"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1313",
+        "title": "تاريخ البلد الحرام",
+        "poster": "https://www.qmc.qa/img/MediaContents/5fa1e465-452f-4218-9d84-dcb7d3797a3c.jpg",
+        "url": "https://tabie.net/shows/1313",
+        "categories": [
+          "برامج اذاعة القران"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1312",
+        "title": "حوارات في تاريخ الأندلس",
+        "poster": "https://www.qmc.qa/img/MediaContents/1a456a72-7a4d-4315-bf07-febd658d7d92.jpg",
+        "url": "https://tabie.net/shows/1312",
+        "categories": [
+          "برامج اذاعة القران"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1311",
+        "title": "وحي السماء",
+        "poster": "https://www.qmc.qa/img/MediaContents/b342d351-865f-4962-a38f-97a5b2f7481f.jpg",
+        "url": "https://tabie.net/shows/1311",
+        "categories": [
+          "برامج اذاعة القران"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1308",
+        "title": "توازن وأمان",
+        "poster": "https://www.qmc.qa/img/MediaContents/ea2df761-507e-4961-9208-0fbabea440b0.jpg",
+        "url": "https://tabie.net/shows/1308",
+        "categories": [
+          "برامج اذاعة القران"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1309",
+        "title": "حديث القوافي",
+        "poster": "https://www.qmc.qa/img/MediaContents/5b4b1b73-5480-4bd7-aadd-9a8caa8364a1.jpg",
+        "url": "https://tabie.net/shows/1309",
+        "categories": [
+          "برامج اذاعة القران"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1330",
+        "title": "القرآن يتحدى",
+        "poster": "https://www.qmc.qa/img/MediaContents/6596ddff-d950-4529-a381-335a3e464c5d.jpg",
+        "url": "https://tabie.net/shows/1330",
+        "categories": [
+          "برامج اذاعة القران"
+        ],
+        "playbackStatus": "not approved for external playback"
+      },
+      {
+        "id": "1327",
+        "title": "محاريب ومنابر",
+        "poster": "https://www.qmc.qa/img/MediaContents/98085290-5b15-4c13-aa99-dda304148c94.jpg",
+        "url": "https://tabie.net/shows/1327",
+        "categories": [
+          "برامج اذاعة القران"
+        ],
+        "playbackStatus": "not approved for external playback"
+      }
+    ],
+    "watchPageTest": {
+      "url": "https://tabie.net/show/watch?episodeid=0&posterid=1318&seasonid=0",
+      "http": 200,
+      "frame": "SAMEORIGIN",
+      "publicEmbedLinks": 0
+    }
+  },
+  "palestineIndex": {
+    "source": "https://archivegenocide.com/media/",
+    "total": 1803,
+    "initialArabicCandidates": 256,
+    "filterCaveat": "index duration unit error observed for The Cup Reader; counts are candidate metadata, not certified full works",
+    "vimeoChecked": 68,
+    "publicPlayerHttp200": 8,
+    "results": [
+      {
+        "title": "Some of the Palestinians",
+        "year": "1976",
+        "publisher": null,
+        "status": 403,
+        "runtime": null,
+        "sourcePage": "https://vimeo.com/287798260",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "The Shadow of the West",
+        "year": "1986",
+        "publisher": "The Eqbal Ahmad Project",
+        "status": 401,
+        "runtime": 3138,
+        "sourcePage": "https://vimeo.com/886117156",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "The Night (Al Leil)",
+        "year": "1992",
+        "publisher": "The Arts Center at NYUAD",
+        "status": 401,
+        "runtime": 6762,
+        "sourcePage": "https://vimeo.com/621524893",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Tale of the Three Jewels",
+        "year": "1995",
+        "publisher": "Kurt Ralske",
+        "status": 401,
+        "runtime": 105,
+        "sourcePage": "https://vimeo.com/903702667",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "The Littel Hands",
+        "year": "1996",
+        "publisher": "Abdel Salam Shehada",
+        "status": 401,
+        "runtime": 1594,
+        "sourcePage": "https://vimeo.com/57442257",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "There Are So Many Things Still To Say",
+        "year": "1997",
+        "publisher": "Yazan Badran",
+        "status": 401,
+        "runtime": 2970,
+        "sourcePage": "https://vimeo.com/57768051",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "In Search of Palestine: Edward Saidâs Return Home",
+        "year": "1998",
+        "publisher": "The Eqbal Ahmad Project",
+        "status": 401,
+        "runtime": 3013,
+        "sourcePage": "https://vimeo.com/184213685",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Naim and Wadeeâa",
+        "year": null,
+        "publisher": null,
+        "status": 404,
+        "runtime": null,
+        "sourcePage": "https://vimeo.com/26527314",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "untitled part 3a: occupied territories",
+        "year": "2001",
+        "publisher": null,
+        "status": 403,
+        "runtime": null,
+        "sourcePage": "https://vimeo.com/143585359",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Palestine Palestine",
+        "year": null,
+        "publisher": null,
+        "status": 404,
+        "runtime": null,
+        "sourcePage": "https://vimeo.com/40413365",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Nazareth 2000",
+        "year": "2001",
+        "publisher": "Palestine Calling",
+        "status": 200,
+        "runtime": 3332,
+        "sourcePage": "https://vimeo.com/39732859",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Palestine Under Siege",
+        "year": "2002",
+        "publisher": "Richard Hugus",
+        "status": 401,
+        "runtime": 2478,
+        "sourcePage": "https://vimeo.com/84612471",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Palestine Is Still the Issue",
+        "year": "2002",
+        "publisher": "John Pilger",
+        "status": 401,
+        "runtime": 3170,
+        "sourcePage": "https://vimeo.com/17401477",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Jenin, Jenin",
+        "year": "2002",
+        "publisher": null,
+        "status": 403,
+        "runtime": null,
+        "sourcePage": "https://vimeo.com/499672067",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Crossing Kalandia",
+        "year": "2002",
+        "publisher": "Palestine Calling",
+        "status": 200,
+        "runtime": 3128,
+        "sourcePage": "https://vimeo.com/39708643",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Going for a Ride",
+        "year": "2003",
+        "publisher": "Nahed Awwad",
+        "status": 401,
+        "runtime": 906,
+        "sourcePage": "https://vimeo.com/307011949",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Visit Iraq",
+        "year": "2003",
+        "publisher": "kamal aljafari",
+        "status": 401,
+        "runtime": 1556,
+        "sourcePage": "https://vimeo.com/27797782",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "3 cm Less",
+        "year": "2003",
+        "publisher": null,
+        "status": 403,
+        "runtime": null,
+        "sourcePage": "https://vimeo.com/409245686",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Until When",
+        "year": "2004",
+        "publisher": "Philistine Films",
+        "status": 401,
+        "runtime": 4653,
+        "sourcePage": "https://vimeo.com/122301746",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Palestine Remembered",
+        "year": "2004",
+        "publisher": "Palestine Calling",
+        "status": 200,
+        "runtime": 2254,
+        "sourcePage": "https://vimeo.com/39790166",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Kings and extras: digging for a palestinian image",
+        "year": null,
+        "publisher": null,
+        "status": 403,
+        "runtime": null,
+        "sourcePage": "https://vimeo.com/85322287",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Rainbow",
+        "year": "2004",
+        "publisher": "Palestine Calling",
+        "status": 200,
+        "runtime": 2344,
+        "sourcePage": "https://vimeo.com/39715503",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "The Last Supper, Abu Dis",
+        "year": "2005",
+        "publisher": "issa freij",
+        "status": 401,
+        "runtime": 1569,
+        "sourcePage": "https://vimeo.com/71527485",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "A Few Crumbs for the Birds",
+        "year": null,
+        "publisher": null,
+        "status": 403,
+        "runtime": null,
+        "sourcePage": "https://vimeo.com/120970353",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "The Fourth Room",
+        "year": "2005",
+        "publisher": "Nahed Awwad",
+        "status": 401,
+        "runtime": 1474,
+        "sourcePage": "https://vimeo.com/267191356",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Looking Awry (again)",
+        "year": "2005",
+        "publisher": "Palestine Calling",
+        "status": 200,
+        "runtime": 1853,
+        "sourcePage": "https://vimeo.com/39710189",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Occupation 101",
+        "year": "2006",
+        "publisher": "Volunteers For Truth",
+        "status": 401,
+        "runtime": 5280,
+        "sourcePage": "https://vimeo.com/18333779",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Jerusalemâ¦ The East Side Story",
+        "year": "2007",
+        "publisher": "mohammed alatar",
+        "status": 401,
+        "runtime": 3402,
+        "sourcePage": "https://vimeo.com/408348901",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "The Shadow of Absence",
+        "year": "2007",
+        "publisher": null,
+        "status": 401,
+        "runtime": null,
+        "sourcePage": "https://vimeo.com/220119035",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "We, the Women of Jayyous",
+        "year": "2008",
+        "publisher": "Life Source",
+        "status": 401,
+        "runtime": 2055,
+        "sourcePage": "https://vimeo.com/37876680",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Chronicles of a Refugee 1: The Nakba Dailies",
+        "year": "2008",
+        "publisher": "Adam Shapiro",
+        "status": 401,
+        "runtime": 2966,
+        "sourcePage": "https://vimeo.com/30841295",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Chronicles of a Refugee, 2: The Nakba Dailies 1967 -1993",
+        "year": "2008",
+        "publisher": "Adam Shapiro",
+        "status": 401,
+        "runtime": 3125,
+        "sourcePage": "https://vimeo.com/34082215",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Chronicles of a Refugee, 2: The Nakba Dailies 1993 -2009",
+        "year": "2008",
+        "publisher": "Adam Shapiro",
+        "status": 401,
+        "runtime": 3002,
+        "sourcePage": "https://vimeo.com/34253488",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Chronicles of a Refugee, 3: Homeland Without Identity",
+        "year": "2008",
+        "publisher": "Adam Shapiro",
+        "status": 401,
+        "runtime": 3091,
+        "sourcePage": "https://vimeo.com/33583691",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Chronicles of a Refugee, 4: Identity Without Homeland",
+        "year": "2008",
+        "publisher": "Adam Shapiro",
+        "status": 401,
+        "runtime": 3260,
+        "sourcePage": "https://vimeo.com/33102831",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Chronicles of a Refugee, 5: The Talk of Return",
+        "year": "2008",
+        "publisher": "Adam Shapiro",
+        "status": 401,
+        "runtime": 2937,
+        "sourcePage": "https://vimeo.com/31420615",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Chronicles of a Refugee, 6: The Reutrn of Talk",
+        "year": "2008",
+        "publisher": "Adam Shapiro",
+        "status": 401,
+        "runtime": 3119,
+        "sourcePage": "https://vimeo.com/29506998",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Palestinian Stories",
+        "year": "2008",
+        "publisher": "Dominique Dubosc",
+        "status": 401,
+        "runtime": 2245,
+        "sourcePage": "https://vimeo.com/224100726",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "To My Father",
+        "year": "2008",
+        "publisher": "Abdel Salam Shehada",
+        "status": 401,
+        "runtime": 3185,
+        "sourcePage": "https://vimeo.com/56683139",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Videomappings: Aida, Palestine",
+        "year": "2009",
+        "publisher": "DERIVES",
+        "status": 401,
+        "runtime": 2750,
+        "sourcePage": "https://vimeo.com/888396103",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "25 Thousand tents or more",
+        "year": "2009",
+        "publisher": "ALAA ALSADI",
+        "status": 401,
+        "runtime": 2050,
+        "sourcePage": "https://vimeo.com/10347374",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Pictures From Gaza",
+        "year": "2009",
+        "publisher": "Tamer Ashry",
+        "status": 401,
+        "runtime": 2565,
+        "sourcePage": "https://vimeo.com/65765007",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "As the Poet Said",
+        "year": "2009",
+        "publisher": "SHEFOXFILM",
+        "status": 401,
+        "runtime": 3509,
+        "sourcePage": "https://vimeo.com/220116068",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Diaries",
+        "year": "2010",
+        "publisher": "ODEH FILMS",
+        "status": 401,
+        "runtime": 3281,
+        "sourcePage": "https://vimeo.com/90059430",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "From Palestine with Love",
+        "year": "2010",
+        "publisher": "Mahasen Nasser-Eldin",
+        "status": 401,
+        "runtime": 1417,
+        "sourcePage": "https://vimeo.com/49218467",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Blessed Blessed Oblivion",
+        "year": "2010",
+        "publisher": "jumana manna",
+        "status": 401,
+        "runtime": 1279,
+        "sourcePage": "https://vimeo.com/33503093",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "9 Days in Wahat al-Salam Palestine",
+        "year": null,
+        "publisher": null,
+        "status": 403,
+        "runtime": null,
+        "sourcePage": "https://vimeo.com/135621507",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Gaza-strophe, Palestine",
+        "year": "2010",
+        "publisher": "GAZA-STROPHE",
+        "status": 200,
+        "runtime": 3281,
+        "sourcePage": "https://vimeo.com/9882505",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Jordan Valley Blues",
+        "year": "2010",
+        "publisher": "Life Source",
+        "status": 401,
+        "runtime": 2573,
+        "sourcePage": "https://vimeo.com/15669862",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "One Family in Gaza",
+        "year": "2011",
+        "publisher": "donkeysaddle projects",
+        "status": 401,
+        "runtime": 1357,
+        "sourcePage": "https://vimeo.com/18384109",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "The Cup Reader",
+        "year": "2012",
+        "publisher": "Suha Araj - Filmmaker",
+        "status": 200,
+        "runtime": 721,
+        "sourcePage": "https://vimeo.com/64310158",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Ma mÃ¨re, David et moi",
+        "year": "2012",
+        "publisher": "Lowave",
+        "status": 401,
+        "runtime": 988,
+        "sourcePage": "https://vimeo.com/51760120",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "The Eid GIft",
+        "year": "2012",
+        "publisher": "Ameen Nayfeh",
+        "status": 401,
+        "runtime": 1162,
+        "sourcePage": "https://vimeo.com/58453027",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Road to Tantura",
+        "year": "2012",
+        "publisher": "Hala Gabriel",
+        "status": 401,
+        "runtime": 1223,
+        "sourcePage": "https://vimeo.com/34769420",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Home Movies Gaza",
+        "year": null,
+        "publisher": null,
+        "status": 404,
+        "runtime": null,
+        "sourcePage": "https://vimeo.com/944229689",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Flying Paper",
+        "year": "2013",
+        "publisher": "Flying Paper",
+        "status": 401,
+        "runtime": 3123,
+        "sourcePage": "https://vimeo.com/95679262",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Gaza Death Tunnel",
+        "year": null,
+        "publisher": null,
+        "status": 404,
+        "runtime": null,
+        "sourcePage": "https://vimeo.com/878463865",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "A Stone's Throw From Prison",
+        "year": null,
+        "publisher": null,
+        "status": 403,
+        "runtime": null,
+        "sourcePage": "https://vimeo.com/74705266",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Trip Along Exodus",
+        "year": "2015",
+        "publisher": null,
+        "status": 401,
+        "runtime": null,
+        "sourcePage": "https://vimeo.com/283054929",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "In the Future, They Ate from the Finest Porcelain",
+        "year": "2015",
+        "publisher": null,
+        "status": 200,
+        "runtime": null,
+        "sourcePage": "https://vimeo.com/groups/331203/videos/203117078",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Shujayya",
+        "year": "2016",
+        "publisher": "Moha Mugha",
+        "status": 401,
+        "runtime": 1261,
+        "sourcePage": "https://vimeo.com/172778035",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Reflections",
+        "year": "2016",
+        "publisher": "Sarah Zeryab",
+        "status": 401,
+        "runtime": 1026,
+        "sourcePage": "https://vimeo.com/172955100",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Development Alternatives in a Colonial Time",
+        "year": "2016",
+        "publisher": "ODEH FILMS",
+        "status": 401,
+        "runtime": 1395,
+        "sourcePage": "https://vimeo.com/155534686",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Mussoliniâs Sister",
+        "year": null,
+        "publisher": null,
+        "status": 404,
+        "runtime": null,
+        "sourcePage": "https://vimeo.com/944199071",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Remembering the Gaza War: A Family Erased",
+        "year": "2019",
+        "publisher": "donkeysaddle projects",
+        "status": 401,
+        "runtime": 386,
+        "sourcePage": "https://vimeo.com/352821346",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "The Present",
+        "year": "2020",
+        "publisher": "eh",
+        "status": 401,
+        "runtime": 1426,
+        "sourcePage": "https://vimeo.com/551330271",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Encircled",
+        "year": null,
+        "publisher": null,
+        "status": 403,
+        "runtime": null,
+        "sourcePage": "https://vimeo.com/489677926",
+        "decision": "not automatically activated"
+      },
+      {
+        "title": "Kofia: A Revolution Through Music",
+        "year": "2021",
+        "publisher": "Leon Brehony",
+        "status": 401,
+        "runtime": 1790,
+        "sourcePage": "https://vimeo.com/780690852",
+        "decision": "not automatically activated"
+      }
+    ],
+    "cupReader": {
+      "source": "https://vimeo.com/64310158",
+      "measuredWidth": 640,
+      "measuredHeight": 360,
+      "duration": 720.9563718820862,
+      "playedSeconds": 7.456174,
+      "status": "full short played; HD not verified"
+    }
+  },
+  "brightcove": {
+    "source": "https://justvision.org/films",
+    "activated": [
+      "6232772899001",
+      "2240869443001",
+      "2540411430001"
+    ],
+    "notActivated": [
+      {
+        "id": "2694930036001",
+        "title": "Encounter Point",
+        "reason": "360p observed"
+      }
+    ],
+    "adEvidence": "public player config no ad plugin; startup tests no ad observed; no guarantee future provider changes"
+  },
+  "notes": "No copying or proxying video; public publisher player URLs only. No Tabie or Maraya source activated. Counts include programs, not unique films and series."
+}
