@@ -261,6 +261,32 @@ export const APPROVED_EMBEDS=Object.freeze([
       "playedSeconds": 10.263591,
       "scope": "production Cinema browser; playback started and advanced; no ads observed at startup"
     }
+  },
+  {
+    "movieId": "vimeo:363649438",
+    "kind": "movie",
+    "title": "إخوان",
+    "originalTitle": "Brotherhood · Ikhwène",
+    "year": 2018,
+    "category": "فيلم روائي قصير",
+    "duration": 1507,
+    "language": "العربية التونسية · ترجمة إنجليزية",
+    "publisher": "Midi La Nuit · Meryam Joobeur",
+    "permissionRef": "https://vimeo.com/363649438 · https://developer.vimeo.com/player/sdk/embed",
+    "expires": "2027-02-15T00:00:00Z",
+    "origin": "https://player.vimeo.com",
+    "embed": "https://player.vimeo.com/video/363649438?quality=1080p",
+    "adsPossible": false,
+    "poster": "https://i.vimeocdn.com/video/846297217-b2b88e972a0513a9dfc79f866452955bf0417b9ee0895eae4c7d9d962cfe2ca5-d_295x166?region=us",
+    "overview": "يعود الابن الأكبر من سوريا إلى عائلته في ريف تونس مع زوجته، فتتصاعد التوترات داخل الأسرة.",
+    "observed": {
+      "checked": "2026-11-15",
+      "width": 1998,
+      "height": 1080,
+      "duration": 1507.4133333333334,
+      "playedSeconds": 15.079851,
+      "scope": "independent local iframe, documented Vimeo quality option, no ads observed at startup"
+    }
   }
 ].map(Object.freeze));
 export function approvedEmbed(movie,entries=APPROVED_EMBEDS,now=Date.now()){
