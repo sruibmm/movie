@@ -47,3 +47,9 @@ assert.equal((await synchronize(storage,native.policy,native.fetcher,now)).statu
 assert.equal((await resolveCandidates(storage,[native.policy],{...req,episode:1},now)).length,1);
 assert.equal((await resolveCandidates(storage,[{...native.policy,allowNativeMp4:false}],{...req,episode:1},now)).length,0);
 console.log('PASS native MP4 requires explicit provider approval and independent origin playback evidence');
+
+const wide=fixture('wide',1,544);for(const o of Object.values(wide.observations))o.width=1280;
+assert.equal((await synchronize(storage,wide.policy,wide.fetcher,now)).status,'updated');
+assert.equal((await resolveCandidates(storage,[wide.policy],req,now))[0].width,1280);
+assert.equal((await listSyncedTitles(storage,[wide.policy],now)).length,1);
+console.log('PASS widescreen HD survives catalogue gate and resolver');
