@@ -24,7 +24,9 @@
     "predev": "npm run build:css",
     "bulk:mega": "node scripts/publisher-mega-catalog.mjs && node scripts/publisher-mega-additional.mjs && node scripts/publisher-mega-import.mjs && node scripts/publisher-mega-alternates.mjs",
     "bulk:mega:publish": "npm run bulk:mega && npm run build:cloudflare && npx wrangler deploy",
-    "bulk:playlists": "node scripts/publisher-playlist-known.mjs && python scripts/publisher-playlist-mega-index.py && python scripts/publisher-playlist-mega-import.py && node scripts/publisher-playlist-mega-merge.mjs"
+    "bulk:playlists": "node scripts/publisher-playlist-known.mjs && python scripts/publisher-playlist-mega-index.py && python scripts/publisher-playlist-mega-import.py && node scripts/publisher-playlist-mega-merge.mjs",
+    "bulk:mega:v2": "node scripts/publisher-mega-v2-run.mjs",
+    "bulk:mega:v2:publish": "npm run bulk:mega:v2 && npm run build:cloudflare && npx wrangler deploy"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.103.3",

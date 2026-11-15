@@ -1,0 +1,756 @@
+{
+  "summary": {
+    "addedSeasons": 76,
+    "addedEpisodes": 2083,
+    "addedTitles": 66,
+    "addedFilms": 50,
+    "held": 6,
+    "totals": {
+      "films": 141,
+      "seasons": 115,
+      "episodes": 3110
+    }
+  },
+  "added": [
+    {
+      "title": "دجلة وفرات",
+      "season": 1,
+      "episodes": 10,
+      "publisher": "Alsharqiya Tube "
+    },
+    {
+      "title": "المايسترو",
+      "season": 1,
+      "episodes": 20,
+      "publisher": "Watania Replay"
+    },
+    {
+      "title": "ص.ب 1003",
+      "season": 1,
+      "episodes": 30,
+      "publisher": "Emarat TV | قناة الإمارات"
+    },
+    {
+      "title": "المواجهة",
+      "season": 1,
+      "episodes": 30,
+      "publisher": "قناة الظفرة"
+    },
+    {
+      "title": "كل الحب كل الغرام",
+      "season": 1,
+      "episodes": 95,
+      "publisher": "Phoenix Pictures International"
+    },
+    {
+      "title": "المهلب بن أبي صفرة",
+      "season": 1,
+      "episodes": 30,
+      "publisher": "Abu Dhabi TV قناة أبوظبي"
+    },
+    {
+      "title": "اختفاء",
+      "season": 1,
+      "episodes": 30,
+      "publisher": "El Adl Group"
+    },
+    {
+      "title": "لعنة كارما",
+      "season": 1,
+      "episodes": 30,
+      "publisher": "Al Nahar TV"
+    },
+    {
+      "title": "ليالي أوجيني",
+      "season": 1,
+      "episodes": 30,
+      "publisher": "CBCDrama"
+    },
+    {
+      "title": "نسر الصعيد",
+      "season": 1,
+      "episodes": 30,
+      "publisher": "El Adl Group"
+    },
+    {
+      "title": "بنت الشهبندر",
+      "season": 1,
+      "episodes": 30,
+      "publisher": "Media Revolution Seven"
+    },
+    {
+      "title": "حكم الهوى",
+      "season": 1,
+      "episodes": 33,
+      "publisher": "Kaband Art Production قبنض للإنتاج والتوزيع الفني"
+    },
+    {
+      "title": "عجيب غريب",
+      "season": 2,
+      "episodes": 30,
+      "publisher": "Dubai Plus"
+    },
+    {
+      "title": "هوانم جاردن سيتي",
+      "season": 2,
+      "episodes": 38,
+      "publisher": "ماسبيرو دراما"
+    },
+    {
+      "title": "الحفار",
+      "season": 1,
+      "episodes": 22,
+      "publisher": "ماسبيرو دراما"
+    },
+    {
+      "title": "نصف ربيع الآخر",
+      "season": 1,
+      "episodes": 14,
+      "publisher": "ماسبيرو دراما"
+    },
+    {
+      "title": "خالتي صفية والدير",
+      "season": 1,
+      "episodes": 17,
+      "publisher": "ماسبيرو دراما"
+    },
+    {
+      "title": "الحاوي",
+      "season": 1,
+      "episodes": 18,
+      "publisher": "ماسبيرو دراما"
+    },
+    {
+      "title": "زيزينيا",
+      "season": 1,
+      "episodes": 41,
+      "publisher": "ماسبيرو دراما"
+    },
+    {
+      "title": "الخروج من المأزق",
+      "season": 1,
+      "episodes": 14,
+      "publisher": "ماسبيرو دراما"
+    },
+    {
+      "title": "المال والبنون",
+      "season": 2,
+      "episodes": 34,
+      "publisher": "ماسبيرو دراما"
+    },
+    {
+      "title": "السبنسة",
+      "season": 1,
+      "episodes": 14,
+      "publisher": "ماسبيرو دراما"
+    },
+    {
+      "title": "ليالي الحلمية",
+      "season": 2,
+      "episodes": 25,
+      "publisher": "ماسبيرو دراما"
+    },
+    {
+      "title": "سنبل بعد المليون",
+      "season": 1,
+      "episodes": 24,
+      "publisher": "ماسبيرو دراما"
+    },
+    {
+      "title": "رحلة المليون",
+      "season": 1,
+      "episodes": 26,
+      "publisher": "ماسبيرو دراما"
+    },
+    {
+      "title": "حديث الصباح والمساء",
+      "season": 1,
+      "episodes": 28,
+      "publisher": "ماسبيرو دراما"
+    },
+    {
+      "title": "زيزينيا",
+      "season": 2,
+      "episodes": 36,
+      "publisher": "ماسبيرو دراما"
+    },
+    {
+      "title": "هوامير الصحراء",
+      "season": 4,
+      "episodes": 30,
+      "publisher": "روتانا خليجية"
+    },
+    {
+      "title": "دموع في عيون وقحة",
+      "season": 1,
+      "episodes": 14,
+      "publisher": "ماسبيرو دراما"
+    },
+    {
+      "title": "صيام صيام",
+      "season": 1,
+      "episodes": 30,
+      "publisher": "ماسبيرو دراما"
+    },
+    {
+      "title": "أشجان",
+      "season": 1,
+      "episodes": 7,
+      "publisher": "ماسبيرو دراما"
+    },
+    {
+      "title": "هوانم جاردن سيتي",
+      "season": 1,
+      "episodes": 27,
+      "publisher": "ماسبيرو دراما"
+    },
+    {
+      "title": "المال والبنون",
+      "season": 1,
+      "episodes": 21,
+      "publisher": "ماسبيرو دراما"
+    },
+    {
+      "title": "ليالي الحلمية",
+      "season": 1,
+      "episodes": 18,
+      "publisher": "ماسبيرو دراما"
+    },
+    {
+      "title": "العنكبوت",
+      "season": 1,
+      "episodes": 7,
+      "publisher": "ماسبيرو زمان"
+    },
+    {
+      "title": "صبايا",
+      "season": 4,
+      "episodes": 30,
+      "publisher": "روتانا خليجية"
+    },
+    {
+      "title": "أسرار المدينة",
+      "season": 1,
+      "episodes": 25,
+      "publisher": "Orient Archive"
+    },
+    {
+      "title": "صرخة روح",
+      "season": 2,
+      "episodes": 30,
+      "publisher": " Golden Line for TV Production and Distribution"
+    },
+    {
+      "title": "فرح ليلى",
+      "season": 1,
+      "episodes": 31,
+      "publisher": "Al Nahar TV"
+    },
+    {
+      "title": "زمن البرغوت",
+      "season": 1,
+      "episodes": 36,
+      "publisher": "Kaband Art Production قبنض للإنتاج والتوزيع الفني"
+    },
+    {
+      "title": "طوق البنات",
+      "season": 3,
+      "episodes": 30,
+      "publisher": "Kaband Art Production قبنض للإنتاج والتوزيع الفني"
+    },
+    {
+      "title": "قلوب",
+      "season": 1,
+      "episodes": 60,
+      "publisher": "Al Nahar Drama"
+    },
+    {
+      "title": "يوميات مدير عام",
+      "season": 1,
+      "episodes": 26,
+      "publisher": "Shoof Drama | شوف دراما"
+    },
+    {
+      "title": "وش تاني",
+      "season": 1,
+      "episodes": 30,
+      "publisher": "Alhayah series TV"
+    },
+    {
+      "title": "سجن النسا",
+      "season": 1,
+      "episodes": 30,
+      "publisher": "Alhayah series TV"
+    },
+    {
+      "title": "فيفا أطاطا",
+      "season": 1,
+      "episodes": 30,
+      "publisher": "Alhayah series TV"
+    },
+    {
+      "title": "العملية مسي",
+      "season": 1,
+      "episodes": 30,
+      "publisher": "Aroma Studios"
+    },
+    {
+      "title": "طوق البنات",
+      "season": 2,
+      "episodes": 30,
+      "publisher": "Kaband Art Production قبنض للإنتاج والتوزيع الفني"
+    },
+    {
+      "title": "الشمس تشرق من جديد",
+      "season": 1,
+      "episodes": 31,
+      "publisher": "Shahrazad "
+    },
+    {
+      "title": "ليالي الحلمية",
+      "season": 6,
+      "episodes": 30,
+      "publisher": "MBAProductionEgypt"
+    },
+    {
+      "title": "الضحايا",
+      "season": 1,
+      "episodes": 14,
+      "publisher": "قناة ذكريات"
+    },
+    {
+      "title": "الليل الطويل",
+      "season": 1,
+      "episodes": 13,
+      "publisher": "قناة ذكريات"
+    },
+    {
+      "title": "دمعة عمر",
+      "season": 1,
+      "episodes": 24,
+      "publisher": "قناة ذكريات"
+    },
+    {
+      "title": "البريق",
+      "season": 1,
+      "episodes": 13,
+      "publisher": "قناة ذكريات"
+    },
+    {
+      "title": "القصر",
+      "season": 1,
+      "episodes": 18,
+      "publisher": "قناة ذكريات"
+    },
+    {
+      "title": "عائلة أبو رويشد",
+      "season": 1,
+      "episodes": 30,
+      "publisher": "قناة ذكريات"
+    },
+    {
+      "title": "لا إله إلا الله",
+      "season": 3,
+      "episodes": 30,
+      "publisher": "ماسبيرو زمان"
+    },
+    {
+      "title": "لا إله إلا الله",
+      "season": 2,
+      "episodes": 30,
+      "publisher": "ماسبيرو زمان"
+    },
+    {
+      "title": "لا إله إلا الله",
+      "season": 1,
+      "episodes": 30,
+      "publisher": "ماسبيرو زمان"
+    },
+    {
+      "title": "حكاية ميزو",
+      "season": 1,
+      "episodes": 13,
+      "publisher": "ماسبيرو زمان"
+    },
+    {
+      "title": "رجال في الغروب",
+      "season": 1,
+      "episodes": 7,
+      "publisher": "صوت القاهرة - قناة الدراما"
+    },
+    {
+      "title": "قضاة عظماء",
+      "season": 2,
+      "episodes": 30,
+      "publisher": "صوت القاهرة - قناة الدراما"
+    },
+    {
+      "title": "مسيو رمضان مبروك أبو العلمين حمودة",
+      "season": 1,
+      "episodes": 30,
+      "publisher": "Synergy  تامر مرسي "
+    },
+    {
+      "title": "ضد مجهول",
+      "season": 1,
+      "episodes": 30,
+      "publisher": "Synergy  تامر مرسي "
+    },
+    {
+      "title": "مليكة",
+      "season": 1,
+      "episodes": 30,
+      "publisher": "Synergy  تامر مرسي "
+    },
+    {
+      "title": "الكبير أوي",
+      "season": 3,
+      "episodes": 30,
+      "publisher": "CBCDrama"
+    },
+    {
+      "title": "عزمي وأشجان",
+      "season": 1,
+      "episodes": 30,
+      "publisher": "El Sobky production السبكي للإنتاج الفني"
+    },
+    {
+      "title": "العطار والسبع بنات",
+      "season": 1,
+      "episodes": 35,
+      "publisher": "EMPC TV"
+    },
+    {
+      "title": "اختطاف",
+      "season": 1,
+      "episodes": 13,
+      "publisher": "EMPC TV"
+    },
+    {
+      "title": "امرأة من الصعيد الجواني",
+      "season": 1,
+      "episodes": 30,
+      "publisher": "EMPC TV"
+    },
+    {
+      "title": "راجل و ٦ ستات",
+      "season": 4,
+      "episodes": 34,
+      "publisher": "EMPC TV"
+    },
+    {
+      "title": "راجل و ٦ ستات",
+      "season": 3,
+      "episodes": 34,
+      "publisher": "EMPC TV"
+    },
+    {
+      "title": "طريقي",
+      "season": 1,
+      "episodes": 30,
+      "publisher": "BeelinkTV"
+    },
+    {
+      "title": "لا إله إلا الله",
+      "season": 4,
+      "episodes": 30,
+      "publisher": "ماسبيرو زمان"
+    },
+    {
+      "title": "على كف عفريت",
+      "season": 1,
+      "episodes": 30,
+      "publisher": "DK Entertainment"
+    },
+    {
+      "title": "عيش أيامك",
+      "season": 1,
+      "episodes": 33,
+      "publisher": " Golden Line for TV Production and Distribution"
+    }
+  ],
+  "films": [
+    {
+      "title": "بين إيديك",
+      "id": "YhSCAVeiO5A",
+      "publisher": "IMedia Movies | أي ميديا موفيز"
+    },
+    {
+      "title": "جنس ناعم",
+      "id": "4kG0Bzrpjxc",
+      "publisher": "IMedia Movies | أي ميديا موفيز"
+    },
+    {
+      "title": "سترك يارب",
+      "id": "jVXRkrFNSok",
+      "publisher": "Moseeqa TV موسيقي تي في"
+    },
+    {
+      "title": "١٣١ أشغال",
+      "id": "JPevjQDAAaY",
+      "publisher": "El Nasr Film Co. - شركة أفلام النصر"
+    },
+    {
+      "title": "عبود على الحدود",
+      "id": "OaiC1pghsPY",
+      "publisher": "El Nasr Film Co. - شركة أفلام النصر"
+    },
+    {
+      "title": "كراكون في الشارع",
+      "id": "MEB3SR-LmAw",
+      "publisher": "El Nasr Film Co. - شركة أفلام النصر"
+    },
+    {
+      "title": "حتى لا يطير الدخان",
+      "id": "PhDcJi0XygY",
+      "publisher": "El Nasr Film Co. - شركة أفلام النصر"
+    },
+    {
+      "title": "المرأة المجهولة",
+      "id": "AblVgIvEHTw",
+      "publisher": "El Nasr Film Co. - شركة أفلام النصر"
+    },
+    {
+      "title": "الهاربة",
+      "id": "4D9rNSSeIZo",
+      "publisher": "El Nasr Film Co. - شركة أفلام النصر"
+    },
+    {
+      "title": "الغجر",
+      "id": "eyX7hfkLIms",
+      "publisher": "El Nasr Film Co. - شركة أفلام النصر"
+    },
+    {
+      "title": "الدم يحن",
+      "id": "wGX6RE_BZw8",
+      "publisher": "El Nasr Film Co. - شركة أفلام النصر"
+    },
+    {
+      "title": "إعدام برئ",
+      "id": "BabRljchqzI",
+      "publisher": "El Nasr Film Co. - شركة أفلام النصر"
+    },
+    {
+      "title": "الأم القاتلة",
+      "id": "3G7UpbY3XpQ",
+      "publisher": "El Nasr Film Co. - شركة أفلام النصر"
+    },
+    {
+      "title": "المعلمة والأستاذ",
+      "id": "HUxflUdesUg",
+      "publisher": "El Nasr Film Co. - شركة أفلام النصر"
+    },
+    {
+      "title": "أبناء الصمت",
+      "id": "gcb2Tz9AUJo",
+      "publisher": "El Nasr Film Co. - شركة أفلام النصر"
+    },
+    {
+      "title": "بيت النتاش",
+      "id": "0LcsZqNK3yc",
+      "publisher": "El Nasr Film Co. - شركة أفلام النصر"
+    },
+    {
+      "title": "الدموع في عيون ضاحكة",
+      "id": "YhdpLMFw-w4",
+      "publisher": "El Nasr Film Co. - شركة أفلام النصر"
+    },
+    {
+      "title": "عزبة الصفيح",
+      "id": "lPntrLEGm4Q",
+      "publisher": "MelodyAflam - ميلودي أفلام"
+    },
+    {
+      "title": "المطلقات والذئاب",
+      "id": "Tj-J5e7m97w",
+      "publisher": "MelodyAflam - ميلودي أفلام"
+    },
+    {
+      "title": "الأبطال الثلاثة",
+      "id": "ql5MWue40BY",
+      "publisher": "MelodyAflam - ميلودي أفلام"
+    },
+    {
+      "title": "الوفاء العظيم",
+      "id": "leib3_1LUe4",
+      "publisher": "MelodyAflam - ميلودي أفلام"
+    },
+    {
+      "title": "الحقيقة العارية",
+      "id": "SbNzVZ8RvN8",
+      "publisher": "MelodyAflam - ميلودي أفلام"
+    },
+    {
+      "title": "سيداتى انساتى",
+      "id": "praozgD4OtQ",
+      "publisher": "MelodyAflam - ميلودي أفلام"
+    },
+    {
+      "title": "السادة الرجال",
+      "id": "jm5rqIIl-1I",
+      "publisher": "MelodyAflam - ميلودي أفلام"
+    },
+    {
+      "title": "الحقونا",
+      "id": "gGRd5KS75MU",
+      "publisher": "MelodyAflam - ميلودي أفلام"
+    },
+    {
+      "title": "سلام مربع للستات",
+      "id": "NFJVgyuWAg4",
+      "publisher": "MelodyAflam - ميلودي أفلام"
+    },
+    {
+      "title": "الناس الغلابة",
+      "id": "DHXLqnnSUts",
+      "publisher": "MelodyAflam - ميلودي أفلام"
+    },
+    {
+      "title": "لقاء هناك",
+      "id": "-R7ltDsWHqk",
+      "publisher": "MelodyAflam - ميلودي أفلام"
+    },
+    {
+      "title": "شرف البنت",
+      "id": "mJ2O7f-efjE",
+      "publisher": "IMedia Movies | أي ميديا موفيز"
+    },
+    {
+      "title": "مهرجان الحب",
+      "id": "bwkyD5eD31U",
+      "publisher": "IMedia Movies | أي ميديا موفيز"
+    },
+    {
+      "title": "سواق نص الليل",
+      "id": "ZU34ZKuRrE8",
+      "publisher": "IMedia Movies | أي ميديا موفيز"
+    },
+    {
+      "title": "الشيماء: أخت الرسول",
+      "id": "fzlIGSlLsXw",
+      "publisher": "IMedia Movies | أي ميديا موفيز"
+    },
+    {
+      "title": "إنسان غلبان",
+      "id": "gDr-EU0g4Q4",
+      "publisher": "IMedia Movies | أي ميديا موفيز"
+    },
+    {
+      "title": "بيت الكوامل",
+      "id": "GUVkXJ-WEbE",
+      "publisher": "IMedia Movies | أي ميديا موفيز"
+    },
+    {
+      "title": "الضياع",
+      "id": "3Eoynkv4nZk",
+      "publisher": "IMedia Movies | أي ميديا موفيز"
+    },
+    {
+      "title": "شاهد إثبات",
+      "id": "JX_aNXbPfs4",
+      "publisher": "IMedia Movies | أي ميديا موفيز"
+    },
+    {
+      "title": "شوارع من نار",
+      "id": "eUOlV2inRyA",
+      "publisher": "IMedia Movies | أي ميديا موفيز"
+    },
+    {
+      "title": "توحيدة",
+      "id": "qVugJWQ_PiE",
+      "publisher": "IMedia Movies | أي ميديا موفيز"
+    },
+    {
+      "title": "امرأة بلا قيد",
+      "id": "bCIgqOKqTl4",
+      "publisher": "IMedia Movies | أي ميديا موفيز"
+    },
+    {
+      "title": "المحترفون",
+      "id": "ymO0CDvvMH8",
+      "publisher": "IMedia Movies | أي ميديا موفيز"
+    },
+    {
+      "title": "العنب المر",
+      "id": "Zv9cR7HcBak",
+      "publisher": "IMedia Movies | أي ميديا موفيز"
+    },
+    {
+      "title": "نساء خلف القضبان",
+      "id": "b2CW39av8ws",
+      "publisher": "IMedia Movies | أي ميديا موفيز"
+    },
+    {
+      "title": "مفيش تفاهم",
+      "id": "ptr5Ii8vLQY",
+      "publisher": "IMedia Movies | أي ميديا موفيز"
+    },
+    {
+      "title": "ثم تشرق الشمس",
+      "id": "2Gkcgu1YGys",
+      "publisher": "IMedia Movies | أي ميديا موفيز"
+    },
+    {
+      "title": "المستحيل",
+      "id": "lYbh5c-gUWs",
+      "publisher": "IMedia Movies | أي ميديا موفيز"
+    },
+    {
+      "title": "السبع بنات",
+      "id": "ytU1H_F_0uA",
+      "publisher": "IMedia Movies | أي ميديا موفيز"
+    },
+    {
+      "title": "خلخال حبيبي",
+      "id": "zCE6uGxqFZs",
+      "publisher": "IMedia Movies | أي ميديا موفيز"
+    },
+    {
+      "title": "سلاسل من حرير",
+      "id": "MR68tjg6eto",
+      "publisher": "IMedia Movies | أي ميديا موفيز"
+    },
+    {
+      "title": "بين القصرين",
+      "id": "4Y-V7id6ap4",
+      "publisher": "IMedia Movies | أي ميديا موفيز"
+    },
+    {
+      "title": "يا تحب يا تقب",
+      "id": "H61UYfcwkLU",
+      "publisher": "IMedia Movies | أي ميديا موفيز"
+    }
+  ],
+  "held": [
+    {
+      "title": "ليالي الحلمية",
+      "season": 1,
+      "reason": "existing title, canonical season or video overlap"
+    },
+    {
+      "title": "صبايا",
+      "season": 4,
+      "reason": "existing title, canonical season or video overlap"
+    },
+    {
+      "title": "هوامير الصحراء",
+      "season": 4,
+      "reason": "existing title, canonical season or video overlap"
+    },
+    {
+      "title": "ليالي أوجيني",
+      "season": 1,
+      "reason": "existing title, canonical season or video overlap"
+    },
+    {
+      "title": "العملية مسي",
+      "season": 1,
+      "reason": "existing title, canonical season or video overlap"
+    },
+    {
+      "title": "العنكبوت",
+      "season": 1,
+      "reason": "existing title, canonical season or video overlap"
+    }
+  ]
+}

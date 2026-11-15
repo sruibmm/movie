@@ -2,7 +2,7 @@ import json,re,unicodedata,concurrent.futures,os,time,threading,sys
 from pathlib import Path
 import requests,yt_dlp
 read=lambda p:json.loads(Path(p).read_text(encoding='utf-8-sig'))
-data=read('docs/publisher-playlist-mega-index.json')
+data=[c for c in read('docs/publisher-playlist-mega-index.json') if c.get('handle') not in ['shoofdramaone','almajdzaman','NostalgiaZamanTv']]
 known=read('.cinema-playlist-known.json')
 def norm(t):
  t=unicodedata.normalize('NFKC',str(t or '')).lower()
@@ -21,7 +21,7 @@ def tmdb(path,params={}):
  import hashlib
  k=hashlib.sha256(json.dumps([path,params],sort_keys=True).encode()).hexdigest()
  p=meta_dir/(k+'.json')
- if p.exists():
+ if p.exists() and time.time()-p.stat().st_mtime<30*86400:
   try:return read(p)
   except:pass
  try:
@@ -73,12 +73,17 @@ def canonical(job):
  c,p,t,s,y=job
  result=tmdb('search/tv',{'query':t})
  matches=[x for x in result.get('results',[]) if x.get('original_language')=='ar' and any(norm(a)==norm(t) for a in [x.get('name'),x.get('original_name')]) and (not y or x.get('first_air_date','')[:4]==y)]
+ if not matches:
+  for q in list(dict.fromkeys([t.replace('ى','ي'),t.replace('ه','ة') if t.endswith('ه') else t])):
+   if q==t:continue
+   rr=tmdb('search/tv',{'query':q});matches=[x for x in rr.get('results',[]) if x.get('original_language')=='ar' and any(norm(a)==norm(t) for a in [x.get('name'),x.get('original_name')]) and (not y or x.get('first_air_date','')[:4]==y)]
+   if matches:break
  if len(matches)!=1:return None
  m=matches[0];detail=tmdb('tv/'+str(m['id'])+'/season/'+str(s))
  eps=detail.get('episodes',[])
  if len(eps)<5 or len(eps)>180 or not m.get('poster_path'):return None
  return job,m,detail
-with concurrent.futures.ThreadPoolExecutor(max_workers=12) as ex:
+with concurrent.futures.ThreadPoolExecutor(max_workers=16) as ex:
  matched=[x for x in ex.map(canonical,jobs) if x]
 print('CANONICAL',len(matched),flush=True)
 # prioritize modern complete lists and dedupe by canonical season
@@ -136,11 +141,12 @@ def process(items):
    if n in eps:eps={};break
    eps[n]=e
   if len(eps)!=expected or set(eps)!=set(range(1,expected+1)):continue
+  if any(e.get('runtime') and eps[e['episode_number']]['duration'] < max(900,e['runtime']*60*.72) for e in s['episodes']):continue
   if not all(embed(eps[n]['id'],d['channel']) for n in [1,expected]):continue
   row={'id':'tmdb:'+str(m['id'])+':'+str(season),'provider':'youtube','title':m.get('original_name') or m['name'],'tmdbId':m['id'],'year':(s.get('air_date') or m.get('first_air_date') or '')[:4],'season':season,'expected':expected,'publisher':d['channel'],'source':'https://www.youtube.com/playlist?list='+p['id'],'poster':'https://image.tmdb.org/t/p/w342'+m['poster_path'],'episodes':[{'number':n,'id':eps[n]['id']} for n in range(1,expected+1)],'adsPossible':True,'evidence':'Official publisher playlist metadata, same channel, exact numbered canonical season, duration >=15 minutes; first/last embed checked; HD/live playback/ads unverified'}
   print('ACCEPT',row['title'],season,expected,flush=True)
   return row
  return None
-with concurrent.futures.ThreadPoolExecutor(max_workers=8) as ex: rows=[x for x in ex.map(process,unique.values()) if x]
+with concurrent.futures.ThreadPoolExecutor(max_workers=12) as ex: rows=[x for x in ex.map(process,unique.values()) if x]
 Path('docs/publisher-playlist-mega-approved.json').write_text(json.dumps(rows,ensure_ascii=False,indent=2),encoding='utf-8')
 print('FINAL',len(rows),sum(len(r['episodes']) for r in rows),flush=True)

@@ -1,20 +1,20 @@
 {
   "schema": 1,
   "summary": {
-    "candidateGroups": 245,
-    "pendingUniqueReferences": 1286,
+    "candidateGroups": 244,
+    "pendingUniqueReferences": 1256,
     "approved": 0,
     "byKind": {
-      "series": 41,
+      "series": 40,
       "film": 8,
       "unclassified": 196
     },
     "reasons": {
-      "canonical-season-length-unverified": 41,
-      "hd-unverified": 224,
-      "ad-free-unverified": 245,
-      "full-work-identity-unverified": 245,
-      "live-playback-and-tv-unverified": 245
+      "canonical-season-length-unverified": 40,
+      "hd-unverified": 223,
+      "ad-free-unverified": 244,
+      "full-work-identity-unverified": 244,
+      "live-playback-and-tv-unverified": 244
     }
   },
   "groups": [
@@ -258,59 +258,6 @@
         "youtube:lXzqitXZ_2Y",
         "youtube:xIFZEB2Azw0",
         "youtube:6KJ7FJTDU_M"
-      ],
-      "metadata": {
-        "publisher": "MBAProductionEgypt",
-        "source": "https://www.youtube.com/@mba",
-        "metadataMatched": true
-      },
-      "reasons": [
-        "canonical-season-length-unverified",
-        "hd-unverified",
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
-      "key": "youtube:series:1075",
-      "provider": "youtube",
-      "kind": "series",
-      "title": "ليالي الحلمية - الجزء السادس",
-      "referenceCount": 30,
-      "pendingCount": 30,
-      "pendingIds": [
-        "youtube:pYR0LsZZess",
-        "youtube:yicujgdnh9M",
-        "youtube:wanpRUxIEiA",
-        "youtube:ylJnomqM1Wo",
-        "youtube:_ipUzuEmblw",
-        "youtube:WzGU7rHDVLE",
-        "youtube:U0LxwgF_OOk",
-        "youtube:CSuhdju62QQ",
-        "youtube:i4s-2C2OooU",
-        "youtube:lcaiD9L_M6M",
-        "youtube:3UGBi-EVbeA",
-        "youtube:AlD_xPtPNlo",
-        "youtube:IGyisPeJtn4",
-        "youtube:U5et7fENItU",
-        "youtube:2Q1is-xsILo",
-        "youtube:vMlFmjrKFOo",
-        "youtube:nvlqH0DoUnY",
-        "youtube:MePhjbQ4M3w",
-        "youtube:9KbpH76YZUg",
-        "youtube:ntfQUBRu4dA",
-        "youtube:kTR4HDgWv1M",
-        "youtube:IPRuHNrUSLY",
-        "youtube:zToaBTMHC8w",
-        "youtube:JOifrXcqJvY",
-        "youtube:vUn7DDyhlRY",
-        "youtube:jQ19Z4W3cWw",
-        "youtube:_M_RInRM0Ok",
-        "youtube:LFgco88RUU0",
-        "youtube:GkyrsB2F4Mo",
-        "youtube:4V-NRnzC3xM"
       ],
       "metadata": {
         "publisher": "MBAProductionEgypt",
