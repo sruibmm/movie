@@ -1,20 +1,20 @@
 {
   "schema": 1,
   "summary": {
-    "candidateGroups": 285,
-    "pendingUniqueReferences": 1563,
+    "candidateGroups": 246,
+    "pendingUniqueReferences": 1287,
     "approved": 0,
     "byKind": {
-      "series": 48,
-      "film": 21,
-      "unclassified": 216
+      "series": 41,
+      "film": 9,
+      "unclassified": 196
     },
     "reasons": {
-      "canonical-season-length-unverified": 48,
-      "hd-unverified": 252,
-      "ad-free-unverified": 285,
-      "full-work-identity-unverified": 285,
-      "live-playback-and-tv-unverified": 285
+      "canonical-season-length-unverified": 41,
+      "hd-unverified": 225,
+      "ad-free-unverified": 246,
+      "full-work-identity-unverified": 246,
+      "live-playback-and-tv-unverified": 246
     }
   },
   "groups": [
@@ -433,59 +433,6 @@
       "status": "hold"
     },
     {
-      "key": "youtube:series:1069",
-      "provider": "youtube",
-      "kind": "series",
-      "title": "الفوريجي",
-      "referenceCount": 30,
-      "pendingCount": 30,
-      "pendingIds": [
-        "youtube:WQd8wBHCRz0",
-        "youtube:8mZM1e1gXac",
-        "youtube:ys7gHZovi6g",
-        "youtube:u4cou3lG5dI",
-        "youtube:gULMzYxKjUo",
-        "youtube:LMvCrtFrjDo",
-        "youtube:oeSCcESZ3XU",
-        "youtube:-LYLGesdvNI",
-        "youtube:PdBrSiyY1MA",
-        "youtube:yzAZsqWbOqU",
-        "youtube:4G2vnfx18Ao",
-        "youtube:csAA7JJpPPg",
-        "youtube:5vEoAFqFaAc",
-        "youtube:_75p4q9inbA",
-        "youtube:L_xrJGtmRow",
-        "youtube:TyT0OGL3Vng",
-        "youtube:sjYfPw35uyQ",
-        "youtube:VZX--fNqBK0",
-        "youtube:X63hhGkjNTU",
-        "youtube:DbahHdLAtv0",
-        "youtube:DLiu853pP08",
-        "youtube:pe03QLBfSGQ",
-        "youtube:WcKJXIXjI08",
-        "youtube:CElMhKG3Gnk",
-        "youtube:hiZYWKW1Hyo",
-        "youtube:Y-1LRDtYh-I",
-        "youtube:FJU1gfP2vF8",
-        "youtube:YUu44Kxrjqg",
-        "youtube:A15Vmp-Yujg",
-        "youtube:PJ5N7oe1nbA"
-      ],
-      "metadata": {
-        "publisher": "Verdi Production House",
-        "source": "https://www.youtube.com/@VerdiProductionHouse",
-        "metadataMatched": true
-      },
-      "reasons": [
-        "canonical-season-length-unverified",
-        "hd-unverified",
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
       "key": "youtube:series:1068",
       "provider": "youtube",
       "kind": "series",
@@ -560,251 +507,6 @@
       "metadata": {
         "publisher": "Verdi Production House",
         "source": "https://www.youtube.com/@VerdiProductionHouse",
-        "metadataMatched": true
-      },
-      "reasons": [
-        "canonical-season-length-unverified",
-        "hd-unverified",
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
-      "key": "youtube:series:487",
-      "provider": "youtube",
-      "kind": "series",
-      "title": "مسلسل فارس بلا جواد",
-      "referenceCount": 41,
-      "pendingCount": 41,
-      "pendingIds": [
-        "youtube:-K-btN66vdE",
-        "youtube:qrBFb9EPlhM",
-        "youtube:K5XVz9XPFxQ",
-        "youtube:m8rnJLYXpek",
-        "youtube:PvEDJYj9gi8",
-        "youtube:eGBRzaJFbzE",
-        "youtube:4nXUfRPw_eU",
-        "youtube:XrOCH0NE_X8",
-        "youtube:7mHt_Q_O7ro",
-        "youtube:AF570raMpHo",
-        "youtube:9UX2cWxq4nE",
-        "youtube:j1oUB-9k3fs",
-        "youtube:NRh04fRLNT8",
-        "youtube:0p5yOdXRLhc",
-        "youtube:E23aex91cPk",
-        "youtube:eIz0xTj_sF8",
-        "youtube:e2OG0Lsz5zc",
-        "youtube:Vzy4VjrggjA",
-        "youtube:TAYW9M9lSto",
-        "youtube:4rzd9YHgiXE",
-        "youtube:KiDfmu0V6wE",
-        "youtube:0LZdo-kRAkQ",
-        "youtube:jsXd0bpm9EE",
-        "youtube:U1AvZSpASbg",
-        "youtube:r388DIUR5kA",
-        "youtube:Z7VPWwh_Oco",
-        "youtube:GDD78zMh2_U",
-        "youtube:AWqmlx1a0E4",
-        "youtube:cIUsyeU6ToY",
-        "youtube:9cpKBOzOlCc",
-        "youtube:tU8Q0P2McAk",
-        "youtube:hWSnzKD66aE",
-        "youtube:vtwsz4qBlG4",
-        "youtube:B9cXucYtee8",
-        "youtube:vKhyo_d93k8",
-        "youtube:h50t1X_ShME",
-        "youtube:pfSKHOr5bYU",
-        "youtube:OUZGJSi9iVI",
-        "youtube:B6yreflMoGs",
-        "youtube:Sslr2SyIrn4",
-        "youtube:zM90FWVbZw0"
-      ],
-      "metadata": {
-        "publisher": "ماسبيرو دراما",
-        "source": "https://www.youtube.com/@MasperoDrama",
-        "metadataMatched": true
-      },
-      "reasons": [
-        "canonical-season-length-unverified",
-        "hd-unverified",
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
-      "key": "youtube:series:124",
-      "provider": "youtube",
-      "kind": "series",
-      "title": "ليالي الحلمية الجزء الخامس",
-      "referenceCount": 40,
-      "pendingCount": 40,
-      "pendingIds": [
-        "youtube:TPEQ5uk8sYo",
-        "youtube:ZWif-5eBfGI",
-        "youtube:zDOJHtNUhR4",
-        "youtube:dkaZ92Ml0Pg",
-        "youtube:PcojGqsWxXw",
-        "youtube:MKhtppxsip0",
-        "youtube:qOn9mXx9LDw",
-        "youtube:hI6Kkts_y1A",
-        "youtube:UQKBpVVcERg",
-        "youtube:N_Hn-SZMR7I",
-        "youtube:OkW7mvvCCTA",
-        "youtube:wFb8OEzOHxs",
-        "youtube:kAAfz1605jI",
-        "youtube:mfqpcjzBWI4",
-        "youtube:tLNMgC6vQw4",
-        "youtube:c5BgHIFB0Jo",
-        "youtube:RYLH8isI1No",
-        "youtube:6HqFm-k6SDg",
-        "youtube:Ip0_2YoxdIQ",
-        "youtube:Gg0qJFV3qaw",
-        "youtube:mLZil04eapg",
-        "youtube:67ViAuW8dk8",
-        "youtube:lcmk0BnvM2E",
-        "youtube:UbEJQRFjQ0c",
-        "youtube:JbK951g4BNg",
-        "youtube:z3VjVsRLI7Q",
-        "youtube:_c6jfGPdVOM",
-        "youtube:xYNVT9t1uzM",
-        "youtube:dA9wsLMyCg4",
-        "youtube:nSHmKZBVGOE",
-        "youtube:gMYuKbkGqe0",
-        "youtube:ZFslDJAMggM",
-        "youtube:cFoW3NL0P_c",
-        "youtube:6LTRruBYZKU",
-        "youtube:EJjd-fQoHrY",
-        "youtube:s8q3YvnwNhM",
-        "youtube:hZuXzhWfo5E",
-        "youtube:NvA1UMXyW0w",
-        "youtube:URUqj-J0U9g",
-        "youtube:X33pVoarUTc"
-      ],
-      "metadata": {
-        "publisher": "ماسبيرو دراما",
-        "source": "https://www.youtube.com/@MasperoDrama",
-        "metadataMatched": true
-      },
-      "reasons": [
-        "canonical-season-length-unverified",
-        "hd-unverified",
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
-      "key": "youtube:series:123",
-      "provider": "youtube",
-      "kind": "series",
-      "title": "ليالي الحلمية الجزء الرابع",
-      "referenceCount": 42,
-      "pendingCount": 42,
-      "pendingIds": [
-        "youtube:X2w8qo73gBk",
-        "youtube:o9I29zcp8y4",
-        "youtube:GyeqKmaqOxs",
-        "youtube:z1XF-3TqyA4",
-        "youtube:VU4LNRK2flM",
-        "youtube:GppmzK3G1Do",
-        "youtube:Ayj1NfEQpPo",
-        "youtube:bBcIYSSJj7c",
-        "youtube:xvKdFSvZTjM",
-        "youtube:IalOMhsahv4",
-        "youtube:y-i1UwPwyV8",
-        "youtube:uW8SX23IQnA",
-        "youtube:Epy2pPGSRoM",
-        "youtube:df2EPgJEgIA",
-        "youtube:-MRGpQ1k78Y",
-        "youtube:BSvq0ZIlWw8",
-        "youtube:-BKL2lSejYo",
-        "youtube:oMf4od7OOI8",
-        "youtube:NTZ6odwk8Gg",
-        "youtube:dZcwyJswwyo",
-        "youtube:xF8yL-ZzocI",
-        "youtube:EwiRbZGtYqo",
-        "youtube:A_aYPud4qrI",
-        "youtube:DLmUgnv6YhQ",
-        "youtube:nWx81jiU4Vg",
-        "youtube:F4na6aYmNrc",
-        "youtube:I5P_98KLMXY",
-        "youtube:GfOuyOfkugg",
-        "youtube:JFXpszxzWuY",
-        "youtube:pEEndtw1gOA",
-        "youtube:GykzYVerOjM",
-        "youtube:RTXS0DXzyuM",
-        "youtube:hOF5GYLmwyo",
-        "youtube:p1YS7paNe8Q",
-        "youtube:02iNlo2AG_I",
-        "youtube:bnyVZbCRCx0",
-        "youtube:8ETPSz37Lko",
-        "youtube:-5G3l6JjCsQ",
-        "youtube:2NKc-_OCDGg",
-        "youtube:dSrOc8cTq24",
-        "youtube:p0GUnbntKpU",
-        "youtube:KLUcG0WuSq0"
-      ],
-      "metadata": {
-        "publisher": "ماسبيرو دراما",
-        "source": "https://www.youtube.com/@MasperoDrama",
-        "metadataMatched": true
-      },
-      "reasons": [
-        "canonical-season-length-unverified",
-        "hd-unverified",
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
-      "key": "youtube:series:122",
-      "provider": "youtube",
-      "kind": "series",
-      "title": "ليالي الحلمية الجزء الثالث",
-      "referenceCount": 30,
-      "pendingCount": 30,
-      "pendingIds": [
-        "youtube:u_ArIWGy2FE",
-        "youtube:JkBfEzWL6zQ",
-        "youtube:J8RrlNmdAGI",
-        "youtube:-rZ0nlcvcTE",
-        "youtube:U1_cx_czPDU",
-        "youtube:wTmazBg4JSA",
-        "youtube:mG024qbmRkg",
-        "youtube:VZzwXNoTGLY",
-        "youtube:mpIIHoM8kyc",
-        "youtube:eKqPt0bPtNA",
-        "youtube:ohJrI8H_t0Y",
-        "youtube:rHLP3jIlTKI",
-        "youtube:LuBsTLhlrLk",
-        "youtube:9slZYXmLypY",
-        "youtube:tStVA1eFDkI",
-        "youtube:e5O2nx1cpaI",
-        "youtube:e4O1it2Ai3s",
-        "youtube:P7sA26fjnLc",
-        "youtube:Va7L_HN6goE",
-        "youtube:hfgMdtoFoIw",
-        "youtube:GO75X5KbmFk",
-        "youtube:i9-R9-59NTw",
-        "youtube:J-7Aku8w_Ks",
-        "youtube:ZHzmFQqpdA8",
-        "youtube:io09efck-X0",
-        "youtube:htQRjl58D4k",
-        "youtube:iNiHO-SZuus",
-        "youtube:Ro_5Z-x1now",
-        "youtube:1kVhpsFv3H8",
-        "youtube:WkSOniXe5rE"
-      ],
-      "metadata": {
-        "publisher": "ماسبيرو دراما",
-        "source": "https://www.youtube.com/@MasperoDrama",
         "metadataMatched": true
       },
       "reasons": [
@@ -1133,59 +835,6 @@
       "status": "hold"
     },
     {
-      "key": "youtube:series:1043",
-      "provider": "youtube",
-      "kind": "series",
-      "title": "ابوجانتي الجزء الثاني",
-      "referenceCount": 30,
-      "pendingCount": 30,
-      "pendingIds": [
-        "youtube:0IrYsG3RM5Q",
-        "youtube:TbKHWJ5XGcc",
-        "youtube:jkm4aH3tCnQ",
-        "youtube:eYg2VSN5-9A",
-        "youtube:HlIaKCY93xo",
-        "youtube:WD321yLrtvA",
-        "youtube:hOWHuWJ7bDY",
-        "youtube:8HGg4mw9xrs",
-        "youtube:5Qc2TuBtVMw",
-        "youtube:9mPF74rQksE",
-        "youtube:Db--itoT0D4",
-        "youtube:VrZbmtleTlk",
-        "youtube:0QA2EqV8Qhg",
-        "youtube:YW3rhgLquYk",
-        "youtube:PIh_556LP_4",
-        "youtube:iqTOikb8aqI",
-        "youtube:PMTA446BOfE",
-        "youtube:rzP4HZfYuxs",
-        "youtube:9I_3PgumpRY",
-        "youtube:swgUGF2_JAg",
-        "youtube:juhJbn52nQM",
-        "youtube:X3KhKMAiAjU",
-        "youtube:9jKOaFDSxOs",
-        "youtube:3vHd4c1HMUk",
-        "youtube:3AXIIHxcSbE",
-        "youtube:Ksr7IJbOuwo",
-        "youtube:lg4xuF1GtJg",
-        "youtube:mN9e1MrsXl0",
-        "youtube:kaVUP1Ggz_k",
-        "youtube:jXnDarPCBss"
-      ],
-      "metadata": {
-        "publisher": "روتانا خليجية",
-        "source": "https://www.youtube.com/@khalejiatv",
-        "metadataMatched": true
-      },
-      "reasons": [
-        "canonical-season-length-unverified",
-        "hd-unverified",
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
       "key": "youtube:series:1042",
       "provider": "youtube",
       "kind": "series",
@@ -1426,60 +1075,6 @@
       "metadata": {
         "publisher": "قناة ذكريات",
         "source": "https://www.youtube.com/@Thikrayat_tv",
-        "metadataMatched": true
-      },
-      "reasons": [
-        "canonical-season-length-unverified",
-        "hd-unverified",
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
-      "key": "youtube:series:126",
-      "provider": "youtube",
-      "kind": "series",
-      "title": "مسلسل عمر بن الخطاب",
-      "referenceCount": 31,
-      "pendingCount": 31,
-      "pendingIds": [
-        "youtube:cu68afTJVlk",
-        "youtube:UO-mGxqGhUc",
-        "youtube:HxaeRdytSx8",
-        "youtube:0dSvPixujFI",
-        "youtube:cyKI6nZVGQQ",
-        "youtube:Rn2lRGPg4gg",
-        "youtube:gDCokG57ZeM",
-        "youtube:gjoUHLAvmx8",
-        "youtube:qe7APpD6B1w",
-        "youtube:Jr5dMumcKaU",
-        "youtube:nNK4es84vxI",
-        "youtube:_nkexHzMPGs",
-        "youtube:LKYXPkifeKs",
-        "youtube:qW8OP7tq2yc",
-        "youtube:OrbXoTzFgHI",
-        "youtube:vHMHpDPG6n0",
-        "youtube:Dd_qQ_myIxI",
-        "youtube:HyY6h-0Spyo",
-        "youtube:2j2TPA_k-TM",
-        "youtube:3ouQLU1hBN8",
-        "youtube:y9YN5-Lhu2w",
-        "youtube:OKXY24kQIxA",
-        "youtube:mEhp-_BhxQg",
-        "youtube:1DDPbVBzEcQ",
-        "youtube:n56UjGF3PNo",
-        "youtube:jiSWcPsjk5U",
-        "youtube:66lbDErXkns",
-        "youtube:1riRoyyxqR0",
-        "youtube:YkpPXO_r8P8",
-        "youtube:GumhWIuNP6k",
-        "youtube:TomHvYCxsbA"
-      ],
-      "metadata": {
-        "publisher": "Qatar Television تلفزيون قطر",
-        "source": "https://www.youtube.com/@QatarTelevision",
         "metadataMatched": true
       },
       "reasons": [
@@ -2430,28 +2025,6 @@
       "status": "hold"
     },
     {
-      "key": "dailymotion:film:xay1vle",
-      "provider": "dailymotion",
-      "kind": "film",
-      "title": "فيلم الرعب   بستان الــ دم",
-      "referenceCount": 1,
-      "pendingCount": 1,
-      "pendingIds": [
-        "dailymotion:xay1vle"
-      ],
-      "metadata": {
-        "publisher": "IMediaMovies",
-        "hd": true,
-        "adsFree": false
-      },
-      "reasons": [
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
       "key": "dailymotion:film:xaxzwqu",
       "provider": "dailymotion",
       "kind": "film",
@@ -2496,28 +2069,6 @@
       "status": "hold"
     },
     {
-      "key": "dailymotion:film:x8p3ftk",
-      "provider": "dailymotion",
-      "kind": "film",
-      "title": "Marzoka Movie | فيلم مرزوقة",
-      "referenceCount": 1,
-      "pendingCount": 1,
-      "pendingIds": [
-        "dailymotion:x8p3ftk"
-      ],
-      "metadata": {
-        "publisher": "IMediaMovies",
-        "hd": true,
-        "adsFree": false
-      },
-      "reasons": [
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
       "key": "dailymotion:film:x8p3fto",
       "provider": "dailymotion",
       "kind": "film",
@@ -2534,50 +2085,6 @@
       },
       "reasons": [
         "hd-unverified",
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
-      "key": "dailymotion:film:x8p3pkw",
-      "provider": "dailymotion",
-      "kind": "film",
-      "title": "Al Thalatha Yashtghalonaha Movie | فيلم الثلاثة يشتغلونها",
-      "referenceCount": 1,
-      "pendingCount": 1,
-      "pendingIds": [
-        "dailymotion:x8p3pkw"
-      ],
-      "metadata": {
-        "publisher": "IMediaMovies",
-        "hd": true,
-        "adsFree": false
-      },
-      "reasons": [
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
-      "key": "dailymotion:film:x7yiol1",
-      "provider": "dailymotion",
-      "kind": "film",
-      "title": "فيلم ابليس فى المدينه_1",
-      "referenceCount": 1,
-      "pendingCount": 1,
-      "pendingIds": [
-        "dailymotion:x7yiol1"
-      ],
-      "metadata": {
-        "publisher": "IMediaMovies",
-        "hd": true,
-        "adsFree": false
-      },
-      "reasons": [
         "ad-free-unverified",
         "full-work-identity-unverified",
         "live-playback-and-tv-unverified"
@@ -2673,72 +2180,6 @@
       "status": "hold"
     },
     {
-      "key": "dailymotion:film:x6y24bj",
-      "provider": "dailymotion",
-      "kind": "film",
-      "title": "Demoa Fi Laylat Al Zefaf Movie | فيلم دموع فى ليلة الزفاف",
-      "referenceCount": 1,
-      "pendingCount": 1,
-      "pendingIds": [
-        "dailymotion:x6y24bj"
-      ],
-      "metadata": {
-        "publisher": "IMediaMovies",
-        "hd": true,
-        "adsFree": false
-      },
-      "reasons": [
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
-      "key": "dailymotion:film:x6y24bi",
-      "provider": "dailymotion",
-      "kind": "film",
-      "title": "Khamsa Fi Al Gahiem Movie | فيلم خمسة فى الجحيم",
-      "referenceCount": 1,
-      "pendingCount": 1,
-      "pendingIds": [
-        "dailymotion:x6y24bi"
-      ],
-      "metadata": {
-        "publisher": "IMediaMovies",
-        "hd": true,
-        "adsFree": false
-      },
-      "reasons": [
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
-      "key": "dailymotion:film:x6y1oqo",
-      "provider": "dailymotion",
-      "kind": "film",
-      "title": "Nos Arnab Movie - فيلم نص أرنب",
-      "referenceCount": 1,
-      "pendingCount": 1,
-      "pendingIds": [
-        "dailymotion:x6y1oqo"
-      ],
-      "metadata": {
-        "publisher": "IMediaMovies",
-        "hd": true,
-        "adsFree": false
-      },
-      "reasons": [
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
       "key": "dailymotion:film:x6w0y01",
       "provider": "dailymotion",
       "kind": "film",
@@ -2783,162 +2224,6 @@
       "status": "hold"
     },
     {
-      "key": "dailymotion:film:x6w0n06",
-      "provider": "dailymotion",
-      "kind": "film",
-      "title": "Azraa Wa Thalthat Regal Movie | فيلم عذراء و ثلاثة رجال",
-      "referenceCount": 1,
-      "pendingCount": 1,
-      "pendingIds": [
-        "dailymotion:x6w0n06"
-      ],
-      "metadata": {
-        "publisher": "IMediaMovies",
-        "hd": true,
-        "adsFree": false
-      },
-      "reasons": [
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
-      "key": "dailymotion:film:x6w0n5n",
-      "provider": "dailymotion",
-      "kind": "film",
-      "title": "Al Takhsheba Movie | فيلم التخشيبة",
-      "referenceCount": 1,
-      "pendingCount": 1,
-      "pendingIds": [
-        "dailymotion:x6w0n5n"
-      ],
-      "metadata": {
-        "publisher": "IMediaMovies",
-        "hd": true,
-        "adsFree": false
-      },
-      "reasons": [
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
-      "key": "dailymotion:film:x6w0mx6",
-      "provider": "dailymotion",
-      "kind": "film",
-      "title": "El Aqzam Qadmoun Movie | فيلم الاقزام قادمون",
-      "referenceCount": 1,
-      "pendingCount": 1,
-      "pendingIds": [
-        "dailymotion:x6w0mx6"
-      ],
-      "metadata": {
-        "publisher": "IMediaMovies",
-        "hd": true,
-        "adsFree": false
-      },
-      "reasons": [
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
-      "key": "dailymotion:film:x6w0m8r",
-      "provider": "dailymotion",
-      "kind": "film",
-      "title": "Eatedaa Movie | فيلم اعتداء",
-      "referenceCount": 1,
-      "pendingCount": 1,
-      "pendingIds": [
-        "dailymotion:x6w0m8r"
-      ],
-      "metadata": {
-        "publisher": "IMediaMovies",
-        "hd": true,
-        "adsFree": false
-      },
-      "reasons": [
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
-      "key": "dailymotion:film:x6w0mo9",
-      "provider": "dailymotion",
-      "kind": "film",
-      "title": "Akhy Wa Sadeqy Saqtolak Movie | فيلم اخى و صديقى ساقتلك",
-      "referenceCount": 1,
-      "pendingCount": 1,
-      "pendingIds": [
-        "dailymotion:x6w0mo9"
-      ],
-      "metadata": {
-        "publisher": "IMediaMovies",
-        "hd": true,
-        "adsFree": false
-      },
-      "reasons": [
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
-      "key": "youtube:unclassified:mwlAMl50d-E",
-      "provider": "youtube",
-      "kind": "unclassified",
-      "title": "فيلم الكنز: الحقيقة والخيال كامل | بطولة محمد سعد ومحمد رمضان وهند صبري",
-      "referenceCount": 1,
-      "pendingCount": 1,
-      "pendingIds": [
-        "youtube:mwlAMl50d-E"
-      ],
-      "metadata": {
-        "publisher": "Rotana Cinema KSA",
-        "metadataMatched": true,
-        "runtime": 9408
-      },
-      "reasons": [
-        "hd-unverified",
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
-      "key": "youtube:unclassified:j_8IWLzi4mY",
-      "provider": "youtube",
-      "kind": "unclassified",
-      "title": "صاحب المقام | الفيلم الكامل جودة عالية جدا HD يسرا .. أسر ياسين .. أمينة خليل",
-      "referenceCount": 1,
-      "pendingCount": 1,
-      "pendingIds": [
-        "youtube:j_8IWLzi4mY"
-      ],
-      "metadata": {
-        "publisher": "Rotana Cinema - روتانا سينما",
-        "metadataMatched": true,
-        "runtime": 6359
-      },
-      "reasons": [
-        "hd-unverified",
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
       "key": "youtube:unclassified:dprRLhIXUYc",
       "provider": "youtube",
       "kind": "unclassified",
@@ -2952,52 +2237,6 @@
         "publisher": "ماسبيرو زمان",
         "metadataMatched": true,
         "runtime": 4978
-      },
-      "reasons": [
-        "hd-unverified",
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
-      "key": "youtube:unclassified:yIOUFskj_Co",
-      "provider": "youtube",
-      "kind": "unclassified",
-      "title": "فيلم انت حبيبي وبس كامل | حصرياً بجودة عالية | محمود الليثي - بوسي - صافينار",
-      "referenceCount": 1,
-      "pendingCount": 1,
-      "pendingIds": [
-        "youtube:yIOUFskj_Co"
-      ],
-      "metadata": {
-        "publisher": "Rotana Cinema - روتانا سينما",
-        "metadataMatched": true,
-        "runtime": 4897
-      },
-      "reasons": [
-        "hd-unverified",
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
-      "key": "youtube:unclassified:JOPudMmSzOE",
-      "provider": "youtube",
-      "kind": "unclassified",
-      "title": "فيلم أمير الظلام - بطولة عادل إمام | الفيلم الكامل",
-      "referenceCount": 1,
-      "pendingCount": 1,
-      "pendingIds": [
-        "youtube:JOPudMmSzOE"
-      ],
-      "metadata": {
-        "publisher": "AlarabiaCinema",
-        "metadataMatched": true,
-        "runtime": 6689
       },
       "reasons": [
         "hd-unverified",
@@ -3067,144 +2306,6 @@
         "publisher": "El Sobky production السبكي للإنتاج الفني",
         "metadataMatched": true,
         "runtime": 3846
-      },
-      "reasons": [
-        "hd-unverified",
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
-      "key": "youtube:unclassified:LfXAk07dGXQ",
-      "provider": "youtube",
-      "kind": "unclassified",
-      "title": "فيلم أمريكا شيكا بيكا كامل \"HD\" | بطولة محمد فؤاد و شويكار و نهلة سلامة",
-      "referenceCount": 1,
-      "pendingCount": 1,
-      "pendingIds": [
-        "youtube:LfXAk07dGXQ"
-      ],
-      "metadata": {
-        "publisher": "Rotana Cinema - روتانا سينما",
-        "metadataMatched": true,
-        "runtime": 7379
-      },
-      "reasons": [
-        "hd-unverified",
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
-      "key": "youtube:unclassified:ODqIMm7Z1NM",
-      "provider": "youtube",
-      "kind": "unclassified",
-      "title": "الفيلم الكوميدي تيته رهيبة - محمد هنيدي .. بجودة HD",
-      "referenceCount": 1,
-      "pendingCount": 1,
-      "pendingIds": [
-        "youtube:ODqIMm7Z1NM"
-      ],
-      "metadata": {
-        "publisher": "Rotana Cinema - روتانا سينما",
-        "metadataMatched": true,
-        "runtime": 6009
-      },
-      "reasons": [
-        "hd-unverified",
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
-      "key": "youtube:unclassified:arTNieyWsng",
-      "provider": "youtube",
-      "kind": "unclassified",
-      "title": "الفيلم الكوميدي انهم يسرقون الارانب | بطولة يحيى الفخراني و سمير غانم و لبلبة و جميل راتب",
-      "referenceCount": 1,
-      "pendingCount": 1,
-      "pendingIds": [
-        "youtube:arTNieyWsng"
-      ],
-      "metadata": {
-        "publisher": "Rotana Cinema - روتانا سينما",
-        "metadataMatched": true,
-        "runtime": 5987
-      },
-      "reasons": [
-        "hd-unverified",
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
-      "key": "youtube:unclassified:8QS9ffvhU9Q",
-      "provider": "youtube",
-      "kind": "unclassified",
-      "title": "فيلم الاكشن والاثارة.. جواب اعتقال - بطولة النجم محمد رمضان \"HD\"",
-      "referenceCount": 1,
-      "pendingCount": 1,
-      "pendingIds": [
-        "youtube:8QS9ffvhU9Q"
-      ],
-      "metadata": {
-        "publisher": "Rotana Cinema - روتانا سينما",
-        "metadataMatched": true,
-        "runtime": 5960
-      },
-      "reasons": [
-        "hd-unverified",
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
-      "key": "youtube:unclassified:gr8ExWtFglY",
-      "provider": "youtube",
-      "kind": "unclassified",
-      "title": "فيلم عمر وسلمى الجزء 2 كامل \" تامر حسني \" - أعلى جودة HD",
-      "referenceCount": 1,
-      "pendingCount": 1,
-      "pendingIds": [
-        "youtube:gr8ExWtFglY"
-      ],
-      "metadata": {
-        "publisher": "Rotana Cinema - روتانا سينما",
-        "metadataMatched": true,
-        "runtime": 6039
-      },
-      "reasons": [
-        "hd-unverified",
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
-      "key": "youtube:unclassified:JbbD2iIMK54",
-      "provider": "youtube",
-      "kind": "unclassified",
-      "title": "حصرياً فيلم | درب الهوى | بطولة احمد زكي ومحمود عبدالعزيز ويسرا ومديحة كامل وفاروق الفيشاوي",
-      "referenceCount": 1,
-      "pendingCount": 1,
-      "pendingIds": [
-        "youtube:JbbD2iIMK54"
-      ],
-      "metadata": {
-        "publisher": "El Sobky production السبكي للإنتاج الفني",
-        "metadataMatched": true,
-        "runtime": 8234
       },
       "reasons": [
         "hd-unverified",
@@ -3422,29 +2523,6 @@
       "status": "hold"
     },
     {
-      "key": "youtube:unclassified:Qd9__5aFE00",
-      "provider": "youtube",
-      "kind": "unclassified",
-      "title": "حصرياً فيلم | شد اجزاء | بطولة محمد رمضان ودنيا سمير غانم وياسر جلال ومحمد ممدوح",
-      "referenceCount": 1,
-      "pendingCount": 1,
-      "pendingIds": [
-        "youtube:Qd9__5aFE00"
-      ],
-      "metadata": {
-        "publisher": "El Sobky production السبكي للإنتاج الفني",
-        "metadataMatched": true,
-        "runtime": 5963
-      },
-      "reasons": [
-        "hd-unverified",
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
       "key": "youtube:unclassified:D0x4RAeXhTc",
       "provider": "youtube",
       "kind": "unclassified",
@@ -3629,29 +2707,6 @@
       "status": "hold"
     },
     {
-      "key": "youtube:unclassified:ZVy56r6a-Fo",
-      "provider": "youtube",
-      "kind": "unclassified",
-      "title": "حصرياً فيلم | أبو شنب | بطولة ياسمين عبد العزيز وظافر العابدين وبيومي فؤاد",
-      "referenceCount": 1,
-      "pendingCount": 1,
-      "pendingIds": [
-        "youtube:ZVy56r6a-Fo"
-      ],
-      "metadata": {
-        "publisher": "El Sobky production السبكي للإنتاج الفني",
-        "metadataMatched": true,
-        "runtime": 6545
-      },
-      "reasons": [
-        "hd-unverified",
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
       "key": "youtube:unclassified:GGMVkweqQSM",
       "provider": "youtube",
       "kind": "unclassified",
@@ -3665,29 +2720,6 @@
         "publisher": "ماسبيرو زمان",
         "metadataMatched": true,
         "runtime": 6841
-      },
-      "reasons": [
-        "hd-unverified",
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
-      "key": "youtube:unclassified:iR_7zU6j_Mg",
-      "provider": "youtube",
-      "kind": "unclassified",
-      "title": "فيلم في العشق والسفر ׀ حنان ترك | محمود مسعود",
-      "referenceCount": 1,
-      "pendingCount": 1,
-      "pendingIds": [
-        "youtube:iR_7zU6j_Mg"
-      ],
-      "metadata": {
-        "publisher": "ماسبيرو زمان",
-        "metadataMatched": true,
-        "runtime": 7268
       },
       "reasons": [
         "hd-unverified",
@@ -6504,29 +5536,6 @@
       "status": "hold"
     },
     {
-      "key": "youtube:unclassified:mJoIECirAEs",
-      "provider": "youtube",
-      "kind": "unclassified",
-      "title": "الفيلم العربي _ كل شئ قبل أن ينتهي العمر",
-      "referenceCount": 1,
-      "pendingCount": 1,
-      "pendingIds": [
-        "youtube:mJoIECirAEs"
-      ],
-      "metadata": {
-        "publisher": "ماسبيرو زمان",
-        "metadataMatched": true,
-        "runtime": 5627
-      },
-      "reasons": [
-        "hd-unverified",
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
       "key": "youtube:unclassified:X3LD6UE5HwI",
       "provider": "youtube",
       "kind": "unclassified",
@@ -6688,29 +5697,6 @@
       "status": "hold"
     },
     {
-      "key": "youtube:unclassified:IdYwIgqa_2o",
-      "provider": "youtube",
-      "kind": "unclassified",
-      "title": "سهرة الجمعة الفيلم العربي | حائط البطولات",
-      "referenceCount": 1,
-      "pendingCount": 1,
-      "pendingIds": [
-        "youtube:IdYwIgqa_2o"
-      ],
-      "metadata": {
-        "publisher": "ماسبيرو زمان",
-        "metadataMatched": true,
-        "runtime": 8286
-      },
-      "reasons": [
-        "hd-unverified",
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
       "key": "youtube:unclassified:NOG1Qk6pjxY",
       "provider": "youtube",
       "kind": "unclassified",
@@ -6724,29 +5710,6 @@
         "publisher": "ماسبيرو زمان",
         "metadataMatched": true,
         "runtime": 13478
-      },
-      "reasons": [
-        "hd-unverified",
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
-      "key": "youtube:unclassified:zOl6Hda0tLM",
-      "provider": "youtube",
-      "kind": "unclassified",
-      "title": "الفيلم العربي القانون لا يعرف عائشة",
-      "referenceCount": 1,
-      "pendingCount": 1,
-      "pendingIds": [
-        "youtube:zOl6Hda0tLM"
-      ],
-      "metadata": {
-        "publisher": "ماسبيرو زمان",
-        "metadataMatched": true,
-        "runtime": 5180
       },
       "reasons": [
         "hd-unverified",
@@ -7102,29 +6065,6 @@
       "status": "hold"
     },
     {
-      "key": "youtube:unclassified:M3HSi7bW3s0",
-      "provider": "youtube",
-      "kind": "unclassified",
-      "title": "الفيلم العربي  جواز في السر",
-      "referenceCount": 1,
-      "pendingCount": 1,
-      "pendingIds": [
-        "youtube:M3HSi7bW3s0"
-      ],
-      "metadata": {
-        "publisher": "ماسبيرو زمان",
-        "metadataMatched": true,
-        "runtime": 5941
-      },
-      "reasons": [
-        "hd-unverified",
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
       "key": "youtube:unclassified:ztp2F_X2TJg",
       "provider": "youtube",
       "kind": "unclassified",
@@ -7161,29 +6101,6 @@
         "publisher": "ماسبيرو زمان",
         "metadataMatched": true,
         "runtime": 7162
-      },
-      "reasons": [
-        "hd-unverified",
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
-      "key": "youtube:unclassified:9iL2sIoA38g",
-      "provider": "youtube",
-      "kind": "unclassified",
-      "title": "الفيلم العربي.. رجل له ماضي بطولة فاروق الفيشاوي",
-      "referenceCount": 1,
-      "pendingCount": 1,
-      "pendingIds": [
-        "youtube:9iL2sIoA38g"
-      ],
-      "metadata": {
-        "publisher": "ماسبيرو زمان",
-        "metadataMatched": true,
-        "runtime": 5969
       },
       "reasons": [
         "hd-unverified",
@@ -7332,29 +6249,6 @@
       "status": "hold"
     },
     {
-      "key": "youtube:unclassified:SsBz4rr3fTs",
-      "provider": "youtube",
-      "kind": "unclassified",
-      "title": "الفيلم العربي.. محاكمة علي بابا بطولة يحيى الفخراني",
-      "referenceCount": 1,
-      "pendingCount": 1,
-      "pendingIds": [
-        "youtube:SsBz4rr3fTs"
-      ],
-      "metadata": {
-        "publisher": "ماسبيرو زمان",
-        "metadataMatched": true,
-        "runtime": 6157
-      },
-      "reasons": [
-        "hd-unverified",
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
       "key": "youtube:unclassified:XQkN1ACXQug",
       "provider": "youtube",
       "kind": "unclassified",
@@ -7368,29 +6262,6 @@
         "publisher": "ماسبيرو زمان",
         "metadataMatched": true,
         "runtime": 4828
-      },
-      "reasons": [
-        "hd-unverified",
-        "ad-free-unverified",
-        "full-work-identity-unverified",
-        "live-playback-and-tv-unverified"
-      ],
-      "status": "hold"
-    },
-    {
-      "key": "youtube:unclassified:E7AqcYjGAu4",
-      "provider": "youtube",
-      "kind": "unclassified",
-      "title": "الفيلم العربي: سهم الله .. يوسف شعبان - منى جبر",
-      "referenceCount": 1,
-      "pendingCount": 1,
-      "pendingIds": [
-        "youtube:E7AqcYjGAu4"
-      ],
-      "metadata": {
-        "publisher": "ماسبيرو زمان",
-        "metadataMatched": true,
-        "runtime": 4886
       },
       "reasons": [
         "hd-unverified",

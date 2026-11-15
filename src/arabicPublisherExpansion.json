@@ -46,6 +46,21 @@
       "evidence": "canonical runtime and public publisher embed metadata; actual playback and ad status unverified"
     },
     {
+      "id": "mwlAMl50d-E",
+      "provider": "youtube",
+      "title": "الكنز: الحقيقة والخيال",
+      "tmdbId": 471402,
+      "year": "2017",
+      "poster": "https://image.tmdb.org/t/p/w342/t4Ke9ERe8Jmukbhx1ujVpss0GSL.jpg",
+      "publisher": "Rotana Cinema KSA",
+      "source": "https://www.youtube.com/@RotanaCinema_KSA",
+      "duration": 9408,
+      "runtime": 157,
+      "raw": "فيلم الكنز: الحقيقة والخيال كامل | بطولة محمد سعد ومحمد رمضان وهند صبري",
+      "adsPossible": true,
+      "evidence": "canonical runtime and publisher embed metadata; playback/ads unverified"
+    },
+    {
       "id": "ZVy56r6a-Fo",
       "provider": "youtube",
       "title": "أبو شنب",
@@ -89,6 +104,21 @@
       "runtime": 100,
       "adsPossible": true,
       "evidence": "canonical runtime and public publisher embed metadata; actual playback and ad status unverified"
+    },
+    {
+      "id": "x8p3pkw",
+      "provider": "dailymotion",
+      "title": "الثلاثة يشتغلونها",
+      "tmdbId": 103799,
+      "year": "2010",
+      "poster": "https://image.tmdb.org/t/p/w342/790Zbmx4bj5JA9wUx0Emlsbz72m.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x8p3pkw",
+      "duration": 7083,
+      "runtime": 120,
+      "raw": "Al Thalatha Yashtghalonaha Movie | فيلم الثلاثة يشتغلونها",
+      "adsPossible": true,
+      "evidence": "canonical runtime and publisher embed metadata; playback/ads unverified"
     },
     {
       "id": "gr8ExWtFglY",
@@ -241,6 +271,96 @@
       "evidence": "canonical runtime and public publisher embed metadata; actual playback and ad status unverified"
     },
     {
+      "id": "x6w0mx6",
+      "provider": "dailymotion",
+      "title": "الأقزام قادمون",
+      "tmdbId": 692612,
+      "year": "1987",
+      "poster": "https://image.tmdb.org/t/p/w342/6PtagOChzBoIpGZWMkUYPMvZvFj.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w0mx6",
+      "duration": 5454,
+      "runtime": 90,
+      "raw": "El Aqzam Qadmoun Movie | فيلم الاقزام قادمون",
+      "adsPossible": true,
+      "evidence": "canonical runtime and publisher embed metadata; playback/ads unverified"
+    },
+    {
+      "id": "xay1vle",
+      "provider": "dailymotion",
+      "title": "بستان الدم",
+      "tmdbId": 1355634,
+      "year": "1987",
+      "poster": "https://image.tmdb.org/t/p/w342/tenLedJwYoyjZiiPUimN9QQhuR7.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/xay1vle",
+      "duration": 4178,
+      "runtime": 74,
+      "raw": "فيلم الرعب   بستان الــ دم",
+      "adsPossible": true,
+      "evidence": "canonical runtime and publisher embed metadata; playback/ads unverified"
+    },
+    {
+      "id": "x6w0mo9",
+      "provider": "dailymotion",
+      "title": "أخي وصديقي سأقتلك",
+      "tmdbId": 783213,
+      "year": "1986",
+      "poster": "https://image.tmdb.org/t/p/w342/kw87RMmk6YX3SeM8gwFSr4TzAPQ.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w0mo9",
+      "duration": 5775,
+      "runtime": 96,
+      "raw": "Akhy Wa Sadeqy Saqtolak Movie | فيلم اخى و صديقى ساقتلك",
+      "adsPossible": true,
+      "evidence": "canonical runtime and publisher embed metadata; playback/ads unverified"
+    },
+    {
+      "id": "x6w0n06",
+      "provider": "dailymotion",
+      "title": "عذراء وثلاثة رجال",
+      "tmdbId": 620443,
+      "year": "1986",
+      "poster": "https://image.tmdb.org/t/p/w342/b4OF3rATKxRZRiz3LzuqW5yot17.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w0n06",
+      "duration": 6369,
+      "runtime": 100,
+      "raw": "Azraa Wa Thalthat Regal Movie | فيلم عذراء و ثلاثة رجال",
+      "adsPossible": true,
+      "evidence": "canonical runtime and publisher embed metadata; playback/ads unverified"
+    },
+    {
+      "id": "x8p3ftk",
+      "provider": "dailymotion",
+      "title": "مرزوقة",
+      "tmdbId": 1097623,
+      "year": "1985",
+      "poster": "https://image.tmdb.org/t/p/w342/eIRlgkxAoZ9o1b7dVRod2MrSAP7.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x8p3ftk",
+      "duration": 5806,
+      "runtime": 110,
+      "raw": "Marzoka Movie | فيلم مرزوقة",
+      "adsPossible": true,
+      "evidence": "canonical runtime and publisher embed metadata; playback/ads unverified"
+    },
+    {
+      "id": "x6w0n5n",
+      "provider": "dailymotion",
+      "title": "التخشيبة",
+      "tmdbId": 333904,
+      "year": "1984",
+      "poster": "https://image.tmdb.org/t/p/w342/uJ6CvsiiSzPZ5Rsn6AG67P6r02P.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w0n5n",
+      "duration": 7449,
+      "runtime": 130,
+      "raw": "Al Takhsheba Movie | فيلم التخشيبة",
+      "adsPossible": true,
+      "evidence": "canonical runtime and publisher embed metadata; playback/ads unverified"
+    },
+    {
       "id": "arTNieyWsng",
       "provider": "youtube",
       "title": "إنهم يسرقون الأرانب",
@@ -271,6 +391,81 @@
       "evidence": "canonical runtime and public publisher embed metadata; actual playback and ad status unverified"
     },
     {
+      "id": "x6y1oqo",
+      "provider": "dailymotion",
+      "title": "نص أرنب",
+      "tmdbId": 532967,
+      "year": "1983",
+      "poster": "https://image.tmdb.org/t/p/w342/egHPYWAu5ht1cobBs4qtEyqFfJy.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6y1oqo",
+      "duration": 5501,
+      "runtime": 90,
+      "raw": "Nos Arnab Movie - فيلم نص أرنب",
+      "adsPossible": true,
+      "evidence": "canonical runtime and publisher embed metadata; playback/ads unverified"
+    },
+    {
+      "id": "x6w0m8r",
+      "provider": "dailymotion",
+      "title": "اعتداء",
+      "tmdbId": 983419,
+      "year": "1982",
+      "poster": "https://image.tmdb.org/t/p/w342/7tkSRcBgJrqxrQRBD5QgI31viyg.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w0m8r",
+      "duration": 5115,
+      "runtime": 80,
+      "raw": "Eatedaa Movie | فيلم اعتداء",
+      "adsPossible": true,
+      "evidence": "canonical runtime and publisher embed metadata; playback/ads unverified"
+    },
+    {
+      "id": "x6y24bi",
+      "provider": "dailymotion",
+      "title": "خمسة في الجحيم",
+      "tmdbId": 748744,
+      "year": "1982",
+      "poster": "https://image.tmdb.org/t/p/w342/jDZtKuFAef12eyDET6p30VuQvgc.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6y24bi",
+      "duration": 6413,
+      "runtime": 110,
+      "raw": "Khamsa Fi Al Gahiem Movie | فيلم خمسة فى الجحيم",
+      "adsPossible": true,
+      "evidence": "canonical runtime and publisher embed metadata; playback/ads unverified"
+    },
+    {
+      "id": "x6y24bj",
+      "provider": "dailymotion",
+      "title": "دموع في ليلة الزفاف",
+      "tmdbId": 891243,
+      "year": "1981",
+      "poster": "https://image.tmdb.org/t/p/w342/AgjXO6pm8jbGy8Z0PxOU9GEjKkR.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6y24bj",
+      "duration": 5926,
+      "runtime": 99,
+      "raw": "Demoa Fi Laylat Al Zefaf Movie | فيلم دموع فى ليلة الزفاف",
+      "adsPossible": true,
+      "evidence": "canonical runtime and publisher embed metadata; playback/ads unverified"
+    },
+    {
+      "id": "x7yiol1",
+      "provider": "dailymotion",
+      "title": "إبليس فى المدينة",
+      "tmdbId": 747196,
+      "year": "1978",
+      "poster": "https://image.tmdb.org/t/p/w342/pH2aFElCKY9jrTKKZWOSU1oROxB.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x7yiol1",
+      "duration": 6573,
+      "runtime": 110,
+      "raw": "فيلم ابليس فى المدينه_1",
+      "adsPossible": true,
+      "evidence": "canonical runtime and publisher embed metadata; playback/ads unverified"
+    },
+    {
       "id": "E7AqcYjGAu4",
       "provider": "youtube",
       "title": "سهم الله",
@@ -287,6 +482,142 @@
     }
   ],
   "series": [
+    {
+      "id": "tmdb:329329:1",
+      "title": "مبتعثات",
+      "tmdbId": 329329,
+      "year": "2015",
+      "season": 1,
+      "expected": 30,
+      "publisher": "روتانا خليجية",
+      "source": "https://www.youtube.com/@khalejiatv",
+      "poster": "https://image.tmdb.org/t/p/w342/w2Xs32We11EF0F6LsvYne8ner64.jpg",
+      "episodes": [
+        {
+          "number": 1,
+          "id": "sMTDMzFDXuY"
+        },
+        {
+          "number": 2,
+          "id": "X9j_67s39ZA"
+        },
+        {
+          "number": 3,
+          "id": "v5FUBvnLaAs"
+        },
+        {
+          "number": 4,
+          "id": "4Hk2hPNVjj8"
+        },
+        {
+          "number": 5,
+          "id": "zx70aqTnv3o"
+        },
+        {
+          "number": 6,
+          "id": "csOq_s6WOns"
+        },
+        {
+          "number": 7,
+          "id": "A8t1UCcBiSU"
+        },
+        {
+          "number": 8,
+          "id": "YyAXsq4Xzqk"
+        },
+        {
+          "number": 9,
+          "id": "QVt4IY47Zxs"
+        },
+        {
+          "number": 10,
+          "id": "OuIkiKlszXY"
+        },
+        {
+          "number": 11,
+          "id": "-qLTy8FRZv0"
+        },
+        {
+          "number": 12,
+          "id": "ONPH13CMHM8"
+        },
+        {
+          "number": 13,
+          "id": "TNPOF4yloOs"
+        },
+        {
+          "number": 14,
+          "id": "CbxP6O1rq_s"
+        },
+        {
+          "number": 15,
+          "id": "7n3xk-z2rSI"
+        },
+        {
+          "number": 16,
+          "id": "WmcRvrSLHVs"
+        },
+        {
+          "number": 17,
+          "id": "lXsDLaEevT4"
+        },
+        {
+          "number": 18,
+          "id": "Po98GokvCIg"
+        },
+        {
+          "number": 19,
+          "id": "wtg03w2_3ns"
+        },
+        {
+          "number": 20,
+          "id": "EvtGRW7UP4g"
+        },
+        {
+          "number": 21,
+          "id": "JKtFgmxrup4"
+        },
+        {
+          "number": 22,
+          "id": "BUTHqyg_AG0"
+        },
+        {
+          "number": 23,
+          "id": "vmVraApLxf4"
+        },
+        {
+          "number": 24,
+          "id": "5De0QwbphSE"
+        },
+        {
+          "number": 25,
+          "id": "p2V7maT6huU"
+        },
+        {
+          "number": 26,
+          "id": "HjgJyY199bo"
+        },
+        {
+          "number": 27,
+          "id": "F3fl4tDSOS0"
+        },
+        {
+          "number": 28,
+          "id": "HbdcurIPlqg"
+        },
+        {
+          "number": 29,
+          "id": "8QwA8SGWqOI"
+        },
+        {
+          "number": 30,
+          "id": "uiusR0kTirc"
+        }
+      ],
+      "provider": "youtube",
+      "adsPossible": true,
+      "evidence": "canonical season count and publisher audit; playback/ads unverified"
+    },
     {
       "id": "tmdb:94512:2",
       "title": "أبو جانتي",

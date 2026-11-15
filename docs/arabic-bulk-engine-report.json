@@ -1,0 +1,930 @@
+{
+  "summary": {
+    "checked": 154,
+    "requests": 96,
+    "cacheHits": 266,
+    "newFilms": 12,
+    "newSeasons": 0,
+    "newEpisodes": 0,
+    "previewOnly": true,
+    "strictApproved": 0,
+    "elapsedMs": 4501,
+    "dryRun": false
+  },
+  "accepted": [
+    {
+      "kind": "movie",
+      "id": "x6w0m8r",
+      "title": "اعتداء"
+    },
+    {
+      "kind": "movie",
+      "id": "x6w0mo9",
+      "title": "أخي وصديقي سأقتلك"
+    },
+    {
+      "kind": "movie",
+      "id": "x6w0mx6",
+      "title": "الأقزام قادمون"
+    },
+    {
+      "kind": "movie",
+      "id": "x6w0n06",
+      "title": "عذراء وثلاثة رجال"
+    },
+    {
+      "kind": "movie",
+      "id": "x6w0n5n",
+      "title": "التخشيبة"
+    },
+    {
+      "kind": "movie",
+      "id": "x6y1oqo",
+      "title": "نص أرنب"
+    },
+    {
+      "kind": "movie",
+      "id": "x6y24bi",
+      "title": "خمسة في الجحيم"
+    },
+    {
+      "kind": "movie",
+      "id": "x6y24bj",
+      "title": "دموع في ليلة الزفاف"
+    },
+    {
+      "kind": "movie",
+      "id": "x7yiol1",
+      "title": "إبليس فى المدينة"
+    },
+    {
+      "kind": "movie",
+      "id": "x8p3ftk",
+      "title": "مرزوقة"
+    },
+    {
+      "kind": "movie",
+      "id": "x8p3pkw",
+      "title": "الثلاثة يشتغلونها"
+    },
+    {
+      "kind": "movie",
+      "id": "xay1vle",
+      "title": "بستان الدم"
+    }
+  ],
+  "held": [
+    {
+      "kind": "movie",
+      "id": "FiFT2nMBjlg",
+      "title": "شوف قصة حياة الفاجر محمد ثروت بدون فواصل.. دارت يا صيع 😂",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "8fSxLmjgzfw",
+      "title": "فرقة الكابتن سامي علي القهوة #رمضان_كريم2😂",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "LU0-vAwkVqo",
+      "title": "ساعة من اقوي اغاني الافراح",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "dprRLhIXUYc",
+      "title": "تمثيلية صفحة حب ׀زيزي مصطفى - شاكر عبد اللطيف ׀ سهرات",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "7dgB_jbfe4k",
+      "title": "فيلم رمضان كريم الجزء الثاني | بطولة سيد رجب وروبي وصبري فواز وكريم عفيفي",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "dtr-eblA0fk",
+      "title": "ساعة من اقوي اغاني محمود الليثي 2022 | لأول مرة",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "2DCjPV926BU",
+      "title": "مقلب رمضان .. في عم رمضان #رمضان_كريم2😂",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "4M2fMSXUEiE",
+      "title": "رمضان مع خميس .. وعم رمضان #رمضان_كريم 😂",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "L-Klc8iO0X0",
+      "title": "ساعتين من اقوي اغاني الافراح",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "D0x4RAeXhTc",
+      "title": "صدمة كمال وامه في ابوه #رمضان_كريم2",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "E5cFQc7IRWk",
+      "title": "رعب ماسك الهالات #رمضان_كريم2",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "GrF0dSKlX-U",
+      "title": "صدمة عم رمضان ومراته #رمضان_كريم2",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "AGQW9IAPixY",
+      "title": "عم رمضان مش مصدق جمال #رمضان_كريم2",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "D1mJvL3w35Y",
+      "title": "شوف عم رمضان عمل ايه في وليد الفاطر #رمضان_كريم2",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "hjTO1bDhBx4",
+      "title": "مصايب عم رمضان علي الفطار #رمضان_كريم2",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "GGMVkweqQSM",
+      "title": "الفيلم العربي المهمة .. رحلة من الغموض وصراع لا يعرف المستحيل  📺✨",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "yI2QrRhCHvQ",
+      "title": "الفيلم العربي  ״ دليل الاتهام ״ ׀ محمود المليجي  –  شيرين –   كرم مطاوع ׀",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "JIgtu9C_mn0",
+      "title": "فيلم المال والبنون الجزء الأول.. صراع الحق والباطل في ملحمة المال والبنون",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "kKjIgJc61Qs",
+      "title": "الفيلم العربي _ الرجل والقضبان",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "2M--lCakotU",
+      "title": "ليلتي ׀  يحيى الفخراني ׀",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "Y-XrIKlnXqU",
+      "title": "الفيلم العربي _ مايوه بنت الأسطى محمود",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "UjcpbxuHM2I",
+      "title": "فيلم التجربة | أحمد مظهر |  مريم فخر الدين |  مديحة كامل",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "YaFkffD0rHM",
+      "title": "الفيلم العربي _ دقات على بابي",
+      "reason": "runtime-mismatch"
+    },
+    {
+      "kind": "movie",
+      "id": "gRDJrIcvoI4",
+      "title": "التمثيلية التليفزيونية ״ صفحة حب ״ ׀ زيزى مصطفي – شاكر عبد اللطيف",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "2-N8ylVMNBE",
+      "title": "فارس حول العالم׃ هالة صدقي – ماجد المصري – حسن إش إش",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "MZybeWCCsfs",
+      "title": "فارس حول العالم׃ نادية حليم مع يوسف داوود – حنان شوقي",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "LmiGQFaflUw",
+      "title": "أوتوجراف׃ طارق حبيب يحاور الوزير إبراهيم شكري",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "YRID0nN_5ng",
+      "title": "تمثيلية ״عازف الصخر״ ׀ محمود مختار ׀ علي الحجار – شيرين – مديحة حمدي",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "Lem6DUQErEU",
+      "title": "حق الجماهير׃ النجم فاروق الفيشاوي مع فريال صالح وجمهوره",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "vQpC7SSc1SU",
+      "title": "اتوجراف _ صالح سليم",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "SdzF5llUtcw",
+      "title": "تمثيلية ״وخلعت ثوبي الأسود جـ2״ ׀ حسن يوسف – زيزي البدراوي – إبراهيم عبد الرازق",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "YlPPYqyt6YY",
+      "title": "أوبريت ״ حراس الوطن״ ׀ عبد الرحمن الأبنودي – جمال سلامة ׀ أحمد السقا – رامز جلال – أشرف عبد الباقي",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "V3xEYQp18Nw",
+      "title": "نجوم وكواكب׃ نجوى إبراهيم تحاور عبد المنعم مدبولي",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "ua3fRsLjy6s",
+      "title": "سواريه׃ أمينة رزق – علي الحجار – إبراهيم نصر جـ 1",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "zMnND_1uupc",
+      "title": "نور النبوة .. مع أشرف عبدالغفور و حمزة الشيمي  و نخبة من النجوم",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "wDd7VFli3MM",
+      "title": "سواريه׃ سهير المرشدي – أنغام – فاطمة التابعي",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "f7G6qpfE--s",
+      "title": "سهرة ״سناء جميل ˖˖ عاشقة الفن״ ׀ عبد الرحمن علي",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "HdxUYI3yKpQ",
+      "title": "تمثيلية ״ الرواية فيها غلط ״ ׀ سهير البابلي – يوسف شعبان – صلاح قابيل",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "T8Qu5wIIStA",
+      "title": "الحب وسنينه ׀ أحمد رجب – حسين فهمي – إسعاد يونس ׀ خصلة شعرها",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "GyyehRSV9PY",
+      "title": "تمثيلية ״الإمام العادل״ ׀ عزت العلايلي – إلهام شاهين ׀ الجزء الثاني",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "K2P9Zs-2aR0",
+      "title": "أفيش׃ ليلى علوي – حسين فهمي – محمد خان – أحمد صالح",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "IEDrhri56sA",
+      "title": "سواريه׃ زهرة العلا – لطيفة – هالة صدقي",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "OEQFdCh93HU",
+      "title": "تمثيلية ״محمد رسول الله״ جـ 1 ׀ سميحة أيوب – سعد أردش – سامي العدل",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "piMUAHBE5zU",
+      "title": "الفيلم العربي أولاد ضرغام |   يحيى شاهين  |  تيسير فهمي |  وائل نور",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "gLUFTNldQ6E",
+      "title": "تمثيلية ״البوابة جـ 2״ ׀ إلهام شاهين – محمد العربي – توفيق الدقن",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "eUGHUeXX2OM",
+      "title": "الحب وسنينه ׀ أحمد رجب – حسين فهمي – إسعاد يونس ׀ البوابة الذهبية",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "pK6hlBX_q5U",
+      "title": "تمثيلية ״عاشقة زوجها״ ׀ مشيرة إسماعيل – سعيد عبد الغني – فايزة كمال",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "L9v0hwX1iBI",
+      "title": "من روائع المسرح القومي ׀ بلاد برة ׀ نعمان عاشور",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "f3EUu4jvanc",
+      "title": "تمثيلية ״الإمام العادل״ ׀ عزت العلايلي – إلهام شاهين ׀ الجزء الأول",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "arATZWVQWSo",
+      "title": "إثنين على الهواء: سيد مكاوي - عبد الوهاب محمد",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "TMLdQ9pGMQc",
+      "title": "تمثيلية ״المشروع״ ׀ عبلة كامل – سامح السيد – صلاح نظمي",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "MBHG_ptGRbQ",
+      "title": "تمثيلية ״شرفتمونا يا كرام״ ׀ أسامة عباس – سناء شافع – نبيل بدر",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "M6AtT65IlFk",
+      "title": "تمثيلية ״البوابة جـ 1״ ׀ إلهام شاهين – محمد العربي – توفيق الدقن",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "jJNHskXDWnY",
+      "title": "من مكتبة توفيق الحكيم تمثيلية ״الزمار״ ׀ سيد زيان – شريفة ماهر",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "pXdCZeHyuZw",
+      "title": "تمثيلية ״قلوب خضراء״ ׀ شريهان – محسن محيي الدين – عمر الحريري",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "-xgigdYPD8E",
+      "title": "تمثيلية ״عجيبة״ ׀ صابرين – تيسير فهمي  – محمود مسعود",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "5eJKc0OPo9E",
+      "title": "من روائع المسرح القومي ׀ ״حلاق بغداد״ – الحكاية الأولى ׀ ألفريد فرج",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "Tgn4iniY8Hc",
+      "title": "تمثيلية ״نداء إلى المجهول״ ׀ عبد الرحمن أبو زهرة – فريدة سيف النصر – إحسان القلعاوي",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "dIzqbkmbzC0",
+      "title": "المسرح القومي ׀ سناء جميل في رائعة توفيق الحكيم ׀ ״شمس النهار״",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "oJjYwCvlLaA",
+      "title": "المسرح القومي: سميحة أيوب في رائعة سعد الدين وهبة .. السبنسة",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "s0gfYRD38k4",
+      "title": "تمثيلية ״عاشق الربابة״ ׀ إبراهيم سعفان – رجاء حسين – أسامة عباس",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "Pc_TJrC5B5k",
+      "title": "تمثيلية ״نفوسة״ ׀ سهير المرشدي – سمير حسني – فايزة كمال",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "X1CiO-6-JvI",
+      "title": "تمثيلية ״عفواً ضيوفنا الأعزاء״ ׀ محمود الجندي – فايزة كمال – حجاج عبد العظيم",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "1NeS_NssYZk",
+      "title": "ثلاثي أضواء المسرح | الراجل اللي جوز مراته | سمير غانم - جورج سيدهم - الضيف أحمد",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "5nBWfNt-97o",
+      "title": "من روائع المسرح القومي ׀ ״حلاق بغداد״ – الحكاية الثانية ׀ ألفريد فرج",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "pJgYeS5iK_E",
+      "title": "من روائع المسرح القومي | المحروسة | سعد الدين وهبة",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "AVaQPsu_y1s",
+      "title": "تمثيلية ״ تحت الملاحظة״ ׀ هالة صدقي – سمية الألفي – نبيل الحلفاوي",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "AA9WNSfwN5A",
+      "title": "سواريه׃ مريم فخر الدين – محمود الجندي – فاطيما",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "AU6F8OvuIck",
+      "title": "فيلم | مايوه بنت الأسطى محمود  كامل بجودة خيالية 🎬🍿",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "X3LD6UE5HwI",
+      "title": "اثنين على الهواء׃ تحية كاريوكا ˖˖ سامية جمال",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "Bnyya_BCZ0c",
+      "title": "اثنين على الهواء׃ أمينة رزق – عقيلة راتب",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "lNEZUozA5hU",
+      "title": "من روائع مسرح الريحاني: سنة مع الشغل اللذيذ | أبو بكر عزت - ليلى طاهر",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "OSUoTpYLTBg",
+      "title": "فيلم الحواجز الزجاجية |  نور الشريف  |  ليلي طاهر |  زيزي البدراوي بجودة خيالية ⚡🎥",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "U_wBe0yJPAo",
+      "title": "اثنين على الهواء׃ عبد المنعم مدبولي – فايز حلاوة",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "EaO20cfn2vs",
+      "title": "اثنين على الهواء׃ فكري أباظة ˖˖ أحمد رجب",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "0o6f0WOAxK8",
+      "title": "تمثيلية ״مع استعمال الرأفة״ ׀ صابرين – خالد زكي – إجلال زكي",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "4kmgxbeDpuw",
+      "title": "سهرة الرهان القاتل_أبو بكر عزت _هالة فاخر",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "21UGnoqFjBY",
+      "title": "اثنين على الهواء׃ يوسف وهبي ـ زكي طليمات",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "eu_w4YIJNwA",
+      "title": "تمثيلية ״أمهات لم يلدن أبداً״ ׀ أمينة رزق – فاروق الفيشاوي – علي الشريف",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "KZ61Cjuf6kI",
+      "title": "الفيلم التليفزيوني \" الأسطى المدير \" ومواقف مضحكة ومغامرات لا تنسى",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "5Q9W3pLmmus",
+      "title": "سهرة _العودة الي الحضانة",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "hcUDk0AIOvo",
+      "title": "إثنين على الهواء: سمير غانم - جورج سيدهم",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "XQkN1ACXQug",
+      "title": "أفلام التليفزيون أنا وأنت وساعات السفر",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "dZS1YGsAFfU",
+      "title": "الفيلم العربي صاحب العمارة",
+      "reason": "runtime-mismatch"
+    },
+    {
+      "kind": "movie",
+      "id": "ztp2F_X2TJg",
+      "title": "الفيلم التليفزيوني رأفت الهجان | بطولة محمود عبد العزيز جودة عالية HD",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "gTFV31JAjLE",
+      "title": "الحكم بعد المداولة: محمود ياسين في قفص الاتهام",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "VBwbXFHgbJk",
+      "title": "فريد شوقي ونيللي في رائعة مسرح الريحاني .. الدلوعة",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "ZoIkuYYrHUc",
+      "title": "السلطان الحائر .. رائعة المسرح القومي",
+      "reason": "runtime-mismatch"
+    },
+    {
+      "kind": "movie",
+      "id": "gK-e4LUFtok",
+      "title": "نجمك المفضل: شمس المعرفة طه حسين وسط نجوم الفكر والأدب",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "6fHvT-cYzRY",
+      "title": "أوتوجراف: حوار طارق حبيب مع القارئ الشيخ مصطفى إسماعيل كاملاً",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "M8v5Nl9BLco",
+      "title": "أوتوجراف: حوار طارق حبيب مع صلاح جاهين كاملاً",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "vbumcLHIArw",
+      "title": "حوار عباس محمود العقاد مع أماني ناشد كاملاً",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "fUaQ6sAPIeo",
+      "title": "من افضل افلام محمد فؤاد .. فيلم أمريكا شيكا بيكا كامل",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "Vhx_gnIJw50",
+      "title": "من كنوز مكتبة ماسبيرو | عادل خيري في رائعة مسرح الريحاني | إلا خمسة",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "tv",
+      "id": "1097",
+      "title": "أزهار",
+      "reason": "existing-or-incomplete-season"
+    },
+    {
+      "kind": "tv",
+      "id": "1115",
+      "title": "نادية",
+      "reason": "canonical-identity:2"
+    },
+    {
+      "kind": "tv",
+      "id": "1092",
+      "title": "علي يا ويكا",
+      "reason": "existing-or-incomplete-season"
+    },
+    {
+      "kind": "tv",
+      "id": "1113",
+      "title": "أبناء العطش",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "Xx7scVUUQAI",
+      "title": "الفيلم النادر الرصيف | بطولة نجوى فؤاد وسوسن بدر و فاروق الفيشاوي و محمود الجندي",
+      "reason": "runtime-mismatch"
+    },
+    {
+      "kind": "tv",
+      "id": "1075",
+      "title": "ليالي الحلمية - الجزء السادس",
+      "reason": "existing-or-incomplete-season"
+    },
+    {
+      "kind": "tv",
+      "id": "1073",
+      "title": "كلبش - الجزء الأول",
+      "reason": "existing-title"
+    },
+    {
+      "kind": "tv",
+      "id": "1111",
+      "title": "العودة",
+      "reason": "canonical-identity:2"
+    },
+    {
+      "kind": "movie",
+      "id": "Gumwi7i87Rs",
+      "title": "الفيلم النادرغريب في الميناء | بطولة الشحات مبروك ومحمود الجندي و سميرة صدقي",
+      "reason": "runtime-mismatch"
+    },
+    {
+      "kind": "tv",
+      "id": "1072",
+      "title": "يوميات زوجة مفروسة أوي - الجزء الثاني",
+      "reason": "existing-title"
+    },
+    {
+      "kind": "tv",
+      "id": "1068",
+      "title": "الكبير أوي - الجزء الثاني",
+      "reason": "existing-title"
+    },
+    {
+      "kind": "tv",
+      "id": "1105",
+      "title": "يوميات مدينة على النيل",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "tv",
+      "id": "1163",
+      "title": "قالت العرب",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "tv",
+      "id": "1162",
+      "title": "أحلام الفتى يقظان",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "tv",
+      "id": "1149",
+      "title": "الراية والغيث",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "tv",
+      "id": "1148",
+      "title": "الذئب",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "tv",
+      "id": "1147",
+      "title": "حنظلة",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "tv",
+      "id": "129",
+      "title": "مسلسل كان ياما كان الجزء الاول",
+      "reason": "canonical-identity:2"
+    },
+    {
+      "kind": "tv",
+      "id": "1066",
+      "title": "موعد مع الوحوش",
+      "reason": "canonical-season-length"
+    },
+    {
+      "kind": "tv",
+      "id": "1160",
+      "title": "ورد أسود",
+      "reason": "canonical-season-length"
+    },
+    {
+      "kind": "movie",
+      "id": "xaxzwqu",
+      "title": "فيلم العذاب امراة  - محمود يس - نيللى",
+      "reason": "existing-title"
+    },
+    {
+      "kind": "tv",
+      "id": "1042",
+      "title": "سوبر محصل",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "tv",
+      "id": "1038",
+      "title": "المدينة الفاصلة",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "tv",
+      "id": "1029",
+      "title": "روميو وياليت",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "tv",
+      "id": "533",
+      "title": "المسلسل الخليجي عائلة فوق تنور ساخن",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "tv",
+      "id": "1030",
+      "title": "كوميدي تانا",
+      "reason": "canonical-season-length"
+    },
+    {
+      "kind": "movie",
+      "id": "x72cv3w",
+      "title": "Agras El Khatar Movie   فيلم اجراس الخطر",
+      "reason": "existing-title"
+    },
+    {
+      "kind": "movie",
+      "id": "xaxzsri",
+      "title": "الفيلم الرائع  بجودة  عاليه  بعد الترميم El Nasabeen Movie   فيلم النصابين",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "movie",
+      "id": "x7yec8h",
+      "title": "El ِِAbqary Khamsa Movie - فيلم العبقري خمسة",
+      "reason": "runtime-mismatch"
+    },
+    {
+      "kind": "movie",
+      "id": "x6w0y01",
+      "title": "Al Layla Al Maw'oudah Movie | فيلم الليله الموعودة",
+      "reason": "runtime-mismatch"
+    },
+    {
+      "kind": "movie",
+      "id": "x6w0ujr",
+      "title": "فيلم الثار - El Thaar Movie",
+      "reason": "existing-title"
+    },
+    {
+      "kind": "tv",
+      "id": "x6ti23",
+      "title": "طرف ثالث",
+      "reason": "canonical-identity:2"
+    },
+    {
+      "kind": "tv",
+      "id": "x6thxu",
+      "title": "عود أخضر",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "tv",
+      "id": "x7d9ux",
+      "title": "سنة أولى زواج",
+      "reason": "canonical-season-length"
+    },
+    {
+      "kind": "tv",
+      "id": "x6wguh",
+      "title": "الرابوص",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "tv",
+      "id": "x6t302",
+      "title": "بعد الفراق",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "tv",
+      "id": "x6a0h2",
+      "title": "بيت السلايف",
+      "reason": "no-poster"
+    },
+    {
+      "kind": "tv",
+      "id": "x64qac",
+      "title": "خطوط حمراء",
+      "reason": "existing-title"
+    },
+    {
+      "kind": "tv",
+      "id": "x6tdzc",
+      "title": "حاميها حراميها",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "tv",
+      "id": "x6tjk7",
+      "title": "الكبير اوى الجزء الثانى",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "tv",
+      "id": "x6tjj7",
+      "title": "الكبير اوى الجزء الاول",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "tv",
+      "id": "x6seam",
+      "title": "جارى البحث",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "tv",
+      "id": "x64q9k",
+      "title": "Matkhafosh Series",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "tv",
+      "id": "x6sb0k",
+      "title": "DOCTOR AMRAD NESA SERIES",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "tv",
+      "id": "x4hnha",
+      "title": "بنات اكريكوز كامل HD",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "tv",
+      "id": "x64cw4",
+      "title": "Souq Al Waraq Series",
+      "reason": "canonical-identity:0"
+    },
+    {
+      "kind": "tv",
+      "id": "x6sedv",
+      "title": "قسمة و نصيب",
+      "reason": "canonical-season-length"
+    },
+    {
+      "kind": "tv",
+      "id": "x793zi",
+      "title": "بالحجم العائلي",
+      "reason": "dailymotion-metadata-or-hd"
+    }
+  ]
+}
