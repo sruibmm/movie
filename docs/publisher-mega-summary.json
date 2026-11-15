@@ -1,0 +1,99 @@
+{
+  "summary": {
+    "publishers": 13,
+    "reported": 26957,
+    "retrieved": 26660,
+    "hdEmbeddableLong": 10362
+  },
+  "publishers": [
+    {
+      "owner": "LeenArtProduction",
+      "reported": 997,
+      "retrieved": 997,
+      "stalled": false
+    },
+    {
+      "owner": "SyrianaArtproduction",
+      "reported": 1584,
+      "retrieved": 1548,
+      "stalled": false
+    },
+    {
+      "owner": "IMediaMovies",
+      "reported": 1724,
+      "retrieved": 1724,
+      "stalled": false
+    },
+    {
+      "owner": "ajprodist",
+      "reported": 308,
+      "retrieved": 308,
+      "stalled": false
+    },
+    {
+      "owner": "FGForArtProduction",
+      "reported": 1888,
+      "retrieved": 1863,
+      "stalled": false
+    },
+    {
+      "owner": "EBLATVProduction",
+      "reported": 272,
+      "retrieved": 272,
+      "stalled": false
+    },
+    {
+      "owner": "SamaArtInternational",
+      "reported": 504,
+      "retrieved": 504,
+      "stalled": false
+    },
+    {
+      "owner": "clacketmediaproductions",
+      "reported": 1302,
+      "retrieved": 1281,
+      "stalled": false
+    },
+    {
+      "owner": "OnlineartProduction",
+      "reported": 594,
+      "retrieved": 594,
+      "stalled": false
+    },
+    {
+      "owner": "shammedia",
+      "reported": 2919,
+      "retrieved": 2883,
+      "stalled": false
+    },
+    {
+      "owner": "kabandartproduction",
+      "reported": 1624,
+      "retrieved": 1603,
+      "stalled": false
+    },
+    {
+      "owner": "goldenlinefortvproduction",
+      "reported": 2869,
+      "retrieved": 2829,
+      "stalled": false
+    },
+    {
+      "owner": "ImediaSeries",
+      "reported": 10372,
+      "retrieved": 10254,
+      "stalled": false
+    }
+  ],
+  "importedThisTurn": {
+    "films": 59,
+    "seasons": 4,
+    "episodes": 111
+  },
+  "expansionTotals": {
+    "films": 91,
+    "seasons": 12,
+    "episodes": 385
+  },
+  "note": "Raw snapshot is regenerated with npm run bulk:mega; public metadata only, playback and ad status not guaranteed."
+}

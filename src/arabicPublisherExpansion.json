@@ -136,6 +136,21 @@
       "evidence": "canonical runtime and public publisher embed metadata; actual playback and ad status unverified"
     },
     {
+      "id": "x7ydihj",
+      "provider": "dailymotion",
+      "title": "الزمهلاوية",
+      "tmdbId": 48621,
+      "year": "2008",
+      "poster": "https://image.tmdb.org/t/p/w342/3XYWW1ciPHGWbgUlgIaocahNNY2.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x7ydihj",
+      "duration": 6947,
+      "runtime": 126,
+      "raw": "الزمهلاويه",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
       "id": "JOPudMmSzOE",
       "provider": "youtube",
       "title": "أمير الظلام",
@@ -196,6 +211,36 @@
       "evidence": "canonical runtime and public publisher embed metadata; actual playback and ad status unverified"
     },
     {
+      "id": "x6w0b3k",
+      "provider": "dailymotion",
+      "title": "درب الجدعان",
+      "tmdbId": 1108544,
+      "year": "1992",
+      "poster": "https://image.tmdb.org/t/p/w342/y8VaanAbiqZqvVMuHLw3ymWoG9E.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w0b3k",
+      "duration": 5107,
+      "runtime": 90,
+      "raw": "فيلم درب الجدعان | Darb El Gedaan Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w091b",
+      "provider": "dailymotion",
+      "title": "ليالي الصبر",
+      "tmdbId": 1120245,
+      "year": "1992",
+      "poster": "https://image.tmdb.org/t/p/w342/6KOD1KgdupYijbU9hA55hzK68O8.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w091b",
+      "duration": 5115,
+      "runtime": 90,
+      "raw": "فيلم ليالى الصبر - Layaly El Sabr Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
       "id": "iR_7zU6j_Mg",
       "provider": "youtube",
       "title": "في العشق والسفر",
@@ -224,6 +269,21 @@
       "runtime": 100,
       "adsPossible": true,
       "evidence": "canonical runtime and public publisher embed metadata; actual playback and ad status unverified"
+    },
+    {
+      "id": "x6w0bf4",
+      "provider": "dailymotion",
+      "title": "أصدقاء الشيطان",
+      "tmdbId": 443333,
+      "year": "1988",
+      "poster": "https://image.tmdb.org/t/p/w342/AabITwmvJeiyJYhC5IOnmUshlAW.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w0bf4",
+      "duration": 7293,
+      "runtime": 120,
+      "raw": "فيلم اصدقاء  الشيطان | Asdka El Shitan Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
     },
     {
       "id": "mJoIECirAEs",
@@ -301,6 +361,81 @@
       "evidence": "canonical runtime and publisher embed metadata; playback/ads unverified"
     },
     {
+      "id": "x6w0a2s",
+      "provider": "dailymotion",
+      "title": "ويبقى الحب",
+      "tmdbId": 1036607,
+      "year": "1987",
+      "poster": "https://image.tmdb.org/t/p/w342/rLtqKggeDgcQOOoEcxfs4Oq9R8p.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w0a2s",
+      "duration": 5128,
+      "runtime": 85,
+      "raw": "فيلم ويبقى الحب | Waybqa El Hob Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w0829",
+      "provider": "dailymotion",
+      "title": "لعنة المال",
+      "tmdbId": 783207,
+      "year": "1987",
+      "poster": "https://image.tmdb.org/t/p/w342/7PJxtNbrMxdA3POCaC7HBsGRlU0.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w0829",
+      "duration": 5825,
+      "runtime": 98,
+      "raw": "فيلم لعنة المال - Laanet El Maal Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w0a2y",
+      "provider": "dailymotion",
+      "title": "المواجهة",
+      "tmdbId": 1118096,
+      "year": "1987",
+      "poster": "https://image.tmdb.org/t/p/w342/uP0CDfVa9S5eXGspUwAqza2SkZK.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w0a2y",
+      "duration": 6171,
+      "runtime": 104,
+      "raw": "فيلم المواجهة | Al Mowagha Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w07jx",
+      "provider": "dailymotion",
+      "title": "حارة الطيبين",
+      "tmdbId": 1118925,
+      "year": "1987",
+      "poster": "https://image.tmdb.org/t/p/w342/tDABv4W0R78IACibhws3UgjCkwK.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w07jx",
+      "duration": 5833,
+      "runtime": 100,
+      "raw": "فيلم حارة الطيبين | Haret El Tayabeen Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w075r",
+      "provider": "dailymotion",
+      "title": "الأونطجية",
+      "tmdbId": 620338,
+      "year": "1987",
+      "poster": "https://image.tmdb.org/t/p/w342/fCVyP7EDZD6Ij3AQFALC24yS9g7.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w075r",
+      "duration": 6190,
+      "runtime": 105,
+      "raw": "فيلم الأونطجية | El Awntgia Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
       "id": "x6w0mo9",
       "provider": "dailymotion",
       "title": "أخي وصديقي سأقتلك",
@@ -331,6 +466,126 @@
       "evidence": "canonical runtime and publisher embed metadata; playback/ads unverified"
     },
     {
+      "id": "x6w08vb",
+      "provider": "dailymotion",
+      "title": "القطار",
+      "tmdbId": 618199,
+      "year": "1986",
+      "poster": "https://image.tmdb.org/t/p/w342/1GXyvXxrEYlLARCuOrIt5r7kt2F.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w08vb",
+      "duration": 4999,
+      "runtime": 90,
+      "raw": "فيلم القطار | El Ketar Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w0a7r",
+      "provider": "dailymotion",
+      "title": "فيش وتشبيه",
+      "tmdbId": 1418135,
+      "year": "1986",
+      "poster": "https://image.tmdb.org/t/p/w342/eiFzSxv1Eh0b5HeDEvUPdPAFGhV.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w0a7r",
+      "duration": 6438,
+      "runtime": 107,
+      "raw": "فيلم فيش وتشبيه | Fesh W Tashbeh movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w07xy",
+      "provider": "dailymotion",
+      "title": "امراة في السجن",
+      "tmdbId": 1107263,
+      "year": "1986",
+      "poster": "https://image.tmdb.org/t/p/w342/28xW7Hq4aZZbSeRoNOyk7IFgYn6.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w07xy",
+      "duration": 6994,
+      "runtime": 118,
+      "raw": "فيلم امراة في السجن - Emara Fe El Sagen Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w071e",
+      "provider": "dailymotion",
+      "title": "البنات و المجهول",
+      "tmdbId": 1117577,
+      "year": "1986",
+      "poster": "https://image.tmdb.org/t/p/w342/gtsbxrwJvTloH20VyxIBauIv3nz.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w071e",
+      "duration": 5106,
+      "runtime": 85,
+      "raw": "فيلم البنات والمجهول | El Banat W El Maghol Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w0857",
+      "provider": "dailymotion",
+      "title": "احترس عصابة النساء",
+      "tmdbId": 758259,
+      "year": "1986",
+      "poster": "https://image.tmdb.org/t/p/w342/mX6oIGTLdIBW32a8jFvk9hLRyIm.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w0857",
+      "duration": 5740,
+      "runtime": 95,
+      "raw": "فيلم احترس عصابة النساء | Ehtras Essabet El Nessa Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w06jq",
+      "provider": "dailymotion",
+      "title": "حب فوق السحاب",
+      "tmdbId": 1104746,
+      "year": "1986",
+      "poster": "https://image.tmdb.org/t/p/w342/6fFR3RkSgRIGTKGRQF4eQXM2xoU.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w06jq",
+      "duration": 5391,
+      "runtime": 92,
+      "raw": "فيلم حب فوق السحاب | Hob Fouq El Sahab Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w06ki",
+      "provider": "dailymotion",
+      "title": "حد السيف",
+      "tmdbId": 1119348,
+      "year": "1986",
+      "poster": "https://image.tmdb.org/t/p/w342/upiqhV5JiO7naUKyv6HNLiZG69G.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w06ki",
+      "duration": 7127,
+      "runtime": 124,
+      "raw": "فيلم حد السيف - Had el saif movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w08t8",
+      "provider": "dailymotion",
+      "title": "وداعا يا ولدي",
+      "tmdbId": 1112859,
+      "year": "1986",
+      "poster": "https://image.tmdb.org/t/p/w342/r0GoeWxT16EvCEO7Va8SNrPhyWA.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w08t8",
+      "duration": 6553,
+      "runtime": 120,
+      "raw": "فيلم وداعا يا ولدى | Wadaan Ya Walady Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
       "id": "x8p3ftk",
       "provider": "dailymotion",
       "title": "مرزوقة",
@@ -346,6 +601,96 @@
       "evidence": "canonical runtime and publisher embed metadata; playback/ads unverified"
     },
     {
+      "id": "x6w09rn",
+      "provider": "dailymotion",
+      "title": "فتوة درب العسال",
+      "tmdbId": 1062013,
+      "year": "1985",
+      "poster": "https://image.tmdb.org/t/p/w342/s6xyfLzVoLGnGA4ZMXLXmFxptqC.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w09rn",
+      "duration": 5250,
+      "runtime": 90,
+      "raw": "فيلم فتوة درب العسال - Fetwaet Darb El Assal Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w087o",
+      "provider": "dailymotion",
+      "title": "أنا",
+      "tmdbId": 619648,
+      "year": "1985",
+      "poster": "https://image.tmdb.org/t/p/w342/yKqOp8a69JjfnOAQcJTCTvJ3kBp.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w087o",
+      "duration": 7015,
+      "runtime": 120,
+      "raw": "فيلم أنا | Ana Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w09lv",
+      "provider": "dailymotion",
+      "title": "مقص عم قنديل",
+      "tmdbId": 1024514,
+      "year": "1985",
+      "poster": "https://image.tmdb.org/t/p/w342/jqamG6FmfOkTdZTfRQfkc0c70aV.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w09lv",
+      "duration": 6558,
+      "runtime": 109,
+      "raw": "فيلم مقص عم قنديل - Makas Am Qandel Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w07sq",
+      "provider": "dailymotion",
+      "title": "المنتقمون",
+      "tmdbId": 1108990,
+      "year": "1985",
+      "poster": "https://image.tmdb.org/t/p/w342/yqEWqnZFnFjVUUOfl95YCQibe9Z.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w07sq",
+      "duration": 5552,
+      "runtime": 96,
+      "raw": "فيلم المنتقمون | El Montakmon Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w06sc",
+      "provider": "dailymotion",
+      "title": "زوج تحت الطلب",
+      "tmdbId": 432325,
+      "year": "1985",
+      "poster": "https://image.tmdb.org/t/p/w342/27j617mLez5RCj4czp8jIBCrRSt.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w06sc",
+      "duration": 6118,
+      "runtime": 109,
+      "raw": "فيلم زوج تحت الطلب | Zoog Taht El Talab Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w06dv",
+      "provider": "dailymotion",
+      "title": "الكيف",
+      "tmdbId": 199634,
+      "year": "1985",
+      "poster": "https://image.tmdb.org/t/p/w342/b4OkAEFpwmgeC1j66S5wLJJcDPO.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w06dv",
+      "duration": 7046,
+      "runtime": 120,
+      "raw": "فيلم الكيف - el kaif movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
       "id": "x6w0n5n",
       "provider": "dailymotion",
       "title": "التخشيبة",
@@ -359,6 +704,66 @@
       "raw": "Al Takhsheba Movie | فيلم التخشيبة",
       "adsPossible": true,
       "evidence": "canonical runtime and publisher embed metadata; playback/ads unverified"
+    },
+    {
+      "id": "x6w0934",
+      "provider": "dailymotion",
+      "title": "بحر الأوهام",
+      "tmdbId": 1118927,
+      "year": "1984",
+      "poster": "https://image.tmdb.org/t/p/w342/hCjMc4bRjZXyVncB6wKpIs4tRp0.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w0934",
+      "duration": 5162,
+      "runtime": 88,
+      "raw": "فيلم بحر الأوهام | Bahr Al Awaham Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w06v3",
+      "provider": "dailymotion",
+      "title": "خرج ولم يعد",
+      "tmdbId": 331824,
+      "year": "1984",
+      "poster": "https://image.tmdb.org/t/p/w342/uKZRl2moDHKtP3zziCzIvDYcLGm.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w06v3",
+      "duration": 5423,
+      "runtime": 95,
+      "raw": "فيلم خرج  ولم يعد | Kharag W lam Yaood Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w09ev",
+      "provider": "dailymotion",
+      "title": "مين فينا الحرامي",
+      "tmdbId": 514001,
+      "year": "1984",
+      "poster": "https://image.tmdb.org/t/p/w342/xX1zfClvzRl7UdVGr6PJp4oPjC7.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w09ev",
+      "duration": 6707,
+      "runtime": 110,
+      "raw": "فيلم مين فينا الحرامى | Men Fena El Haramy Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w0872",
+      "provider": "dailymotion",
+      "title": "احترس من الخِط",
+      "tmdbId": 401325,
+      "year": "1984",
+      "poster": "https://image.tmdb.org/t/p/w342/8a2UrPfcJ9HKxVl2fxBCGSdzqgi.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w0872",
+      "duration": 5627,
+      "runtime": 96,
+      "raw": "فيلم إحترس من الخط | Ehtras Men El Khoot Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
     },
     {
       "id": "arTNieyWsng",
@@ -406,6 +811,36 @@
       "evidence": "canonical runtime and publisher embed metadata; playback/ads unverified"
     },
     {
+      "id": "x6w0783",
+      "provider": "dailymotion",
+      "title": "الاحتياط واجب",
+      "tmdbId": 612302,
+      "year": "1983",
+      "poster": "https://image.tmdb.org/t/p/w342/pdMwVZ3Ql0CtXkb1tr6kg2VB9jF.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w0783",
+      "duration": 6506,
+      "runtime": 100,
+      "raw": "فيلم الاحتياط  واجب | El Ehtiat Wageb Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w0b7j",
+      "provider": "dailymotion",
+      "title": "ولا من شاف ولا من دري",
+      "tmdbId": 535082,
+      "year": "1983",
+      "poster": "https://image.tmdb.org/t/p/w342/9h7t273GRwpofTPhAtp30r9jgp2.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w0b7j",
+      "duration": 7110,
+      "runtime": 115,
+      "raw": "فيلم ولا من شاف ولا من درى | Wala Men Shaf Wala Men Dery Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
       "id": "x6w0m8r",
       "provider": "dailymotion",
       "title": "اعتداء",
@@ -436,6 +871,36 @@
       "evidence": "canonical runtime and publisher embed metadata; playback/ads unverified"
     },
     {
+      "id": "x6w09eu",
+      "provider": "dailymotion",
+      "title": "فتوة الجبل",
+      "tmdbId": 1035513,
+      "year": "1982",
+      "poster": "https://image.tmdb.org/t/p/w342/pFhPvZlKDkfpooJAPSzX5l6Fnzk.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w09eu",
+      "duration": 6095,
+      "runtime": 105,
+      "raw": "فيلم فتوة الجبل - Fetwaet El Gabal Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w0agn",
+      "provider": "dailymotion",
+      "title": "من يطفئ النار",
+      "tmdbId": 1112854,
+      "year": "1982",
+      "poster": "https://image.tmdb.org/t/p/w342/fCFLwI1s20Rah1wQLzO0JkFs2mN.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w0agn",
+      "duration": 6569,
+      "runtime": 113,
+      "raw": "فيلم من يطفئ النار - Man Yotfa El Nar Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
       "id": "x6y24bj",
       "provider": "dailymotion",
       "title": "دموع في ليلة الزفاف",
@@ -449,6 +914,216 @@
       "raw": "Demoa Fi Laylat Al Zefaf Movie | فيلم دموع فى ليلة الزفاف",
       "adsPossible": true,
       "evidence": "canonical runtime and publisher embed metadata; playback/ads unverified"
+    },
+    {
+      "id": "x6w0a4u",
+      "provider": "dailymotion",
+      "title": "وداعا للعذاب",
+      "tmdbId": 618308,
+      "year": "1981",
+      "poster": "https://image.tmdb.org/t/p/w342/qq1MG05TthCio7PkxhYex3g4zQC.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w0a4u",
+      "duration": 6478,
+      "runtime": 110,
+      "raw": "فيلم وداعا للعذاب | Wadaan Llelazab Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w08j9",
+      "provider": "dailymotion",
+      "title": "لحظة ضعف",
+      "tmdbId": 1111609,
+      "year": "1981",
+      "poster": "https://image.tmdb.org/t/p/w342/jTyE5YV38mKI4jqPiFmtANgxkRo.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w08j9",
+      "duration": 6549,
+      "runtime": 110,
+      "raw": "فيلم لحظة ضعف | Lahzat Daaf Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w09ch",
+      "provider": "dailymotion",
+      "title": "لن أغفر أبدا",
+      "tmdbId": 738822,
+      "year": "1981",
+      "poster": "https://image.tmdb.org/t/p/w342/umqhSmzBzkvMLUZM0tIb9fBDek5.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w09ch",
+      "duration": 5996,
+      "runtime": 100,
+      "raw": "فيلم لن أغفر أبدا - Lan Aghafer Abdan Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w081w",
+      "provider": "dailymotion",
+      "title": "أمهات في المنفى",
+      "tmdbId": 631085,
+      "year": "1981",
+      "poster": "https://image.tmdb.org/t/p/w342/c3QZ9NvsVtQrYlGd2FjY5gEYkfq.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w081w",
+      "duration": 8751,
+      "runtime": 147,
+      "raw": "فيلم أمهات في المنفى - Omhat Fe El Manfa Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w08qu",
+      "provider": "dailymotion",
+      "title": "أنا المجنون",
+      "tmdbId": 724189,
+      "year": "1981",
+      "poster": "https://image.tmdb.org/t/p/w342/hZ1kHjEVpgxzOdSwPdwjc6CykfG.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w08qu",
+      "duration": 6383,
+      "runtime": 110,
+      "raw": "فيلم أنا المجنون | Ana El Magnon Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w0775",
+      "provider": "dailymotion",
+      "title": "الإنسان يعيش مرة واحدة",
+      "tmdbId": 372050,
+      "year": "1981",
+      "poster": "https://image.tmdb.org/t/p/w342/wEvV3DlveOsPjVICdALge5bXylB.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w0775",
+      "duration": 6104,
+      "runtime": 102,
+      "raw": "فيلم الإنسان يعيش مرة واحدة | El Ensan Yaaesh Mara Wahda Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w0ab6",
+      "provider": "dailymotion",
+      "title": "حب لا يرى الشمس",
+      "tmdbId": 625143,
+      "year": "1980",
+      "poster": "https://image.tmdb.org/t/p/w342/ejBYoEkkQ4jiCO65DcjLifGG1XS.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w0ab6",
+      "duration": 6331,
+      "runtime": 108,
+      "raw": "فيلم حب  لا يرى الشمس | Hob La Yara El Shams Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w07ny",
+      "provider": "dailymotion",
+      "title": "دائرة الشك",
+      "tmdbId": 1108541,
+      "year": "1980",
+      "poster": "https://image.tmdb.org/t/p/w342/hCzNb5H5sXA03iTmNKordzt7Rr4.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w07ny",
+      "duration": 6063,
+      "runtime": 100,
+      "raw": "فيلم دائرة الشك | Daerat El Shaak Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w070x",
+      "provider": "dailymotion",
+      "title": "الأخرس",
+      "tmdbId": 474749,
+      "year": "1980",
+      "poster": "https://image.tmdb.org/t/p/w342/7vaoSBtV0xPxSXgTvuEga1VWktn.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w070x",
+      "duration": 5573,
+      "runtime": 95,
+      "raw": "فيلم الأخرس | Al Akhras Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w07gd",
+      "provider": "dailymotion",
+      "title": "تحدي الأقوياء",
+      "tmdbId": 746225,
+      "year": "1980",
+      "poster": "https://image.tmdb.org/t/p/w342/oTtLyZ1fLkNtv9jY5XQVtuyKlHe.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w07gd",
+      "duration": 7043,
+      "runtime": 120,
+      "raw": "فيلم تحدى الأقوياء | Tahdy Al Akwiaa Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x8p3fto",
+      "provider": "dailymotion",
+      "title": "مغامرون حول العالم",
+      "tmdbId": 514007,
+      "year": "1979",
+      "poster": "https://image.tmdb.org/t/p/w342/s1oR9mgD9EDnnsb6YR35mCTsfJt.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x8p3fto",
+      "duration": 5723,
+      "runtime": 100,
+      "raw": "فيلم - مغامرون حول العالم - بطوله عادل امام  - ناهد شريف  - 1978",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w09xn",
+      "provider": "dailymotion",
+      "title": "نوع من النساء",
+      "tmdbId": 751007,
+      "year": "1979",
+      "poster": "https://image.tmdb.org/t/p/w342/2zGVN3tQVV69ta0ZTi79EAdcQN9.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w09xn",
+      "duration": 6114,
+      "runtime": 95,
+      "raw": "فيلم نوع من النساء | Noaa Men El Nessa Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w08ge",
+      "provider": "dailymotion",
+      "title": "لعنة الزمن",
+      "tmdbId": 843383,
+      "year": "1979",
+      "poster": "https://image.tmdb.org/t/p/w342/fVAhR95ACOoybGh8uD7ztHqmiw7.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w08ge",
+      "duration": 6202,
+      "runtime": 105,
+      "raw": "فيلم لعنة الزمن - Laanet El Zaman Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w07yx",
+      "provider": "dailymotion",
+      "title": "قاتل ما قتلش حد",
+      "tmdbId": 632115,
+      "year": "1979",
+      "poster": "https://image.tmdb.org/t/p/w342/eorW9vGHQZUcSOBaolWoQsLpfmR.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w07yx",
+      "duration": 6991,
+      "runtime": 105,
+      "raw": "فيلم قاتل ما قتلش حد - Katel Maktalsh Had Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
     },
     {
       "id": "x7yiol1",
@@ -466,6 +1141,186 @@
       "evidence": "canonical runtime and publisher embed metadata; playback/ads unverified"
     },
     {
+      "id": "x6y24bl",
+      "provider": "dailymotion",
+      "title": "ومن الحب ماقتل",
+      "tmdbId": 627245,
+      "year": "1978",
+      "poster": "https://image.tmdb.org/t/p/w342/r2RrkhZCDdXOlvKbbDNO7lkOHc2.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6y24bl",
+      "duration": 4983,
+      "runtime": 85,
+      "raw": "ومن الحب ماقتل - Wa Men El Hob Ma Qatal",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w0aew",
+      "provider": "dailymotion",
+      "title": "حساب السنين",
+      "tmdbId": 615029,
+      "year": "1978",
+      "poster": "https://image.tmdb.org/t/p/w342/vRafkBhcoEhqHPmFaU8H1ziQfXT.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w0aew",
+      "duration": 6192,
+      "runtime": 105,
+      "raw": "فيلم حساب السنين  | Hesab El Senin Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w08aq",
+      "provider": "dailymotion",
+      "title": "رجل بمعنى الكلمة",
+      "tmdbId": 803076,
+      "year": "1978",
+      "poster": "https://image.tmdb.org/t/p/w342/kSfGSl130R15GH6fue4e2YyGvuZ.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w08aq",
+      "duration": 5886,
+      "runtime": 110,
+      "raw": "فيلم رجل بمعنى الكلمة - Ragol Bmana El Kalma Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w059z",
+      "provider": "dailymotion",
+      "title": "العمر لحظة",
+      "tmdbId": 619375,
+      "year": "1978",
+      "poster": "https://image.tmdb.org/t/p/w342/gl4fFC1VSEavb4MePkWPAFYvlyH.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w059z",
+      "duration": 6815,
+      "runtime": 115,
+      "raw": "العمر لحظه - El Omr Lahza",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w06yt",
+      "provider": "dailymotion",
+      "title": "الأزواج الشياطين",
+      "tmdbId": 513964,
+      "year": "1977",
+      "poster": "https://image.tmdb.org/t/p/w342/spMNd9FlQ5dHfFRtgiqxe7mDvC3.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w06yt",
+      "duration": 5695,
+      "runtime": 97,
+      "raw": "فيلم الأزواج الشياطين | Al Azwag El Shaiteen Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w0cq9",
+      "provider": "dailymotion",
+      "title": "على من نطلق الرصاص",
+      "tmdbId": 260116,
+      "year": "1975",
+      "poster": "https://image.tmdb.org/t/p/w342/7XqDsFM4G1hWtozhwf3AP1JOAEd.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w0cq9",
+      "duration": 4991,
+      "runtime": 90,
+      "raw": "فيلم على من نطلق الرصاص | Ala Men Notlek El Rosas movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w0cca",
+      "provider": "dailymotion",
+      "title": "ملوك الشر",
+      "tmdbId": 1112814,
+      "year": "1972",
+      "poster": "https://image.tmdb.org/t/p/w342/6UmT2ckTARqmEDWwaPlGazp98Q4.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w0cca",
+      "duration": 4577,
+      "runtime": 77,
+      "raw": "فيلم ملوك الشر | Melok Al Shaar Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w04io",
+      "provider": "dailymotion",
+      "title": "أشياء لا تشترى",
+      "tmdbId": 1106033,
+      "year": "1970",
+      "poster": "https://image.tmdb.org/t/p/w342/aRP4Zarns2sjCLO8v6L1EiwniC7.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w04io",
+      "duration": 5678,
+      "runtime": 95,
+      "raw": "فيلم أشياء لا تشترى | Ashiaa La Toshtra Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w06a3",
+      "provider": "dailymotion",
+      "title": "المغامرة الكبرى",
+      "tmdbId": 769031,
+      "year": "1964",
+      "poster": "https://image.tmdb.org/t/p/w342/9lzbpPxVXd5m8VExduWssQAumjE.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w06a3",
+      "duration": 5590,
+      "runtime": 95,
+      "raw": "فيلم المغامرة الكبرى  _ el moghamra el kobra movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w05tz",
+      "provider": "dailymotion",
+      "title": "قصة ممنوعة",
+      "tmdbId": 751067,
+      "year": "1963",
+      "poster": "https://image.tmdb.org/t/p/w342/wtdKEfxyVzxedalp33HNBxGgrqR.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w05tz",
+      "duration": 6276,
+      "runtime": 100,
+      "raw": "فيلم قصة ممنوعة - kesa Mamnoa Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w06e1",
+      "provider": "dailymotion",
+      "title": "المجانين في نعيم",
+      "tmdbId": 500411,
+      "year": "1963",
+      "poster": "https://image.tmdb.org/t/p/w342/diYKhzwGX3kgbmb1Zfx84AKHtWm.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w06e1",
+      "duration": 6561,
+      "runtime": 105,
+      "raw": "فيلم المجانين  فى نعيم - el maganen fe naem movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "x6w0833",
+      "provider": "dailymotion",
+      "title": "أنا العدالة",
+      "tmdbId": 1107274,
+      "year": "1961",
+      "poster": "https://image.tmdb.org/t/p/w342/3XE7DOu3iTzbS235oDjWYRjLBCw.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w0833",
+      "duration": 5177,
+      "runtime": 90,
+      "raw": "فيلم أنا العدالة | Ana El Adala Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
       "id": "E7AqcYjGAu4",
       "provider": "youtube",
       "title": "سهم الله",
@@ -479,6 +1334,36 @@
       "runtime": 81,
       "adsPossible": true,
       "evidence": "canonical runtime and public publisher embed metadata; actual playback and ad status unverified"
+    },
+    {
+      "id": "x6w0925",
+      "provider": "dailymotion",
+      "title": "قلبى يهواك",
+      "tmdbId": 1112408,
+      "year": "1955",
+      "poster": "https://image.tmdb.org/t/p/w342/kJHdNIjI676FGc99gjGJudXCpd3.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/x6w0925",
+      "duration": 6643,
+      "runtime": 114,
+      "raw": "فيلم قلبى يهواك - Qalpi Yahwak Movie",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
+    },
+    {
+      "id": "xay017i",
+      "provider": "dailymotion",
+      "title": "شباك حبيبي",
+      "tmdbId": 1229338,
+      "year": "1951",
+      "poster": "https://image.tmdb.org/t/p/w342/AiKj1IDkuKVLpwhLG258F7eR1mr.jpg",
+      "publisher": "IMediaMovies",
+      "source": "https://www.dailymotion.com/video/xay017i",
+      "duration": 6504,
+      "runtime": 115,
+      "raw": "شباك حبيبي",
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable, canonical title and runtime; live playback and ads unverified"
     }
   ],
   "series": [
@@ -1209,6 +2094,514 @@
       "provider": "youtube",
       "adsPossible": true,
       "evidence": "canonical season count and existing individual publisher oEmbed audit; HD, runtime and live playback not independently verified"
+    },
+    {
+      "id": "tmdb:228140:1",
+      "provider": "dailymotion",
+      "title": "حديث المرايا",
+      "tmdbId": 228140,
+      "year": "2002",
+      "poster": "https://image.tmdb.org/t/p/w342/A8d6mjlMzf5Egk93iFRfDR9tkP9.jpg",
+      "publisher": "FGForArtProduction",
+      "source": "https://www.dailymotion.com/FGForArtProduction",
+      "season": 1,
+      "expected": 31,
+      "episodes": [
+        {
+          "number": 1,
+          "id": "x6rwju1"
+        },
+        {
+          "number": 2,
+          "id": "x6rwkw6"
+        },
+        {
+          "number": 3,
+          "id": "x6rwjoi"
+        },
+        {
+          "number": 4,
+          "id": "x6rwkwr"
+        },
+        {
+          "number": 5,
+          "id": "x6rwkxc"
+        },
+        {
+          "number": 6,
+          "id": "x6rwk6h"
+        },
+        {
+          "number": 7,
+          "id": "x6rwjdr"
+        },
+        {
+          "number": 8,
+          "id": "x6rwjul"
+        },
+        {
+          "number": 9,
+          "id": "x6rwjv7"
+        },
+        {
+          "number": 10,
+          "id": "x6rwjp1"
+        },
+        {
+          "number": 11,
+          "id": "x6rwjpc"
+        },
+        {
+          "number": 12,
+          "id": "x6rwjee"
+        },
+        {
+          "number": 13,
+          "id": "x6rwje4"
+        },
+        {
+          "number": 14,
+          "id": "x6rwkxr"
+        },
+        {
+          "number": 15,
+          "id": "x6rwjf9"
+        },
+        {
+          "number": 16,
+          "id": "x6rwjvt"
+        },
+        {
+          "number": 17,
+          "id": "x6rwk6u"
+        },
+        {
+          "number": 18,
+          "id": "x6rwky1"
+        },
+        {
+          "number": 19,
+          "id": "x6rwjwa"
+        },
+        {
+          "number": 20,
+          "id": "x6rwjpn"
+        },
+        {
+          "number": 21,
+          "id": "x6rwjqa"
+        },
+        {
+          "number": 22,
+          "id": "x6rwkyj"
+        },
+        {
+          "number": 23,
+          "id": "x6rwk7c"
+        },
+        {
+          "number": 24,
+          "id": "x6rwjfj"
+        },
+        {
+          "number": 25,
+          "id": "x6rwjx6"
+        },
+        {
+          "number": 26,
+          "id": "x6rwjqk"
+        },
+        {
+          "number": 27,
+          "id": "x6rwkyt"
+        },
+        {
+          "number": 28,
+          "id": "x6rwjqx"
+        },
+        {
+          "number": 29,
+          "id": "x6rwjrc"
+        },
+        {
+          "number": 30,
+          "id": "x6rwjr1"
+        },
+        {
+          "number": 31,
+          "id": "x6rwjxh"
+        }
+      ],
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable; canonical season count and numbered episodes; live playback and ads unverified"
+    },
+    {
+      "id": "tmdb:228139:1",
+      "provider": "dailymotion",
+      "title": "حكايا المرايا",
+      "tmdbId": 228139,
+      "year": "2001",
+      "poster": "https://image.tmdb.org/t/p/w342/4wxAYbjDHo6f2WagyrDpmlzdAxX.jpg",
+      "publisher": "FGForArtProduction",
+      "source": "https://www.dailymotion.com/FGForArtProduction",
+      "season": 1,
+      "expected": 30,
+      "episodes": [
+        {
+          "number": 1,
+          "id": "x6rwki0"
+        },
+        {
+          "number": 2,
+          "id": "x6rwizw"
+        },
+        {
+          "number": 3,
+          "id": "x6rwja3"
+        },
+        {
+          "number": 4,
+          "id": "x6rwj9f"
+        },
+        {
+          "number": 5,
+          "id": "x6rwj9w"
+        },
+        {
+          "number": 6,
+          "id": "x6rwixu"
+        },
+        {
+          "number": 7,
+          "id": "x6rwjab"
+        },
+        {
+          "number": 8,
+          "id": "x6rwja8"
+        },
+        {
+          "number": 9,
+          "id": "x6rwjao"
+        },
+        {
+          "number": 10,
+          "id": "x6rwj0c"
+        },
+        {
+          "number": 11,
+          "id": "x6rwj0l"
+        },
+        {
+          "number": 12,
+          "id": "x6rwkik"
+        },
+        {
+          "number": 13,
+          "id": "x6rwiy9"
+        },
+        {
+          "number": 14,
+          "id": "x6rwkiz"
+        },
+        {
+          "number": 15,
+          "id": "x6rwj15"
+        },
+        {
+          "number": 16,
+          "id": "x6rwj1l"
+        },
+        {
+          "number": 17,
+          "id": "x6rwkjn"
+        },
+        {
+          "number": 18,
+          "id": "x6rwjaq"
+        },
+        {
+          "number": 19,
+          "id": "x6rwj21"
+        },
+        {
+          "number": 20,
+          "id": "x6rwjb9"
+        },
+        {
+          "number": 21,
+          "id": "x6rwjbf"
+        },
+        {
+          "number": 22,
+          "id": "x6rwkju"
+        },
+        {
+          "number": 23,
+          "id": "x6rwjbj"
+        },
+        {
+          "number": 24,
+          "id": "x6rwj2e"
+        },
+        {
+          "number": 25,
+          "id": "x6rwiyq"
+        },
+        {
+          "number": 26,
+          "id": "x6rwjbp"
+        },
+        {
+          "number": 27,
+          "id": "x6rwj2x"
+        },
+        {
+          "number": 28,
+          "id": "x6rwjbv"
+        },
+        {
+          "number": 29,
+          "id": "x6rwjc3"
+        },
+        {
+          "number": 30,
+          "id": "x6rwj3h"
+        }
+      ],
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable; canonical season count and numbered episodes; live playback and ads unverified"
+    },
+    {
+      "id": "tmdb:228128:1",
+      "provider": "dailymotion",
+      "title": "مرايا 98",
+      "tmdbId": 228128,
+      "year": "1998",
+      "poster": "https://image.tmdb.org/t/p/w342/9hNxWrDdOpWRT2eau91dzFGG68b.jpg",
+      "publisher": "FGForArtProduction",
+      "source": "https://www.dailymotion.com/FGForArtProduction",
+      "season": 1,
+      "expected": 26,
+      "episodes": [
+        {
+          "number": 1,
+          "id": "x6rwjqf"
+        },
+        {
+          "number": 2,
+          "id": "x6rwjqt"
+        },
+        {
+          "number": 3,
+          "id": "x6rwjqy"
+        },
+        {
+          "number": 4,
+          "id": "x6rwj85"
+        },
+        {
+          "number": 5,
+          "id": "x6rwjne"
+        },
+        {
+          "number": 6,
+          "id": "x6rwkt2"
+        },
+        {
+          "number": 7,
+          "id": "x6rwku3"
+        },
+        {
+          "number": 8,
+          "id": "x6rwjo8"
+        },
+        {
+          "number": 9,
+          "id": "x6rwkuz"
+        },
+        {
+          "number": 10,
+          "id": "x6rwj9y"
+        },
+        {
+          "number": 11,
+          "id": "x6rwja7"
+        },
+        {
+          "number": 12,
+          "id": "x6rwjri"
+        },
+        {
+          "number": 13,
+          "id": "x6rwjpe"
+        },
+        {
+          "number": 14,
+          "id": "x6rwjsg"
+        },
+        {
+          "number": 15,
+          "id": "x6rwjbg"
+        },
+        {
+          "number": 16,
+          "id": "x6rwk4o"
+        },
+        {
+          "number": 17,
+          "id": "x6rwjbo"
+        },
+        {
+          "number": 18,
+          "id": "x6rwjc1"
+        },
+        {
+          "number": 19,
+          "id": "x6rwjcq"
+        },
+        {
+          "number": 20,
+          "id": "x6rwjcf"
+        },
+        {
+          "number": 21,
+          "id": "x6rwk5h"
+        },
+        {
+          "number": 22,
+          "id": "x6rwk51"
+        },
+        {
+          "number": 23,
+          "id": "x6rwjt2"
+        },
+        {
+          "number": 24,
+          "id": "x6rwjd6"
+        },
+        {
+          "number": 25,
+          "id": "x6rwk5w"
+        },
+        {
+          "number": 26,
+          "id": "x6rwjtr"
+        }
+      ],
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable; canonical season count and numbered episodes; live playback and ads unverified"
+    },
+    {
+      "id": "tmdb:228129:1",
+      "provider": "dailymotion",
+      "title": "مرايا 97",
+      "tmdbId": 228129,
+      "year": "1997",
+      "poster": "https://image.tmdb.org/t/p/w342/qfGgAmVbUmgh857xLgcdeXGlYTr.jpg",
+      "publisher": "FGForArtProduction",
+      "source": "https://www.dailymotion.com/FGForArtProduction",
+      "season": 1,
+      "expected": 24,
+      "episodes": [
+        {
+          "number": 1,
+          "id": "x6rwjle"
+        },
+        {
+          "number": 2,
+          "id": "x6rwkqs"
+        },
+        {
+          "number": 3,
+          "id": "x6rwj4a"
+        },
+        {
+          "number": 4,
+          "id": "x6rwj4q"
+        },
+        {
+          "number": 5,
+          "id": "x6rwjj9"
+        },
+        {
+          "number": 6,
+          "id": "x6rwkr6"
+        },
+        {
+          "number": 7,
+          "id": "x6rwj5y"
+        },
+        {
+          "number": 8,
+          "id": "x6rwjjh"
+        },
+        {
+          "number": 9,
+          "id": "x6rwj6t"
+        },
+        {
+          "number": 10,
+          "id": "x6rwj6j"
+        },
+        {
+          "number": 11,
+          "id": "x6rwji8"
+        },
+        {
+          "number": 12,
+          "id": "x6rwkse"
+        },
+        {
+          "number": 13,
+          "id": "x6rwjn1"
+        },
+        {
+          "number": 14,
+          "id": "x6rwj75"
+        },
+        {
+          "number": 15,
+          "id": "x6rwjla"
+        },
+        {
+          "number": 16,
+          "id": "x6rwjm2"
+        },
+        {
+          "number": 17,
+          "id": "x6rwj7c"
+        },
+        {
+          "number": 18,
+          "id": "x6rwjl0"
+        },
+        {
+          "number": 19,
+          "id": "x6rwjlo"
+        },
+        {
+          "number": 20,
+          "id": "x6rwjm8"
+        },
+        {
+          "number": 21,
+          "id": "x6rwjnk"
+        },
+        {
+          "number": 22,
+          "id": "x6rwjnw"
+        },
+        {
+          "number": 23,
+          "id": "x6rwjpr"
+        },
+        {
+          "number": 24,
+          "id": "x6rwjns"
+        }
+      ],
+      "adsPossible": true,
+      "evidence": "publisher JSON HD/embeddable; canonical season count and numbered episodes; live playback and ads unverified"
     },
     {
       "id": "tmdb:52560:5",

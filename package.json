@@ -21,7 +21,9 @@
     "test:private-open": "node scripts/private-open-test.mjs",
     "test:tv": "node scripts/tv-preferences-test.mjs",
     "build:css": "npx --yes tailwindcss@3.4.17 -c tailwind.config.cjs -i src/cinema-tailwind.css -o public/cinema.css --minify",
-    "predev": "npm run build:css"
+    "predev": "npm run build:css",
+    "bulk:mega": "node scripts/publisher-mega-catalog.mjs && node scripts/publisher-mega-import.mjs",
+    "bulk:mega:publish": "npm run bulk:mega && npm run build:cloudflare && npx wrangler deploy"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.103.3",
