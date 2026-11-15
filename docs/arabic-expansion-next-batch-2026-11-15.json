@@ -1,0 +1,3048 @@
+{
+  "schema": 1,
+  "checkedAt": "2026-11-15",
+  "summary": {
+    "playlists": 122,
+    "complete": 19,
+    "episodeRefs": 573,
+    "allHd": 14,
+    "allAdsBlocked": 0,
+    "newCandidatePlaylists": 12,
+    "newCandidateEpisodes": 361
+  },
+  "provider": "Dailymotion",
+  "status": "staged-not-active",
+  "note": "New playlist candidates, not confirmed unique works; seasons and exact canonical titles require independent verification. No source is confirmed ad-free. Do not activate automatically.",
+  "rows": [
+    {
+      "playlist": "x6wguh",
+      "title": "الرابوص",
+      "sourceTitle": "مسلسل - الرابوص",
+      "channel": "ImediaSeries",
+      "episodeCount": 10,
+      "hdCount": 10,
+      "episodes": [
+        {
+          "id": "x7wmmco",
+          "number": 7,
+          "duration": 2116,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7wmmcn",
+          "number": 6,
+          "duration": 2089,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7wmmcq",
+          "number": 9,
+          "duration": 2102,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7wmmcj",
+          "number": 3,
+          "duration": 2138,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7wmmck",
+          "number": 4,
+          "duration": 2138,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7wmmcp",
+          "number": 8,
+          "duration": 2107,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7wmmcm",
+          "number": 5,
+          "duration": 2138,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7wmmcr",
+          "number": 10,
+          "duration": 2139,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7wmmci",
+          "number": 2,
+          "duration": 2153,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7wmmch",
+          "number": 1,
+          "duration": 2153,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        }
+      ],
+      "activationBlockedBy": "ads-not-disabled; full-season completeness and exact identity require review"
+    },
+    {
+      "playlist": "x6tjk7",
+      "title": "الكبير اوى الجزء الثانى",
+      "sourceTitle": "El kabeer Awy P2 | مسلسل الكبير اوى الجزء الثانى",
+      "channel": "ImediaSeries",
+      "episodeCount": 15,
+      "hdCount": 15,
+      "episodes": [
+        {
+          "id": "x7v4g6a",
+          "number": 11,
+          "duration": 1393,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7v4giy",
+          "number": 13,
+          "duration": 1611,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7v4g6h",
+          "number": 12,
+          "duration": 1271,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7v4g6m",
+          "number": 14,
+          "duration": 1897,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7v4g6s",
+          "number": 15,
+          "duration": 1688,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7v3fd6",
+          "number": 5,
+          "duration": 1945,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7v3fd3",
+          "number": 2,
+          "duration": 1581,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7v3fd4",
+          "number": 3,
+          "duration": 1573,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7v3fd7",
+          "number": 6,
+          "duration": 1265,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7v3fd9",
+          "number": 8,
+          "duration": 1288,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7v3fda",
+          "number": 9,
+          "duration": 1800,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7v3fdb",
+          "number": 10,
+          "duration": 1358,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7v3fd2",
+          "number": 1,
+          "duration": 1526,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7v3fd5",
+          "number": 4,
+          "duration": 1360,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7v3fd8",
+          "number": 7,
+          "duration": 1931,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        }
+      ],
+      "activationBlockedBy": "ads-not-disabled; full-season completeness and exact identity require review"
+    },
+    {
+      "playlist": "x6tjj7",
+      "title": "الكبير اوى الجزء الاول",
+      "sourceTitle": "El kabeer Awy P1 | مسلسل الكبير اوى الجزء الاول",
+      "channel": "ImediaSeries",
+      "episodeCount": 15,
+      "hdCount": 15,
+      "episodes": [
+        {
+          "id": "x7v4giz",
+          "number": 13,
+          "duration": 1055,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7v3exj",
+          "number": 1,
+          "duration": 1192,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7v3eyc",
+          "number": 11,
+          "duration": 1269,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7v3exs",
+          "number": 10,
+          "duration": 1160,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7v3exr",
+          "number": 9,
+          "duration": 1145,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7v3exq",
+          "number": 8,
+          "duration": 1044,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7v3exp",
+          "number": 7,
+          "duration": 1489,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7v3exl",
+          "number": 3,
+          "duration": 1188,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7v3exo",
+          "number": 6,
+          "duration": 1487,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7v3eye",
+          "number": 14,
+          "duration": 1164,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7v3exm",
+          "number": 4,
+          "duration": 1150,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7v3eyf",
+          "number": 15,
+          "duration": 1066,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7v3exk",
+          "number": 2,
+          "duration": 1195,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7v3exn",
+          "number": 5,
+          "duration": 1279,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7v3eyd",
+          "number": 12,
+          "duration": 1211,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        }
+      ],
+      "activationBlockedBy": "ads-not-disabled; full-season completeness and exact identity require review"
+    },
+    {
+      "playlist": "x6sedv",
+      "title": "قسمة و نصيب",
+      "sourceTitle": "Qesma Wa Naseib Series | مسلسل قسمة و نصيب",
+      "channel": "ImediaSeries",
+      "episodeCount": 30,
+      "hdCount": 0,
+      "episodes": [
+        {
+          "id": "x7dljdf",
+          "number": 26,
+          "duration": 1834,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dljdj",
+          "number": 30,
+          "duration": 1989,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dljdi",
+          "number": 29,
+          "duration": 2008,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dljdh",
+          "number": 28,
+          "duration": 1870,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dljdg",
+          "number": 27,
+          "duration": 2013,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dljcs",
+          "number": 20,
+          "duration": 1946,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dljcq",
+          "number": 19,
+          "duration": 1929,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dljcp",
+          "number": 18,
+          "duration": 2039,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dljbx",
+          "number": 10,
+          "duration": 2022,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dljdd",
+          "number": 25,
+          "duration": 1870,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dljco",
+          "number": 17,
+          "duration": 2012,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dljcn",
+          "number": 16,
+          "duration": 1956,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dljbw",
+          "number": 9,
+          "duration": 1966,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dljbv",
+          "number": 8,
+          "duration": 1997,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dljbu",
+          "number": 7,
+          "duration": 2018,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dljdc",
+          "number": 24,
+          "duration": 1870,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dljdb",
+          "number": 23,
+          "duration": 1870,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dljda",
+          "number": 22,
+          "duration": 2016,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dljbr",
+          "number": 1,
+          "duration": 2190,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dljd9",
+          "number": 21,
+          "duration": 1980,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dljbq",
+          "number": 3,
+          "duration": 1977,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dljbo",
+          "number": 2,
+          "duration": 1813,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dljbt",
+          "number": 6,
+          "duration": 1909,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dljcm",
+          "number": 15,
+          "duration": 1908,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dljbp",
+          "number": 4,
+          "duration": 1976,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dljci",
+          "number": 11,
+          "duration": 1946,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dljcl",
+          "number": 14,
+          "duration": 1935,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dljcj",
+          "number": 12,
+          "duration": 2007,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dljbs",
+          "number": 5,
+          "duration": 1976,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dljck",
+          "number": 13,
+          "duration": 1970,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        }
+      ],
+      "activationBlockedBy": "ads-not-disabled; full-season completeness and exact identity require review"
+    },
+    {
+      "playlist": "x6seam",
+      "title": "جارى البحث",
+      "sourceTitle": "Gary Al Bahth Seires | مسلسل جارى البحث",
+      "channel": "ImediaSeries",
+      "episodeCount": 30,
+      "hdCount": 0,
+      "episodes": [
+        {
+          "id": "x7dliza",
+          "number": 20,
+          "duration": 2237,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dliz7",
+          "number": 18,
+          "duration": 2628,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dlj02",
+          "number": 30,
+          "duration": 2724,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dlj01",
+          "number": 29,
+          "duration": 2561,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dlj00",
+          "number": 28,
+          "duration": 2600,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dliz9",
+          "number": 19,
+          "duration": 2521,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dliz8",
+          "number": 17,
+          "duration": 2195,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dlizz",
+          "number": 27,
+          "duration": 2516,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dliy6",
+          "number": 10,
+          "duration": 2010,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dliy5",
+          "number": 9,
+          "duration": 2341,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dlizy",
+          "number": 26,
+          "duration": 2566,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dlizx",
+          "number": 25,
+          "duration": 2313,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dliz4",
+          "number": 16,
+          "duration": 2326,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dlixw",
+          "number": 2,
+          "duration": 2510,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dliz5",
+          "number": 15,
+          "duration": 2216,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dlixx",
+          "number": 1,
+          "duration": 2362,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dliy4",
+          "number": 8,
+          "duration": 2198,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dlizw",
+          "number": 24,
+          "duration": 2615,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dlizv",
+          "number": 23,
+          "duration": 2436,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dliz3",
+          "number": 14,
+          "duration": 2529,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dliy3",
+          "number": 7,
+          "duration": 2210,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dlizt",
+          "number": 21,
+          "duration": 2549,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dliz0",
+          "number": 12,
+          "duration": 1976,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dliy1",
+          "number": 6,
+          "duration": 2170,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dlixz",
+          "number": 5,
+          "duration": 2315,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dlizu",
+          "number": 22,
+          "duration": 2325,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dliz2",
+          "number": 13,
+          "duration": 2318,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dlixy",
+          "number": 4,
+          "duration": 2407,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dliz1",
+          "number": 11,
+          "duration": 2583,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7dliy0",
+          "number": 3,
+          "duration": 2322,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        }
+      ],
+      "activationBlockedBy": "ads-not-disabled; full-season completeness and exact identity require review"
+    },
+    {
+      "playlist": "x6sb0k",
+      "title": "DOCTOR AMRAD NESA SERIES",
+      "sourceTitle": "مسلسل دكتور امراض نسا | DOCTOR AMRAD NESA SERIES",
+      "channel": "ImediaSeries",
+      "episodeCount": 30,
+      "hdCount": 30,
+      "episodes": [
+        {
+          "id": "x6w3ir5",
+          "number": 14,
+          "duration": 2257,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3gv6",
+          "number": 1,
+          "duration": 2076,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3fkv",
+          "number": 2,
+          "duration": 2297,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3h1l",
+          "number": 3,
+          "duration": 2186,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3hv3",
+          "number": 4,
+          "duration": 2100,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3hi9",
+          "number": 5,
+          "duration": 2257,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3ibc",
+          "number": 10,
+          "duration": 1899,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3gdc",
+          "number": 11,
+          "duration": 2321,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3hsv",
+          "number": 8,
+          "duration": 2063,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3g09",
+          "number": 9,
+          "duration": 2034,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3hmi",
+          "number": 6,
+          "duration": 1979,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3gjw",
+          "number": 12,
+          "duration": 2258,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3hq4",
+          "number": 7,
+          "duration": 2170,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3i7c",
+          "number": 13,
+          "duration": 2284,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3ijw",
+          "number": 15,
+          "duration": 2226,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3ih2",
+          "number": 16,
+          "duration": 2098,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3ixe",
+          "number": 17,
+          "duration": 2062,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3iyz",
+          "number": 18,
+          "duration": 2409,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3hyh",
+          "number": 19,
+          "duration": 2125,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3jau",
+          "number": 20,
+          "duration": 2297,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3jap",
+          "number": 21,
+          "duration": 1969,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3kcz",
+          "number": 29,
+          "duration": 1810,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3jwd",
+          "number": 25,
+          "duration": 1988,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3k4x",
+          "number": 27,
+          "duration": 1891,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3k03",
+          "number": 26,
+          "duration": 2148,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3jdy",
+          "number": 22,
+          "duration": 1833,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3kd0",
+          "number": 28,
+          "duration": 1843,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3klt",
+          "number": 30,
+          "duration": 2282,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3id6",
+          "number": 23,
+          "duration": 1827,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3jq8",
+          "number": 24,
+          "duration": 2237,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        }
+      ],
+      "activationBlockedBy": "ads-not-disabled; full-season completeness and exact identity require review"
+    },
+    {
+      "playlist": "x6a0h2",
+      "title": "بيت السلايف",
+      "sourceTitle": "Beet El Salayef Series |  مسلسل بيت السلايف",
+      "channel": "ImediaSeries",
+      "episodeCount": 60,
+      "hdCount": 60,
+      "episodes": [
+        {
+          "id": "x7uwqsg",
+          "number": 55,
+          "duration": 1676,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7uwqsb",
+          "number": 51,
+          "duration": 1563,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7uwqsn",
+          "number": 60,
+          "duration": 2376,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7uwqsc",
+          "number": 52,
+          "duration": 1670,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7uwqsk",
+          "number": 58,
+          "duration": 1719,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7uwqsh",
+          "number": 56,
+          "duration": 1463,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7uwqsi",
+          "number": 57,
+          "duration": 1717,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7uwqsf",
+          "number": 54,
+          "duration": 1570,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7uwqsd",
+          "number": 53,
+          "duration": 1587,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7uwqsm",
+          "number": 59,
+          "duration": 1733,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7uvfqm",
+          "number": 33,
+          "duration": 1714,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7uvfq8",
+          "number": 26,
+          "duration": 1781,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7uvfqn",
+          "number": 34,
+          "duration": 1683,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7uvfqa",
+          "number": 27,
+          "duration": 1714,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7uvfqb",
+          "number": 28,
+          "duration": 1682,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7uvfqo",
+          "number": 35,
+          "duration": 1720,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7uvfqd",
+          "number": 29,
+          "duration": 1754,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7uvfqp",
+          "number": 36,
+          "duration": 1637,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7uvfqe",
+          "number": 30,
+          "duration": 1741,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7uvfqq",
+          "number": 37,
+          "duration": 1708,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7uvfqr",
+          "number": 38,
+          "duration": 1691,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7uvi2f",
+          "number": 41,
+          "duration": 1619,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7uvfqs",
+          "number": 39,
+          "duration": 1705,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7uvi2g",
+          "number": 42,
+          "duration": 1650,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7uvfqu",
+          "number": 40,
+          "duration": 1715,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7uvi2h",
+          "number": 43,
+          "duration": 1631,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7uvi2i",
+          "number": 44,
+          "duration": 1627,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7uvi2j",
+          "number": 45,
+          "duration": 1621,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7uvi2k",
+          "number": 46,
+          "duration": 1604,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7uvfql",
+          "number": 32,
+          "duration": 1716,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7uvi2l",
+          "number": 47,
+          "duration": 1632,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7uvi2o",
+          "number": 50,
+          "duration": 1606,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7uvi2n",
+          "number": 49,
+          "duration": 1646,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7uvi2m",
+          "number": 48,
+          "duration": 1620,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7uvfq6",
+          "number": 25,
+          "duration": 1797,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7uvfq4",
+          "number": 24,
+          "duration": 1696,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7uvfqk",
+          "number": 31,
+          "duration": 1729,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7uvfq3",
+          "number": 23,
+          "duration": 1644,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7uvfq1",
+          "number": 22,
+          "duration": 1690,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7211xs",
+          "number": 21,
+          "duration": 1731,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7211xr",
+          "number": 20,
+          "duration": 1711,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7211q6",
+          "number": 11,
+          "duration": 1641,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7211q4",
+          "number": 10,
+          "duration": 1740,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7211xq",
+          "number": 19,
+          "duration": 1759,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7211q3",
+          "number": 9,
+          "duration": 1796,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7211q2",
+          "number": 8,
+          "duration": 1694,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7211xo",
+          "number": 18,
+          "duration": 1703,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7211xm",
+          "number": 17,
+          "duration": 1728,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7211q1",
+          "number": 7,
+          "duration": 1742,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7211xn",
+          "number": 16,
+          "duration": 1706,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7211q0",
+          "number": 6,
+          "duration": 1866,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7211xp",
+          "number": 15,
+          "duration": 1704,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7211pz",
+          "number": 5,
+          "duration": 1905,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7211xl",
+          "number": 14,
+          "duration": 1720,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7211pv",
+          "number": 4,
+          "duration": 1837,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7211xk",
+          "number": 13,
+          "duration": 1660,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7211pu",
+          "number": 3,
+          "duration": 1770,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7211xj",
+          "number": 12,
+          "duration": 1677,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7211pt",
+          "number": 2,
+          "duration": 1792,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x7212af",
+          "number": 1,
+          "duration": 1772,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        }
+      ],
+      "activationBlockedBy": "ads-not-disabled; full-season completeness and exact identity require review"
+    },
+    {
+      "playlist": "x64qac",
+      "title": "خطوط حمراء",
+      "sourceTitle": "Khotot Hamraa Series| مسلسل خطوط حمراء",
+      "channel": "ImediaSeries",
+      "episodeCount": 30,
+      "hdCount": 30,
+      "episodes": [
+        {
+          "id": "x6w3gxn",
+          "number": 1,
+          "duration": 2129,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3gzy",
+          "number": 2,
+          "duration": 2115,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3hcb",
+          "number": 3,
+          "duration": 2200,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3fon",
+          "number": 4,
+          "duration": 2212,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3fpl",
+          "number": 5,
+          "duration": 2276,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3hkq",
+          "number": 6,
+          "duration": 2153,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3i62",
+          "number": 7,
+          "duration": 2191,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3ht4",
+          "number": 8,
+          "duration": 2165,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3hxe",
+          "number": 9,
+          "duration": 2271,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3i1r",
+          "number": 10,
+          "duration": 2226,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3gft",
+          "number": 11,
+          "duration": 2311,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3i2d",
+          "number": 12,
+          "duration": 1937,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3i7n",
+          "number": 13,
+          "duration": 2139,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3i9w",
+          "number": 14,
+          "duration": 1982,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3ik6",
+          "number": 15,
+          "duration": 2239,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3iu9",
+          "number": 16,
+          "duration": 2131,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3ila",
+          "number": 17,
+          "duration": 2405,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3hrg",
+          "number": 18,
+          "duration": 2179,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3hz6",
+          "number": 19,
+          "duration": 2375,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3j4z",
+          "number": 20,
+          "duration": 2362,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3jdz",
+          "number": 21,
+          "duration": 2402,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3jnq",
+          "number": 22,
+          "duration": 2441,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3jnr",
+          "number": 23,
+          "duration": 2210,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3ih1",
+          "number": 24,
+          "duration": 2076,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3jwt",
+          "number": 25,
+          "duration": 2197,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3k0l",
+          "number": 26,
+          "duration": 2235,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3k54",
+          "number": 27,
+          "duration": 2478,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3kd8",
+          "number": 28,
+          "duration": 2694,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3kg7",
+          "number": 29,
+          "duration": 2474,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3ko9",
+          "number": 30,
+          "duration": 2582,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        }
+      ],
+      "activationBlockedBy": "ads-not-disabled; full-season completeness and exact identity require review"
+    },
+    {
+      "playlist": "x64q9k",
+      "title": "Matkhafosh Series",
+      "sourceTitle": "مسلسل ماتخافوش  | Matkhafosh Series",
+      "channel": "ImediaSeries",
+      "episodeCount": 30,
+      "hdCount": 30,
+      "episodes": [
+        {
+          "id": "x6w3jru",
+          "number": 1,
+          "duration": 2367,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3k6z",
+          "number": 2,
+          "duration": 2407,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3k7m",
+          "number": 3,
+          "duration": 2377,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3jxt",
+          "number": 4,
+          "duration": 2428,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3j8v",
+          "number": 5,
+          "duration": 2347,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3k62",
+          "number": 6,
+          "duration": 2377,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3ktq",
+          "number": 7,
+          "duration": 2353,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3l0r",
+          "number": 8,
+          "duration": 2369,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3l2b",
+          "number": 9,
+          "duration": 2413,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3k0c",
+          "number": 10,
+          "duration": 2365,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3le9",
+          "number": 11,
+          "duration": 2388,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3ljw",
+          "number": 12,
+          "duration": 2426,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3ni9",
+          "number": 13,
+          "duration": 2376,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3nna",
+          "number": 14,
+          "duration": 2374,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3mev",
+          "number": 15,
+          "duration": 2300,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3no4",
+          "number": 16,
+          "duration": 2227,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3nw7",
+          "number": 17,
+          "duration": 2268,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3m9a",
+          "number": 18,
+          "duration": 2250,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3nnb",
+          "number": 19,
+          "duration": 2224,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3mcb",
+          "number": 20,
+          "duration": 2223,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3me7",
+          "number": 21,
+          "duration": 2225,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3o3p",
+          "number": 22,
+          "duration": 2219,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3mgx",
+          "number": 23,
+          "duration": 2241,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3mqr",
+          "number": 24,
+          "duration": 2272,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3nvd",
+          "number": 25,
+          "duration": 2223,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3o8l",
+          "number": 26,
+          "duration": 2266,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3mjb",
+          "number": 27,
+          "duration": 2233,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3mjz",
+          "number": 28,
+          "duration": 2225,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3mtz",
+          "number": 29,
+          "duration": 2358,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3nzd",
+          "number": 30,
+          "duration": 2271,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        }
+      ],
+      "activationBlockedBy": "ads-not-disabled; full-season completeness and exact identity require review"
+    },
+    {
+      "playlist": "x64cw4",
+      "title": "Souq Al Waraq Series",
+      "sourceTitle": "مسلسل سوق الورق  | Souq Al Waraq Series",
+      "channel": "ImediaSeries",
+      "episodeCount": 31,
+      "hdCount": 30,
+      "episodes": [
+        {
+          "id": "x6w3oqj",
+          "number": 1,
+          "duration": 2956,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3oo5",
+          "number": 2,
+          "duration": 2966,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3ov5",
+          "number": 3,
+          "duration": 2975,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3p0b",
+          "number": 4,
+          "duration": 2856,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3n30",
+          "number": 5,
+          "duration": 2897,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3n9b",
+          "number": 6,
+          "duration": 2948,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3oyo",
+          "number": 7,
+          "duration": 2896,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3pbn",
+          "number": 8,
+          "duration": 2987,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3nf7",
+          "number": 9,
+          "duration": 2887,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3njp",
+          "number": 10,
+          "duration": 2965,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3p6s",
+          "number": 11,
+          "duration": 2907,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3p9e",
+          "number": 12,
+          "duration": 2897,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3pc5",
+          "number": 13,
+          "duration": 2942,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3pp7",
+          "number": 14,
+          "duration": 2946,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3piy",
+          "number": 15,
+          "duration": 2963,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3nud",
+          "number": 16,
+          "duration": 2925,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3ppn",
+          "number": 17,
+          "duration": 2916,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3pt0",
+          "number": 18,
+          "duration": 2919,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3o8e",
+          "number": 19,
+          "duration": 2821,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3q64",
+          "number": 20,
+          "duration": 2921,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3q0x",
+          "number": 21,
+          "duration": 2936,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3q2s",
+          "number": 22,
+          "duration": 2927,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6w3qe9",
+          "number": 23,
+          "duration": 2919,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "k8fY9OCR094BQ7scv0y",
+          "number": 24,
+          "duration": 2897,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6wnkj3",
+          "number": 25,
+          "duration": 2453,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6wnkj5",
+          "number": 26,
+          "duration": 2408,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6wnkj4",
+          "number": 27,
+          "duration": 2432,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6wnkj6",
+          "number": 28,
+          "duration": 2419,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6wnkj8",
+          "number": 29,
+          "duration": 2513,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6wnkj9",
+          "number": 30,
+          "duration": 2502,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        },
+        {
+          "id": "x6wnkj7",
+          "number": 31,
+          "duration": 2530,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "ImediaSeries"
+        }
+      ],
+      "activationBlockedBy": "ads-not-disabled; full-season completeness and exact identity require review"
+    },
+    {
+      "playlist": "x4hnha",
+      "title": "بنات اكريكوز كامل HD",
+      "sourceTitle": "مسلسل بنات اكريكوز كامل HD",
+      "channel": "shammedia",
+      "episodeCount": 40,
+      "hdCount": 40,
+      "episodes": [
+        {
+          "id": "x4a4xt7",
+          "number": 40,
+          "duration": 2395,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a4xfx",
+          "number": 39,
+          "duration": 2110,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a4x5p",
+          "number": 38,
+          "duration": 1626,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a4wxk",
+          "number": 37,
+          "duration": 1883,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a4wlb",
+          "number": 36,
+          "duration": 2075,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a4w3o",
+          "number": 35,
+          "duration": 1817,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a4vrj",
+          "number": 34,
+          "duration": 1730,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a4vf6",
+          "number": 33,
+          "duration": 2057,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a4ub5",
+          "number": 32,
+          "duration": 1684,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a4tpp",
+          "number": 31,
+          "duration": 1934,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a4szp",
+          "number": 30,
+          "duration": 1654,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a4sar",
+          "number": 29,
+          "duration": 2282,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a4qrm",
+          "number": 28,
+          "duration": 2107,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a4p2r",
+          "number": 27,
+          "duration": 2226,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a4mb5",
+          "number": 26,
+          "duration": 1901,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a4jzj",
+          "number": 25,
+          "duration": 2344,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a4hze",
+          "number": 24,
+          "duration": 1892,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a4gbw",
+          "number": 23,
+          "duration": 1626,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a4e8v",
+          "number": 22,
+          "duration": 1480,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a4d04",
+          "number": 21,
+          "duration": 2107,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a4bcm",
+          "number": 20,
+          "duration": 2121,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a49hp",
+          "number": 19,
+          "duration": 1907,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a47hr",
+          "number": 18,
+          "duration": 2346,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a45n3",
+          "number": 17,
+          "duration": 2022,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a4427",
+          "number": 16,
+          "duration": 2081,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a425j",
+          "number": 15,
+          "duration": 2096,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a40f1",
+          "number": 14,
+          "duration": 2775,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a3wmg",
+          "number": 13,
+          "duration": 1792,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a3upq",
+          "number": 12,
+          "duration": 2009,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a3rfd",
+          "number": 11,
+          "duration": 2320,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a3owb",
+          "number": 10,
+          "duration": 2528,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a3myc",
+          "number": 9,
+          "duration": 2319,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a3lka",
+          "number": 8,
+          "duration": 2444,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a3ke3",
+          "number": 7,
+          "duration": 2350,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a3iiz",
+          "number": 6,
+          "duration": 2095,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a3h58",
+          "number": 5,
+          "duration": 2199,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a3fvx",
+          "number": 4,
+          "duration": 2262,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a3ecw",
+          "number": 3,
+          "duration": 2219,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a3c45",
+          "number": 2,
+          "duration": 2209,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a3alo",
+          "number": 1,
+          "duration": 2230,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        }
+      ],
+      "activationBlockedBy": "ads-not-disabled; full-season completeness and exact identity require review"
+    },
+    {
+      "playlist": "x4h5lz",
+      "title": "قلة ذوق و كترة غلبة ـ كامل HD",
+      "sourceTitle": "مسلسل قلة ذوق و كترة غلبة ـ كامل HD",
+      "channel": "shammedia",
+      "episodeCount": 40,
+      "hdCount": 39,
+      "episodes": [
+        {
+          "id": "x4a3872",
+          "number": 39,
+          "duration": 2471,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a36rn",
+          "number": 40,
+          "duration": 2364,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a354s",
+          "number": 28,
+          "duration": 1939,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a33xd",
+          "number": 24,
+          "duration": 2350,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a333j",
+          "number": 21,
+          "duration": 2343,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a323i",
+          "number": 20,
+          "duration": 2342,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a30ja",
+          "number": 38,
+          "duration": 2371,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a2yh2",
+          "number": 37,
+          "duration": 2027,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a2wyv",
+          "number": 36,
+          "duration": 1976,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a2vwb",
+          "number": 35,
+          "duration": 2049,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a2uwy",
+          "number": 34,
+          "duration": 2348,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a2u9m",
+          "number": 33,
+          "duration": 2122,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a2tqn",
+          "number": 32,
+          "duration": 1932,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a2soq",
+          "number": 31,
+          "duration": 1832,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a2rax",
+          "number": 30,
+          "duration": 2159,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a2q4j",
+          "number": 29,
+          "duration": 2375,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a2p5f",
+          "number": 27,
+          "duration": 1714,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a2oia",
+          "number": 26,
+          "duration": 2093,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a2nop",
+          "number": 25,
+          "duration": 2068,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a2n06",
+          "number": 23,
+          "duration": 2442,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a2lya",
+          "number": 22,
+          "duration": 2127,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x4a2kwu",
+          "number": 19,
+          "duration": 2541,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x49z4l0",
+          "number": 18,
+          "duration": 2288,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x49z43s",
+          "number": 17,
+          "duration": 2235,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x49z2z3",
+          "number": 16,
+          "duration": 2274,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x49z1x5",
+          "number": 15,
+          "duration": 1947,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x49z1j5",
+          "number": 14,
+          "duration": 2030,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x49z14x",
+          "number": 13,
+          "duration": 2192,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x49z0d0",
+          "number": 12,
+          "duration": 2522,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x49yz7h",
+          "number": 11,
+          "duration": 2522,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x49yykp",
+          "number": 10,
+          "duration": 2328,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x49yy8v",
+          "number": 9,
+          "duration": 2177,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x49yxkx",
+          "number": 8,
+          "duration": 2364,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x49yvcy",
+          "number": 7,
+          "duration": 2516,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x49yu93",
+          "number": 6,
+          "duration": 2386,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x49ytll",
+          "number": 5,
+          "duration": 2447,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x493p25",
+          "number": 4,
+          "duration": 2433,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x493ov1",
+          "number": 3,
+          "duration": 2162,
+          "hd": false,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x493ol7",
+          "number": 2,
+          "duration": 2437,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        },
+        {
+          "id": "x493oem",
+          "number": 1,
+          "duration": 2311,
+          "hd": true,
+          "adsBlocked": false,
+          "owner": "shammedia"
+        }
+      ],
+      "activationBlockedBy": "ads-not-disabled; full-season completeness and exact identity require review"
+    }
+  ],
+  "nfbPlayback": {
+    "title": "سريدة، امرأة من فلسطين",
+    "embed": "https://www.nfb.ca/film/soraida_a_woman_of_palestine/embed/player/",
+    "duration": 7151,
+    "observedWidth": 480,
+    "observedHeight": 270,
+    "playedSeconds": 3.048862,
+    "sourceTerms": "https://help.nfb.ca/terms/",
+    "status": "local iframe playback verified; HD and production suitability not verified"
+  }
+}
