@@ -203,11 +203,11 @@ export const APPROVED_EMBEDS=Object.freeze([
     "overview": "فتاة مراهقة تخطو نحو النضج في القاهرة.",
     "observed": {
       "checked": "2026-11-15",
-      "width": 1280,
-      "height": 720,
+      "width": 1920,
+      "height": 1080,
       "duration": 660.5866666666667,
-      "playedSeconds": 12.165401,
-      "scope": "independent local iframe; no ads observed at startup"
+      "playedSeconds": 9.380373,
+      "scope": "production Cinema browser; playback started and advanced; no ads observed at startup"
     }
   },
   {
@@ -229,11 +229,11 @@ export const APPROVED_EMBEDS=Object.freeze([
     "overview": "رحلة الشاب الفلسطيني شكري من القدس إلى عمّان، حيث يجد في الفن والموضة على الإنترنت مساحة للتعبير عن ذاته.",
     "observed": {
       "checked": "2026-11-15",
-      "width": 1280,
-      "height": 720,
+      "width": 1920,
+      "height": 1080,
       "duration": 761.52,
-      "playedSeconds": 9.935591,
-      "scope": "independent local iframe; no ads observed at startup"
+      "playedSeconds": 9.339138,
+      "scope": "production Cinema browser; playback started and advanced; no ads observed at startup"
     }
   },
   {
@@ -255,11 +255,11 @@ export const APPROVED_EMBEDS=Object.freeze([
     "overview": "ترفض هالة مغادرة منزلها وسط أزمة النفايات في لبنان.",
     "observed": {
       "checked": "2026-11-15",
-      "width": 1280,
-      "height": 720,
+      "width": 1920,
+      "height": 1080,
       "duration": 1249.7066666666667,
-      "playedSeconds": 10.757883,
-      "scope": "independent local iframe; no ads observed at startup"
+      "playedSeconds": 10.263591,
+      "scope": "production Cinema browser; playback started and advanced; no ads observed at startup"
     }
   }
 ].map(Object.freeze));
