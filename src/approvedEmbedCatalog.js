@@ -49,10 +49,61 @@ export const APPROVED_EMBEDS=Object.freeze([
     "overview": "في جبال لبنان، يلتقي رجل سوري يبحث عن عائلته بطفلين فلسطينيين يواجهان بدورهما تجربة النزوح.",
     "observed": {
       "checked": "2026-11-15",
-      "width": 1280,
-      "height": 720,
+      "width": 1920,
+      "height": 1080,
       "duration": 1085.375,
-      "playedSeconds": 1.703609
+      "playedSeconds": 3.404412,
+      "scope": "production browser"
+    }
+  },
+  {
+    "movieId": "vimeo:592766111",
+    "kind": "movie",
+    "title": "ذاكرة ممتلئة",
+    "originalTitle": "FULL MEMORY",
+    "year": 2021,
+    "category": "فيلم روائي قصير",
+    "duration": 761,
+    "language": "العربية · ترجمة إنجليزية",
+    "publisher": "Filmreakter · Adolf El Assal",
+    "permissionRef": "https://vimeo.com/592766111 · https://help.vimeo.com/hc/en-us/articles/12426275096337-Embedding-features-by-plan-type",
+    "expires": "2027-02-15T00:00:00Z",
+    "origin": "https://player.vimeo.com",
+    "embed": "https://player.vimeo.com/video/592766111?app_id=122963",
+    "adsPossible": false,
+    "poster": "https://i.vimeocdn.com/video/1286118875-5450a8eeafc1f452ca96ba2154d7632ea0947c8842bab825b_295x166?region=us",
+    "overview": "زياد، شاب سوري يعيش في أوروبا، يستقبل شقيقه بعد سنوات من الفراق ويواجه ذكريات الماضي.",
+    "observed": {
+      "checked": "2026-11-15",
+      "width": 1920,
+      "height": 1080,
+      "duration": 761.68,
+      "playedSeconds": 1.385412
+    }
+  },
+  {
+    "movieId": "vimeo:981239956",
+    "kind": "movie",
+    "title": "القاهرة - برلين",
+    "originalTitle": "CAI - BER",
+    "year": 2021,
+    "category": "فيلم روائي قصير",
+    "duration": 1030,
+    "language": "العربية · ترجمة إنجليزية",
+    "publisher": "Ahmed Abdelsalam",
+    "permissionRef": "https://vimeo.com/981239956 · https://help.vimeo.com/hc/en-us/articles/12426275096337-Embedding-features-by-plan-type",
+    "expires": "2027-02-15T00:00:00Z",
+    "origin": "https://player.vimeo.com",
+    "embed": "https://player.vimeo.com/video/981239956?app_id=122963",
+    "adsPossible": false,
+    "poster": "https://i.vimeocdn.com/video/1896630764-9b4a1453ddfa9459891caea59cffcd7d94e9cf3f800c3a148445990df3a4aa2c-d_295x166?region=us",
+    "overview": "نور، شابة مصرية، تحاول مغادرة القاهرة سراً وتواجه تحديات الساعات الأخيرة قبل سفرها.",
+    "observed": {
+      "checked": "2026-11-15",
+      "width": 1920,
+      "height": 1080,
+      "duration": 1030.5417179999977,
+      "playedSeconds": 10.906406
     }
   }
 ].map(Object.freeze));

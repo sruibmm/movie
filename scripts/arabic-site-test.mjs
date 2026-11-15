@@ -26,6 +26,10 @@ assert.equal(approvedPrivateSlot(work,{id:'other'},[privateGrant]),null);
 assert.equal(approvedPrivateSlot({...work,kind:'tv'},{...slot,season:1,episode:2},[{...privateGrant,kind:'tv',season:1,episode:1}]),null);
 console.log('PRIVATE SLOT EMBED PASS: preserve movie identity, exact episode, no unapproved source');
 
-for(const item of APPROVED_EMBEDS){const m={id:item.movieId,media_type:'movie',isArabic:true};const s=approvedEmbed(m);assert(s);assert.equal(s.adsPossible,false);assert.equal(approvedPublisherUrl(s,m),item.embed);assert.equal(approvedPublisherUrl(s,{...m,id:'wrong'}),null);assert.equal(item.observed.width,1280);assert.equal(item.observed.height,720);assert(item.observed.playedSeconds>0);assert(Math.abs(item.observed.duration-item.duration)<2);}
+for(const item of APPROVED_EMBEDS){const m={id:item.movieId,media_type:'movie',isArabic:true};const s=approvedEmbed(m);assert(s);assert.equal(s.adsPossible,false);assert.equal(approvedPublisherUrl(s,m),item.embed);assert.equal(approvedPublisherUrl(s,{...m,id:'wrong'}),null);assert(isHdVideo(item.observed.width,item.observed.height));assert(item.observed.playedSeconds>0);assert(Math.abs(item.observed.duration-item.duration)<2);}
 assert.equal(new Set(APPROVED_EMBEDS.map(x=>x.movieId)).size,APPROVED_EMBEDS.length);
 console.log('INDEPENDENT ARABIC PASS: exact approved public Vimeo films, ad-free provider, measured playback evidence');
+
+import {isHdVideo} from '../src/mediaQuality.js';
+import {independentArabicItems,observedQuality} from '../src/independentArabicModel.js';
+assert.equal(independentArabicItems().length,4);assert.equal(independentArabicItems('القاهرة').length,1);assert.equal(independentArabicItems('FULL MEMORY').length,1);assert.equal(independentArabicItems('','فيلم روائي قصير').length,3);assert.equal(independentArabicItems('','وثائقي طويل').length,1);assert.equal(observedQuality(independentArabicItems('FULL MEMORY')[0].item),'1080p');console.log('INDEPENDENT FILTERS PASS: four titles, search, distinct categories and measured quality');
