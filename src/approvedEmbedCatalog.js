@@ -2,7 +2,7 @@
 // or a working iframe is not evidence of permission to distribute a work.
 // Each reviewed entry needs the exact Cinema movie/episode identity, the
 // official HTTPS embed URL, permission reference, expiry and approved origin.
-// Publisher-enabled public Vimeo embeds, verified in an independent iframe.
+// Publisher-published public player URLs (Vimeo and Brightcove), verified in an independent iframe.
 // expires is a conservative internal re-review deadline, not a claimed rights expiry.
 export const APPROVED_EMBEDS=Object.freeze([
   {
@@ -104,6 +104,84 @@ export const APPROVED_EMBEDS=Object.freeze([
       "height": 1080,
       "duration": 1030.5417179999977,
       "playedSeconds": 10.906406
+    }
+  },
+  {
+    "movieId": "brightcove:6232772899001",
+    "kind": "movie",
+    "title": "نائلة والانتفاضة",
+    "originalTitle": "Naila and the Uprising",
+    "year": 2017,
+    "category": "وثائقي طويل",
+    "duration": 4620,
+    "language": "العربية والإنجليزية والعبرية والفرنسية",
+    "publisher": "Just Vision",
+    "permissionRef": "https://justvision.org/films · https://player.support.brightcove.com/publish/available-options-standard-iframe-embed-code.html",
+    "expires": "2027-02-15T00:00:00Z",
+    "origin": "https://players.brightcove.net",
+    "embed": "https://players.brightcove.net/1942203442001/default_default/index.html?videoId=6232772899001",
+    "adsPossible": false,
+    "poster": "https://justvision.org/sites/default/files/media/2024-10/poster_1.png",
+    "overview": "قصة نائلة عايش ودور النساء الفلسطينيات في الانتفاضة الأولى.",
+    "observed": {
+      "checked": "2026-11-15",
+      "width": 1280,
+      "height": 720,
+      "duration": 4619.84,
+      "playedSeconds": 13.960399,
+      "scope": "independent local iframe; publisher default player config has no advertising plugin; no ads observed at startup"
+    }
+  },
+  {
+    "movieId": "brightcove:2240869443001",
+    "kind": "movie",
+    "title": "حارتي",
+    "originalTitle": "My Neighbourhood",
+    "year": 2012,
+    "category": "وثائقي قصير",
+    "duration": 1551,
+    "language": "العربية والعبرية والإنجليزية",
+    "publisher": "Just Vision",
+    "permissionRef": "https://justvision.org/films · https://player.support.brightcove.com/publish/available-options-standard-iframe-embed-code.html",
+    "expires": "2027-02-15T00:00:00Z",
+    "origin": "https://players.brightcove.net",
+    "embed": "https://players.brightcove.net/1942203442001/default_default/index.html?videoId=2240869443001",
+    "adsPossible": false,
+    "poster": "https://justvision.org/sites/default/files/media/2024-08/MN-poster.png",
+    "overview": "يتابع حياة الفتى محمد الكرد وأسرته في حي الشيخ جراح بالقدس.",
+    "observed": {
+      "checked": "2026-11-15",
+      "width": 1280,
+      "height": 720,
+      "duration": 1551,
+      "playedSeconds": 13.954107,
+      "scope": "independent local iframe; publisher default player config has no advertising plugin; no ads observed at startup"
+    }
+  },
+  {
+    "movieId": "brightcove:2540411430001",
+    "kind": "movie",
+    "title": "بُدرس",
+    "originalTitle": "Budrus",
+    "year": 2009,
+    "category": "وثائقي طويل",
+    "duration": 4900,
+    "language": "العربية والعبرية · ترجمة إنجليزية",
+    "publisher": "Just Vision",
+    "permissionRef": "https://justvision.org/films · https://player.support.brightcove.com/publish/available-options-standard-iframe-embed-code.html",
+    "expires": "2027-02-15T00:00:00Z",
+    "origin": "https://players.brightcove.net",
+    "embed": "https://players.brightcove.net/1942203442001/default_default/index.html?videoId=2540411430001",
+    "adsPossible": false,
+    "poster": "https://justvision.org/sites/default/files/media/2024-07/Budrus-Poster.png",
+    "overview": "قصة أهالي قرية بُدرس وتحركهم السلمي لحماية أراضيهم.",
+    "observed": {
+      "checked": "2026-11-15",
+      "width": 1280,
+      "height": 720,
+      "duration": 4900.229,
+      "playedSeconds": 13.822701,
+      "scope": "independent local iframe; publisher default player config has no advertising plugin; no ads observed at startup"
     }
   }
 ].map(Object.freeze));

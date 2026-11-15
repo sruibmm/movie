@@ -28,8 +28,10 @@ console.log('PRIVATE SLOT EMBED PASS: preserve movie identity, exact episode, no
 
 for(const item of APPROVED_EMBEDS){const m={id:item.movieId,media_type:'movie',isArabic:true};const s=approvedEmbed(m);assert(s);assert.equal(s.adsPossible,false);assert.equal(approvedPublisherUrl(s,m),item.embed);assert.equal(approvedPublisherUrl(s,{...m,id:'wrong'}),null);assert(isHdVideo(item.observed.width,item.observed.height));assert(item.observed.playedSeconds>0);assert(Math.abs(item.observed.duration-item.duration)<2);}
 assert.equal(new Set(APPROVED_EMBEDS.map(x=>x.movieId)).size,APPROVED_EMBEDS.length);
-console.log('INDEPENDENT ARABIC PASS: exact approved public Vimeo films, ad-free provider, measured playback evidence');
+console.log('INDEPENDENT ARABIC PASS: exact publisher-published public films, clean startup, measured playback evidence');
 
 import {isHdVideo} from '../src/mediaQuality.js';
 import {independentArabicItems,observedQuality} from '../src/independentArabicModel.js';
-assert.equal(independentArabicItems().length,4);assert.equal(independentArabicItems('القاهرة').length,1);assert.equal(independentArabicItems('FULL MEMORY').length,1);assert.equal(independentArabicItems('','فيلم روائي قصير').length,3);assert.equal(independentArabicItems('','وثائقي طويل').length,1);assert.equal(observedQuality(independentArabicItems('FULL MEMORY')[0].item),'1080p');console.log('INDEPENDENT FILTERS PASS: four titles, search, distinct categories and measured quality');
+assert.equal(independentArabicItems().length,7);assert.equal(independentArabicItems('القاهرة').length,1);assert.equal(independentArabicItems('FULL MEMORY').length,1);assert.equal(independentArabicItems('','فيلم روائي قصير').length,3);assert.equal(independentArabicItems('','وثائقي طويل').length,3);assert.equal(observedQuality(independentArabicItems('FULL MEMORY')[0].item),'1080p');console.log('INDEPENDENT FILTERS PASS: seven titles, search, distinct categories and measured quality');
+
+assert.equal(independentArabicItems('','وثائقي قصير').length,1);assert.equal(independentArabicItems('نائلة').length,1);assert.equal(APPROVED_EMBEDS.filter(x=>x.origin==='https://players.brightcove.net').length,3);for(const x of APPROVED_EMBEDS.filter(x=>x.origin==='https://players.brightcove.net')){assert.equal(new URL(x.embed).searchParams.get('videoId'),x.movieId.split(':')[1]);assert(x.permissionRef.includes('justvision.org/films'));}console.log('BRIGHTCOVE PASS: exact official full film player identities and filters');
