@@ -1,0 +1,37 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import {WATAN_SERIES} from '../src/watanSeries.js';
+import {IMPORTED_FILMS} from '../src/publisherFilmData.js';
+const read=p=>JSON.parse(fs.readFileSync(new URL('../'+p,import.meta.url),'utf8'));
+const bulk=read('src/arabicBulkCatalog.json');
+const preview=read('src/arabicPublisherBatch.json');
+const a=read('docs/arabic-series-episode-audit-2026-11-15.json');
+const b=read('docs/arabic-expansion-next-batch-2026-11-15.json');
+const c=read('docs/arabic-library-consolidated-2026-11-15.json');
+const d=read('docs/arabic-catalog-expansion-audit-2026-11-15.json');
+const items=new Map();
+function add(provider,id,status,kind,title,number,source){
+ if(!id)return;
+ const key=provider+':'+id;
+ const old=items.get(key);
+ const record=old||{provider,id,status,kind,title,number,sources:[]};
+ if(!record.sources.includes(source))record.sources.push(source);
+ items.set(key,record);
+}
+for(const s of WATAN_SERIES)for(const e of s.episodes||[])add('youtube',e.video,'existing','episode',s.seriesTitle||s.title,e.number,'watanSeries');
+for(const f of IMPORTED_FILMS)add('youtube',f.video||f.videoId,'existing','film',f.title,null,'publisherFilmData');
+for(const g of bulk.series)for(const s of g.seasons)for(const e of s.episodes)add('dailymotion',e.id,'existing','episode',g.title,e.number,'arabicBulkCatalog');
+for(const f of bulk.films)add('dailymotion',f.id||f.videoId,'existing','film',f.title,null,'arabicBulkCatalog');
+for(const s of preview)for(const e of s.episodes)add('youtube',e.video,'optional-preview','episode',s.title,e.number,'arabicPublisherBatch');
+for(const g of a.groups)for(const [n,id] of g.episodes)add('youtube',id,'pending','episode',g.title,n,'seriesEpisodeAudit');
+for(const g of b.rows)for(const e of g.episodes)add('dailymotion',e.id,'pending','episode',g.title,e.number,'nextBatch');
+for(const g of c.seriesCandidatesDetailed)for(const e of g.episodes)add('dailymotion',e.id,'pending','episode',g.title,e.number,'consolidatedAudit');
+for(const f of c.filmCandidatesDetailed)add('dailymotion',f.id,'pending','film',f.title,null,'consolidatedAudit');
+for(const f of d.candidates)add('youtube',f.video,'pending','unclassified',f.title,null,'filmDiscovery');
+const rows=[...items.values()];
+const count=status=>rows.filter(x=>x.status===status).length;
+assert.equal(count('optional-preview'),406);
+assert(rows.every(x=>new Set(x.sources).size===x.sources.length));
+const report={schema:1,warning:'Reference-level deduplication only. Pending rows are not playback approvals, confirmed unique titles, or ad-free sources.',summary:{existing:count('existing'),optionalPreview:count('optional-preview'),pending:count('pending'),total:rows.length},pending:rows.filter(x=>x.status==='pending')};
+fs.writeFileSync(new URL('../docs/arabic-bulk-queue.json',import.meta.url),JSON.stringify(report,null,2)+'\n');
+console.log('Bulk inventory',JSON.stringify(report.summary));
