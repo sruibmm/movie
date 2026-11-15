@@ -12,6 +12,7 @@ import AutoLibrary from './AutoLibrary.jsx'
 import MultiSourceArabic from './MultiSourceArabic.jsx'
 import IndependentArabic from './IndependentArabic.jsx'
 import ArabicPublisherBatch from './ArabicPublisherBatch.jsx'
+import ArabicPublisherExpansion from './ArabicPublisherExpansion.jsx'
 import {fullWorkMediaStatus,isPrivateMedia,PRIVATE_KEY,PRIVATE_ACTIVE_KEY,validatePrivateCatalog,privateMovie} from './privateCatalog.js'
 import SyncedLibrary from './SyncedLibrary.jsx'
 import SyncedPlayback from './SyncedPlayback.jsx'
@@ -824,6 +825,7 @@ function App() {
         {arabicLibrary ? <>
           <SyncedLibrary query={search} onPlay={startArabicEpisode}/>
           <IndependentArabic query={search} onPlay={startArabicEpisode}/>
+          <ArabicPublisherExpansion query={search} onPlay={startArabicEpisode}/>
           <ArabicPublisherBatch query={search} onPlay={startArabicEpisode}/>
           <MultiSourceArabic query={search} onPlay={startArabicEpisode}/>
           <AutoLibrary query={search} onPlay={startArabicEpisode} options={fetchOptions}/>
@@ -881,6 +883,7 @@ function App() {
         {arabicLibrary ? <>
           <SyncedLibrary query={search} onPlay={startArabicEpisode}/>
           <IndependentArabic query={search} onPlay={startArabicEpisode}/>
+          <ArabicPublisherExpansion query={search} onPlay={startArabicEpisode}/>
           <ArabicPublisherBatch query={search} onPlay={startArabicEpisode}/>
           <MultiSourceArabic query={search} onPlay={startArabicEpisode}/>
           <AutoLibrary query={search} onPlay={startArabicEpisode} options={fetchOptions}/>

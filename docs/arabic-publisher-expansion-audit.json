@@ -1,0 +1,352 @@
+{
+  "films": 19,
+  "series": 7,
+  "episodes": 244,
+  "rejected": [
+    {
+      "id": "mwlAMl50d-E",
+      "title": "الكنز",
+      "reason": "canonical matches 2"
+    },
+    {
+      "id": "WKtiYjCNdWA",
+      "title": "الرغبة",
+      "reason": "existing"
+    },
+    {
+      "id": "M9dM0ZW9AXc",
+      "title": "اللمبي",
+      "reason": "existing"
+    },
+    {
+      "id": "GGMVkweqQSM",
+      "title": "المهمة",
+      "reason": "canonical matches 0"
+    },
+    {
+      "id": "yI2QrRhCHvQ",
+      "title": "دليل الاتهام",
+      "reason": "canonical matches 0"
+    },
+    {
+      "id": "kKjIgJc61Qs",
+      "title": "الرجل والقضبان",
+      "reason": "canonical matches 0"
+    },
+    {
+      "id": "UjcpbxuHM2I",
+      "title": "التجربة",
+      "reason": "canonical matches 0"
+    },
+    {
+      "id": "piMUAHBE5zU",
+      "title": "أولاد ضرغام",
+      "reason": "canonical matches 0"
+    },
+    {
+      "id": "Y-XrIKlnXqU",
+      "title": "مايوه بنت الأسطى محمود",
+      "reason": "canonical matches 0"
+    },
+    {
+      "id": "YaFkffD0rHM",
+      "title": "دقات على بابي",
+      "reason": "runtime mismatch 94"
+    },
+    {
+      "id": "dZS1YGsAFfU",
+      "title": "صاحب العمارة",
+      "reason": "runtime mismatch 0"
+    },
+    {
+      "id": "xaxzwqu",
+      "title": "العذاب امرأة",
+      "reason": "existing"
+    },
+    {
+      "id": "xaxzsri",
+      "title": "النصابين",
+      "reason": "canonical matches 0"
+    },
+    {
+      "id": "Gumwi7i87Rs",
+      "title": "غريب في الميناء",
+      "reason": "runtime mismatch 0"
+    },
+    {
+      "id": "Xx7scVUUQAI",
+      "title": "الرصيف",
+      "reason": "runtime mismatch 0"
+    },
+    {
+      "id": "x8p3ftk",
+      "title": "مرزوقة",
+      "reason": "publisher or HD mismatch"
+    },
+    {
+      "id": "xay1vle",
+      "title": "بستان الدم",
+      "reason": "publisher or HD mismatch"
+    },
+    {
+      "id": "x72cv3w",
+      "title": "أجراس الخطر",
+      "reason": "existing"
+    },
+    {
+      "id": "x7yec8h",
+      "title": "العبقري خمسة",
+      "reason": "runtime mismatch 0"
+    },
+    {
+      "id": "x7yiol1",
+      "title": "إبليس في المدينة",
+      "reason": "publisher or HD mismatch"
+    },
+    {
+      "id": "x6y24bj",
+      "title": "دموع في ليلة الزفاف",
+      "reason": "publisher or HD mismatch"
+    },
+    {
+      "id": "x8p3pkw",
+      "title": "الثلاثة يشتغلونها",
+      "reason": "publisher or HD mismatch"
+    },
+    {
+      "id": "x6y24bi",
+      "title": "خمسة في الجحيم",
+      "reason": "publisher or HD mismatch"
+    },
+    {
+      "id": "x6w0ujr",
+      "title": "الثأر",
+      "reason": "existing"
+    },
+    {
+      "id": "x6w0y01",
+      "title": "الليلة الموعودة",
+      "reason": "runtime mismatch 95"
+    },
+    {
+      "id": "x6w0n06",
+      "title": "عذراء وثلاثة رجال",
+      "reason": "publisher or HD mismatch"
+    },
+    {
+      "id": "x6w0mx6",
+      "title": "الأقزام قادمون",
+      "reason": "publisher or HD mismatch"
+    },
+    {
+      "id": "x6y1oqo",
+      "title": "نص أرنب",
+      "reason": "publisher or HD mismatch"
+    },
+    {
+      "id": "x6w0n5n",
+      "title": "التخشيبة",
+      "reason": "publisher or HD mismatch"
+    },
+    {
+      "id": "x6w0m8r",
+      "title": "اعتداء",
+      "reason": "publisher or HD mismatch"
+    },
+    {
+      "id": "x6w0mo9",
+      "title": "أخي وصديقي سأقتلك",
+      "reason": "publisher or HD mismatch"
+    },
+    {
+      "id": "1127",
+      "title": "صابر يا عم صابر",
+      "reason": "existing title"
+    },
+    {
+      "id": "1116",
+      "title": "ثمن الخوف",
+      "reason": "existing title"
+    },
+    {
+      "id": "1112",
+      "title": "البخيل وأنا",
+      "reason": "existing title"
+    },
+    {
+      "id": "1113",
+      "title": "أبناء العطش",
+      "reason": "canonical matches 0"
+    },
+    {
+      "id": "1115",
+      "title": "نادية",
+      "reason": "canonical matches 2"
+    },
+    {
+      "id": "1107",
+      "title": "الجوارح",
+      "reason": "existing title"
+    },
+    {
+      "id": "1104",
+      "title": "كيد النسا - الجزء الثاني",
+      "reason": "existing title"
+    },
+    {
+      "id": "1103",
+      "title": "خطوط حمراء",
+      "reason": "existing title"
+    },
+    {
+      "id": "1101",
+      "title": "الباطنية",
+      "reason": "existing title"
+    },
+    {
+      "id": "1105",
+      "title": "يوميات مدينة على النيل",
+      "reason": "canonical matches 0"
+    },
+    {
+      "id": "1111",
+      "title": "العودة",
+      "reason": "canonical matches 2"
+    },
+    {
+      "id": "1099",
+      "title": "كليوباترا",
+      "reason": "existing title"
+    },
+    {
+      "id": "1098",
+      "title": "كيد النسا - الجزء الأول",
+      "reason": "existing title"
+    },
+    {
+      "id": "1094",
+      "title": "قاتل بلا أجر",
+      "reason": "existing title"
+    },
+    {
+      "id": "1090",
+      "title": "دكتور أمراض نسا",
+      "reason": "existing title"
+    },
+    {
+      "id": "1097",
+      "title": "أزهار",
+      "reason": "canonical season count 1"
+    },
+    {
+      "id": "1092",
+      "title": "علي يا ويكا",
+      "reason": "canonical season count 33"
+    },
+    {
+      "id": "1089",
+      "title": "دلع بنات",
+      "reason": "existing title"
+    },
+    {
+      "id": "1085",
+      "title": "آدم",
+      "reason": "existing title"
+    },
+    {
+      "id": "1079",
+      "title": "شربات لوز",
+      "reason": "existing title"
+    },
+    {
+      "id": "1073",
+      "title": "كلبش - الجزء الأول",
+      "reason": "existing title"
+    },
+    {
+      "id": "1072",
+      "title": "يوميات زوجة مفروسة أوي - الجزء الثاني",
+      "reason": "existing title"
+    },
+    {
+      "id": "1075",
+      "title": "ليالي الحلمية - الجزء السادس",
+      "reason": "canonical season count 30"
+    },
+    {
+      "id": "1068",
+      "title": "الكبير أوي - الجزء الثاني",
+      "reason": "existing title"
+    },
+    {
+      "id": "1067",
+      "title": "الكبير أوي - الجزء الأول",
+      "reason": "existing title"
+    },
+    {
+      "id": "1066",
+      "title": "موعد مع الوحوش",
+      "reason": "canonical season count 1"
+    },
+    {
+      "id": "1163",
+      "title": "قالت العرب",
+      "reason": "canonical matches 0"
+    },
+    {
+      "id": "1162",
+      "title": "أحلام الفتى يقظان",
+      "reason": "canonical matches 0"
+    },
+    {
+      "id": "1149",
+      "title": "الراية والغيث",
+      "reason": "canonical matches 0"
+    },
+    {
+      "id": "1160",
+      "title": "ورد أسود",
+      "reason": "canonical season count 1"
+    },
+    {
+      "id": "1038",
+      "title": "المدينة الفاصلة",
+      "reason": "canonical matches 0"
+    },
+    {
+      "id": "1147",
+      "title": "حنظلة",
+      "reason": "canonical matches 0"
+    },
+    {
+      "id": "129",
+      "title": "مسلسل كان ياما كان الجزء الاول",
+      "reason": "canonical matches 2"
+    },
+    {
+      "id": "1148",
+      "title": "الذئب",
+      "reason": "canonical matches 0"
+    },
+    {
+      "id": "1042",
+      "title": "سوبر محصل",
+      "reason": "canonical matches 0"
+    },
+    {
+      "id": "1029",
+      "title": "روميو وياليت",
+      "reason": "canonical matches 0"
+    },
+    {
+      "id": "1030",
+      "title": "كوميدي تانا",
+      "reason": "canonical season count 1"
+    },
+    {
+      "id": "533",
+      "title": "المسلسل الخليجي عائلة فوق تنور ساخن",
+      "reason": "canonical season count 17"
+    }
+  ]
+}

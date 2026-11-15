@@ -1,0 +1,1379 @@
+{
+  "films": [
+    {
+      "id": "j_8IWLzi4mY",
+      "provider": "youtube",
+      "title": "صاحب المقام",
+      "publisher": "Rotana Cinema - روتانا سينما",
+      "duration": 6359,
+      "raw": "صاحب المقام | الفيلم الكامل جودة عالية جدا HD يسرا .. أسر ياسين .. أمينة خليل",
+      "source": "https://www.youtube.com/@RotanaCinema",
+      "tmdbId": 727997,
+      "year": "2020",
+      "poster": "https://image.tmdb.org/t/p/w342/gfP0iuT254VfIFdkMt9CikWDo4l.jpg",
+      "runtime": 110,
+      "adsPossible": true,
+      "evidence": "canonical runtime and public publisher embed metadata; actual playback and ad status unverified"
+    },
+    {
+      "id": "yIOUFskj_Co",
+      "provider": "youtube",
+      "title": "انت حبيبي وبس",
+      "publisher": "Rotana Cinema - روتانا سينما",
+      "duration": 4897,
+      "raw": "فيلم انت حبيبي وبس كامل | حصرياً بجودة عالية | محمود الليثي - بوسي - صافينار",
+      "source": "https://www.youtube.com/@RotanaCinema",
+      "tmdbId": 659493,
+      "year": "2019",
+      "poster": "https://image.tmdb.org/t/p/w342/3vbR7KcrpR523jrNsFk68DwsZsR.jpg",
+      "runtime": 90,
+      "adsPossible": true,
+      "evidence": "canonical runtime and public publisher embed metadata; actual playback and ad status unverified"
+    },
+    {
+      "id": "8QS9ffvhU9Q",
+      "provider": "youtube",
+      "title": "جواب اعتقال",
+      "publisher": "Rotana Cinema - روتانا سينما",
+      "duration": 5960,
+      "raw": "فيلم الاكشن والاثارة.. جواب اعتقال - بطولة النجم محمد رمضان \"HD\"",
+      "source": "https://www.youtube.com/@RotanaCinema",
+      "tmdbId": 463905,
+      "year": "2017",
+      "poster": "https://image.tmdb.org/t/p/w342/3x4AQyeNvzoDMw3DGCMoQMU1Scf.jpg",
+      "runtime": 100,
+      "adsPossible": true,
+      "evidence": "canonical runtime and public publisher embed metadata; actual playback and ad status unverified"
+    },
+    {
+      "id": "ZVy56r6a-Fo",
+      "provider": "youtube",
+      "title": "أبو شنب",
+      "publisher": "El Sobky production السبكي للإنتاج الفني",
+      "duration": 6545,
+      "raw": "حصرياً فيلم | أبو شنب | بطولة ياسمين عبد العزيز وظافر العابدين وبيومي فؤاد",
+      "source": "https://www.youtube.com/@sobkyproductions",
+      "tmdbId": 445239,
+      "year": "2016",
+      "poster": "https://image.tmdb.org/t/p/w342/y2CjiMwX2Aa3JqMKyb1uY6xN64v.jpg",
+      "runtime": 114,
+      "adsPossible": true,
+      "evidence": "canonical runtime and public publisher embed metadata; actual playback and ad status unverified"
+    },
+    {
+      "id": "Qd9__5aFE00",
+      "provider": "youtube",
+      "title": "شد أجزاء",
+      "publisher": "El Sobky production السبكي للإنتاج الفني",
+      "duration": 5963,
+      "raw": "حصرياً فيلم | شد اجزاء | بطولة محمد رمضان ودنيا سمير غانم وياسر جلال ومحمد ممدوح",
+      "source": "https://www.youtube.com/@sobkyproductions",
+      "tmdbId": 372142,
+      "year": "2015",
+      "poster": "https://image.tmdb.org/t/p/w342/oqUb4CDC70aQqGCcYwRgwrWVTzm.jpg",
+      "runtime": 94,
+      "adsPossible": true,
+      "evidence": "canonical runtime and public publisher embed metadata; actual playback and ad status unverified"
+    },
+    {
+      "id": "ODqIMm7Z1NM",
+      "provider": "youtube",
+      "title": "تيتة رهيبة",
+      "publisher": "Rotana Cinema - روتانا سينما",
+      "duration": 6009,
+      "raw": "الفيلم الكوميدي تيته رهيبة - محمد هنيدي .. بجودة HD",
+      "source": "https://www.youtube.com/@RotanaCinema",
+      "tmdbId": 246823,
+      "year": "2012",
+      "poster": "https://image.tmdb.org/t/p/w342/2tIgs4MC3TPH84srRjCfuVruw27.jpg",
+      "runtime": 100,
+      "adsPossible": true,
+      "evidence": "canonical runtime and public publisher embed metadata; actual playback and ad status unverified"
+    },
+    {
+      "id": "gr8ExWtFglY",
+      "provider": "youtube",
+      "title": "عمر وسلمى ٢",
+      "publisher": "Rotana Cinema - روتانا سينما",
+      "duration": 6039,
+      "raw": "فيلم عمر وسلمى الجزء 2 كامل \" تامر حسني \" - أعلى جودة HD",
+      "source": "https://www.youtube.com/@RotanaCinema",
+      "tmdbId": 57407,
+      "year": "2009",
+      "poster": "https://image.tmdb.org/t/p/w342/w3T9m6IdrcepbBIwWnCKxqtdvT8.jpg",
+      "runtime": 101,
+      "adsPossible": true,
+      "evidence": "canonical runtime and public publisher embed metadata; actual playback and ad status unverified"
+    },
+    {
+      "id": "JOPudMmSzOE",
+      "provider": "youtube",
+      "title": "أمير الظلام",
+      "publisher": "AlarabiaCinema",
+      "duration": 6689,
+      "raw": "فيلم أمير الظلام - بطولة عادل إمام | الفيلم الكامل",
+      "source": "https://www.youtube.com/@AlarabiaCinema",
+      "tmdbId": 86584,
+      "year": "2002",
+      "poster": "https://image.tmdb.org/t/p/w342/kJ7U9hfuJbpXaeYcEB75uxPWSuD.jpg",
+      "runtime": 120,
+      "adsPossible": true,
+      "evidence": "canonical runtime and public publisher embed metadata; actual playback and ad status unverified"
+    },
+    {
+      "id": "9iL2sIoA38g",
+      "provider": "youtube",
+      "title": "رجل له ماضي",
+      "publisher": "ماسبيرو زمان",
+      "duration": 5969,
+      "raw": "الفيلم العربي.. رجل له ماضي بطولة فاروق الفيشاوي",
+      "source": "https://www.youtube.com/@MasperoZaman",
+      "tmdbId": 1274760,
+      "year": "2000",
+      "poster": "https://image.tmdb.org/t/p/w342/p9EOLq2NsxBYcdSxEGhpKVp3VOz.jpg",
+      "runtime": 100,
+      "adsPossible": true,
+      "evidence": "canonical runtime and public publisher embed metadata; actual playback and ad status unverified"
+    },
+    {
+      "id": "IdYwIgqa_2o",
+      "provider": "youtube",
+      "title": "حائط البطولات",
+      "publisher": "ماسبيرو زمان",
+      "duration": 8286,
+      "raw": "سهرة الجمعة الفيلم العربي | حائط البطولات",
+      "source": "https://www.youtube.com/@MasperoZaman",
+      "tmdbId": 1108039,
+      "year": "1998",
+      "poster": "https://image.tmdb.org/t/p/w342/u3bJSTuGYZx3EwXZXDfFw8VhwiS.jpg",
+      "runtime": 125,
+      "adsPossible": true,
+      "evidence": "canonical runtime and public publisher embed metadata; actual playback and ad status unverified"
+    },
+    {
+      "id": "LfXAk07dGXQ",
+      "provider": "youtube",
+      "title": "أمريكا شيكا بيكا",
+      "publisher": "Rotana Cinema - روتانا سينما",
+      "duration": 7379,
+      "raw": "فيلم أمريكا شيكا بيكا كامل \"HD\" | بطولة محمد فؤاد و شويكار و نهلة سلامة",
+      "source": "https://www.youtube.com/@RotanaCinema",
+      "tmdbId": 327794,
+      "year": "1993",
+      "poster": "https://image.tmdb.org/t/p/w342/bB9G5Zh1Yy6aVN1oMDCdSGwGeSY.jpg",
+      "runtime": 123,
+      "adsPossible": true,
+      "evidence": "canonical runtime and public publisher embed metadata; actual playback and ad status unverified"
+    },
+    {
+      "id": "iR_7zU6j_Mg",
+      "provider": "youtube",
+      "title": "في العشق والسفر",
+      "publisher": "ماسبيرو زمان",
+      "duration": 7268,
+      "raw": "فيلم في العشق والسفر ׀ حنان ترك | محمود مسعود",
+      "source": "https://www.youtube.com/@MasperoZaman",
+      "tmdbId": 1226872,
+      "year": "1991",
+      "poster": "https://image.tmdb.org/t/p/w342/2GMknvfKKTv4scJvhXjovWFIrmc.jpg",
+      "runtime": 121,
+      "adsPossible": true,
+      "evidence": "canonical runtime and public publisher embed metadata; actual playback and ad status unverified"
+    },
+    {
+      "id": "M3HSi7bW3s0",
+      "provider": "youtube",
+      "title": "جواز في السر",
+      "publisher": "ماسبيرو زمان",
+      "duration": 5941,
+      "raw": "الفيلم العربي  جواز في السر",
+      "source": "https://www.youtube.com/@MasperoZaman",
+      "tmdbId": 1061619,
+      "year": "1988",
+      "poster": "https://image.tmdb.org/t/p/w342/6sqenIYTbFNJp6IBChqKm5xeLhb.jpg",
+      "runtime": 100,
+      "adsPossible": true,
+      "evidence": "canonical runtime and public publisher embed metadata; actual playback and ad status unverified"
+    },
+    {
+      "id": "mJoIECirAEs",
+      "provider": "youtube",
+      "title": "كل شيء قبل أن ينتهي العمر",
+      "publisher": "ماسبيرو زمان",
+      "duration": 5627,
+      "raw": "الفيلم العربي _ كل شئ قبل أن ينتهي العمر",
+      "source": "https://www.youtube.com/@MasperoZaman",
+      "tmdbId": 780235,
+      "year": "1987",
+      "poster": "https://image.tmdb.org/t/p/w342/sVLDwOzwcBn9j0VxHVDarzFSHFD.jpg",
+      "runtime": 93,
+      "adsPossible": true,
+      "evidence": "canonical runtime and public publisher embed metadata; actual playback and ad status unverified"
+    },
+    {
+      "id": "zOl6Hda0tLM",
+      "provider": "youtube",
+      "title": "القانون لا يعرف عائشة",
+      "publisher": "ماسبيرو زمان",
+      "duration": 5180,
+      "raw": "الفيلم العربي القانون لا يعرف عائشة",
+      "source": "https://www.youtube.com/@MasperoZaman",
+      "tmdbId": 1606197,
+      "year": "1987",
+      "poster": "https://image.tmdb.org/t/p/w342/oTT69IVH5WkSuoMlXBI9bMtKlJY.jpg",
+      "runtime": 87,
+      "adsPossible": true,
+      "evidence": "canonical runtime and public publisher embed metadata; actual playback and ad status unverified"
+    },
+    {
+      "id": "SsBz4rr3fTs",
+      "provider": "youtube",
+      "title": "محاكمة علي بابا",
+      "publisher": "ماسبيرو زمان",
+      "duration": 6157,
+      "raw": "الفيلم العربي.. محاكمة علي بابا بطولة يحيى الفخراني",
+      "source": "https://www.youtube.com/@MasperoZaman",
+      "tmdbId": 748086,
+      "year": "1987",
+      "poster": "https://image.tmdb.org/t/p/w342/5WLClpwis9jHRXjVFjeMd9kL2bI.jpg",
+      "runtime": 103,
+      "adsPossible": true,
+      "evidence": "canonical runtime and public publisher embed metadata; actual playback and ad status unverified"
+    },
+    {
+      "id": "arTNieyWsng",
+      "provider": "youtube",
+      "title": "إنهم يسرقون الأرانب",
+      "publisher": "Rotana Cinema - روتانا سينما",
+      "duration": 5987,
+      "raw": "الفيلم الكوميدي انهم يسرقون الارانب | بطولة يحيى الفخراني و سمير غانم و لبلبة و جميل راتب",
+      "source": "https://www.youtube.com/@RotanaCinema",
+      "tmdbId": 757609,
+      "year": "1983",
+      "poster": "https://image.tmdb.org/t/p/w342/6jJxGlkxgEOGMGYKJbCAtm2hXzl.jpg",
+      "runtime": 100,
+      "adsPossible": true,
+      "evidence": "canonical runtime and public publisher embed metadata; actual playback and ad status unverified"
+    },
+    {
+      "id": "JbbD2iIMK54",
+      "provider": "youtube",
+      "title": "درب الهوى",
+      "publisher": "El Sobky production السبكي للإنتاج الفني",
+      "duration": 8234,
+      "raw": "حصرياً فيلم | درب الهوى | بطولة احمد زكي ومحمود عبدالعزيز ويسرا ومديحة كامل وفاروق الفيشاوي",
+      "source": "https://www.youtube.com/@sobkyproductions",
+      "tmdbId": 329339,
+      "year": "1983",
+      "poster": "https://image.tmdb.org/t/p/w342/1MyJGoFUIJxzwirTB0W5xonU0GS.jpg",
+      "runtime": 128,
+      "adsPossible": true,
+      "evidence": "canonical runtime and public publisher embed metadata; actual playback and ad status unverified"
+    },
+    {
+      "id": "E7AqcYjGAu4",
+      "provider": "youtube",
+      "title": "سهم الله",
+      "publisher": "ماسبيرو زمان",
+      "duration": 4886,
+      "raw": "الفيلم العربي: سهم الله .. يوسف شعبان - منى جبر",
+      "source": "https://www.youtube.com/@MasperoZaman",
+      "tmdbId": 1389408,
+      "year": "1958",
+      "poster": "https://image.tmdb.org/t/p/w342/rKFKJFhMoT5RPaoljLWC5nic4Fl.jpg",
+      "runtime": 81,
+      "adsPossible": true,
+      "evidence": "canonical runtime and public publisher embed metadata; actual playback and ad status unverified"
+    }
+  ],
+  "series": [
+    {
+      "id": "tmdb:94512:2",
+      "title": "أبو جانتي",
+      "tmdbId": 94512,
+      "year": "2012",
+      "season": 2,
+      "expected": 30,
+      "publisher": "روتانا خليجية",
+      "source": "https://www.youtube.com/@khalejiatv",
+      "poster": "https://image.tmdb.org/t/p/w342/iFy89ucyqbKJFG0mC5wqtrblPW.jpg",
+      "episodes": [
+        {
+          "number": 1,
+          "id": "0IrYsG3RM5Q"
+        },
+        {
+          "number": 2,
+          "id": "TbKHWJ5XGcc"
+        },
+        {
+          "number": 3,
+          "id": "jkm4aH3tCnQ"
+        },
+        {
+          "number": 4,
+          "id": "eYg2VSN5-9A"
+        },
+        {
+          "number": 5,
+          "id": "HlIaKCY93xo"
+        },
+        {
+          "number": 6,
+          "id": "WD321yLrtvA"
+        },
+        {
+          "number": 7,
+          "id": "hOWHuWJ7bDY"
+        },
+        {
+          "number": 8,
+          "id": "8HGg4mw9xrs"
+        },
+        {
+          "number": 9,
+          "id": "5Qc2TuBtVMw"
+        },
+        {
+          "number": 10,
+          "id": "9mPF74rQksE"
+        },
+        {
+          "number": 11,
+          "id": "Db--itoT0D4"
+        },
+        {
+          "number": 12,
+          "id": "VrZbmtleTlk"
+        },
+        {
+          "number": 13,
+          "id": "0QA2EqV8Qhg"
+        },
+        {
+          "number": 14,
+          "id": "YW3rhgLquYk"
+        },
+        {
+          "number": 15,
+          "id": "PIh_556LP_4"
+        },
+        {
+          "number": 16,
+          "id": "iqTOikb8aqI"
+        },
+        {
+          "number": 17,
+          "id": "PMTA446BOfE"
+        },
+        {
+          "number": 18,
+          "id": "rzP4HZfYuxs"
+        },
+        {
+          "number": 19,
+          "id": "9I_3PgumpRY"
+        },
+        {
+          "number": 20,
+          "id": "swgUGF2_JAg"
+        },
+        {
+          "number": 21,
+          "id": "juhJbn52nQM"
+        },
+        {
+          "number": 22,
+          "id": "X3KhKMAiAjU"
+        },
+        {
+          "number": 23,
+          "id": "9jKOaFDSxOs"
+        },
+        {
+          "number": 24,
+          "id": "3vHd4c1HMUk"
+        },
+        {
+          "number": 25,
+          "id": "3AXIIHxcSbE"
+        },
+        {
+          "number": 26,
+          "id": "Ksr7IJbOuwo"
+        },
+        {
+          "number": 27,
+          "id": "lg4xuF1GtJg"
+        },
+        {
+          "number": 28,
+          "id": "mN9e1MrsXl0"
+        },
+        {
+          "number": 29,
+          "id": "kaVUP1Ggz_k"
+        },
+        {
+          "number": 30,
+          "id": "jXnDarPCBss"
+        }
+      ],
+      "provider": "youtube",
+      "adsPossible": true,
+      "evidence": "canonical season count and existing individual publisher oEmbed audit; HD, runtime and live playback not independently verified"
+    },
+    {
+      "id": "tmdb:58887:1",
+      "title": "عُمَرْ‎",
+      "tmdbId": 58887,
+      "year": "2012",
+      "season": 1,
+      "expected": 31,
+      "publisher": "Qatar Television تلفزيون قطر",
+      "source": "https://www.youtube.com/@QatarTelevision",
+      "poster": "https://image.tmdb.org/t/p/w342/pbwfUzQ6ofZ5cS8NFDkr7zqgbaC.jpg",
+      "episodes": [
+        {
+          "number": 1,
+          "id": "cu68afTJVlk"
+        },
+        {
+          "number": 2,
+          "id": "UO-mGxqGhUc"
+        },
+        {
+          "number": 3,
+          "id": "HxaeRdytSx8"
+        },
+        {
+          "number": 4,
+          "id": "0dSvPixujFI"
+        },
+        {
+          "number": 5,
+          "id": "cyKI6nZVGQQ"
+        },
+        {
+          "number": 6,
+          "id": "Rn2lRGPg4gg"
+        },
+        {
+          "number": 7,
+          "id": "gDCokG57ZeM"
+        },
+        {
+          "number": 8,
+          "id": "gjoUHLAvmx8"
+        },
+        {
+          "number": 9,
+          "id": "qe7APpD6B1w"
+        },
+        {
+          "number": 10,
+          "id": "Jr5dMumcKaU"
+        },
+        {
+          "number": 11,
+          "id": "nNK4es84vxI"
+        },
+        {
+          "number": 12,
+          "id": "_nkexHzMPGs"
+        },
+        {
+          "number": 13,
+          "id": "LKYXPkifeKs"
+        },
+        {
+          "number": 14,
+          "id": "qW8OP7tq2yc"
+        },
+        {
+          "number": 15,
+          "id": "OrbXoTzFgHI"
+        },
+        {
+          "number": 16,
+          "id": "vHMHpDPG6n0"
+        },
+        {
+          "number": 17,
+          "id": "Dd_qQ_myIxI"
+        },
+        {
+          "number": 18,
+          "id": "HyY6h-0Spyo"
+        },
+        {
+          "number": 19,
+          "id": "2j2TPA_k-TM"
+        },
+        {
+          "number": 20,
+          "id": "3ouQLU1hBN8"
+        },
+        {
+          "number": 21,
+          "id": "y9YN5-Lhu2w"
+        },
+        {
+          "number": 22,
+          "id": "OKXY24kQIxA"
+        },
+        {
+          "number": 23,
+          "id": "mEhp-_BhxQg"
+        },
+        {
+          "number": 24,
+          "id": "1DDPbVBzEcQ"
+        },
+        {
+          "number": 25,
+          "id": "n56UjGF3PNo"
+        },
+        {
+          "number": 26,
+          "id": "jiSWcPsjk5U"
+        },
+        {
+          "number": 27,
+          "id": "66lbDErXkns"
+        },
+        {
+          "number": 28,
+          "id": "1riRoyyxqR0"
+        },
+        {
+          "number": 29,
+          "id": "YkpPXO_r8P8"
+        },
+        {
+          "number": 30,
+          "id": "GumhWIuNP6k"
+        },
+        {
+          "number": 31,
+          "id": "TomHvYCxsbA"
+        }
+      ],
+      "provider": "youtube",
+      "adsPossible": true,
+      "evidence": "canonical season count and existing individual publisher oEmbed audit; HD, runtime and live playback not independently verified"
+    },
+    {
+      "id": "tmdb:250932:1",
+      "title": "الفوريجي",
+      "tmdbId": 250932,
+      "year": "2010",
+      "season": 1,
+      "expected": 30,
+      "publisher": "Verdi Production House",
+      "source": "https://www.youtube.com/@VerdiProductionHouse",
+      "poster": "https://image.tmdb.org/t/p/w342/eqinng3i3qyFDsIZqSIazxoY813.jpg",
+      "episodes": [
+        {
+          "number": 1,
+          "id": "WQd8wBHCRz0"
+        },
+        {
+          "number": 2,
+          "id": "8mZM1e1gXac"
+        },
+        {
+          "number": 3,
+          "id": "ys7gHZovi6g"
+        },
+        {
+          "number": 4,
+          "id": "u4cou3lG5dI"
+        },
+        {
+          "number": 5,
+          "id": "gULMzYxKjUo"
+        },
+        {
+          "number": 6,
+          "id": "LMvCrtFrjDo"
+        },
+        {
+          "number": 7,
+          "id": "oeSCcESZ3XU"
+        },
+        {
+          "number": 8,
+          "id": "-LYLGesdvNI"
+        },
+        {
+          "number": 9,
+          "id": "PdBrSiyY1MA"
+        },
+        {
+          "number": 10,
+          "id": "yzAZsqWbOqU"
+        },
+        {
+          "number": 11,
+          "id": "4G2vnfx18Ao"
+        },
+        {
+          "number": 12,
+          "id": "csAA7JJpPPg"
+        },
+        {
+          "number": 13,
+          "id": "5vEoAFqFaAc"
+        },
+        {
+          "number": 14,
+          "id": "_75p4q9inbA"
+        },
+        {
+          "number": 15,
+          "id": "L_xrJGtmRow"
+        },
+        {
+          "number": 16,
+          "id": "TyT0OGL3Vng"
+        },
+        {
+          "number": 17,
+          "id": "sjYfPw35uyQ"
+        },
+        {
+          "number": 18,
+          "id": "VZX--fNqBK0"
+        },
+        {
+          "number": 19,
+          "id": "X63hhGkjNTU"
+        },
+        {
+          "number": 20,
+          "id": "DbahHdLAtv0"
+        },
+        {
+          "number": 21,
+          "id": "DLiu853pP08"
+        },
+        {
+          "number": 22,
+          "id": "pe03QLBfSGQ"
+        },
+        {
+          "number": 23,
+          "id": "WcKJXIXjI08"
+        },
+        {
+          "number": 24,
+          "id": "CElMhKG3Gnk"
+        },
+        {
+          "number": 25,
+          "id": "hiZYWKW1Hyo"
+        },
+        {
+          "number": 26,
+          "id": "Y-1LRDtYh-I"
+        },
+        {
+          "number": 27,
+          "id": "FJU1gfP2vF8"
+        },
+        {
+          "number": 28,
+          "id": "YUu44Kxrjqg"
+        },
+        {
+          "number": 29,
+          "id": "A15Vmp-Yujg"
+        },
+        {
+          "number": 30,
+          "id": "PJ5N7oe1nbA"
+        }
+      ],
+      "provider": "youtube",
+      "adsPossible": true,
+      "evidence": "canonical season count and existing individual publisher oEmbed audit; HD, runtime and live playback not independently verified"
+    },
+    {
+      "id": "tmdb:55992:1",
+      "title": "فارس بلا جواد",
+      "tmdbId": 55992,
+      "year": "2002",
+      "season": 1,
+      "expected": 41,
+      "publisher": "ماسبيرو دراما",
+      "source": "https://www.youtube.com/@MasperoDrama",
+      "poster": "https://image.tmdb.org/t/p/w342/abR4X5YFf7hC32X6iLHQC97OVqI.jpg",
+      "episodes": [
+        {
+          "number": 1,
+          "id": "-K-btN66vdE"
+        },
+        {
+          "number": 2,
+          "id": "qrBFb9EPlhM"
+        },
+        {
+          "number": 3,
+          "id": "K5XVz9XPFxQ"
+        },
+        {
+          "number": 4,
+          "id": "m8rnJLYXpek"
+        },
+        {
+          "number": 5,
+          "id": "PvEDJYj9gi8"
+        },
+        {
+          "number": 6,
+          "id": "eGBRzaJFbzE"
+        },
+        {
+          "number": 7,
+          "id": "4nXUfRPw_eU"
+        },
+        {
+          "number": 8,
+          "id": "XrOCH0NE_X8"
+        },
+        {
+          "number": 9,
+          "id": "7mHt_Q_O7ro"
+        },
+        {
+          "number": 10,
+          "id": "AF570raMpHo"
+        },
+        {
+          "number": 11,
+          "id": "9UX2cWxq4nE"
+        },
+        {
+          "number": 12,
+          "id": "j1oUB-9k3fs"
+        },
+        {
+          "number": 13,
+          "id": "NRh04fRLNT8"
+        },
+        {
+          "number": 14,
+          "id": "0p5yOdXRLhc"
+        },
+        {
+          "number": 15,
+          "id": "E23aex91cPk"
+        },
+        {
+          "number": 16,
+          "id": "eIz0xTj_sF8"
+        },
+        {
+          "number": 17,
+          "id": "e2OG0Lsz5zc"
+        },
+        {
+          "number": 18,
+          "id": "Vzy4VjrggjA"
+        },
+        {
+          "number": 19,
+          "id": "TAYW9M9lSto"
+        },
+        {
+          "number": 20,
+          "id": "4rzd9YHgiXE"
+        },
+        {
+          "number": 21,
+          "id": "KiDfmu0V6wE"
+        },
+        {
+          "number": 22,
+          "id": "0LZdo-kRAkQ"
+        },
+        {
+          "number": 23,
+          "id": "jsXd0bpm9EE"
+        },
+        {
+          "number": 24,
+          "id": "U1AvZSpASbg"
+        },
+        {
+          "number": 25,
+          "id": "r388DIUR5kA"
+        },
+        {
+          "number": 26,
+          "id": "Z7VPWwh_Oco"
+        },
+        {
+          "number": 27,
+          "id": "GDD78zMh2_U"
+        },
+        {
+          "number": 28,
+          "id": "AWqmlx1a0E4"
+        },
+        {
+          "number": 29,
+          "id": "cIUsyeU6ToY"
+        },
+        {
+          "number": 30,
+          "id": "9cpKBOzOlCc"
+        },
+        {
+          "number": 31,
+          "id": "tU8Q0P2McAk"
+        },
+        {
+          "number": 32,
+          "id": "hWSnzKD66aE"
+        },
+        {
+          "number": 33,
+          "id": "vtwsz4qBlG4"
+        },
+        {
+          "number": 34,
+          "id": "B9cXucYtee8"
+        },
+        {
+          "number": 35,
+          "id": "vKhyo_d93k8"
+        },
+        {
+          "number": 36,
+          "id": "h50t1X_ShME"
+        },
+        {
+          "number": 37,
+          "id": "pfSKHOr5bYU"
+        },
+        {
+          "number": 38,
+          "id": "OUZGJSi9iVI"
+        },
+        {
+          "number": 39,
+          "id": "B6yreflMoGs"
+        },
+        {
+          "number": 40,
+          "id": "Sslr2SyIrn4"
+        },
+        {
+          "number": 41,
+          "id": "zM90FWVbZw0"
+        }
+      ],
+      "provider": "youtube",
+      "adsPossible": true,
+      "evidence": "canonical season count and existing individual publisher oEmbed audit; HD, runtime and live playback not independently verified"
+    },
+    {
+      "id": "tmdb:52560:5",
+      "title": "ليالي الحلمية",
+      "tmdbId": 52560,
+      "year": "1995",
+      "season": 5,
+      "expected": 40,
+      "publisher": "ماسبيرو دراما",
+      "source": "https://www.youtube.com/@MasperoDrama",
+      "poster": "https://image.tmdb.org/t/p/w342/b192ygPjNQxd1ND24WxgXpSNury.jpg",
+      "episodes": [
+        {
+          "number": 1,
+          "id": "TPEQ5uk8sYo"
+        },
+        {
+          "number": 2,
+          "id": "ZWif-5eBfGI"
+        },
+        {
+          "number": 3,
+          "id": "zDOJHtNUhR4"
+        },
+        {
+          "number": 4,
+          "id": "dkaZ92Ml0Pg"
+        },
+        {
+          "number": 5,
+          "id": "PcojGqsWxXw"
+        },
+        {
+          "number": 6,
+          "id": "MKhtppxsip0"
+        },
+        {
+          "number": 7,
+          "id": "qOn9mXx9LDw"
+        },
+        {
+          "number": 8,
+          "id": "hI6Kkts_y1A"
+        },
+        {
+          "number": 9,
+          "id": "UQKBpVVcERg"
+        },
+        {
+          "number": 10,
+          "id": "N_Hn-SZMR7I"
+        },
+        {
+          "number": 11,
+          "id": "OkW7mvvCCTA"
+        },
+        {
+          "number": 12,
+          "id": "wFb8OEzOHxs"
+        },
+        {
+          "number": 13,
+          "id": "kAAfz1605jI"
+        },
+        {
+          "number": 14,
+          "id": "mfqpcjzBWI4"
+        },
+        {
+          "number": 15,
+          "id": "tLNMgC6vQw4"
+        },
+        {
+          "number": 16,
+          "id": "c5BgHIFB0Jo"
+        },
+        {
+          "number": 17,
+          "id": "RYLH8isI1No"
+        },
+        {
+          "number": 18,
+          "id": "6HqFm-k6SDg"
+        },
+        {
+          "number": 19,
+          "id": "Ip0_2YoxdIQ"
+        },
+        {
+          "number": 20,
+          "id": "Gg0qJFV3qaw"
+        },
+        {
+          "number": 21,
+          "id": "mLZil04eapg"
+        },
+        {
+          "number": 22,
+          "id": "67ViAuW8dk8"
+        },
+        {
+          "number": 23,
+          "id": "lcmk0BnvM2E"
+        },
+        {
+          "number": 24,
+          "id": "UbEJQRFjQ0c"
+        },
+        {
+          "number": 25,
+          "id": "JbK951g4BNg"
+        },
+        {
+          "number": 26,
+          "id": "z3VjVsRLI7Q"
+        },
+        {
+          "number": 27,
+          "id": "_c6jfGPdVOM"
+        },
+        {
+          "number": 28,
+          "id": "xYNVT9t1uzM"
+        },
+        {
+          "number": 29,
+          "id": "dA9wsLMyCg4"
+        },
+        {
+          "number": 30,
+          "id": "nSHmKZBVGOE"
+        },
+        {
+          "number": 31,
+          "id": "gMYuKbkGqe0"
+        },
+        {
+          "number": 32,
+          "id": "ZFslDJAMggM"
+        },
+        {
+          "number": 33,
+          "id": "cFoW3NL0P_c"
+        },
+        {
+          "number": 34,
+          "id": "6LTRruBYZKU"
+        },
+        {
+          "number": 35,
+          "id": "EJjd-fQoHrY"
+        },
+        {
+          "number": 36,
+          "id": "s8q3YvnwNhM"
+        },
+        {
+          "number": 37,
+          "id": "hZuXzhWfo5E"
+        },
+        {
+          "number": 38,
+          "id": "NvA1UMXyW0w"
+        },
+        {
+          "number": 39,
+          "id": "URUqj-J0U9g"
+        },
+        {
+          "number": 40,
+          "id": "X33pVoarUTc"
+        }
+      ],
+      "provider": "youtube",
+      "adsPossible": true,
+      "evidence": "canonical season count and existing individual publisher oEmbed audit; HD, runtime and live playback not independently verified"
+    },
+    {
+      "id": "tmdb:52560:4",
+      "title": "ليالي الحلمية",
+      "tmdbId": 52560,
+      "year": "1992",
+      "season": 4,
+      "expected": 42,
+      "publisher": "ماسبيرو دراما",
+      "source": "https://www.youtube.com/@MasperoDrama",
+      "poster": "https://image.tmdb.org/t/p/w342/b192ygPjNQxd1ND24WxgXpSNury.jpg",
+      "episodes": [
+        {
+          "number": 1,
+          "id": "X2w8qo73gBk"
+        },
+        {
+          "number": 2,
+          "id": "o9I29zcp8y4"
+        },
+        {
+          "number": 3,
+          "id": "GyeqKmaqOxs"
+        },
+        {
+          "number": 4,
+          "id": "z1XF-3TqyA4"
+        },
+        {
+          "number": 5,
+          "id": "VU4LNRK2flM"
+        },
+        {
+          "number": 6,
+          "id": "GppmzK3G1Do"
+        },
+        {
+          "number": 7,
+          "id": "Ayj1NfEQpPo"
+        },
+        {
+          "number": 8,
+          "id": "bBcIYSSJj7c"
+        },
+        {
+          "number": 9,
+          "id": "xvKdFSvZTjM"
+        },
+        {
+          "number": 10,
+          "id": "IalOMhsahv4"
+        },
+        {
+          "number": 11,
+          "id": "y-i1UwPwyV8"
+        },
+        {
+          "number": 12,
+          "id": "uW8SX23IQnA"
+        },
+        {
+          "number": 13,
+          "id": "Epy2pPGSRoM"
+        },
+        {
+          "number": 14,
+          "id": "df2EPgJEgIA"
+        },
+        {
+          "number": 15,
+          "id": "-MRGpQ1k78Y"
+        },
+        {
+          "number": 16,
+          "id": "BSvq0ZIlWw8"
+        },
+        {
+          "number": 17,
+          "id": "-BKL2lSejYo"
+        },
+        {
+          "number": 18,
+          "id": "oMf4od7OOI8"
+        },
+        {
+          "number": 19,
+          "id": "NTZ6odwk8Gg"
+        },
+        {
+          "number": 20,
+          "id": "dZcwyJswwyo"
+        },
+        {
+          "number": 21,
+          "id": "xF8yL-ZzocI"
+        },
+        {
+          "number": 22,
+          "id": "EwiRbZGtYqo"
+        },
+        {
+          "number": 23,
+          "id": "A_aYPud4qrI"
+        },
+        {
+          "number": 24,
+          "id": "DLmUgnv6YhQ"
+        },
+        {
+          "number": 25,
+          "id": "nWx81jiU4Vg"
+        },
+        {
+          "number": 26,
+          "id": "F4na6aYmNrc"
+        },
+        {
+          "number": 27,
+          "id": "I5P_98KLMXY"
+        },
+        {
+          "number": 28,
+          "id": "GfOuyOfkugg"
+        },
+        {
+          "number": 29,
+          "id": "JFXpszxzWuY"
+        },
+        {
+          "number": 30,
+          "id": "pEEndtw1gOA"
+        },
+        {
+          "number": 31,
+          "id": "GykzYVerOjM"
+        },
+        {
+          "number": 32,
+          "id": "RTXS0DXzyuM"
+        },
+        {
+          "number": 33,
+          "id": "hOF5GYLmwyo"
+        },
+        {
+          "number": 34,
+          "id": "p1YS7paNe8Q"
+        },
+        {
+          "number": 35,
+          "id": "02iNlo2AG_I"
+        },
+        {
+          "number": 36,
+          "id": "bnyVZbCRCx0"
+        },
+        {
+          "number": 37,
+          "id": "8ETPSz37Lko"
+        },
+        {
+          "number": 38,
+          "id": "-5G3l6JjCsQ"
+        },
+        {
+          "number": 39,
+          "id": "2NKc-_OCDGg"
+        },
+        {
+          "number": 40,
+          "id": "dSrOc8cTq24"
+        },
+        {
+          "number": 41,
+          "id": "p0GUnbntKpU"
+        },
+        {
+          "number": 42,
+          "id": "KLUcG0WuSq0"
+        }
+      ],
+      "provider": "youtube",
+      "adsPossible": true,
+      "evidence": "canonical season count and existing individual publisher oEmbed audit; HD, runtime and live playback not independently verified"
+    },
+    {
+      "id": "tmdb:52560:3",
+      "title": "ليالي الحلمية",
+      "tmdbId": 52560,
+      "year": "1990",
+      "season": 3,
+      "expected": 30,
+      "publisher": "ماسبيرو دراما",
+      "source": "https://www.youtube.com/@MasperoDrama",
+      "poster": "https://image.tmdb.org/t/p/w342/b192ygPjNQxd1ND24WxgXpSNury.jpg",
+      "episodes": [
+        {
+          "number": 1,
+          "id": "u_ArIWGy2FE"
+        },
+        {
+          "number": 2,
+          "id": "JkBfEzWL6zQ"
+        },
+        {
+          "number": 3,
+          "id": "J8RrlNmdAGI"
+        },
+        {
+          "number": 4,
+          "id": "-rZ0nlcvcTE"
+        },
+        {
+          "number": 5,
+          "id": "U1_cx_czPDU"
+        },
+        {
+          "number": 6,
+          "id": "wTmazBg4JSA"
+        },
+        {
+          "number": 7,
+          "id": "mG024qbmRkg"
+        },
+        {
+          "number": 8,
+          "id": "VZzwXNoTGLY"
+        },
+        {
+          "number": 9,
+          "id": "mpIIHoM8kyc"
+        },
+        {
+          "number": 10,
+          "id": "eKqPt0bPtNA"
+        },
+        {
+          "number": 11,
+          "id": "ohJrI8H_t0Y"
+        },
+        {
+          "number": 12,
+          "id": "rHLP3jIlTKI"
+        },
+        {
+          "number": 13,
+          "id": "LuBsTLhlrLk"
+        },
+        {
+          "number": 14,
+          "id": "9slZYXmLypY"
+        },
+        {
+          "number": 15,
+          "id": "tStVA1eFDkI"
+        },
+        {
+          "number": 16,
+          "id": "e5O2nx1cpaI"
+        },
+        {
+          "number": 17,
+          "id": "e4O1it2Ai3s"
+        },
+        {
+          "number": 18,
+          "id": "P7sA26fjnLc"
+        },
+        {
+          "number": 19,
+          "id": "Va7L_HN6goE"
+        },
+        {
+          "number": 20,
+          "id": "hfgMdtoFoIw"
+        },
+        {
+          "number": 21,
+          "id": "GO75X5KbmFk"
+        },
+        {
+          "number": 22,
+          "id": "i9-R9-59NTw"
+        },
+        {
+          "number": 23,
+          "id": "J-7Aku8w_Ks"
+        },
+        {
+          "number": 24,
+          "id": "ZHzmFQqpdA8"
+        },
+        {
+          "number": 25,
+          "id": "io09efck-X0"
+        },
+        {
+          "number": 26,
+          "id": "htQRjl58D4k"
+        },
+        {
+          "number": 27,
+          "id": "iNiHO-SZuus"
+        },
+        {
+          "number": 28,
+          "id": "Ro_5Z-x1now"
+        },
+        {
+          "number": 29,
+          "id": "1kVhpsFv3H8"
+        },
+        {
+          "number": 30,
+          "id": "WkSOniXe5rE"
+        }
+      ],
+      "provider": "youtube",
+      "adsPossible": true,
+      "evidence": "canonical season count and existing individual publisher oEmbed audit; HD, runtime and live playback not independently verified"
+    }
+  ]
+}
