@@ -363,7 +363,22 @@
       "catalogMatches": [],
       "listedDurationSeconds": 6184,
       "officialDurationSeconds": 6169,
-      "officialAvailability": "https://shahid.mbc.net/ar/movies/Gawaza-Toxic/movie-4992074626692"
+      "officialAvailability": "https://shahid.mbc.net/ar/movies/Gawaza-Toxic/movie-4992074626692",
+      "playbackAudit": {
+        "testedAt": "2026-11-15",
+        "watchPage": "https://yam.ahwaktv.net/watch.php?vid=66Bc3868f",
+        "httpStatus": 200,
+        "frameOptions": "SAMEORIGIN",
+        "embedFieldEmpty": true,
+        "videoElementsAfterBrowserLoad": 0,
+        "observedThirdPartyFrameOrigins": [
+          "https://t.dtscout.com",
+          "https://tags.crwdcntrl.net"
+        ],
+        "status": "not-playback-verified",
+        "authorization": "not-established",
+        "note": "Public watch page prohibits cross-origin framing. Embed share field remained empty in browser. No video element observed after initial load; this does not establish absence of playback after interaction. No source activated."
+      }
     }
   ]
 }
