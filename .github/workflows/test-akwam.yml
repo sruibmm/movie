@@ -6,6 +6,8 @@ on:
       - 'worker/akwam-link-refresh.js'
       - 'worker/source-sync-app.js'
       - 'scripts/akwam-*.mjs'
+      - 'scripts/nuvio-akwam-*.mjs'
+      - 'docs/akwam-nuvio-staging/**'
       - 'package.json'
       - '.github/workflows/test-akwam.yml'
   workflow_dispatch:
@@ -24,3 +26,5 @@ jobs:
         run: node scripts/akwam-link-refresh-test.mjs
       - name: Test metadata parser (offline fixture)
         run: node scripts/akwam-bulk-stage.mjs --self-test
+      - name: Validate 16,389 Nuvio Akwam staged records
+        run: node scripts/nuvio-akwam-staging-test.mjs
