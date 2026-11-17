@@ -1,0 +1,119 @@
+{
+  "schema": 1,
+  "status": "staged-not-published",
+  "source": {
+    "repository": "SafaaSalam/Arabic-Nuvio",
+    "branch": "main",
+    "snapshotDate": "2026-11-17",
+    "files": [
+      {
+        "path": "data/store/akwam_latest_movies.json",
+        "sha": "42ee90a0a89ac9e2000cf4f17ee2dca3482a1fb7",
+        "rawRows": 10806
+      },
+      {
+        "path": "data/store/akwam_latest_series.json",
+        "sha": "2ecdcb318e3f43c2de86bf76cde3d97d8cb25921",
+        "rawRows": 5581
+      },
+      {
+        "path": "data/store/akwam_arabic_series.json",
+        "sha": "2b2a88f479c6f0ed6aa3cc6ce29a99e2f27cf858",
+        "rawRows": 1646
+      }
+    ]
+  },
+  "catalog": {
+    "uniqueTitles": 16389,
+    "movies": 10806,
+    "series": 5583,
+    "arabicSeriesCategory": 1646,
+    "duplicateSourceReferences": 1644,
+    "chunkSize": 1000,
+    "chunks": 17,
+    "files": [
+      {
+        "path": "akwam-001.json",
+        "rows": 1000
+      },
+      {
+        "path": "akwam-002.json",
+        "rows": 1000
+      },
+      {
+        "path": "akwam-003.json",
+        "rows": 1000
+      },
+      {
+        "path": "akwam-004.json",
+        "rows": 1000
+      },
+      {
+        "path": "akwam-005.json",
+        "rows": 1000
+      },
+      {
+        "path": "akwam-006.json",
+        "rows": 1000
+      },
+      {
+        "path": "akwam-007.json",
+        "rows": 1000
+      },
+      {
+        "path": "akwam-008.json",
+        "rows": 1000
+      },
+      {
+        "path": "akwam-009.json",
+        "rows": 1000
+      },
+      {
+        "path": "akwam-010.json",
+        "rows": 1000
+      },
+      {
+        "path": "akwam-011.json",
+        "rows": 1000
+      },
+      {
+        "path": "akwam-012.json",
+        "rows": 1000
+      },
+      {
+        "path": "akwam-013.json",
+        "rows": 1000
+      },
+      {
+        "path": "akwam-014.json",
+        "rows": 1000
+      },
+      {
+        "path": "akwam-015.json",
+        "rows": 1000
+      },
+      {
+        "path": "akwam-016.json",
+        "rows": 1000
+      },
+      {
+        "path": "akwam-017.json",
+        "rows": 389
+      }
+    ]
+  },
+  "playback": {
+    "streamUrlsImported": 0,
+    "contentDownloaded": 0,
+    "verifiedQualityCount": 0,
+    "verifiedPlaybackCount": 0,
+    "publicPublishing": false
+  },
+  "review": {
+    "rights": "Akwam site operator personal-use permission reported by user; content rights and broader public permissions not independently verified",
+    "sourceUrlQuality": "IDs from upstream and slugs reconstructed, links not tested per record",
+    "posterHotlinking": "Not tested",
+    "nuvioIdTruncation": "Some long slugs may be shortened by the upstream store; numeric ID remains authoritative"
+  },
+  "licenseNotice": "Upstream source code declares MIT; do not infer that movie assets or third-party metadata carry that license."
+}

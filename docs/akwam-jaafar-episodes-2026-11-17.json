@@ -1,0 +1,978 @@
+{
+  "schema": 1,
+  "provider": "akwam",
+  "series": {
+    "id": "akwam:tv:4072",
+    "title": "جعفر العمدة",
+    "year": 2023,
+    "kind": "tv",
+    "sourcePage": "https://akwam.ss/series/4072/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9-3"
+  },
+  "stagedOn": "2026-11-17",
+  "completeEpisodeIndex": true,
+  "directMediaVerified": false,
+  "republicationRightsVerified": false,
+  "notes": "Download-page references only, not expiring mp4 URLs. Quality mapping and playback are unverified. No media bytes downloaded.",
+  "episodes": [
+    {
+      "id": "akwam:episode:74356",
+      "episode": 1,
+      "season": 1,
+      "sourcePage": "https://akwam.ss/episode/74356/جعفر-العمدة/الحلقة-1",
+      "downloadPages": [
+        {
+          "url": "https://akwam.ss/download/136549/74356/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-1",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/136532/74356/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-1",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/136557/74356/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-1",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        }
+      ],
+      "playback": {
+        "status": "unverified"
+      },
+      "advertisedQualityLabels": [
+        "1080p",
+        "1080p",
+        "720p"
+      ],
+      "audit": "three-download-pages-seen"
+    },
+    {
+      "id": "akwam:episode:74462",
+      "episode": 2,
+      "season": 1,
+      "sourcePage": "https://akwam.ss/episode/74462/جعفر-العمدة/الحلقة-2",
+      "downloadPages": [
+        {
+          "url": "https://akwam.ss/download/136715/74462/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-2",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/136710/74462/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-2",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/136716/74462/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-2",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        }
+      ],
+      "playback": {
+        "status": "unverified"
+      },
+      "advertisedQualityLabels": [
+        "1080p",
+        "1080p",
+        "720p"
+      ],
+      "audit": "three-download-pages-seen"
+    },
+    {
+      "id": "akwam:episode:74548",
+      "episode": 3,
+      "season": 1,
+      "sourcePage": "https://akwam.ss/episode/74548/جعفر-العمدة/الحلقة-3",
+      "downloadPages": [
+        {
+          "url": "https://akwam.ss/download/136860/74548/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-3",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/136856/74548/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-3",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/136863/74548/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-3",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        }
+      ],
+      "playback": {
+        "status": "unverified"
+      },
+      "advertisedQualityLabels": [
+        "1080p",
+        "1080p",
+        "720p"
+      ],
+      "audit": "three-download-pages-seen"
+    },
+    {
+      "id": "akwam:episode:74632",
+      "episode": 4,
+      "season": 1,
+      "sourcePage": "https://akwam.ss/episode/74632/جعفر-العمدة/الحلقة-4",
+      "downloadPages": [
+        {
+          "url": "https://akwam.ss/download/137006/74632/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-4",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/137000/74632/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-4",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/137007/74632/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-4",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        }
+      ],
+      "playback": {
+        "status": "unverified"
+      },
+      "advertisedQualityLabels": [
+        "1080p",
+        "1080p",
+        "720p"
+      ],
+      "audit": "three-download-pages-seen"
+    },
+    {
+      "id": "akwam:episode:74726",
+      "episode": 5,
+      "season": 1,
+      "sourcePage": "https://akwam.ss/episode/74726/جعفر-العمدة/الحلقة-5",
+      "downloadPages": [
+        {
+          "url": "https://akwam.ss/download/137167/74726/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-5",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/137162/74726/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-5",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/137170/74726/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-5",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        }
+      ],
+      "playback": {
+        "status": "unverified"
+      },
+      "advertisedQualityLabels": [
+        "1080p",
+        "1080p",
+        "720p"
+      ],
+      "audit": "three-download-pages-seen"
+    },
+    {
+      "id": "akwam:episode:74810",
+      "episode": 6,
+      "season": 1,
+      "sourcePage": "https://akwam.ss/episode/74810/جعفر-العمدة/الحلقة-6",
+      "downloadPages": [
+        {
+          "url": "https://akwam.ss/download/137327/74810/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-6",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/137314/74810/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-6",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/137318/74810/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-6",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        }
+      ],
+      "playback": {
+        "status": "unverified"
+      },
+      "advertisedQualityLabels": [
+        "1080p",
+        "1080p",
+        "720p"
+      ],
+      "audit": "three-download-pages-seen"
+    },
+    {
+      "id": "akwam:episode:74874",
+      "episode": 7,
+      "season": 1,
+      "sourcePage": "https://akwam.ss/episode/74874/جعفر-العمدة/الحلقة-7",
+      "downloadPages": [
+        {
+          "url": "https://akwam.ss/download/137465/74874/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-7",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/137434/74874/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-7",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/137436/74874/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-7",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        }
+      ],
+      "playback": {
+        "status": "unverified"
+      },
+      "advertisedQualityLabels": [
+        "1080p",
+        "1080p",
+        "720p"
+      ],
+      "audit": "three-download-pages-seen"
+    },
+    {
+      "id": "akwam:episode:74977",
+      "episode": 8,
+      "season": 1,
+      "sourcePage": "https://akwam.ss/episode/74977/جعفر-العمدة/الحلقة-8",
+      "downloadPages": [
+        {
+          "url": "https://akwam.ss/download/137609/74977/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-8",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/137600/74977/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-8",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/137612/74977/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-8",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        }
+      ],
+      "playback": {
+        "status": "unverified"
+      },
+      "advertisedQualityLabels": [
+        "1080p",
+        "1080p",
+        "720p"
+      ],
+      "audit": "three-download-pages-seen"
+    },
+    {
+      "id": "akwam:episode:75094",
+      "episode": 9,
+      "season": 1,
+      "sourcePage": "https://akwam.ss/episode/75094/جعفر-العمدة/الحلقة-9",
+      "downloadPages": [
+        {
+          "url": "https://akwam.ss/download/137797/75094/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-9",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/137793/75094/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-9",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/137801/75094/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-9",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        }
+      ],
+      "playback": {
+        "status": "unverified"
+      },
+      "advertisedQualityLabels": [
+        "1080p",
+        "1080p",
+        "720p"
+      ],
+      "audit": "three-download-pages-seen"
+    },
+    {
+      "id": "akwam:episode:75192",
+      "episode": 10,
+      "season": 1,
+      "sourcePage": "https://akwam.ss/episode/75192/جعفر-العمدة/الحلقة-10",
+      "downloadPages": [
+        {
+          "url": "https://akwam.ss/download/137978/75192/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-10",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/137974/75192/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-10",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/137980/75192/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-10",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        }
+      ],
+      "playback": {
+        "status": "unverified"
+      },
+      "advertisedQualityLabels": [
+        "1080p",
+        "1080p",
+        "720p"
+      ],
+      "audit": "three-download-pages-seen"
+    },
+    {
+      "id": "akwam:episode:75257",
+      "episode": 11,
+      "season": 1,
+      "sourcePage": "https://akwam.ss/episode/75257/جعفر-العمدة/الحلقة-11",
+      "downloadPages": [
+        {
+          "url": "https://akwam.ss/download/138096/75257/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-11",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/138088/75257/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-11",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/138100/75257/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-11",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        }
+      ],
+      "playback": {
+        "status": "unverified"
+      },
+      "advertisedQualityLabels": [
+        "1080p",
+        "1080p",
+        "720p"
+      ],
+      "audit": "three-download-pages-seen"
+    },
+    {
+      "id": "akwam:episode:75354",
+      "episode": 12,
+      "season": 1,
+      "sourcePage": "https://akwam.ss/episode/75354/جعفر-العمدة/الحلقة-12",
+      "downloadPages": [
+        {
+          "url": "https://akwam.ss/download/138260/75354/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-12",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/138257/75354/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-12",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/138259/75354/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-12",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        }
+      ],
+      "playback": {
+        "status": "unverified"
+      },
+      "advertisedQualityLabels": [
+        "1080p",
+        "1080p",
+        "720p"
+      ],
+      "audit": "three-download-pages-seen"
+    },
+    {
+      "id": "akwam:episode:75458",
+      "episode": 13,
+      "season": 1,
+      "sourcePage": "https://akwam.ss/episode/75458/جعفر-العمدة/الحلقة-13",
+      "downloadPages": [
+        {
+          "url": "https://akwam.ss/download/138431/75458/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-13",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/138428/75458/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-13",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/138430/75458/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-13",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        }
+      ],
+      "playback": {
+        "status": "unverified"
+      },
+      "advertisedQualityLabels": [
+        "1080p",
+        "1080p",
+        "720p"
+      ],
+      "audit": "three-download-pages-seen"
+    },
+    {
+      "id": "akwam:episode:75532",
+      "episode": 14,
+      "season": 1,
+      "sourcePage": "https://akwam.ss/episode/75532/جعفر-العمدة/الحلقة-14",
+      "downloadPages": [
+        {
+          "url": "https://akwam.ss/download/138562/75532/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-14",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/138558/75532/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-14",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/138560/75532/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-14",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        }
+      ],
+      "playback": {
+        "status": "unverified"
+      },
+      "advertisedQualityLabels": [
+        "1080p",
+        "1080p",
+        "720p"
+      ],
+      "audit": "three-download-pages-seen"
+    },
+    {
+      "id": "akwam:episode:75629",
+      "episode": 15,
+      "season": 1,
+      "sourcePage": "https://akwam.ss/episode/75629/جعفر-العمدة/الحلقة-15",
+      "downloadPages": [
+        {
+          "url": "https://akwam.ss/download/138719/75629/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-15",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/138715/75629/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-15",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/138723/75629/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-15",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        }
+      ],
+      "playback": {
+        "status": "unverified"
+      },
+      "advertisedQualityLabels": [
+        "1080p",
+        "1080p",
+        "720p"
+      ],
+      "audit": "three-download-pages-seen"
+    },
+    {
+      "id": "akwam:episode:75756",
+      "episode": 16,
+      "season": 1,
+      "sourcePage": "https://akwam.ss/episode/75756/جعفر-العمدة/الحلقة-16",
+      "downloadPages": [
+        {
+          "url": "https://akwam.ss/download/138917/75756/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-16",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/138915/75756/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-16",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/138919/75756/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-16",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        }
+      ],
+      "playback": {
+        "status": "unverified"
+      },
+      "advertisedQualityLabels": [
+        "1080p",
+        "1080p",
+        "720p"
+      ],
+      "audit": "three-download-pages-seen"
+    },
+    {
+      "id": "akwam:episode:75834",
+      "episode": 17,
+      "season": 1,
+      "sourcePage": "https://akwam.ss/episode/75834/جعفر-العمدة/الحلقة-17",
+      "downloadPages": [
+        {
+          "url": "https://akwam.ss/download/139055/75834/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-17",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/139052/75834/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-17",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/139056/75834/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-17",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        }
+      ],
+      "playback": {
+        "status": "unverified"
+      },
+      "advertisedQualityLabels": [
+        "1080p",
+        "1080p",
+        "720p"
+      ],
+      "audit": "three-download-pages-seen"
+    },
+    {
+      "id": "akwam:episode:75915",
+      "episode": 18,
+      "season": 1,
+      "sourcePage": "https://akwam.ss/episode/75915/جعفر-العمدة/الحلقة-18",
+      "downloadPages": [
+        {
+          "url": "https://akwam.ss/download/139197/75915/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-18",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/139192/75915/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-18",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/139200/75915/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-18",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        }
+      ],
+      "playback": {
+        "status": "unverified"
+      },
+      "advertisedQualityLabels": [
+        "1080p",
+        "1080p",
+        "720p"
+      ],
+      "audit": "three-download-pages-seen"
+    },
+    {
+      "id": "akwam:episode:75997",
+      "episode": 19,
+      "season": 1,
+      "sourcePage": "https://akwam.ss/episode/75997/جعفر-العمدة/الحلقة-19",
+      "downloadPages": [
+        {
+          "url": "https://akwam.ss/download/139337/75997/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-19",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/139333/75997/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-19",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/139335/75997/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-19",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        }
+      ],
+      "playback": {
+        "status": "unverified"
+      },
+      "advertisedQualityLabels": [
+        "1080p",
+        "1080p",
+        "720p"
+      ],
+      "audit": "three-download-pages-seen"
+    },
+    {
+      "id": "akwam:episode:76082",
+      "episode": 20,
+      "season": 1,
+      "sourcePage": "https://akwam.ss/episode/76082/جعفر-العمدة/الحلقة-20",
+      "downloadPages": [
+        {
+          "url": "https://akwam.ss/download/139477/76082/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-20",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/139473/76082/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-20",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/139475/76082/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-20",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        }
+      ],
+      "playback": {
+        "status": "unverified"
+      },
+      "advertisedQualityLabels": [
+        "1080p",
+        "1080p",
+        "720p"
+      ],
+      "audit": "three-download-pages-seen"
+    },
+    {
+      "id": "akwam:episode:76166",
+      "episode": 21,
+      "season": 1,
+      "sourcePage": "https://akwam.ss/episode/76166/جعفر-العمدة/الحلقة-21",
+      "downloadPages": [
+        {
+          "url": "https://akwam.ss/download/139643/76166/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-21",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/139639/76166/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-21",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/139641/76166/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-21",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        }
+      ],
+      "playback": {
+        "status": "unverified"
+      },
+      "advertisedQualityLabels": [
+        "1080p",
+        "1080p",
+        "720p"
+      ],
+      "audit": "three-download-pages-seen"
+    },
+    {
+      "id": "akwam:episode:76238",
+      "episode": 22,
+      "season": 1,
+      "sourcePage": "https://akwam.ss/episode/76238/جعفر-العمدة/الحلقة-22",
+      "downloadPages": [
+        {
+          "url": "https://akwam.ss/download/139782/76238/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-22",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/139779/76238/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-22",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/139784/76238/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-22",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        }
+      ],
+      "playback": {
+        "status": "unverified"
+      },
+      "advertisedQualityLabels": [
+        "1080p",
+        "1080p",
+        "720p"
+      ],
+      "audit": "three-download-pages-seen"
+    },
+    {
+      "id": "akwam:episode:76338",
+      "episode": 23,
+      "season": 1,
+      "sourcePage": "https://akwam.ss/episode/76338/جعفر-العمدة/الحلقة-23",
+      "downloadPages": [
+        {
+          "url": "https://akwam.ss/download/139948/76338/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-23",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/139941/76338/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-23",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/139950/76338/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-23",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        }
+      ],
+      "playback": {
+        "status": "unverified"
+      },
+      "advertisedQualityLabels": [
+        "1080p",
+        "1080p",
+        "720p"
+      ],
+      "audit": "three-download-pages-seen"
+    },
+    {
+      "id": "akwam:episode:76417",
+      "episode": 24,
+      "season": 1,
+      "sourcePage": "https://akwam.ss/episode/76417/جعفر-العمدة/الحلقة-24",
+      "downloadPages": [
+        {
+          "url": "https://akwam.ss/download/140092/76417/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-24",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/140089/76417/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-24",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/140095/76417/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-24",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        }
+      ],
+      "playback": {
+        "status": "unverified"
+      },
+      "advertisedQualityLabels": [
+        "1080p",
+        "1080p",
+        "720p"
+      ],
+      "audit": "three-download-pages-seen"
+    },
+    {
+      "id": "akwam:episode:76487",
+      "episode": 25,
+      "season": 1,
+      "sourcePage": "https://akwam.ss/episode/76487/جعفر-العمدة/الحلقة-25",
+      "downloadPages": [
+        {
+          "url": "https://akwam.ss/download/140221/76487/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-25",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/140217/76487/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-25",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/140223/76487/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-25",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        }
+      ],
+      "playback": {
+        "status": "unverified"
+      },
+      "advertisedQualityLabels": [
+        "1080p",
+        "1080p",
+        "720p"
+      ],
+      "audit": "three-download-pages-seen"
+    },
+    {
+      "id": "akwam:episode:76575",
+      "episode": 26,
+      "season": 1,
+      "sourcePage": "https://akwam.ss/episode/76575/جعفر-العمدة/الحلقة-26",
+      "downloadPages": [
+        {
+          "url": "https://akwam.ss/download/140369/76575/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-26",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/140370/76575/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-26",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/140373/76575/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-26",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        }
+      ],
+      "playback": {
+        "status": "unverified"
+      },
+      "advertisedQualityLabels": [
+        "1080p",
+        "1080p",
+        "720p"
+      ],
+      "audit": "three-download-pages-seen"
+    },
+    {
+      "id": "akwam:episode:76652",
+      "episode": 27,
+      "season": 1,
+      "sourcePage": "https://akwam.ss/episode/76652/جعفر-العمدة/الحلقة-27",
+      "downloadPages": [
+        {
+          "url": "https://akwam.ss/download/140515/76652/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-27",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/140509/76652/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-27",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/140513/76652/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-27",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        }
+      ],
+      "playback": {
+        "status": "unverified"
+      },
+      "advertisedQualityLabels": [
+        "1080p",
+        "1080p",
+        "720p"
+      ],
+      "audit": "three-download-pages-seen"
+    },
+    {
+      "id": "akwam:episode:76736",
+      "episode": 28,
+      "season": 1,
+      "sourcePage": "https://akwam.ss/episode/76736/جعفر-العمدة/الحلقة-28",
+      "downloadPages": [
+        {
+          "url": "https://akwam.ss/download/140656/76736/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-28",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/140657/76736/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-28",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/140661/76736/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-28",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        }
+      ],
+      "playback": {
+        "status": "unverified"
+      },
+      "advertisedQualityLabels": [
+        "1080p",
+        "1080p",
+        "720p"
+      ],
+      "audit": "three-download-pages-seen"
+    },
+    {
+      "id": "akwam:episode:76808",
+      "episode": 29,
+      "season": 1,
+      "sourcePage": "https://akwam.ss/episode/76808/جعفر-العمدة/الحلقة-29",
+      "downloadPages": [
+        {
+          "url": "https://akwam.ss/download/140806/76808/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-29",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/140799/76808/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-29",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/140812/76808/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-29",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        }
+      ],
+      "playback": {
+        "status": "unverified"
+      },
+      "advertisedQualityLabels": [
+        "1080p",
+        "1080p",
+        "720p"
+      ],
+      "audit": "three-download-pages-seen"
+    },
+    {
+      "id": "akwam:episode:76921",
+      "episode": 30,
+      "season": 1,
+      "sourcePage": "https://akwam.ss/episode/76921/جعفر-العمدة/الحلقة-30",
+      "downloadPages": [
+        {
+          "url": "https://akwam.ss/download/140992/76921/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-30",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/140988/76921/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-30",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        },
+        {
+          "url": "https://akwam.ss/download/141044/76921/%D8%AC%D8%B9%D9%81%D8%B1-%D8%A7%D9%84%D8%B9%D9%85%D8%AF%D8%A9/%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-30",
+          "quality": "unverified",
+          "status": "stable-page-reference"
+        }
+      ],
+      "playback": {
+        "status": "unverified"
+      },
+      "advertisedQualityLabels": [
+        "1080p",
+        "1080p",
+        "720p"
+      ],
+      "audit": "three-download-pages-seen"
+    }
+  ]
+}

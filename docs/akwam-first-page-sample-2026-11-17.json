@@ -1,0 +1,820 @@
+{
+  "schema": 1,
+  "provider": "akwam",
+  "stagedOn": "2026-11-17",
+  "source": "read-only listing references",
+  "complete": false,
+  "notes": "First page only. Not a playable or rights-cleared library. Titles may need normalization.",
+  "titles": [
+    {
+      "id": "akwam:tv:5718",
+      "kind": "tv",
+      "providerId": "5718",
+      "title": "الفندق الملعون مدبلج",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/series/5718/الفندق-الملعون-مدبلج",
+      "fromIndex": "https://akwam.ss/series",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:tv:5964",
+      "kind": "tv",
+      "providerId": "5964",
+      "title": "homestead the series الموسم الثاني",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/series/5964/homestead-the-series-الموسم-الثاني",
+      "fromIndex": "https://akwam.ss/series",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:tv:5882",
+      "kind": "tv",
+      "providerId": "5882",
+      "title": "الحب المستحيل مدبلج",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/series/5882/الحب-المستحيل-مدبلج",
+      "fromIndex": "https://akwam.ss/series",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:tv:5923",
+      "kind": "tv",
+      "providerId": "5923",
+      "title": "أجونس 404",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/series/5923/أجونس-404",
+      "fromIndex": "https://akwam.ss/series",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:tv:5813",
+      "kind": "tv",
+      "providerId": "5813",
+      "title": "احلى نصيب",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/series/5813/احلى-نصيب",
+      "fromIndex": "https://akwam.ss/series",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:tv:5870",
+      "kind": "tv",
+      "providerId": "5870",
+      "title": "حب أسود",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/series/5870/حب-أسود",
+      "fromIndex": "https://akwam.ss/series",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:tv:5721",
+      "kind": "tv",
+      "providerId": "5721",
+      "title": "الصهر العودة مدبلج",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/series/5721/الصهر-العودة-مدبلج",
+      "fromIndex": "https://akwam.ss/series",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:tv:5758",
+      "kind": "tv",
+      "providerId": "5758",
+      "title": "رحلة لاكشمي الموسم السادس مدبلج",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/series/5758/رحلة-لاكشمي-الموسم-السادس-مدبلج",
+      "fromIndex": "https://akwam.ss/series",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:tv:5968",
+      "kind": "tv",
+      "providerId": "5968",
+      "title": "في الظل الموسم الثاني مدبلج",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/series/5968/في-الظل-الموسم-الثاني-مدبلج",
+      "fromIndex": "https://akwam.ss/series",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:tv:5971",
+      "kind": "tv",
+      "providerId": "5971",
+      "title": "ضلع ثالث",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/series/5971/ضلع-ثالث",
+      "fromIndex": "https://akwam.ss/series",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:tv:5879",
+      "kind": "tv",
+      "providerId": "5879",
+      "title": "الاعراف الموسم الثاني مدبلج",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/series/5879/الاعراف-الموسم-الثاني-مدبلج",
+      "fromIndex": "https://akwam.ss/series",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:tv:5880",
+      "kind": "tv",
+      "providerId": "5880",
+      "title": "الاعراف الموسم الثاني مترجم",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/series/5880/الاعراف-الموسم-الثاني-مترجم",
+      "fromIndex": "https://akwam.ss/series",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:tv:5970",
+      "kind": "tv",
+      "providerId": "5970",
+      "title": "الدم الواحد",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/series/5970/الدم-الواحد",
+      "fromIndex": "https://akwam.ss/series",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:tv:5946",
+      "kind": "tv",
+      "providerId": "5946",
+      "title": "the perfect lie",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/series/5946/the-perfect-lie",
+      "fromIndex": "https://akwam.ss/series",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:tv:5898",
+      "kind": "tv",
+      "providerId": "5898",
+      "title": "الحورية مترجم",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/series/5898/الحورية-مترجم",
+      "fromIndex": "https://akwam.ss/series",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:tv:5900",
+      "kind": "tv",
+      "providerId": "5900",
+      "title": "overseas security guard",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/series/5900/overseas-security-guard",
+      "fromIndex": "https://akwam.ss/series",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:tv:5850",
+      "kind": "tv",
+      "providerId": "5850",
+      "title": "doctor x age of the white mafia",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/series/5850/doctor-x-age-of-the-white-mafia",
+      "fromIndex": "https://akwam.ss/series",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:tv:5849",
+      "kind": "tv",
+      "providerId": "5849",
+      "title": "100 days of deception",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/series/5849/100-days-of-deception",
+      "fromIndex": "https://akwam.ss/series",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:tv:5969",
+      "kind": "tv",
+      "providerId": "5969",
+      "title": "ظل القاتل مدبلج",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/series/5969/ظل-القاتل-مدبلج",
+      "fromIndex": "https://akwam.ss/series",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:tv:5875",
+      "kind": "tv",
+      "providerId": "5875",
+      "title": "الحاج طاهر",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/series/5875/الحاج-طاهر",
+      "fromIndex": "https://akwam.ss/series",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:tv:5901",
+      "kind": "tv",
+      "providerId": "5901",
+      "title": "oh my guard",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/series/5901/oh-my-guard",
+      "fromIndex": "https://akwam.ss/series",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:tv:5733",
+      "kind": "tv",
+      "providerId": "5733",
+      "title": "جراح الروح مدبلج",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/series/5733/جراح-الروح-مدبلج",
+      "fromIndex": "https://akwam.ss/series",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:tv:5857",
+      "kind": "tv",
+      "providerId": "5857",
+      "title": "أصدقاء جيدون مدبلج",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/series/5857/أصدقاء-جيدون-مدبلج",
+      "fromIndex": "https://akwam.ss/series",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:tv:5762",
+      "kind": "tv",
+      "providerId": "5762",
+      "title": "الاسيرة الموسم الثاني مدبلج",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/series/5762/الاسيرة-الموسم-الثاني-مدبلج",
+      "fromIndex": "https://akwam.ss/series",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:movie:11687",
+      "kind": "movie",
+      "providerId": "11687",
+      "title": "insidious possession",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/movie/11687/insidious-possession",
+      "fromIndex": "https://akwam.ss/movies",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:movie:11686",
+      "kind": "movie",
+      "providerId": "11686",
+      "title": "the beast",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/movie/11686/the-beast",
+      "fromIndex": "https://akwam.ss/movies",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:movie:11685",
+      "kind": "movie",
+      "providerId": "11685",
+      "title": "the fix",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/movie/11685/the-fix",
+      "fromIndex": "https://akwam.ss/movies",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:movie:11684",
+      "kind": "movie",
+      "providerId": "11684",
+      "title": "tell everyone",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/movie/11684/tell-everyone",
+      "fromIndex": "https://akwam.ss/movies",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:movie:11683",
+      "kind": "movie",
+      "providerId": "11683",
+      "title": "ranabaali",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/movie/11683/ranabaali",
+      "fromIndex": "https://akwam.ss/movies",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:movie:11682",
+      "kind": "movie",
+      "providerId": "11682",
+      "title": "vibe",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/movie/11682/vibe",
+      "fromIndex": "https://akwam.ss/movies",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:movie:11681",
+      "kind": "movie",
+      "providerId": "11681",
+      "title": "bagarre",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/movie/11681/bagarre",
+      "fromIndex": "https://akwam.ss/movies",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:movie:11680",
+      "kind": "movie",
+      "providerId": "11680",
+      "title": "second chance holiday",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/movie/11680/second-chance-holiday",
+      "fromIndex": "https://akwam.ss/movies",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:movie:11679",
+      "kind": "movie",
+      "providerId": "11679",
+      "title": "avengers endgame encore",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/movie/11679/avengers-endgame-encore",
+      "fromIndex": "https://akwam.ss/movies",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:movie:11678",
+      "kind": "movie",
+      "providerId": "11678",
+      "title": "spa weekend",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/movie/11678/spa-weekend",
+      "fromIndex": "https://akwam.ss/movies",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:movie:11677",
+      "kind": "movie",
+      "providerId": "11677",
+      "title": "extra geography 1",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/movie/11677/extra-geography-1",
+      "fromIndex": "https://akwam.ss/movies",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:movie:11676",
+      "kind": "movie",
+      "providerId": "11676",
+      "title": "being heumann",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/movie/11676/being-heumann",
+      "fromIndex": "https://akwam.ss/movies",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:movie:11675",
+      "kind": "movie",
+      "providerId": "11675",
+      "title": "heartland",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/movie/11675/heartland",
+      "fromIndex": "https://akwam.ss/movies",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:movie:11674",
+      "kind": "movie",
+      "providerId": "11674",
+      "title": "the unthinkable daughter",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/movie/11674/the-unthinkable-daughter",
+      "fromIndex": "https://akwam.ss/movies",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:movie:11673",
+      "kind": "movie",
+      "providerId": "11673",
+      "title": "jailer 2",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/movie/11673/jailer-2",
+      "fromIndex": "https://akwam.ss/movies",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:movie:11672",
+      "kind": "movie",
+      "providerId": "11672",
+      "title": "allen",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/movie/11672/allen",
+      "fromIndex": "https://akwam.ss/movies",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:movie:11671",
+      "kind": "movie",
+      "providerId": "11671",
+      "title": "double trouble",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/movie/11671/double-trouble",
+      "fromIndex": "https://akwam.ss/movies",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:movie:11670",
+      "kind": "movie",
+      "providerId": "11670",
+      "title": "never surrender",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/movie/11670/never-surrender",
+      "fromIndex": "https://akwam.ss/movies",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:movie:11669",
+      "kind": "movie",
+      "providerId": "11669",
+      "title": "godzilla minus zero",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/movie/11669/godzilla-minus-zero",
+      "fromIndex": "https://akwam.ss/movies",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:movie:11668",
+      "kind": "movie",
+      "providerId": "11668",
+      "title": "the christmas switch",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/movie/11668/the-christmas-switch",
+      "fromIndex": "https://akwam.ss/movies",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:movie:11667",
+      "kind": "movie",
+      "providerId": "11667",
+      "title": "the gospel of christmas",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/movie/11667/the-gospel-of-christmas",
+      "fromIndex": "https://akwam.ss/movies",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:movie:11666",
+      "kind": "movie",
+      "providerId": "11666",
+      "title": "atonement",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/movie/11666/atonement",
+      "fromIndex": "https://akwam.ss/movies",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:movie:11665",
+      "kind": "movie",
+      "providerId": "11665",
+      "title": "no one leaves",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/movie/11665/no-one-leaves",
+      "fromIndex": "https://akwam.ss/movies",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:movie:11661",
+      "kind": "movie",
+      "providerId": "11661",
+      "title": "gaskins the hitchhiker killer",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/movie/11661/gaskins-the-hitchhiker-killer",
+      "fromIndex": "https://akwam.ss/movies",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:movie:11664",
+      "kind": "movie",
+      "providerId": "11664",
+      "title": "enna vilai",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/movie/11664/enna-vilai",
+      "fromIndex": "https://akwam.ss/movies",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:movie:11663",
+      "kind": "movie",
+      "providerId": "11663",
+      "title": "anakapalli",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/movie/11663/anakapalli",
+      "fromIndex": "https://akwam.ss/movies",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:movie:11662",
+      "kind": "movie",
+      "providerId": "11662",
+      "title": "finding emily",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/movie/11662/finding-emily",
+      "fromIndex": "https://akwam.ss/movies",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:movie:11509",
+      "kind": "movie",
+      "providerId": "11509",
+      "title": "other mommy",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/movie/11509/other-mommy",
+      "fromIndex": "https://akwam.ss/movies",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:movie:11657",
+      "kind": "movie",
+      "providerId": "11657",
+      "title": "falling",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/movie/11657/falling",
+      "fromIndex": "https://akwam.ss/movies",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    },
+    {
+      "id": "akwam:movie:11660",
+      "kind": "movie",
+      "providerId": "11660",
+      "title": "marrow",
+      "titleStatus": "slug-derived-unverified",
+      "sourcePage": "https://akwam.ss/movie/11660/marrow",
+      "fromIndex": "https://akwam.ss/movies",
+      "playback": {
+        "status": "not-tested"
+      },
+      "rights": {
+        "status": "unverified"
+      }
+    }
+  ]
+}

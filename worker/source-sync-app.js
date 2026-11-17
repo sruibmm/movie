@@ -3,6 +3,7 @@ import {recoveryRequest} from './private-recovery.js';
 import cinema from './index.js';
 import sync,{SourceSync} from './source-sync.js';
 import {authorize} from './private-catalog-sync.js';
+import {refreshAkwam} from './akwam-link-refresh.js';
 import {createInvitation,verifyInvitation} from './private-invite.js';
 export {SourceSync};
 const fail=(error,status)=>Response.json({error},{status,headers:{'Cache-Control':'private, no-store'}});
@@ -53,6 +54,11 @@ export default {
    const owner=configured&&await authorize(request,env.PRIVATE_CATALOG_KEY);
    const token=(request.headers.get('Authorization')||'').slice(7);
    const invited=!!(configured&&token&&!owner&&await verifyInvitation(token,env.PRIVATE_CATALOG_KEY));
+   // Owner-only resolver: no anonymous/published links and no video proxy.
+   if(u.pathname==='/api/private-catalog/akwam-refresh'){
+    if(!owner)return fail('forbidden',403);
+    return refreshAkwam(request,env);
+   }
    if(u.pathname==='/api/private-catalog/invite'){if(!owner||request.method!=='POST')return fail('forbidden',403);return Response.json(await createInvitation(env.PRIVATE_CATALOG_KEY),{headers:{'Cache-Control':'private, no-store'}});}
    const route=privateRoutes[u.pathname],write=route==='/private-sync'||route==='/private-share';
    if(!route||request.method!==(write?'POST':'GET'))return fail('not-found',404);

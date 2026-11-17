@@ -1,0 +1,56 @@
+name: Import Akwam metadata from Arabic-Nuvio (draft only)
+on:
+  push:
+    branches:
+      - feature/akwam-private-refresh-20261117
+    paths:
+      - scripts/nuvio-akwam-import.mjs
+      - .github/workflows/import-nuvio-akwam.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  stage-nuvio-akwam:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout Cinema draft branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          persist-credentials: true
+      - name: Checkout pinned upstream metadata (do not execute upstream code)
+        uses: actions/checkout@v4
+        with:
+          repository: SafaaSalam/Arabic-Nuvio
+          ref: 2f1a9b194d60af76df04ca6543e7ff34777c530b
+          path: nuvio-upstream
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            addon/catalog/movie/src_akwam_movies.json
+            addon/catalog/series/src_akwam_series.json
+            addon/catalog/movie/src_akwam_movies
+            addon/catalog/series/src_akwam_series
+            addon/meta/series
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate importer (offline)
+        run: node scripts/nuvio-akwam-import.mjs --self-test
+      - name: Import all Nuvio Akwam titles and publicly indexed episode pages
+        run: node scripts/nuvio-akwam-import.mjs --source nuvio-upstream --dest docs/nuvio-akwam-import/full --episodes --source-ref 2f1a9b194d60af76df04ca6543e7ff34777c530b
+      - name: Validate report has real data
+        run: |
+          node --input-type=module -e "import fs from 'node:fs';const r=JSON.parse(fs.readFileSync('docs/nuvio-akwam-import/full/report.json'));if(r.movies.count<10000||r.series.count<5000||r.streamLinksImported!==0)process.exit(1);console.log('VALIDATED',r.movies.count,r.series.count,'episodic refs',r.series.stats.episodeCount)"
+      - name: Commit staged metadata only on draft branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/nuvio-akwam-import/full/
+          if ! git diff --cached --quiet; then
+            git commit -m "data: stage complete pinned Nuvio Akwam catalog (not published)"
+            git push origin HEAD:feature/akwam-private-refresh-20261117
+          fi

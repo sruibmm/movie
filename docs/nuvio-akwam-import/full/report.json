@@ -1,0 +1,177 @@
+{
+  "schema": 1,
+  "source": "SafaaSalam/Arabic-Nuvio",
+  "sourceRef": "2f1a9b194d60af76df04ca6543e7ff34777c530b",
+  "metadataOnly": true,
+  "videoFilesDownloaded": 0,
+  "streamLinksImported": 0,
+  "movies": {
+    "kind": "movie",
+    "count": 10806,
+    "stats": {
+      "pages": 217,
+      "raw": 10806,
+      "duplicates": 0,
+      "invalid": 0,
+      "seriesMetaFiles": 0,
+      "episodeCount": 0,
+      "episodeConflicts": 0
+    },
+    "errors": [],
+    "parts": [
+      {
+        "file": "movies-000.json",
+        "count": 1000
+      },
+      {
+        "file": "movies-001.json",
+        "count": 1000
+      },
+      {
+        "file": "movies-002.json",
+        "count": 1000
+      },
+      {
+        "file": "movies-003.json",
+        "count": 1000
+      },
+      {
+        "file": "movies-004.json",
+        "count": 1000
+      },
+      {
+        "file": "movies-005.json",
+        "count": 1000
+      },
+      {
+        "file": "movies-006.json",
+        "count": 1000
+      },
+      {
+        "file": "movies-007.json",
+        "count": 1000
+      },
+      {
+        "file": "movies-008.json",
+        "count": 1000
+      },
+      {
+        "file": "movies-009.json",
+        "count": 1000
+      },
+      {
+        "file": "movies-010.json",
+        "count": 806
+      }
+    ]
+  },
+  "series": {
+    "kind": "series",
+    "count": 5581,
+    "stats": {
+      "pages": 112,
+      "raw": 5581,
+      "duplicates": 0,
+      "invalid": 0,
+      "seriesMetaFiles": 5581,
+      "episodeCount": 2469,
+      "episodeConflicts": 0,
+      "episodeOverlays": 1
+    },
+    "errors": [],
+    "parts": [
+      {
+        "file": "series-000.json",
+        "count": 250
+      },
+      {
+        "file": "series-001.json",
+        "count": 250
+      },
+      {
+        "file": "series-002.json",
+        "count": 250
+      },
+      {
+        "file": "series-003.json",
+        "count": 250
+      },
+      {
+        "file": "series-004.json",
+        "count": 250
+      },
+      {
+        "file": "series-005.json",
+        "count": 250
+      },
+      {
+        "file": "series-006.json",
+        "count": 250
+      },
+      {
+        "file": "series-007.json",
+        "count": 250
+      },
+      {
+        "file": "series-008.json",
+        "count": 250
+      },
+      {
+        "file": "series-009.json",
+        "count": 250
+      },
+      {
+        "file": "series-010.json",
+        "count": 250
+      },
+      {
+        "file": "series-011.json",
+        "count": 250
+      },
+      {
+        "file": "series-012.json",
+        "count": 250
+      },
+      {
+        "file": "series-013.json",
+        "count": 250
+      },
+      {
+        "file": "series-014.json",
+        "count": 250
+      },
+      {
+        "file": "series-015.json",
+        "count": 250
+      },
+      {
+        "file": "series-016.json",
+        "count": 250
+      },
+      {
+        "file": "series-017.json",
+        "count": 250
+      },
+      {
+        "file": "series-018.json",
+        "count": 250
+      },
+      {
+        "file": "series-019.json",
+        "count": 250
+      },
+      {
+        "file": "series-020.json",
+        "count": 250
+      },
+      {
+        "file": "series-021.json",
+        "count": 250
+      },
+      {
+        "file": "series-022.json",
+        "count": 81
+      }
+    ]
+  }
+}
