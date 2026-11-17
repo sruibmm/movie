@@ -86,6 +86,19 @@ async function kindImport(kind){
    item.episodes=e.episodes;
    if(e.conflicts)item.episodeConflicts=e.conflicts;
   }
+  // Overlay a separately checked complete episode index when Nuvio supplies no episode list.
+  // This is metadata only: no MP4 URLs and no implied playback rights.
+  try {
+   const overlay=JSON.parse(await fs.readFile('docs/akwam-jaafar-episodes-2026-11-17.json','utf8'));
+   const target=items.find(x=>x.id===overlay?.series?.id);
+   const eps=(overlay.episodes||[]).map(e=>readEpisode({season:e.season,episode:e.episode,episodeUrl:e.sourcePage}));
+   const consecutive=eps.length===30&&eps.every((e,i)=>e?.season===1&&e?.episode===i+1);
+   if(overlay.completeEpisodeIndex===true&&target&&target.episodes.length===0&&consecutive){
+    target.episodes=eps.map((e,i)=>({...e,downloadPageRefs:(overlay.episodes[i].downloadPages||[]).filter(v=>typeof v.url==='string'&&/^https:\/\/akwam\.ss\/download\/\d+\/\d+\//.test(v.url)).map(v=>v.url)}));
+    target.episodeSource='docs/akwam-jaafar-episodes-2026-11-17.json';
+    stats.episodeCount+=eps.length;stats.episodeOverlays=1;
+   }
+  } catch(e) {if(e.code!=='ENOENT')throw e;}
  }
  const chunk=kind==='series'?250:1000,parts=[];
  await fs.mkdir(dest,{recursive:true});
