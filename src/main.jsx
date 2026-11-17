@@ -2,6 +2,7 @@ import {isHdVideo} from './mediaQuality.js';
 import {attachApprovedEmbed} from './approvedEmbedCatalog.js';
 import React, { useState, useEffect, useRef } from 'react'
 import ReactDOM from 'react-dom/client'
+import { WebCinemaHeader, WebCinemaHero, WebContinueWatching } from './WebCinemaExperience.jsx'
 const loadHls=()=>import('hls.js').then(m=>m.default);
 import {attachPublisherFilm} from './officialCatalog.js'
 import PublisherPlayer from './PublisherPlayer.jsx'
@@ -323,10 +324,10 @@ function PasswordModal({ onVerify, onClose }) {
 
 function App() {
   const params=new URLSearchParams(window.location.search),tvMode=window.__CINEMA_TV__===true||params.get('tv')==='1',directArabic=params.get('library')==='arabic';
-  const [mode, setMode] = useState(tvMode||directArabic?'single':null);
+  const [mode, setMode] = useState('single');
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
-  const [role, setRole] = useState(tvMode||directArabic?'admin':null);
+  const [role, setRole] = useState('admin');
   const [movies, setMovies] = useState([]);
   const [activeMovie, setActiveMovie] = useState(null);
   const [roomMovie, setRoomMovie] = useState(null);
@@ -340,6 +341,16 @@ function App() {
   const [searchDraft,setSearchDraft]=useState('');
   const switchLibrary=(arabic)=>{setArabicLibrary(arabic);setSearch('');setSearchDraft('');setCatalogPage(1);};
   const submitSearch=(e)=>{e.preventDefault();setCatalogPage(1);setSearch(searchDraft.trim());};
+  // Debounced live search on web only, avoiding a request on every keypress.
+  useEffect(()=>{
+    if(tvMode||mode!=='single'||role!=='admin')return;
+    const timer=setTimeout(()=>{
+      const next=searchDraft.trim();
+      setSearch(prev=>prev===next?prev:next);
+      setCatalogPage(1);
+    },400);
+    return()=>clearTimeout(timer);
+  },[searchDraft,tvMode,mode,role]);
   const [welcomeName, setWelcomeName] = useState('Renad');
   
   const [roomCode, setRoomCode] = useState('');
@@ -570,6 +581,19 @@ function App() {
     if(mode==='couples'&&conn?.open)conn.send({type:'start_party',movie,settings});
   };
 
+  const resumeFromHistory=(item)=>{
+    if(!item?.movieId)return;
+    if(item.sourceSync){setMode('single');setRole('admin');}
+    setRoomMovie({
+      id:item.movieId,title:item.title,poster_path:item.poster,
+      licensedSource:item.licensedSource,licensedPoster:item.licensedPoster,publisherSource:item.publisherSource,sourceSync:item.sourceSync,
+      isArabic:item.isArabic,original_language:item.original_language,media_type:item.media_type,
+      tmdbId:item.tmdbId,season:item.season,episode:item.episode,seriesTitle:item.seriesTitle,runtime:item.runtime,
+      release_date:item.release_date,original_title:item.original_title
+    });
+    setSyncSettings(prev=>({...prev,fallbackServer:item.settings?.fallbackServer??10,sandbox:true,progress:item.progress||0}));
+  };
+
   if (showPasswordModal) {
     return <PasswordModal onVerify={handlePasswordVerify} onClose={() => setShowPasswordModal(false)} />;
   }
@@ -577,24 +601,7 @@ function App() {
   if (showHistory) {
     return (
       <HistoryPanel 
-        onSelectMovie={(item) => {
-          if(item.sourceSync){setMode('single');setRole('admin');}
-          setRoomMovie({
-            id: item.movieId,
-            title: item.title,
-            poster_path: item.poster,
-            licensedSource:item.licensedSource,licensedPoster:item.licensedPoster,publisherSource:item.publisherSource,sourceSync:item.sourceSync,
-            isArabic: item.isArabic,
-            original_language: item.original_language,
-            media_type:item.media_type,tmdbId:item.tmdbId,season:item.season,episode:item.episode,seriesTitle:item.seriesTitle,runtime:item.runtime,release_date:item.release_date,original_title:item.original_title
-          });
-          setSyncSettings(prev => ({
-            ...prev,
-            fallbackServer: item.settings?.fallbackServer ?? 10,
-            sandbox: true,
-            progress: item.progress || 0
-          }));
-        }}
+        onSelectMovie={resumeFromHistory}
         onClose={() => setShowHistory(false)}
       />
     );
@@ -860,7 +867,8 @@ function App() {
 
   if (mode === 'single' && role === 'admin') {
     return (
-      <div className={"min-h-screen bg-[#050505] text-white p-4 md:p-8 font-sans selection:bg-purple-500"+(tvMode?" tv-home":"")} dir="ltr">
+      <div className={tvMode?"min-h-screen bg-[#050505] text-white p-4 md:p-8 font-sans selection:bg-purple-500 tv-home":"cinema-web"} dir={tvMode?"ltr":"rtl"}>
+        {tvMode ? (
         <header className={"mb-8 md:mb-14 flex flex-col gap-6 border-b border-white/5 pb-6"+(tvMode?" tv-home-header":"")}>
           <div className={tvMode?"tv-brand":""}>
             <h1 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 italic">
@@ -878,9 +886,23 @@ function App() {
             <button className="rounded-2xl bg-purple-600 px-4 text-sm font-bold">{arabicLibrary?'بحث':'Search'}</button>
           </form>
         </header>
+        ) : <WebCinemaHeader arabicLibrary={arabicLibrary} searchDraft={searchDraft} onSearchChange={setSearchDraft} onSubmit={submitSearch} onSwitchLibrary={switchLibrary} onHistory={()=>setShowHistory(true)} onTogether={()=>{setMode('couples');setRole(null);setActiveMovie(null);}} />}
 
+        <main className={tvMode?"":"cw-main"}>
+        {!tvMode&&!search&&<WebCinemaHero
+          movie={movies[0]} historyItem={getHistory()[0]} arabicLibrary={arabicLibrary}
+          onOpenMovie={setActiveMovie} onResume={resumeFromHistory} onSwitchLibrary={switchLibrary}
+          onExplore={()=>document.getElementById('cinema-web-library')?.scrollIntoView({behavior:'smooth',block:'start'})}
+        />}
+        {!tvMode&&!search&&<WebContinueWatching items={getHistory()} onResume={resumeFromHistory} onHistory={()=>setShowHistory(true)} />}
+        {!tvMode&&<div id="cinema-web-library" className="cw-library-heading">
+          <div><span className="cw-section-kicker">{search?'YOUR SEARCH · CINEMA':'EXPLORE THE LIBRARY'}</span>
+            <h2>{search?'نتائج البحث عن: '+search:arabicLibrary?'اكتشف السينما العربية':'أفلام تستحق المشاهدة'}</h2>
+            <p>{search?'نتائج من المكتبات المتاحة':arabicLibrary?'أفلام، مسلسلات ومسرحيات من مصادرنا المتعددة':'تصفّح الأفلام العالمية واكتشف قصتك القادمة'}</p>
+          </div>
+        </div>}
         {tvMode&&<div className="tv-section-intro"><div><span className="tv-kicker">CINEMA · TV</span><h2>{arabicLibrary?'السينما العربية':search?'Search results':'World Cinema'}</h2><p>{arabicLibrary?'أفلام ومسلسلات ومسرحيات — اختر عملاً للمتابعة.':search?'Find your next favourite film.':'Explore your next movie on the big screen.'}</p></div><span className="tv-remote-hint">↑ ↓ ← → · OK · Back</span></div>}
-        {arabicLibrary ? <>
+        {arabicLibrary ? <div className={tvMode?'':'cw-library-stacks'}>
           <SyncedLibrary query={search} onPlay={startArabicEpisode}/>
           <IndependentArabic query={search} onPlay={startArabicEpisode}/>
           <React.Suspense fallback={null}><ArabicPublisherExpansion query={search} onPlay={startArabicEpisode}/></React.Suspense>
@@ -889,26 +911,38 @@ function App() {
           <AutoLibrary query={search} onPlay={startArabicEpisode} options={fetchOptions}/>
           <LicensedLibrary query={search} onPlay={startArabicEpisode}/>
           <ArabicDiscovery query={search} existing={[]} options={fetchOptions} onMovie={setActiveMovie} onEpisode={startArabicEpisode}/>
-        </> : <>
+        </div> : <>
         {tvMode&&!search&&movies.length>0&&<section className="tv-featured" aria-label="Featured movie"><div className="tv-featured-art"><img src={'https://image.tmdb.org/t/p/w500'+movies[0].poster_path} alt={movies[0].title}/></div><div className="tv-featured-info"><span className="tv-kicker">FEATURED · MOVIE</span><h2>{movies[0].title}</h2><p>{movies[0].overview||'Discover the film and start watching.'}</p><button className="tv-featured-play" onClick={()=>setActiveMovie(movies[0])}>▶ Details &amp; watch</button></div></section>}
-        {catalogError&&<div className="tv-notice text-red-300 mb-4 text-sm" role="status"><p>{tvMode?"تعذر تحميل مكتبة الأفلام. اضغط إعادة المحاولة.":catalogError}</p><button onClick={()=>setCatalogRetry(n=>n+1)}>↻ {tvMode?"إعادة المحاولة":"Retry"}</button></div>}
-        {!loading&&!movies.length&&!catalogError&&<p className="text-gray-400 mb-4">{arabicLibrary?'لا توجد نتائج في هذه الصفحة. جرّب اسم الفيلم أو الصفحة التالية.':'No matching movies.'}</p>}
-        <div className="flex items-center justify-between mb-4 text-sm text-gray-400"><span>{arabicLibrary?'أفلام عربية':'Movies'} · {catalogPage}/{catalogPages}</span><div className="flex gap-2"><button disabled={catalogPage<=1||loading} onClick={()=>setCatalogPage(p=>p-1)} className="bg-white/5 rounded-lg px-3 py-2 disabled:opacity-30">‹</button><button disabled={catalogPage>=catalogPages||loading} onClick={()=>setCatalogPage(p=>p+1)} className="bg-white/5 rounded-lg px-3 py-2 disabled:opacity-30">›</button></div></div>
-        {loading ? (
-          <div className="flex justify-center mt-32"><div className="w-12 h-12 border-2 border-purple-500 border-t-transparent rounded-full animate-spin"></div></div>
+        {catalogError&&<div className={tvMode?"tv-notice text-red-300 mb-4 text-sm":"cw-error"} role="status"><p>{tvMode?"تعذر تحميل مكتبة الأفلام. اضغط إعادة المحاولة.":catalogError}</p><button onClick={()=>setCatalogRetry(n=>n+1)}>↻ إعادة المحاولة</button></div>}
+        {!loading&&!movies.length&&!catalogError&&<p className="text-gray-400 mb-4">لا توجد نتائج مطابقة. جرّب كلمة بحث مختلفة.</p>}
+        <div className={tvMode?"flex items-center justify-between mb-4 text-sm text-gray-400":"cw-pagination"}>
+          <span>الأفلام العالمية · صفحة {catalogPage} من {catalogPages}</span>
+          <div className="flex gap-2"><button aria-label="الصفحة السابقة" disabled={catalogPage<=1||loading} onClick={()=>setCatalogPage(p=>p-1)}>‹</button><button aria-label="الصفحة التالية" disabled={catalogPage>=catalogPages||loading} onClick={()=>setCatalogPage(p=>p+1)}>›</button></div>
+        </div>
+        {loading ? (tvMode ?
+          <div className="flex justify-center mt-32"><div className="w-12 h-12 border-2 border-purple-500 border-t-transparent rounded-full animate-spin"></div></div> :
+          <div className="cw-skeleton-grid" aria-label="جاري تحميل الأفلام">{Array.from({length:12},(_,i)=><div key={i} className="cw-skeleton" />)}</div>
         ) : (
-          <div className={"grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6"+(tvMode?" tv-poster-grid":"")}>
-            {movies.map(m => (
-              <div key={m.id} role="button" tabIndex={0} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();setActiveMovie(m);}}} onClick={() => setActiveMovie(m)} className={"group cursor-pointer"+(tvMode?" tv-poster-card":"")}>
+          <div className={tvMode?"grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6 tv-poster-grid":"cw-movie-grid"}>
+            {movies.map(m=>tvMode ? (
+              <div key={m.id} role="button" tabIndex={0} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();setActiveMovie(m);}}} onClick={()=>setActiveMovie(m)} className="group cursor-pointer tv-poster-card">
                 <div className="relative aspect-[2/3] rounded-2xl overflow-hidden border border-white/5 group-hover:border-purple-500/50 transition-all bg-zinc-900 shadow-lg">
-                  <img loading={tvMode?"lazy":undefined} decoding={tvMode?"async":undefined} src={`https://image.tmdb.org/t/p/w500${m.poster_path}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt={m.title} />
-                </div>
-                <h3 className="mt-3 text-xs font-bold text-gray-300 text-center truncate group-hover:text-pink-400 transition-colors">{m.title}</h3>
+                  <img loading="lazy" decoding="async" src={`https://image.tmdb.org/t/p/w500${m.poster_path}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt={m.title} />
+                </div><h3 className="mt-3 text-xs font-bold text-gray-300 text-center truncate group-hover:text-pink-400 transition-colors">{m.title}</h3>
               </div>
+            ) : (
+              <button type="button" key={m.id} className="cw-movie-card" onClick={()=>setActiveMovie(m)} title={m.title}>
+                <div className="cw-movie-poster">
+                  <img loading="lazy" decoding="async" src={`https://image.tmdb.org/t/p/w342${m.poster_path}`} alt={m.title}/>
+                  <span className="cw-movie-overlay" aria-hidden="true"><span>▶</span></span>
+                </div>
+                <strong>{m.title}</strong><small>{m.release_date?.slice(0,4)||'فيلم'}{Number(m.vote_average)>0?' · ★ '+Number(m.vote_average).toFixed(1):''}</small>
+              </button>
             ))}
           </div>
         )}
         </>}
+        </main>
       </div>
     );
   }
