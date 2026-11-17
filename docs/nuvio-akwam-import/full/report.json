@@ -74,8 +74,9 @@
       "duplicates": 0,
       "invalid": 0,
       "seriesMetaFiles": 5581,
-      "episodeCount": 2439,
-      "episodeConflicts": 0
+      "episodeCount": 2469,
+      "episodeConflicts": 0,
+      "episodeOverlays": 1
     },
     "errors": [],
     "parts": [
