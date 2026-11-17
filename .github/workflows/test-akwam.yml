@@ -1,0 +1,26 @@
+name: Akwam Staging Tests
+on:
+  pull_request:
+    branches: [cloudflare-ready]
+    paths:
+      - 'worker/akwam-link-refresh.js'
+      - 'worker/source-sync-app.js'
+      - 'scripts/akwam-*.mjs'
+      - 'package.json'
+      - '.github/workflows/test-akwam.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Test private link resolver (no provider requests)
+        run: node scripts/akwam-link-refresh-test.mjs
+      - name: Test metadata parser (offline fixture)
+        run: node scripts/akwam-bulk-stage.mjs --self-test
